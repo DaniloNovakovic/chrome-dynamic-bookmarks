@@ -6,6 +6,14 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
+## Table of Contents
+
+- [Installation](#Installation)
+- [Usage](#Usage)
+- [FAQ](#faq)
+- [Support](#support)
+- [License](#license)
+
 ## Getting started
 
 ## Installation
@@ -64,13 +72,16 @@ Awesome! Our `ninjaReact` bookmark has been updated and now we can always hop ba
 
 ---
 
+## FAQ
+
+---
+
 ## Support
 
 Reach out to me at one of the following places!
 
-- Website at <a href="http://fvcproductions.com" target="_blank">`fvcproductions.com`</a>
-- Twitter at <a href="http://twitter.com/fvcproductions" target="_blank">`@fvcproductions`</a>
-- Insert more social links here.
+- Website at <a href="https://danilonovakovic.github.io/index.html" target="_blank">`danilonovakovic.github.io`</a>
+- Linkedin at <a href="https://www.linkedin.com/in/danilo-novakovi%C4%87-821934167/" target="_blank">`DaniloNovakovic`</a>
 
 ---
 
