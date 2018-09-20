@@ -8,6 +8,19 @@
 
 ## Getting started
 
+### Installation
+
+Currently this extension is not available on Chrome Web Store, since it is still in developement, but you can install it locally in few steps:
+
+1. [Download](https://github.com/DaniloNovakovic/chrome-dynamic-bookmarks/archive/master.zip) or clone current repository
+1. On your browser search page type in (navigate to) `chrome://extensions/`
+1. In the now opened `chrome://extensions/` page turn on the developer mode
+1. Expand the Developer dropodown menu (if needed) and press `Load unpacked` button
+1. Navigate to the downloaded/cloned local folder of this repository and click Ok
+1. Assuming there are no errors, the extension should load into your browser
+
+### Usage
+
 Lets start off by clicking on the extension icon on top right. <br>
 
 [![INSERT YOUR GRAPHIC HERE](./images/readmeTutPartZero.PNG)]()
@@ -23,8 +36,8 @@ As a demonstration, pictures below will show you how we can use this extension t
 <br />
 
 All youtube playlist have query `list=` so lets use this. <br />
-In our regular expression we start off with: 
-`youtube.com/.*list=PL4cUxeGkcC9ij8CfkAY2RAGb-tmkNwQHG`. <br /> 
+In our regular expression we start off with:
+`youtube.com/.*list=PL4cUxeGkcC9ij8CfkAY2RAGb-tmkNwQHG`. <br />
 `.` is a special character meaning any character, and `*` is a quantifier representing zero or more. So our bookmark (named `ninjaReact` in this case) will be updated on any url with `youtube.com/` followed by any chars that eventually end up with `list=PL4cUxeGkcC9ij8CfkAY2RAGb-tmkNwQHG`.
 
 > Note: `*` is "greedy", meaning that it won't stop after it finds right combination, instead it will keep searching for ALL possible combinations. Since we don't really want/need that we can add `?` after it to make it non-greedy and optimize things a bit.
