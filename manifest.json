@@ -1,0 +1,14 @@
+{
+  "manifest_version": 2,
+  "name": "Dynamic Bookmarks",
+  "description": "Updates bookmarks dynamically based on given regExp",
+  "version": "0.3.1",
+  "permissions": ["tabs", "bookmarks", "storage"],
+  "background": {
+    "scripts": ["background.js"]
+  },
+  "browser_action": {
+    "default_icon": "hello_extensions.png",
+    "default_popup": "popup.html"
+  }
+}
