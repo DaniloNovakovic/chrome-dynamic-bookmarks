@@ -10,14 +10,14 @@
 
 Lets start off by clicking on the extension icon on top right. <br />
 
-![Extension location picture](./images/readmeTutPartZero.png)
+[![INSERT YOUR GRAPHIC HERE](./images/readmeTutPartZero.PNG)]()
 
 <br />
  Here we need to enter a name of the bookmark we wish to create,
 and a regular expression based on which our bookmark will be updated <br />
 As a demonstration, pictures below will show you how we can use this extension to keep track of the playlist on youtube.<br />
 
-![Empty form picture](./images/readmeTutEmptyForm.png)
+[![INSERT YOUR GRAPHIC HERE](./images/readmeTutEmptyForm.PNG)]()
 
 <br />
  All youtube playlist have query `list=` so lets use this. <br />
