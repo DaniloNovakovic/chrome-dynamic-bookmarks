@@ -8,19 +8,21 @@
 
 ## Getting started
 
-Lets start off by clicking on the extension icon on top right. <br />
+Lets start off by clicking on the extension icon on top right. <br>
 
 [![INSERT YOUR GRAPHIC HERE](./images/readmeTutPartZero.PNG)]()
 
-<br />
- Here we need to enter a name of the bookmark we wish to create,
+<br>
+ 
+Here we need to enter a name of the bookmark we wish to create,
 and a regular expression based on which our bookmark will be updated <br />
 As a demonstration, pictures below will show you how we can use this extension to keep track of the playlist on youtube.<br />
 
 [![INSERT YOUR GRAPHIC HERE](./images/readmeTutEmptyForm.PNG)]()
 
 <br />
- All youtube playlist have query `list=` so lets use this. <br />
+
+All youtube playlist have query `list=` so lets use this. <br />
 In our regular expression we start off with: 
 `youtube.com/.*list=PL4cUxeGkcC9ij8CfkAY2RAGb-tmkNwQHG`. <br /> 
 `.` is a special character meaning any character, and `*` is a quantifier representing zero or more. So our bookmark (named `ninjaReact` in this case) will be updated on any url with `youtube.com/` followed by any chars that eventually end up with `list=PL4cUxeGkcC9ij8CfkAY2RAGb-tmkNwQHG`.
