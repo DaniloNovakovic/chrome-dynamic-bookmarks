@@ -1,3 +1,8 @@
+// materializecss modal
+const popupModalEl = document.querySelector('#popup-modal');
+const popupModalInstance = M.Modal.init(popupModalEl, { dismissible: true });
+const formResponse = document.getElementById('form-response');
+
 // update storage on form submit
 const popupForm = document.getElementById('popup-form');
 popupForm.addEventListener('submit', popupSubmit);
@@ -11,7 +16,8 @@ function popupSubmit(event) {
   try {
     regExp = new RegExp(event.target.regexp.value);
   } catch {
-    alert('Invalid regular expression');
+    formResponse.textContent = 'Invalid regular expression';
+    popupModalInstance.open();
     return false;
   }
 
@@ -67,7 +73,8 @@ function addDynBookmarksToStorage(dynBookmarks) {
       dynBookmarks
     },
     function() {
-      alert('Bookmark successfully added!');
+      formResponse.textContent = 'Bookmark successfully added!';
+      popupModalInstance.open();
     }
   );
 }
