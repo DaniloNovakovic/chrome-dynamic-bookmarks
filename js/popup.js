@@ -12,7 +12,7 @@ function popupSubmit(event) {
 
   // extract values from form
   const title = event.target['bookmark_name'].value;
-  let regExp;
+  let regExpString = event.target.regexp.value;
   try {
     regExp = new RegExp(event.target.regexp.value);
   } catch {
@@ -28,7 +28,7 @@ function popupSubmit(event) {
     },
     function(tabs) {
       const url = regExp.test(tabs[0].url) ? tabs[0].url : null;
-      handleBookmarkSubmit(title, url, regExp, (err) => {
+      handleBookmarkSubmit(title, url, regExpString, (err) => {
         if (err) {
           console.warn(err);
           formResponse.textContent = err.message || 'Unexpected error occured';

@@ -16,7 +16,7 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
         );
         continue;
       }
-      if (url !== newUrl && regExp.test(newUrl)) {
+      if (newUrl !== url && regExp.test(newUrl)) {
         console.log(`Updating bookmark with id of ${id} to url: ${newUrl}`);
         chrome.bookmarks.update(id, { url: newUrl }, () => {
           if (chrome.runtime.lastError) {
