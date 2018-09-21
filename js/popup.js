@@ -63,7 +63,7 @@ function createBookmark(dynBook, title, url, regExp, done) {
     if (chrome.runtime.lastError) {
       done(chrome.runtime.lastError);
     } else {
-      dynBook[newBookmark.id] = { title, url: newUrl, regExp };
+      dynBook[newBookmark.id] = { title, regExp };
       chrome.storage.sync.set({ dynBookmarks: dynBook }, () =>
         done(chrome.runtime.lastError)
       );
@@ -73,7 +73,7 @@ function createBookmark(dynBook, title, url, regExp, done) {
 
 function updateBookmarks(bookmarks, dynBook, title, url, regExp, done) {
   for (let bookmark of bookmarks) {
-    dynBook[bookmark.id] = { title, url: url || bookmark.url, regExp };
+    dynBook[bookmark.id] = { title, regExp };
     if (url && bookmark.url !== url) {
       chrome.bookmarks.update(bookmark.id, { url }, () => {
         if (chrome.runtime.lastError) {

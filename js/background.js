@@ -7,7 +7,7 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
   chrome.storage.sync.get(['dynBookmarks'], ({ dynBookmarks }) => {
     let dynBook = dynBookmarks || {};
     for (let id in dynBook) {
-      let { url, regExp } = dynBook[id];
+      let { regExp } = dynBook[id];
       try {
         regExp = new RegExp(regExp);
       } catch {
@@ -16,7 +16,7 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
         );
         continue;
       }
-      if (newUrl !== url && regExp.test(newUrl)) {
+      if (regExp.test(newUrl)) {
         console.log(`Updating bookmark with id of ${id} to url: ${newUrl}`);
         chrome.bookmarks.update(id, { url: newUrl }, () => {
           if (chrome.runtime.lastError) {
