@@ -5,20 +5,34 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="./css/material-icons.css">
+  <link rel="stylesheet" href="./css/materialize.min.css">
+  <link rel="stylesheet" href="./css/popup.css">
   <title>DynBookmark Popup Form</title>
 </head>
 
 <body>
-  <form action="#" id="popup-form">
-    <label for="bookmark-name-input">Bookmark name: </label>
-    <input type="text" id="bookmark-name-input" name="bookmark_name" required>
+  <div class="container">
+    <form action="#" id="popup-form">
+      <div class="input-field">
+        <label for="bookmark-name-input">Bookmark name: </label>
+        <input type="text" id="bookmark-name-input" name="bookmark_name" required>
+      </div>
 
-    <label for="regexp-input">RegExp: </label>
-    <input type="text" id="regexp-input" name="regexp" required>
+      <div class="input-field">
+        <label for="regexp-input">RegExp: </label>
+        <input type="text" id="regexp-input" name="regexp" required>
+      </div>
 
-    <button type="submit">Submit</button>
-  </form>
-  <script src="./popup.js"></script>
+      <button class="btn waves-effect waves-light" type="submit">
+        Submit
+        <i class="material-icons right">send</i>
+      </button>
+    </form>
+
+  </div>
+  <script src="./js/materialize.min.js"></script>
+  <script src="./js/popup.js"></script>
 </body>
 
 </html>
