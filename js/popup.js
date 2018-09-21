@@ -11,7 +11,7 @@ function popupSubmit(event) {
   event.preventDefault();
 
   // extract values from form
-  const bookmarkName = event.target['bookmark_name'].value;
+  const title = event.target['bookmark_name'].value;
   let regExp;
   try {
     regExp = new RegExp(event.target.regexp.value);
@@ -21,7 +21,6 @@ function popupSubmit(event) {
     return false;
   }
 
-  // update storage
   chrome.tabs.query(
     {
       active: true,
@@ -29,80 +28,61 @@ function popupSubmit(event) {
     },
     function(tabs) {
       const url = regExp.test(tabs[0].url) ? tabs[0].url : null;
-      addBookmarkToStorage(bookmarkName, event.target.regexp.value, url);
+      handleBookmarkSubmit(title, url, regExp, (err) => {
+        if (err) {
+          console.warn(err);
+          formResponse.textContent = err.message || 'Unexpected error occured';
+        } else {
+          formResponse.textContent =
+            'Bookmark has been submitted successfully.!';
+        }
+        popupModalInstance.open();
+      });
     }
   );
 }
 
 const defaultUrl = 'https://www.google.com';
 
-function addBookmarkToStorage(bookmarkName, regExp, url) {
-  getDynBookmarks((dynBookmarks) => {
-    const newBookmarks = [...dynBookmarks];
-    const isFound = findAndUpdateDynBookmarks(
-      newBookmarks,
-      bookmarkName,
-      regExp,
-      url
-    );
-    if (!isFound) {
-      createBookmark(bookmarkName, regExp, url, (error, bookmark) => {
-        newBookmarks.push(bookmark);
-        addDynBookmarksToStorage(newBookmarks);
-      });
-    } else {
-      addDynBookmarksToStorage(newBookmarks);
-    }
-  });
-}
-function createBookmark(bookmarkName, regExp, url, done) {
-  const newUrl = url ? url : defaultUrl;
-  chrome.bookmarks.create({ title: bookmarkName, url: newUrl }, (result) => {
-    const bookmark = {
-      name: bookmarkName,
-      regExp,
-      url: newUrl,
-      ...(result.id && { id: result.id })
-    };
-    done(null, bookmark);
-  });
-}
-function addDynBookmarksToStorage(dynBookmarks) {
-  chrome.storage.sync.set(
-    {
-      dynBookmarks
-    },
-    function() {
-      formResponse.textContent = 'Bookmark successfully added!';
-      popupModalInstance.open();
-    }
-  );
-}
-// if url is falsy original won't be changed, but if new bookmark is created
-// default will be google.com
-function findAndUpdateDynBookmarks(dynBookmarks, bookmarkName, regExp, url) {
-  let isFound = false;
-  for (let bookmark of dynBookmarks) {
-    if (bookmark.name == bookmarkName) {
-      isFound = true;
-      bookmark.regExp = regExp;
-      if (url) {
-        bookmark.url = url;
-        if (bookmark.id) {
-          chrome.bookmarks.update(bookmark.id, { url });
-        }
+function handleBookmarkSubmit(title, url, regExp, done) {
+  chrome.bookmarks.search({ title }, (bookmarks) => {
+    chrome.storage.sync.get(['dynBookmarks'], ({ dynBookmarks }) => {
+      let dynBook = dynBookmarks || {};
+      if (bookmarks.length > 0) {
+        updateBookmarks(bookmarks, dynBook, title, url, regExp, done);
+      } else {
+        createBookmark(dynBook, title, url, regExp, done);
       }
-    }
-  }
-  return isFound;
+    });
+  });
 }
 
-// gets 'dynBookmarks' from storage, returns array
-function getDynBookmarks(done) {
-  chrome.storage.sync.get(['dynBookmarks'], function(result) {
-    const dynBookmarks = Array.isArray(result.dynBookmarks)
-      ? result.dynBookmarks
-      : [];
-    done(dynBookmarks);
+function createBookmark(dynBook, title, url, regExp, done) {
+  const newUrl = url || defaultUrl;
+  chrome.bookmarks.create({ title, url: newUrl }, (newBookmark) => {
+    if (chrome.runtime.lastError) {
+      done(chrome.runtime.lastError);
+    } else {
+      dynBook[newBookmark.id] = { title, url: newUrl, regExp };
+      chrome.storage.sync.set({ dynBookmarks: dynBook }, () =>
+        done(chrome.runtime.lastError)
+      );
+    }
   });
+}
+
+function updateBookmarks(bookmarks, dynBook, title, url, regExp, done) {
+  for (let bookmark of bookmarks) {
+    dynBook[bookmark.id] = { title, url: url || bookmark.url, regExp };
+    if (url && bookmark.url !== url) {
+      chrome.bookmarks.update(bookmark.id, { url }, () => {
+        if (chrome.runtime.lastError) {
+          console.warn('Whoops.. ' + chrome.runtime.lastError.message);
+        }
+      });
+    }
+  }
+  chrome.storage.sync.set({ dynBookmarks: dynBook }, () =>
+    done(chrome.runtime.lastError)
+  );
 }
