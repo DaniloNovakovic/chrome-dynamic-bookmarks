@@ -127,4 +127,12 @@ document.addEventListener('DOMContentLoaded', () => {
       elem.querySelector('span').textContent = changeInfo.title;
     }
   });
+
+  chrome.bookmarks.onMoved.addListener((id, moveInfo) => {
+    const elem = document.getElementById(id);
+    const parent = document.getElementById(moveInfo.parentId);
+    if (parent.classList.contains('folder')) {
+      parent.querySelector('ul').appendChild(elem);
+    }
+  });
 });
