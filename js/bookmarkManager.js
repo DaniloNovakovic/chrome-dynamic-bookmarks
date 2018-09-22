@@ -17,21 +17,24 @@ const openedArrowIcon = 'arrow_drop_down';
 const closedArrowIcon = 'arrow_right';
 
 function changeOpened(event) {
-  const folderHeader = event.target;
+  const folderHeader = event.target.classList.contains('folder-header')
+    ? event.target
+    : event.target.parentElement;
   const opened = folderHeader.getAttribute('opened') == 'true';
-  //console.log(folderHeader, opened);
+  const newOpened = !opened;
 
   let icons = folderHeader.querySelectorAll('.material-icons');
   icons.forEach((icon) => {
     if (/arrow/i.test(icon.textContent)) {
-      icon.textContent = opened ? openedArrowIcon : closedArrowIcon;
+      icon.textContent = newOpened ? openedArrowIcon : closedArrowIcon;
     } else {
-      icon.textContent = opened ? openedFolderIcon : closedFolderIcon;
+      icon.textContent = newOpened ? openedFolderIcon : closedFolderIcon;
     }
   });
+
   try {
     const sibling = folderHeader.nextElementSibling;
-    if (!opened) {
+    if (newOpened) {
       sibling.classList.remove('hide');
     } else {
       sibling.classList.add('hide');
@@ -39,26 +42,23 @@ function changeOpened(event) {
   } catch {
     console.warn(`No sibling of elem ${folderHeader} found ...`);
   }
-  folderHeader.setAttribute('opened', !opened);
+
+  folderHeader.setAttribute('opened', newOpened);
 }
 
 const Folder = (props, ...children) => {
-  const opened = props.opened;
+  const opened = props.opened || false;
   const arrowIcon = opened ? openedArrowIcon : closedArrowIcon;
   const folderIcon = opened ? openedFolderIcon : closedFolderIcon;
-
-  //const folderItems = children;
-  // const folderItems = children.map((child) => {
-  //   li(child);
-  // });
   const folderName = props.name || 'unknown';
+
   return div(
     { className: 'folder' },
     header(
       {
         onClick: changeOpened,
         className: 'folder-header',
-        opened: opened ? true : false
+        opened: opened
       },
       i({ className: 'material-icons' }, arrowIcon),
       i({ className: 'material-icons' }, folderIcon),
