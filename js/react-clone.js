@@ -64,3 +64,17 @@ function createElement(type, props, ...children) {
     return el;
   }
 }
+
+/* shorthand functions */
+const div = (props, ...children) => createElement('div', props, ...children);
+const ul = (props, ...children) => createElement('ul', props, ...children);
+const li = (props, ...children) => createElement('li', props, ...children);
+const i = (props, ...children) => createElement('i', props, ...children);
+const span = (props, ...children) => createElement('span', props, ...children);
+const header = (props, ...children) =>
+  createElement('header', props, ...children);
+const p = (props, ...children) => createElement('p', props, ...children);
+const section = (props, ...children) =>
+  createElement('section', props, ...children);
+const button = (props, ...children) =>
+  createElement('button', props, ...children);

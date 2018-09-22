@@ -1,33 +1,15 @@
-const CoolParam = (props) => {
-  return createElement(
-    'p',
-    {
-      className: 'grey lighten-2',
-      onClick: () => {
-        window.alert('Thank you for clicking me!');
-      }
-    },
-    'cool'
+const File = ({ name }) => {
+  return div(
+    { className: 'file' },
+    i({ className: 'material-icons', style: 'opacity: 0;' }, 'arrow_right'),
+    i({ className: 'material-icons' }, 'insert_drive_file'),
+    span(null, name)
   );
 };
-const el = createElement(
-  'div',
-  {
-    style: {
-      color: 'white'
-    },
-    className: 'row purple'
-  },
-  'Hello',
-  createElement(
-    'div',
-    {
-      style: 'color: red;',
-      className: 'z-depth-2'
-    },
-    createElement(CoolParam, null)
-  )
-);
 
-const app = document.querySelector('#app');
-app.appendChild(el);
+const TreeView = () => {
+  return section({ className: 'container' }, File({ name: 'myFile.js' }));
+};
+
+const app = document.querySelector('#treeView');
+app.appendChild(createElement(TreeView));
