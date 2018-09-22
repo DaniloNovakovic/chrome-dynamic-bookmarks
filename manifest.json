@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "Dynamic Bookmarks",
   "description": "Updates bookmarks dynamically based on given regExp",
-  "version": "1.2.4",
+  "version": "1.3.2",
   "permissions": ["tabs", "bookmarks", "storage"],
   "background": {
     "scripts": ["./js/background.js"],
@@ -24,5 +24,8 @@
     "48": "images/icons8_Books_48.png",
     "64": "images/icons8_Books_64.png",
     "128": "images/icons8_Books_128.png"
+  },
+  "chrome_url_overrides": {
+    "bookmarks": "bookmarkManager.html"
   }
 }
