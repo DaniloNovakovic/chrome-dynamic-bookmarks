@@ -5,7 +5,7 @@ const File = ({ name }) => {
     { className: 'file' },
     i({ className: 'material-icons', style: 'opacity: 0;' }, 'arrow_right'),
     i({ className: 'material-icons' }, 'insert_drive_file'),
-    span(null, name)
+    span({ className: 'truncate' }, name)
   );
 };
 
@@ -70,17 +70,23 @@ const Folder = (props, ...children) => {
 
 /* TreeView */
 
-const TreeView = () => {
-  return section(
-    { className: 'container' },
-    File({ name: 'myBookmark.js' }),
-    Folder(
-      { name: 'otherBookmarks' },
-      Folder({ name: 'myTest.js' }, File({ name: 'whatup.js' })),
-      File({ name: 'justASimpleFile.css' })
-    )
-  );
+const createTree = (node) => {
+  if (!node.children) {
+    console.log({ name: node.title });
+    return File({ name: node.title });
+  } else {
+    let childEls = [];
+    for (let child of node.children) {
+      let subTree = createTree(child);
+      childEls.push(subTree);
+    }
+    return Folder({ name: node.title, opened: false }, ...childEls);
+  }
 };
 
-const app = document.querySelector('#treeView');
-app.appendChild(createElement(TreeView));
+document.addEventListener('DOMContentLoaded', () => {
+  const app = document.querySelector('#treeView');
+  chrome.bookmarks.getTree((results) => {
+    app.appendChild(createTree(results[0]));
+  });
+});

@@ -15,7 +15,7 @@ span {
   cursor: pointer;
 }
 .file > span {
-  position: absolute;
+  /* position: absolute; */
 }
 .file:hover {
   background-color: #ccc;
