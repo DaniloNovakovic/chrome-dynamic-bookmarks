@@ -1,3 +1,5 @@
+/* File */
+
 const File = ({ name }) => {
   return div(
     { className: 'file' },
@@ -7,15 +9,35 @@ const File = ({ name }) => {
   );
 };
 
+/* Folder */
+
+const openedFolderIcon = 'folder_open';
+const closedFolderIcon = 'folder';
+const openedArrowIcon = 'arrow_drop_down';
+const closedArrowIcon = 'arrow_right';
+
 function changeOpened(event) {
-  //const folderHeader = event.target;
+  const folderHeader = event.target;
+  const opened = folderHeader.getAttribute('opened') == 'true';
+  //console.log(folderHeader, opened);
+
+  let icons = folderHeader.querySelectorAll('.material-icons');
+  icons.forEach((icon) => {
+    if (/arrow/i.test(icon.textContent)) {
+      icon.textContent = opened ? openedArrowIcon : closedArrowIcon;
+    } else {
+      icon.textContent = opened ? openedFolderIcon : closedFolderIcon;
+    }
+  });
+  folderHeader.setAttribute('opened', !opened);
+  //todo: next sibling
 }
 
 const Folder = (props, ...children) => {
-  const opened = props.opened || false;
-  const arrowIcon = opened ? 'arrow_drop_down' : 'arrow_right';
-  const folderIcon = opened ? 'folder_open' : 'folder';
-  const folderItems = children.map((child, index) => {
+  const opened = props.opened;
+  const arrowIcon = opened ? openedArrowIcon : closedArrowIcon;
+  const folderIcon = opened ? openedFolderIcon : closedFolderIcon;
+  const folderItems = children.map((child) => {
     li(child);
   });
   const folderName = props.name || 'unknown';
@@ -24,7 +46,8 @@ const Folder = (props, ...children) => {
     header(
       {
         onClick: changeOpened,
-        className: 'folder-header'
+        className: 'folder-header',
+        opened: opened ? true : false
       },
       i({ className: 'material-icons' }, arrowIcon),
       i({ className: 'material-icons' }, folderIcon),
@@ -33,6 +56,8 @@ const Folder = (props, ...children) => {
     ul({ className: opened ? '' : 'hide' }, ...folderItems)
   );
 };
+
+/* TreeView */
 
 const TreeView = () => {
   return section(

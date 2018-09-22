@@ -1,0 +1,42 @@
+/* Tree View */
+span {
+  padding-top: 0.1em;
+  padding-left: 0.3em;
+  font-size: 1rem;
+}
+#treeviewer {
+  padding-top: 2em;
+}
+
+/* File */
+.file {
+  position: relative;
+  display: block;
+  cursor: pointer;
+}
+.file > span {
+  position: absolute;
+}
+.file:hover {
+  background-color: #ccc;
+}
+
+/* Folder */
+.folder {
+  display: block;
+}
+.folder-header {
+  position: relative;
+  cursor: pointer;
+  /* z-index: 999; */
+}
+.folder-header > span {
+  position: absolute;
+}
+.folder-header:hover {
+  background-color: #ccc;
+}
+.folder > ul {
+  padding-left: 1em;
+  margin: 0;
+}
