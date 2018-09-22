@@ -6,9 +6,14 @@
   white-space: nowrap;
 }
 #treeView span {
-  padding-top: 0.1em;
+  display: inline-flex;
+  vertical-align: middle;
   padding-left: 0.3em;
   font-size: 1rem;
+}
+#treeView i {
+  display: inline-flex;
+  vertical-align: middle;
 }
 
 /* File */
@@ -17,9 +22,7 @@
   display: block;
   cursor: pointer;
 }
-.file > span {
-  position: absolute;
-}
+
 /* .file:hover {
   background-color: #ccc;
 } */
@@ -33,9 +36,7 @@
   cursor: pointer;
   /* z-index: 999; */
 }
-.folder-header > span {
-  position: absolute;
-}
+
 /* .folder-header:hover {
   background-color: #ccc;
 } */
