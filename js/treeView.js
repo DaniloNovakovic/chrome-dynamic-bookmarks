@@ -2,7 +2,11 @@
 
 const File = ({ name, id }) => {
   return div(
-    { className: 'file hoverable', ...(id && { id }) },
+    {
+      className: 'file hoverable',
+      onClick: handleFileClick,
+      ...(id && { id })
+    },
     i({ className: 'material-icons', style: 'opacity: 0;' }, 'arrow_right'),
     i({ className: 'material-icons grey-text' }, 'insert_drive_file'),
     span(null, name)
@@ -16,36 +20,6 @@ const closedFolderIcon = 'folder';
 const openedArrowIcon = 'arrow_drop_down';
 const closedArrowIcon = 'arrow_right';
 
-function changeOpened(event) {
-  const folderHeader = event.target.classList.contains('folder-header')
-    ? event.target
-    : event.target.parentElement;
-  const opened = folderHeader.getAttribute('opened') == 'true';
-  const newOpened = !opened;
-
-  let icons = folderHeader.querySelectorAll('.material-icons');
-  icons.forEach((icon) => {
-    if (/arrow/i.test(icon.textContent)) {
-      icon.textContent = newOpened ? openedArrowIcon : closedArrowIcon;
-    } else {
-      icon.textContent = newOpened ? openedFolderIcon : closedFolderIcon;
-    }
-  });
-
-  try {
-    const sibling = folderHeader.nextElementSibling;
-    if (newOpened) {
-      sibling.classList.remove('hide');
-    } else {
-      sibling.classList.add('hide');
-    }
-  } catch {
-    console.warn(`No sibling of elem ${folderHeader} found ...`);
-  }
-
-  folderHeader.setAttribute('opened', newOpened);
-}
-
 const Folder = ({ opened, name, id }, ...children) => {
   const arrowIcon = opened ? openedArrowIcon : closedArrowIcon;
   const folderIcon = opened ? openedFolderIcon : closedFolderIcon;
@@ -55,7 +29,7 @@ const Folder = ({ opened, name, id }, ...children) => {
     { className: 'folder', ...(id && { id }) },
     header(
       {
-        onClick: changeOpened,
+        onClick: handleFolderHeaderClick,
         className: 'folder-header hoverable',
         opened: opened
       },
@@ -136,3 +110,55 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
+
+function handleFileClick(event) {
+  const file = event.target.classList.contains('file')
+    ? event.target
+    : event.target.parentElement;
+
+  chrome.bookmarks.get(file.id, (results) => {
+    if (chrome.runtime.lastError) {
+      console.warn(chrome.runtime.lastError.message);
+    } else {
+      const bookmark = results[0];
+      chrome.storage.sync.get(['dynBookmarks'], ({ dynBookmarks }) => {
+        let dynBook = dynBookmarks || {};
+        if (dynBook[bookmark.id]) {
+          //todo: display tracked bookmark
+        } else {
+          //todo: display untracked bookmark
+        }
+      });
+    }
+  });
+}
+
+function handleFolderHeaderClick(event) {
+  const folderHeader = event.target.classList.contains('folder-header')
+    ? event.target
+    : event.target.parentElement;
+  const opened = folderHeader.getAttribute('opened') == 'true';
+  const newOpened = !opened;
+
+  let icons = folderHeader.querySelectorAll('.material-icons');
+  icons.forEach((icon) => {
+    if (/arrow/i.test(icon.textContent)) {
+      icon.textContent = newOpened ? openedArrowIcon : closedArrowIcon;
+    } else {
+      icon.textContent = newOpened ? openedFolderIcon : closedFolderIcon;
+    }
+  });
+
+  try {
+    const sibling = folderHeader.nextElementSibling;
+    if (newOpened) {
+      sibling.classList.remove('hide');
+    } else {
+      sibling.classList.add('hide');
+    }
+  } catch {
+    console.warn(`No sibling of elem ${folderHeader} found ...`);
+  }
+
+  folderHeader.setAttribute('opened', newOpened);
+}
