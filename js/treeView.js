@@ -86,13 +86,36 @@ const createTree = (node) => {
 };
 
 document.addEventListener('DOMContentLoaded', () => {
-  const app = document.querySelector('#treeView');
+  const treeView = document.querySelector('#treeView');
+
   chrome.bookmarks.getTree((results) => {
     let childEls = [];
     for (let child of results[0].children) {
       let subTree = createTree(child);
       childEls.push(subTree);
     }
-    app.appendChild(section(null, ...childEls));
+    treeView.appendChild(section(null, ...childEls));
+  });
+
+  chrome.bookmarks.onCreated.addListener((id, bookmark) => {
+    const parent = document.getElementById(bookmark.parentId);
+    if (!parent) {
+      return console.warn(
+        'failed to find parent with id of ' + bookmark.parentId
+      );
+    }
+    if (parent.classList.contains('folder')) {
+      // children[1] is the 'ul' element
+      parent.children[1].appendChild(
+        File({ name: bookmark.title, id: bookmark.id })
+      );
+    }
+  });
+
+  chrome.bookmarks.onRemoved.addListener((id, removeInfo) => {
+    const elem = document.getElementById(id);
+    if (elem) {
+      elem.remove();
+    }
   });
 });
