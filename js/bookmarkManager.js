@@ -1,8 +1,8 @@
 /* File */
 
-const File = ({ name }) => {
+const File = ({ name, id }) => {
   return div(
-    { className: 'file hoverable' },
+    { className: 'file hoverable', ...(id && { id }) },
     i({ className: 'material-icons', style: 'opacity: 0;' }, 'arrow_right'),
     i({ className: 'material-icons grey-text' }, 'insert_drive_file'),
     span(null, name)
@@ -46,14 +46,13 @@ function changeOpened(event) {
   folderHeader.setAttribute('opened', newOpened);
 }
 
-const Folder = (props, ...children) => {
-  const opened = props.opened || false;
+const Folder = ({ opened, name, id }, ...children) => {
   const arrowIcon = opened ? openedArrowIcon : closedArrowIcon;
   const folderIcon = opened ? openedFolderIcon : closedFolderIcon;
-  const folderName = props.name || 'unknown';
+  const folderName = name || 'unknown';
 
   return div(
-    { className: 'folder' },
+    { className: 'folder', ...(id && { id }) },
     header(
       {
         onClick: changeOpened,
@@ -72,15 +71,17 @@ const Folder = (props, ...children) => {
 
 const createTree = (node) => {
   if (!node.children) {
-    console.log({ name: node.title });
-    return File({ name: node.title });
+    return File({ id: node.id, name: node.title });
   } else {
     let childEls = [];
     for (let child of node.children) {
       let subTree = createTree(child);
       childEls.push(subTree);
     }
-    return Folder({ name: node.title, opened: false }, ...childEls);
+    return Folder(
+      { id: node.id, name: node.title, opened: false },
+      ...childEls
+    );
   }
 };
 
