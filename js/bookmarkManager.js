@@ -19,7 +19,7 @@ const closedArrowIcon = 'arrow_right';
 function changeOpened(event) {
   const folderHeader = event.target;
   const opened = folderHeader.getAttribute('opened') == 'true';
-  console.log(folderHeader, opened);
+  //console.log(folderHeader, opened);
 
   let icons = folderHeader.querySelectorAll('.material-icons');
   icons.forEach((icon) => {
@@ -74,7 +74,11 @@ const TreeView = () => {
   return section(
     { className: 'container' },
     File({ name: 'myBookmark.js' }),
-    Folder({ name: 'otherBookmarks' }, File({ name: 'myTest.js' }))
+    Folder(
+      { name: 'otherBookmarks' },
+      Folder({ name: 'myTest.js' }, File({ name: 'whatup.js' })),
+      File({ name: 'justASimpleFile.css' })
+    )
   );
 };
 
