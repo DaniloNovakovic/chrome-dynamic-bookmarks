@@ -2,10 +2,10 @@
 
 const File = ({ name }) => {
   return div(
-    { className: 'file' },
+    { className: 'file hoverable' },
     i({ className: 'material-icons', style: 'opacity: 0;' }, 'arrow_right'),
-    i({ className: 'material-icons' }, 'insert_drive_file'),
-    span({ className: 'truncate' }, name)
+    i({ className: 'material-icons grey-text' }, 'insert_drive_file'),
+    span(null, name)
   );
 };
 
@@ -57,11 +57,11 @@ const Folder = (props, ...children) => {
     header(
       {
         onClick: changeOpened,
-        className: 'folder-header',
+        className: 'folder-header hoverable',
         opened: opened
       },
       i({ className: 'material-icons' }, arrowIcon),
-      i({ className: 'material-icons' }, folderIcon),
+      i({ className: 'material-icons grey-text text-darken-2' }, folderIcon),
       span(null, folderName)
     ),
     ul({ className: opened ? '' : 'hide' }, ...children)
@@ -87,6 +87,11 @@ const createTree = (node) => {
 document.addEventListener('DOMContentLoaded', () => {
   const app = document.querySelector('#treeView');
   chrome.bookmarks.getTree((results) => {
-    app.appendChild(createTree(results[0]));
+    let childEls = [];
+    for (let child of results[0].children) {
+      let subTree = createTree(child);
+      childEls.push(subTree);
+    }
+    app.appendChild(section(null, ...childEls));
   });
 });

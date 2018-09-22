@@ -1,11 +1,14 @@
 /* Tree View */
-span {
+#treeView {
+  padding-right: 0.1em;
+  padding-bottom: 3em;
+  overflow: auto;
+  white-space: nowrap;
+}
+#treeView span {
   padding-top: 0.1em;
   padding-left: 0.3em;
   font-size: 1rem;
-}
-#treeviewer {
-  padding-top: 2em;
 }
 
 /* File */
@@ -15,11 +18,11 @@ span {
   cursor: pointer;
 }
 .file > span {
-  /* position: absolute; */
+  position: absolute;
 }
-.file:hover {
+/* .file:hover {
   background-color: #ccc;
-}
+} */
 
 /* Folder */
 .folder {
@@ -33,9 +36,9 @@ span {
 .folder-header > span {
   position: absolute;
 }
-.folder-header:hover {
+/* .folder-header:hover {
   background-color: #ccc;
-}
+} */
 .folder > ul {
   padding-left: 1em;
   margin: 0;
