@@ -19,7 +19,7 @@ const closedArrowIcon = 'arrow_right';
 function changeOpened(event) {
   const folderHeader = event.target;
   const opened = folderHeader.getAttribute('opened') == 'true';
-  //console.log(folderHeader, opened);
+  console.log(folderHeader, opened);
 
   let icons = folderHeader.querySelectorAll('.material-icons');
   icons.forEach((icon) => {
@@ -29,17 +29,28 @@ function changeOpened(event) {
       icon.textContent = opened ? openedFolderIcon : closedFolderIcon;
     }
   });
+  try {
+    const sibling = folderHeader.nextElementSibling;
+    if (!opened) {
+      sibling.classList.remove('hide');
+    } else {
+      sibling.classList.add('hide');
+    }
+  } catch {
+    console.warn(`No sibling of elem ${folderHeader} found ...`);
+  }
   folderHeader.setAttribute('opened', !opened);
-  //todo: next sibling
 }
 
 const Folder = (props, ...children) => {
   const opened = props.opened;
   const arrowIcon = opened ? openedArrowIcon : closedArrowIcon;
   const folderIcon = opened ? openedFolderIcon : closedFolderIcon;
-  const folderItems = children.map((child) => {
-    li(child);
-  });
+
+  //const folderItems = children;
+  // const folderItems = children.map((child) => {
+  //   li(child);
+  // });
   const folderName = props.name || 'unknown';
   return div(
     { className: 'folder' },
@@ -53,7 +64,7 @@ const Folder = (props, ...children) => {
       i({ className: 'material-icons' }, folderIcon),
       span(null, folderName)
     ),
-    ul({ className: opened ? '' : 'hide' }, ...folderItems)
+    ul({ className: opened ? '' : 'hide' }, ...children)
   );
 };
 
@@ -63,7 +74,7 @@ const TreeView = () => {
   return section(
     { className: 'container' },
     File({ name: 'myBookmark.js' }),
-    Folder({ name: 'otherBookmarks' })
+    Folder({ name: 'otherBookmarks' }, File({ name: 'myTest.js' }))
   );
 };
 
