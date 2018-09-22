@@ -105,10 +105,9 @@ document.addEventListener('DOMContentLoaded', () => {
       );
     }
     if (parent.classList.contains('folder')) {
-      // children[1] is the 'ul' element
-      parent.children[1].appendChild(
-        File({ name: bookmark.title, id: bookmark.id })
-      );
+      parent
+        .querySelector('ul')
+        .appendChild(File({ name: bookmark.title, id: bookmark.id }));
     }
   });
 
@@ -116,6 +115,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const elem = document.getElementById(id);
     if (elem) {
       elem.remove();
+    }
+  });
+
+  chrome.bookmarks.onChanged.addListener((id, changeInfo) => {
+    if (changeInfo.title) {
+      let elem = document.getElementById(id);
+      if (elem.classList.contains('folder')) {
+        elem = elem.querySelector('.folder-header') || elem;
+      }
+      elem.querySelector('span').textContent = changeInfo.title;
     }
   });
 });
