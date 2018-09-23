@@ -8,7 +8,7 @@ const File = ({ name, id }) => {
       ...(id && { id })
     },
     i({ className: 'material-icons', style: 'opacity: 0;' }, 'arrow_right'),
-    i({ className: 'material-icons grey-text' }, 'insert_drive_file'),
+    i({ className: 'material-icons grey-text file-icon' }, 'insert_drive_file'),
     span(null, name)
   );
 };
@@ -112,7 +112,6 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 /* onClick handlers */
-
 function handleFileClick(event) {
   const file = event.target.classList.contains('file')
     ? event.target
@@ -125,14 +124,40 @@ function handleFileClick(event) {
       const bookmark = results[0];
       chrome.storage.sync.get(['dynBookmarks'], ({ dynBookmarks }) => {
         let dynBook = dynBookmarks || {};
-        if (dynBook[bookmark.id]) {
-          //todo: display tracked bookmark
-        } else {
-          //todo: display untracked bookmark
-        }
+        updateBookmarkInfo(bookmark, dynBook);
       });
     }
   });
+}
+
+function updateBookmarkInfo(bookmark, dynBook) {
+  const titleInfo = document.getElementById('title-info');
+  const urlInfo = document.getElementById('url-info');
+  const parentTitleInfo = document.getElementById('parent-title-info');
+  const idInfo = document.getElementById('bookmark-id-info');
+  const parentIdInfo = document.getElementById('parent-id-info');
+
+  titleInfo.textContent = bookmark.title;
+  urlInfo.textContent = bookmark.url;
+  idInfo.textContent = bookmark.id;
+  parentIdInfo.textContent = bookmark.parentId;
+
+  const trackedDiv = document.getElementById('tracked');
+
+  if (dynBook && dynBook[bookmark.id]) {
+    const regExpInfo = document.getElementById('regExp-info');
+    regExpInfo.textContent = dynBook[bookmark.id].regExp;
+
+    // const historyList = document.getElementById('history-list');
+    // historyList.innerHTML = '';
+    // for (let url of dynBook[bookmark.id].history) {
+    //   historyList.appendChild(li(null, code(null, url)));
+    // }
+
+    trackedDiv.classList.remove('hide');
+  } else if (!trackedDiv.classList.contains('hide')) {
+    trackedDiv.classList.add('hide');
+  }
 }
 
 function handleFolderHeaderClick(event) {

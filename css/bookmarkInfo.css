@@ -2,6 +2,9 @@
 #bookmarkInfo span {
   font-size: 1rem;
 }
-.history-list li {
+#bookmarkInfo code {
+  color: #f44336;
+}
+#history-list li {
   padding-left: 3em;
 }
