@@ -1,6 +1,10 @@
 /* File */
+const defaultFileIconColor = 'grey-text';
+const trackedFileIconColor = 'red-text';
 
-const File = ({ name, id }) => {
+const File = ({ name, id, fileIconColor }) => {
+  console.log(fileIconColor);
+  const iconColor = fileIconColor || defaultFileIconColor;
   return div(
     {
       className: 'file hoverable',
@@ -8,7 +12,10 @@ const File = ({ name, id }) => {
       ...(id && { id })
     },
     i({ className: 'material-icons', style: 'opacity: 0;' }, 'arrow_right'),
-    i({ className: 'material-icons grey-text file-icon' }, 'insert_drive_file'),
+    i(
+      { className: `material-icons ${iconColor} file-icon` },
+      'insert_drive_file'
+    ),
     span(null, name)
   );
 };
@@ -69,6 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
       childEls.push(subTree);
     }
     treeView.appendChild(section(null, ...childEls));
+    colorTrackedFiles();
   });
 
   chrome.bookmarks.onCreated.addListener((id, bookmark) => {
@@ -110,6 +118,20 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
+
+function colorTrackedFiles(color = trackedFileIconColor) {
+  chrome.storage.sync.get(['dynBookmarks'], ({ dynBookmarks }) => {
+    let dynBook = dynBookmarks || {};
+    for (let id in dynBook) {
+      const file = document.getElementById(id);
+      const fileIcon = file.querySelector('.file-icon');
+      if (fileIcon) {
+        fileIcon.classList.remove(defaultFileIconColor);
+        fileIcon.classList.add(color);
+      }
+    }
+  });
+}
 
 /* onClick handlers */
 function handleFileClick(event) {
