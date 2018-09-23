@@ -3,7 +3,6 @@ const defaultFileIconColor = 'grey-text';
 const trackedFileIconColor = 'red-text';
 
 const File = ({ name, id, fileIconColor }) => {
-  console.log(fileIconColor);
   const iconColor = fileIconColor || defaultFileIconColor;
   return div(
     {
