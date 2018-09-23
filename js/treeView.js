@@ -158,6 +158,14 @@ function updateBookmarkInfo(bookmark, dynBook) {
   } else if (!trackedDiv.classList.contains('hide')) {
     trackedDiv.classList.add('hide');
   }
+
+  chrome.bookmarks.get(bookmark.parentId, (results) => {
+    if (chrome.runtime.lastError) {
+      console.warn(chrome.runtime.lastError.message);
+    } else {
+      parentTitleInfo.textContent = results[0].title;
+    }
+  });
 }
 
 function handleFolderHeaderClick(event) {
