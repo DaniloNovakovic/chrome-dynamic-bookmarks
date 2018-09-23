@@ -188,6 +188,15 @@ function updateBookmarkInfo(bookmark, dynBook) {
       parentTitleInfo.textContent = results[0].title;
     }
   });
+
+  enableFooterButtons();
+}
+
+function enableFooterButtons() {
+  const editBtn = document.getElementById('edit-btn');
+  const deleteBtn = document.getElementById('delete-btn');
+  editBtn.classList.remove('disabled');
+  deleteBtn.classList.remove('disabled');
 }
 
 function handleFolderHeaderClick(event) {
