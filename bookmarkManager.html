@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="./css/material-icons.css">
+  <link rel="stylesheet" href="./css/materialize.min.css">
+  <link rel="stylesheet" href="./css/treeView.css">
+  <link rel="stylesheet" href="./css/bookmarkInfo.css">
+  <link rel="stylesheet" href="./css/manager.css">
+  <title>Dynamic Bookmark Manager</title>
+</head>
+
+<body>
+  <!-- NAV -->
+  <nav class="white">
+    <div class="nav-wrapper">
+      <img src="./images/icons8_Books_48.png" class="brand-logo" />
+      <ul class="hide-on-med-and-down right">
+        <li>
+          <div class="center row">
+            <div class="col s12 ">
+              <div class="row" id="topbarsearch">
+                <div class="input-field col s12 red-text">
+                  <i class="red-text material-icons prefix">search</i>
+                  <input type="text" placeholder="search" id="autocomplete-input" class="autocomplete red-text">
+                </div>
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Main section-->
+  <main class="row">
+    <section class="col s12 m6 l4" id="treeView">
+      <!-- This will be filled by javascript -->
+    </section>
+
+    <section class="col s12 m6 l8" id="bookmarkInfo">
+      <div id="info-display" class="container left-align">
+        <h6>title: <code id="title-info"></code></h6>
+        <h6>url: <code id="url-info"></code></h6>
+        <h6>id: <code id="bookmark-id-info"></code></h6>
+        <h6>parent: <code id="parent-title-info"></code></h6>
+        <h6>parentId: <code id="parent-id-info"></code></h6>
+        <div id="tracked" class="hide">
+          <h6>regExp: <code id="regExp-info"></code></h6>
+          <div id="history-section">
+            <h6>History:</h6>
+            <ul id="history-list">
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <form id="info-edit" class="container hide">
+        <div class="input-field hide">
+          <input id="bookmark-id-info-input" type="text" name="id">
+        </div>
+        <div class="input-field">
+          <input type="text" class="validate" name="title" id="title-info-input" required>
+          <label for="title-info-input">title:</label>
+        </div>
+        <div class="input-field">
+          <input type="url" class="validate" name="url" id="url-info-input" required>
+          <label for="url-info-input">url:</label>
+          <span class="helper-text" data-error="url must be in form http[s]://..."></span>
+        </div>
+
+        <div class="input-field">
+          <input type="text" name="regExp" id="regExp-info-input">
+          <label for="regExp-info-input">(optional) regExp:</label>
+        </div>
+        <button id="info-edit-submit" class="btn" type="submit">Submit<i class="material-icons right">send</i></button>
+        <button id="info-edit-cancel" class="btn" type="reset">Cancel <i class="material-icons right">cancel</i></button>
+      </form>
+    </section>
+  </main>
+
+  <!-- Footer buttons -->
+  <footer class="footer-icons">
+    <button id="add-btn" class="btn-floating btn-large waves-effect waves-light green"><i class="material-icons">add</i></button>
+    <button id="edit-btn" class="btn-floating btn-large waves-effect waves-light orange disabled"><i class="material-icons">edit</i></button>
+    <button id="delete-btn" class="btn-floating btn-large waves-effect waves-light red disabled"><i class="material-icons">delete</i></button>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="./js/materialize.min.js"></script>
+  <script src="./js/react-clone.js"></script>
+  <script src="./js/bookmarkInfo.js"></script>
+  <script src="./js/treeViewComponents.js"></script>
+  <script src="./js/treeView.js"></script>
+  <script src="./js/managerForm.js"></script>
+  <script src="./js/manager.js"></script>
+</body>
+
+</html>

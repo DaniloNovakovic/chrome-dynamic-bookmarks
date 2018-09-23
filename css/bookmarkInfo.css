@@ -1,0 +1,10 @@
+#bookmarkInfo p,
+#bookmarkInfo span {
+  font-size: 1rem;
+}
+#bookmarkInfo code {
+  color: #f44336;
+}
+#history-list li {
+  padding-left: 3em;
+}

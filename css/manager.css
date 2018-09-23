@@ -1,0 +1,24 @@
+/* Nav */
+/*This is taken from: https://ampersandacademy.com/tutorials/materialize-css/navbar-with-autocomplete-search-box*/
+
+#topbarsearch .input-field .prefix {
+  width: 0rem !important;
+}
+#topbarsearch nav ul li:hover,
+nav ul li.active {
+  background-color: none !important;
+}
+.input-field .prefix ~ input,
+.input-field .prefix ~ textarea,
+.input-field .prefix ~ label,
+.input-field .prefix ~ .validate ~ label,
+.input-field .prefix ~ .autocomplete-content {
+  margin-left: 1rem !important;
+}
+
+/* Footer */
+.footer-icons {
+  position: fixed;
+  bottom: 4em;
+  right: 5em;
+}
