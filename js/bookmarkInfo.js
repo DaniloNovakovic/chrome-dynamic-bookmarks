@@ -44,6 +44,28 @@ function setBookmarkInfo(props) {
   }
 }
 
+/**
+ * Returns json object {
+ * title,
+ * url,
+ * id,
+ * parent,
+ * parentId,
+ * regExp,
+ * (doesn't return history currently)
+ * }
+ */
+function getInfoData() {
+  return {
+    title: document.getElementById('title-info').textContent,
+    url: document.getElementById('url-info').textContent,
+    id: document.getElementById('bookmark-id-info').textContent,
+    parent: document.getElementById('parent-title-info').textContent,
+    parentId: document.getElementById('parent-id-info').textContent,
+    regExp: document.getElementById('regExp-info').textContent
+  };
+}
+
 function clearBookmarkInfo() {
   setBookmarkInfo({
     title: ' ',
@@ -52,4 +74,12 @@ function clearBookmarkInfo() {
     parent: ' ',
     parentId: ' '
   });
+}
+
+function showInfoDisplay() {
+  document.getElementById('info-display').classList.remove('hide');
+}
+
+function hideInfoDisplay() {
+  document.getElementById('info-display').classList.add('hide');
 }

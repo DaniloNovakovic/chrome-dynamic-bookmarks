@@ -98,6 +98,12 @@ function handleFileClick(event) {
               history: dynBook[bookmark.id].history
             })
           });
+
+          const infoDisplay = document.getElementById('info-display');
+          if (infoDisplay.classList.contains('hide')) {
+            hideForm();
+            showInfoDisplay();
+          }
           enableFooterButtons();
         });
       });

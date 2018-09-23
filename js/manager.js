@@ -17,6 +17,13 @@ deleteBtn.addEventListener('click', () => {
   }
 });
 
+editBtn.addEventListener('click', () => {
+  fillForm(getInfoData());
+  hideInfoDisplay();
+  showForm();
+  disableFooterButtons();
+});
+
 function enableFooterButtons() {
   editBtn.classList.remove('disabled');
   deleteBtn.classList.remove('disabled');
