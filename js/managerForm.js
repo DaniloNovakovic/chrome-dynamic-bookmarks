@@ -37,7 +37,9 @@ function handleSubmit({ id, url, title, regExp }) {
           } else {
             delete dynBook[bookmark.id];
           }
-          chrome.storage.sync.set({ dynBookmarks: dynBook });
+          chrome.storage.sync.set({ dynBookmarks: dynBook }, () => {
+            updateTreeColor();
+          });
         });
       }
     }

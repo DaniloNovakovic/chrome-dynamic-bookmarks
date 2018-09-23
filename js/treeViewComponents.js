@@ -1,6 +1,8 @@
 /* File */
 const defaultFileIconColor = 'grey-text';
 const trackedFileIconColor = 'red-text';
+const defaultFolderIconColor = 'grey-text';
+const trackedFolderIconColor = 'purple-text';
 
 const File = ({ name, id, fileIconColor }) => {
   const iconColor = fileIconColor || defaultFileIconColor;
@@ -26,11 +28,11 @@ const closedFolderIcon = 'folder';
 const openedArrowIcon = 'arrow_drop_down';
 const closedArrowIcon = 'arrow_right';
 
-const Folder = ({ opened, name, id }, ...children) => {
+const Folder = ({ opened, name, id, folderIconColor }, ...children) => {
   const arrowIcon = opened ? openedArrowIcon : closedArrowIcon;
   const folderIcon = opened ? openedFolderIcon : closedFolderIcon;
   const folderName = name || 'unknown';
-
+  const iconColor = folderIconColor || defaultFolderIconColor;
   return div(
     { className: 'folder', ...(id && { id }) },
     header(
@@ -40,7 +42,10 @@ const Folder = ({ opened, name, id }, ...children) => {
         opened: opened
       },
       i({ className: 'material-icons' }, arrowIcon),
-      i({ className: 'material-icons grey-text text-darken-2' }, folderIcon),
+      i(
+        { className: `material-icons ${iconColor} text-darken-2 folder-icon` },
+        folderIcon
+      ),
       span(null, folderName)
     ),
     ul({ className: opened ? '' : 'hide' }, ...children)
