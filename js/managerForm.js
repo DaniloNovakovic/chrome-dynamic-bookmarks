@@ -8,29 +8,35 @@ const formCancelBtn = document.getElementById('info-edit-cancel');
 
 form.onsubmit = (event) => {
   event.preventDefault();
-  handleSubmit();
+  const data = {
+    id: event.target.id.value,
+    url: event.target.url.value,
+    title: event.target.title.value,
+    regExp: event.target.regExp.value
+  };
+  handleSubmit(data);
+  setBookmarkInfo(data);
   cancelForm();
 };
-function handleSubmit() {
-  const id = bookmarkIdInput.getAttribute('value');
-  const url = urlInput.getAttribute('value');
-  const title = titleInput.getAttribute('value');
-  console.log(id, url, title);
+function handleSubmit({ id, url, title, regExp }) {
+  if (!id || (!url && !title)) return;
   chrome.bookmarks.update(
     id,
     {
-      url,
-      title
+      ...(url && { url }),
+      ...(title && { title })
     },
     (bookmark) => {
-      console.log(bookmark);
-      const regExp = regExpInput.getAttribute('value');
       if (chrome.runtime.lastError) {
         console.warn(chrome.runtime.lastError.message);
-      } else if (regExp) {
+      } else {
         chrome.storage.sync.get(['dynBookmarks'], ({ dynBookmarks }) => {
           const dynBook = dynBookmarks || {};
-          dynBook[bookmark.id] = { regExp };
+          if (regExp) {
+            dynBook[bookmark.id] = { regExp };
+          } else {
+            delete dynBook[bookmark.id];
+          }
           chrome.storage.sync.set({ dynBookmarks: dynBook });
         });
       }
