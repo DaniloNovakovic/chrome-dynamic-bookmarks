@@ -8,16 +8,62 @@
   <link rel="stylesheet" href="./css/material-icons.css">
   <link rel="stylesheet" href="./css/materialize.min.css">
   <link rel="stylesheet" href="./css/treeView.css">
+  <link rel="stylesheet" href="./css/bookmarkInfo.css">
+  <link rel="stylesheet" href="./css/managerNav.css">
   <title>Dynamic Bookmark Manager</title>
 </head>
 
 <body>
-  <h1>Bookmark manager</h1>
+  <!-- <button class="btn-floating waves-effect waves-light red"><i class="material-icons">add</i></button>
+  <button class="btn-floating waves-effect waves-light red"><i class="material-icons">edit</i></button>
+  <button class="btn-floating waves-effect waves-light red"><i class="material-icons">delete</i></button> -->
+
+  <nav class="white">
+    <div class="nav-wrapper">
+      <a href="#" class="brand-logo red-text">Logo</a>
+      <ul class="hide-on-med-and-down right">
+        <li>
+          <div class="center row">
+            <div class="col s12 ">
+              <div class="row" id="topbarsearch">
+                <div class="input-field col s6 s12 red-text">
+                  <i class="red-text material-icons prefix">search</i>
+                  <input type="text" placeholder="search" id="autocomplete-input" class="autocomplete red-text">
+                </div>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li><a href="sass.html" class="red-text">Sass</a></li>
+        <li><a href="badges.html" class="red-text">Components</a></li>
+        <li><a href="collapsible.html" class="red-text">JavaScript</a></li>
+      </ul>
+    </div>
+  </nav>
+
   <div class="row">
     <div class="col s12 m6 l4" id="treeView">
     </div>
 
     <div class="col s12 m6 l8" id="bookmarkInfo">
+
+      <div class="container left-align">
+
+        <h6>title: <code>my title</code></h6>
+        <h6>url: <code>my url</code></h6>
+        <h6>parent: <code>my parent</code></h6>
+        <h6>id: <code>15256</code></h6>
+        <h6>parentId: <code>2412</code></h6>
+        <h6>regExp: <code>regExp</code></h6>
+        <div class="history-section">
+          <h6>History:</h6>
+          <ul class="history-list">
+            <li><a href="https://materializecss.com/buttons.html">https://materializecss.com/buttons.html</a></li>
+          </ul>
+        </div>
+
+      </div>
+
     </div>
   </div>
 

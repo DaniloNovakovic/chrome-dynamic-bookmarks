@@ -111,6 +111,8 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
+/* onClick handlers */
+
 function handleFileClick(event) {
   const file = event.target.classList.contains('file')
     ? event.target
