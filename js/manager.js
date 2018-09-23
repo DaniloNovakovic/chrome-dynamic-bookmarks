@@ -10,6 +10,8 @@ deleteBtn.addEventListener('click', () => {
       if (chrome.runtime.lastError) {
         console.warn(chrome.runtime.lastError.message);
       } else {
+        clearBookmarkInfo();
+        disableFooterButtons();
       }
     });
   }

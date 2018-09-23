@@ -1,5 +1,5 @@
 /**
- *
+ * Sets only given properties in bookmarkInfo (falsy values will remain unchanged)
  * @param {object} props - {
  * title,
  * url,
@@ -7,8 +7,7 @@
  * parent,
  * parentId,
  * regExp,
- * history,
- * buttonsEnabled - false (default)
+ * history
  * }
  */
 function setBookmarkInfo(props) {
@@ -43,8 +42,14 @@ function setBookmarkInfo(props) {
   } else if (!trackedDiv.classList.contains('hide')) {
     trackedDiv.classList.add('hide');
   }
+}
 
-  if (props.buttonsEnabled) {
-    enableFooterButtons();
-  }
+function clearBookmarkInfo() {
+  setBookmarkInfo({
+    title: ' ',
+    url: ' ',
+    id: ' ',
+    parent: ' ',
+    parentId: ' '
+  });
 }

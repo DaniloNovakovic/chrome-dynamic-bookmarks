@@ -90,7 +90,6 @@ function handleFileClick(event) {
             url: bookmark.url,
             id: bookmark.id,
             parentId: bookmark.parentId,
-            buttonsEnabled: true,
             ...(parentTitle && { parent: parentTitle }),
             ...(dynBook[bookmark.id] && {
               regExp: dynBook[bookmark.id].regExp
@@ -99,6 +98,7 @@ function handleFileClick(event) {
               history: dynBook[bookmark.id].history
             })
           });
+          enableFooterButtons();
         });
       });
     }
