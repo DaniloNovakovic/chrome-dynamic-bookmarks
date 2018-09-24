@@ -82,15 +82,59 @@
     </section>
   </main>
 
+  <!-- Modal Structure -->
+  <div id="addFileModal" class="modal">
+    <div class="modal-content">
+      <form id="add-file-form" class="container">
+        <div class="input-field hide">
+          <input id="parent-id-file-input" type="text" name="parentId">
+        </div>
+        <div class="input-field">
+          <input type="text" class="validate" name="title" id="title-file-input" required>
+          <label for="title-file-input">bookmark title:</label>
+        </div>
+        <div class="input-field">
+          <input type="url" class="validate" name="url" id="url-file-input" required>
+          <label for="url-file-input">url:</label>
+          <span class="helper-text" data-error="url must be in form http[s]://..."></span>
+        </div>
+        <div class="input-field">
+          <input type="text" name="regExp" id="regExp-file-input">
+          <label for="regExp-file-input">(optional) regExp:</label>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="submit" form="add-file-form" class="modal-action waves-effect waves-green btn-flat">Submit</button>
+      <a href="#!" class="modal-close waves-effect waves-green btn-flat">Cancel</a>
+    </div>
+  </div>
+
+  <div id="addFolderModal" class="modal">
+    <div class="modal-content">
+      <h4>Add folder:</h4>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-close waves-effect waves-green btn-flat">Submit</a>
+      <a href="#!" class="modal-close waves-effect waves-green btn-flat">Cancel</a>
+    </div>
+  </div>
+
   <!-- Footer buttons -->
   <footer class="footer-icons">
     <div class="action-btn">
       <ul id="action-btn-list">
-        <button id="add-folder-btn" class="btn-floating btn-large waves-effect waves-light purple"><i class="material-icons">folder</i></button>
-        <button id="add-file-btn" class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons">insert_drive_file</i></button>
+        <button id="add-folder-btn" data-target="addFolderModal" class="modal-trigger btn-floating btn-large waves-effect waves-light purple">
+          <i class="material-icons">folder</i>
+        </button>
+        <button id="add-file-btn" data-target="addFileModal" class="modal-trigger btn-floating btn-large waves-effect waves-light red">
+          <i class="material-icons">insert_drive_file</i>
+        </button>
       </ul>
+
       <button id="add-btn" class="btn-floating btn-large waves-effect waves-light green"><i class="material-icons">add</i></button>
     </div>
+
     <button id="edit-btn" class="btn-floating btn-large waves-effect waves-light orange disabled"><i class="material-icons">edit</i></button>
     <button id="delete-btn" class="btn-floating btn-large waves-effect waves-light red disabled"><i class="material-icons">delete</i></button>
   </footer>

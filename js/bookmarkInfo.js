@@ -1,5 +1,5 @@
 /**
- * Sets given properties to bookmarkInfo (falsy values will be ignored)
+ * Sets given properties to bookmarkInfo (undefined values will be ignored)
  * @param {object} props - {
  * title,
  * url,
@@ -11,19 +11,19 @@
  * }
  */
 function setBookmarkInfo(props) {
-  if (props.title) {
+  if (typeof props.title !== 'undefined') {
     document.getElementById('title-info').textContent = props.title;
   }
-  if (props.url) {
+  if (typeof props.url !== 'undefined') {
     document.getElementById('url-info').textContent = props.url;
   }
-  if (props.parent) {
+  if (typeof props.parent !== 'undefined') {
     document.getElementById('parent-title-info').textContent = props.parent;
   }
-  if (props.id) {
+  if (typeof props.id !== 'undefined') {
     document.getElementById('bookmark-id-info').textContent = props.id;
   }
-  if (props.parentId) {
+  if (typeof props.parentId !== 'undefined') {
     document.getElementById('parent-id-info').textContent = props.parentId;
   }
 
@@ -31,9 +31,9 @@ function setBookmarkInfo(props) {
   const regExpInfo = document.getElementById('regExp-info');
   const historyList = document.getElementById('history-list');
   historyList.innerHTML = '';
-  if (props.regExp) {
+  if (typeof props.regExp !== 'undefined') {
     regExpInfo.textContent = props.regExp;
-    if (props.history) {
+    if (typeof props.history !== 'undefined') {
       for (let url of props.history) {
         historyList.appendChild(li(null, code(null, url)));
       }
@@ -69,12 +69,12 @@ function getInfoData() {
 
 function clearBookmarkInfo() {
   setBookmarkInfo({
-    title: ' ',
-    url: ' ',
-    id: ' ',
-    parent: ' ',
-    parentId: ' ',
-    regExp: ' ',
+    title: '',
+    url: '',
+    id: '',
+    parent: '',
+    parentId: '',
+    regExp: '',
     history: []
   });
 }
