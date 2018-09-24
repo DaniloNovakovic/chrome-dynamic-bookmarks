@@ -1,12 +1,12 @@
 /**
- * Sets given properties to bookmarkInfo
+ * Sets given properties to bookmarkInfo (falsy values will be ignored)
  * @param {object} props - {
  * title,
  * url,
  * id,
  * parent,
  * parentId,
- * regExp,
+ * regExp (will untrack if falsy),
  * history
  * }
  */
@@ -33,7 +33,7 @@ function setBookmarkInfo(props) {
   historyList.innerHTML = '';
   if (props.regExp) {
     regExpInfo.textContent = props.regExp;
-    if (props.historyList) {
+    if (props.history) {
       for (let url of props.history) {
         historyList.appendChild(li(null, code(null, url)));
       }
@@ -73,7 +73,9 @@ function clearBookmarkInfo() {
     url: ' ',
     id: ' ',
     parent: ' ',
-    parentId: ' '
+    parentId: ' ',
+    regExp: ' ',
+    history: []
   });
 }
 
