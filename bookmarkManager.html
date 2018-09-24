@@ -15,8 +15,8 @@
 
 <body>
   <!-- NAV -->
-  <nav class="white">
-    <div class="nav-wrapper">
+  <nav class="white z-depth-0">
+    <div class="nav-wrapper z-depth-1">
       <img src="./images/icons8_Books_48.png" class="brand-logo" />
       <ul class="hide-on-med-and-down right">
         <li>
@@ -36,12 +36,12 @@
   </nav>
 
   <!-- Main section-->
-  <main class="row">
-    <section class="col s12 m6 l4" id="treeView">
+  <main class="row ">
+    <section class="col s12 m6 l4 " id="treeView">
       <!-- This will be filled by javascript -->
     </section>
 
-    <section class="col s12 m6 l8" id="bookmarkInfo">
+    <section class="col s12 m6 l7 offset-l1 z-depth-2" id="bookmarkInfo">
       <div id="info-display" class="container left-align">
         <h6>title: <code id="title-info"></code></h6>
         <h6>url: <code id="url-info"></code></h6>
@@ -76,8 +76,8 @@
           <input type="text" name="regExp" id="regExp-info-input">
           <label for="regExp-info-input">(optional) regExp:</label>
         </div>
-        <button id="info-edit-submit" class="btn" type="submit">Submit<i class="material-icons right">send</i></button>
-        <button id="info-edit-cancel" class="btn" type="reset">Cancel <i class="material-icons right">cancel</i></button>
+        <button id="info-edit-submit" class="btn green" type="submit">Submit<i class="material-icons right">send</i></button>
+        <button id="info-edit-cancel" class="btn red" type="reset">Cancel <i class="material-icons right">cancel</i></button>
       </form>
     </section>
   </main>
@@ -132,11 +132,11 @@
   <footer class="footer-icons">
     <div class="action-btn">
       <ul id="action-btn-list">
-        <button id="add-folder-btn" data-target="addFolderModal" class="modal-trigger btn-floating btn-large waves-effect waves-light purple">
+        <button id="add-folder-btn" data-target="addFolderModal" class="modal-trigger btn-floating  waves-effect waves-light purple">
           <i class="material-icons">folder</i>
         </button>
-        <button id="add-file-btn" data-target="addFileModal" class="modal-trigger btn-floating btn-large waves-effect waves-light red">
-          <i class="material-icons">insert_drive_file</i>
+        <button id="add-file-btn" data-target="addFileModal" class="modal-trigger btn-floating  waves-effect waves-light white">
+          <i class="material-icons red-text">insert_drive_file</i>
         </button>
       </ul>
 
