@@ -22,3 +22,22 @@ nav ul li.active {
   bottom: 4em;
   right: 5em;
 }
+.action-btn {
+  display: inline-block;
+}
+.action-btn > ul > * {
+  display: block;
+  margin-top: 0.5em;
+}
+.action-btn > ul {
+  visibility: hidden;
+  height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: visibility 0s, opacity 200ms ease-in-out;
+}
+.action-btn:hover > ul {
+  visibility: visible;
+  height: auto;
+  opacity: 1;
+}
