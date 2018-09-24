@@ -2,10 +2,34 @@
 const editBtn = document.getElementById('edit-btn');
 const deleteBtn = document.getElementById('delete-btn');
 const addFileBtn = document.getElementById('add-file-btn');
+const addFolderBtn = document.getElementById('add-folder-btn');
 
 const modals = document.querySelectorAll('.modal');
 const modalsInstances = M.Modal.init(modals);
 const addFileForm = document.getElementById('add-file-form');
+const addFolderForm = document.getElementById('add-folder-form');
+
+addFolderBtn.addEventListener('click', () => {
+  const parentId = document.getElementById('parent-id-info').textContent;
+  const parentIdInput = document.getElementById('parent-id-folder-input');
+  parentIdInput.setAttribute('value', parentId);
+});
+
+addFolderForm.onsubmit = (event) => {
+  event.preventDefault();
+  const title = event.target.title.value;
+  const parentId = event.target.parentId.value;
+  chrome.bookmarks.create(
+    { title, ...(parentId && { parentId }) },
+    (result) => {
+      if (chrome.runtime.lastError) {
+        console.warn(chrome.runtime.lastError.message);
+      }
+      const modal = document.getElementById('addFolderModal');
+      M.Modal.getInstance(modal).close();
+    }
+  );
+};
 
 addFileBtn.addEventListener('click', () => {
   const parentId = document.getElementById('parent-id-info').textContent;

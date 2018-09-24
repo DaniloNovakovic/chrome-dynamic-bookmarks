@@ -21,7 +21,11 @@ document.addEventListener('DOMContentLoaded', () => {
     if (parent.classList.contains('folder')) {
       parent
         .querySelector('ul')
-        .appendChild(File({ name: bookmark.title, id: bookmark.id }));
+        .appendChild(
+          bookmark.url
+            ? File({ name: bookmark.title, id: bookmark.id })
+            : Folder({ name: bookmark.title, id: bookmark.id })
+        );
     }
     // note: i wrapped updateTreeColor in timeout because storage is updated AFTER bookmark is created
     setTimeout(updateTreeColor, 100);

@@ -112,10 +112,18 @@
 
   <div id="addFolderModal" class="modal">
     <div class="modal-content">
-      <h4>Add folder:</h4>
+      <form id="add-folder-form" class="container">
+        <div class="input-field hide">
+          <input id="parent-id-folder-input" type="text" name="parentId">
+        </div>
+        <div class="input-field">
+          <input type="text" class="validate" name="title" id="title-folder-input" required>
+          <label for="title-folder-input">folder name:</label>
+        </div>
+      </form>
     </div>
     <div class="modal-footer">
-      <a href="#!" class="modal-close waves-effect waves-green btn-flat">Submit</a>
+      <button type="submit" form="add-folder-form" class="modal-action waves-effect waves-green btn-flat">Submit</button>
       <a href="#!" class="modal-close waves-effect waves-green btn-flat">Cancel</a>
     </div>
   </div>
