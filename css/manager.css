@@ -1,6 +1,9 @@
+body {
+  background-color: #f8f9fa;
+}
+
 /* Nav */
 /*This is taken from: https://ampersandacademy.com/tutorials/materialize-css/navbar-with-autocomplete-search-box*/
-
 #topbarsearch .input-field .prefix {
   width: 0rem !important;
 }
@@ -28,6 +31,8 @@ nav ul li.active {
 .action-btn > ul > * {
   display: block;
   margin-top: 0.5em;
+  margin-left: auto;
+  margin-right: auto;
 }
 .action-btn > ul {
   visibility: hidden;
@@ -35,6 +40,7 @@ nav ul li.active {
   overflow: hidden;
   opacity: 0;
   transition: visibility 0s, opacity 200ms ease-in-out;
+  padding-bottom: 0.3em;
 }
 .action-btn:hover > ul {
   visibility: visible;
