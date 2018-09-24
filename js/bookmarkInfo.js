@@ -1,5 +1,5 @@
 /**
- * Sets only given properties in bookmarkInfo (falsy values will remain unchanged)
+ * Sets given properties to bookmarkInfo
  * @param {object} props - {
  * title,
  * url,
@@ -28,19 +28,20 @@ function setBookmarkInfo(props) {
   }
 
   const trackedDiv = document.getElementById('tracked');
+  const regExpInfo = document.getElementById('regExp-info');
+  const historyList = document.getElementById('history-list');
+  historyList.innerHTML = '';
   if (props.regExp) {
-    document.getElementById('regExp-info').textContent = props.regExp;
-
+    regExpInfo.textContent = props.regExp;
     if (props.historyList) {
-      const historyList = document.getElementById('history-list');
-      historyList.innerHTML = '';
       for (let url of props.history) {
         historyList.appendChild(li(null, code(null, url)));
       }
     }
     trackedDiv.classList.remove('hide');
-  } else if (!trackedDiv.classList.contains('hide')) {
+  } else {
     trackedDiv.classList.add('hide');
+    regExpInfo.textContent = '';
   }
 }
 
