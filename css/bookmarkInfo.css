@@ -8,3 +8,10 @@
 #history-list li {
   padding-left: 3em;
 }
+#bookmarkInfo {
+  padding-top: 1em;
+  padding-bottom: 3em;
+}
+#info-edit > button {
+  margin: 0.3em;
+}
