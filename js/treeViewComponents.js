@@ -41,7 +41,7 @@ const Folder = ({ opened, name, id, folderIconColor }, ...children) => {
         className: 'folder-header hoverable',
         opened: opened
       },
-      i({ className: 'material-icons' }, arrowIcon),
+      i({ className: 'material-icons arrow-icon' }, arrowIcon),
       i(
         { className: `material-icons ${iconColor} text-darken-2 folder-icon` },
         folderIcon
@@ -113,9 +113,9 @@ function handleFileClick(event) {
 function displayFileInfo(data) {
   setBookmarkInfo(data);
   hideFolderInfo();
-  showBookmarkInfo();
   hideForm();
   showInfoDisplay();
+  showBookmarkInfo();
   enableFooterButtons();
 }
 
@@ -123,6 +123,7 @@ function handleFolderHeaderClick(event) {
   const folderHeader = event.target.classList.contains('folder-header')
     ? event.target
     : event.target.parentElement;
+  const folder = folderHeader.parentElement;
   const opened = folderHeader.getAttribute('opened') == 'true';
   const newOpened = !opened;
 
@@ -147,6 +148,17 @@ function handleFolderHeaderClick(event) {
   }
 
   folderHeader.setAttribute('opened', newOpened);
-  const folder = folderHeader.parentElement;
-  const folderId = folder.getAttribute('id');
+
+  if (!event.target.classList.contains('arrow-icon')) {
+    displayFolderInfo(folder.getAttribute('id'));
+    globalSelectHandler.setSelected(folderHeader);
+  }
+}
+
+function displayFolderInfo(folderId) {
+  hideBookmarkInfo();
+  hideFolderInfoEdit();
+  showFolderInfoDisplay();
+  showFolderInfo();
+  enableFooterButtons();
 }
