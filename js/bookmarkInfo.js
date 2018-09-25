@@ -93,3 +93,7 @@ function showBookmarkInfo() {
 function hideBookmarkInfo() {
   document.getElementById('bookmarkInfo').classList.add('hide');
 }
+
+function isBookmarkInfoHidden() {
+  return document.getElementById('bookmarkInfo').classList.contains('hide');
+}

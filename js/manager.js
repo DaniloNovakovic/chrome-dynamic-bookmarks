@@ -66,13 +66,18 @@ addFileForm.onsubmit = (event) => {
 };
 
 deleteBtn.addEventListener('click', () => {
-  const id = document.getElementById('bookmark-id-info').textContent;
+  const id = isFolderInfoHidden()
+    ? document.getElementById('bookmark-id-info').textContent
+    : document.getElementById('folder-children-info').getAttribute('folderId');
   if (id) {
     chrome.bookmarks.remove(id, () => {
       if (chrome.runtime.lastError) {
         console.warn(chrome.runtime.lastError.message);
       } else {
+        clearFolderInfo();
         clearBookmarkInfo();
+        hideFolderInfo();
+        hideBookmarkInfo();
         disableFooterButtons();
       }
     });
@@ -80,10 +85,12 @@ deleteBtn.addEventListener('click', () => {
 });
 
 editBtn.addEventListener('click', () => {
-  fillForm(getInfoData());
-  hideInfoDisplay();
-  showForm();
-  disableFooterButtons();
+  if (isFolderInfoHidden()) {
+    fillInfoEditForm(getInfoData());
+    hideInfoDisplay();
+    showInfoEditForm();
+    disableFooterButtons();
+  }
 });
 
 function enableFooterButtons() {

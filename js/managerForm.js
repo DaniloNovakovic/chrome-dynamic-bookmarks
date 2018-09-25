@@ -16,7 +16,7 @@ infoEditForm.onsubmit = (event) => {
   };
   handleBookmarkSubmit(data);
   setBookmarkInfo(data);
-  cancelForm();
+  cancelInfoEditForm();
 };
 function handleBookmarkSubmit({ id, url, title, regExp }) {
   if (!id || (!url && !title)) return;
@@ -46,21 +46,21 @@ function handleBookmarkSubmit({ id, url, title, regExp }) {
   );
 }
 
-infoEditCancelBtn.addEventListener('click', cancelForm);
+infoEditCancelBtn.addEventListener('click', cancelInfoEditForm);
 
-function cancelForm() {
-  hideForm();
+function cancelInfoEditForm() {
+  hideInfoEditForm();
   showInfoDisplay();
   enableFooterButtons();
 }
 
-function showForm() {
+function showInfoEditForm() {
   infoEditForm.classList.remove('hide');
 }
-function hideForm() {
+function hideInfoEditForm() {
   infoEditForm.classList.add('hide');
 }
-function fillForm(data) {
+function fillInfoEditForm(data) {
   titleInput.setAttribute('value', data.title);
   urlInput.setAttribute('value', data.url);
   regExpInput.setAttribute('value', data.regExp);

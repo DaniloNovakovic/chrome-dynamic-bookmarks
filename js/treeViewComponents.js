@@ -113,7 +113,7 @@ function handleFileClick(event) {
 function displayFileInfo(data) {
   setBookmarkInfo(data);
   hideFolderInfo();
-  hideForm();
+  hideInfoEditForm();
   showInfoDisplay();
   showBookmarkInfo();
   enableFooterButtons();
@@ -167,5 +167,9 @@ function displayFolderInfo(folderId) {
   hideFolderInfoEdit();
   showFolderInfoDisplay();
   showFolderInfo();
-  enableFooterButtons();
+  if (folderId > 2) {
+    enableFooterButtons();
+  } else {
+    disableFooterButtons();
+  }
 }

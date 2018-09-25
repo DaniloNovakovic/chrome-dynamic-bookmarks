@@ -17,8 +17,15 @@ function hideFolderInfoEdit() {
 function showFolderInfoEdit() {
   document.getElementById('folder-info-edit').classList.remove('hide');
 }
+function isFolderInfoHidden() {
+  return document.getElementById('folderInfo').classList.contains('hide');
+}
 
 /* Children functionality */
+function clearFolderInfo() {
+  document.getElementById('folder-children-info').innerHTML = '';
+}
+
 function renderChildren() {
   const childrenList = document.getElementById('folder-children-info');
   const folderId = childrenList.getAttribute('folderId');
@@ -34,7 +41,7 @@ function renderChildren() {
           findLeafNodes(child, (node) => {
             const color = dynBook[node.id]
               ? trackedFileIconColor
-              : defaultFileIconColor;
+              : `${defaultFileIconColor} text-darken-1`;
             childrenList.appendChild(
               a(
                 {
