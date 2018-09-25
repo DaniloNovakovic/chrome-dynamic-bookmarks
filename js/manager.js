@@ -10,8 +10,14 @@ const addFileForm = document.getElementById('add-file-form');
 const addFolderForm = document.getElementById('add-folder-form');
 
 addFolderBtn.addEventListener('click', () => {
-  const parentId = document.getElementById('parent-id-info').textContent;
+  let parentId = 2;
   const parentIdInput = document.getElementById('parent-id-folder-input');
+
+  if (isFolderInfoHidden()) {
+    parentId = document.getElementById('parent-id-info').textContent || 2;
+  } else {
+    parentId = getFolderInfoData().id || 2;
+  }
   parentIdInput.setAttribute('value', parentId);
 });
 
@@ -32,8 +38,14 @@ addFolderForm.onsubmit = (event) => {
 };
 
 addFileBtn.addEventListener('click', () => {
-  const parentId = document.getElementById('parent-id-info').textContent;
+  let parentId = 2;
   const parentIdInput = document.getElementById('parent-id-file-input');
+
+  if (isFolderInfoHidden()) {
+    parentId = document.getElementById('parent-id-info').textContent || 2;
+  } else {
+    parentId = getFolderInfoData().id || 2;
+  }
   parentIdInput.setAttribute('value', parentId);
 });
 
