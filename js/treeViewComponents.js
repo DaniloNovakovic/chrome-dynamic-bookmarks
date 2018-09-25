@@ -90,7 +90,7 @@ function handleFileClick(event) {
           } else {
             parentTitle = results[0].title;
           }
-          setBookmarkInfo({
+          displayFileInfo({
             title: bookmark.title,
             url: bookmark.url,
             id: bookmark.id,
@@ -103,15 +103,20 @@ function handleFileClick(event) {
               history: dynBook[bookmark.id].history
             })
           });
-          hideFolderInfo();
-          showBookmarkInfo();
-          hideForm();
-          showInfoDisplay();
-          enableFooterButtons();
+          globalSelectHandler.setSelected(file);
         });
       });
     }
   });
+}
+
+function displayFileInfo(data) {
+  setBookmarkInfo(data);
+  hideFolderInfo();
+  showBookmarkInfo();
+  hideForm();
+  showInfoDisplay();
+  enableFooterButtons();
 }
 
 function handleFolderHeaderClick(event) {
