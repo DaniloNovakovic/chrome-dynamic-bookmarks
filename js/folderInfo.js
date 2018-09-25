@@ -14,7 +14,15 @@ function showFolderInfoDisplay() {
 function isFolderInfoHidden() {
   return document.getElementById('folderInfo').classList.contains('hide');
 }
-
+function getFolderInfoData() {
+  const id = document
+    .getElementById('folder-children-info')
+    .getAttribute('folderId');
+  const folder = document.getElementById(id);
+  const title =
+    (folder && folder.querySelector('.folder-header > span').textContent) || '';
+  return { id, title };
+}
 /* Children functionality */
 function clearFolderInfo() {
   document.getElementById('folder-children-info').innerHTML = '';

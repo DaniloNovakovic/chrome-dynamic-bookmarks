@@ -75,6 +75,25 @@ const folderIdInput = document.getElementById('folder-id-info-input');
 const folderTitleInput = document.getElementById('folder-title-info-input');
 const folderEditCancelBtn = document.getElementById('folder-edit-cancel');
 
+folderEditForm.onsubmit = (event) => {
+  event.preventDefault();
+  const data = {
+    id: event.target.id.value,
+    title: event.target.title.value
+  };
+  handleFolderEditFormSubmit(data);
+  cancelFolderEditForm();
+};
+
+function handleFolderEditFormSubmit({ id, title }) {
+  if (!id || !title) return;
+  chrome.bookmarks.update(id, { title }, () => {
+    if (chrome.runtime.lastError) {
+      console.warn(chrome.runtime.lastError.message);
+    }
+  });
+}
+
 folderEditCancelBtn.addEventListener('click', cancelFolderEditForm);
 
 function cancelFolderEditForm() {

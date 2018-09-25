@@ -89,8 +89,12 @@ editBtn.addEventListener('click', () => {
     fillInfoEditForm(getInfoData());
     hideInfoDisplay();
     showInfoEditForm();
-    disableFooterButtons();
+  } else {
+    fillFolderEditForm(getFolderInfoData());
+    hideFolderInfoDisplay();
+    showFolderInfoEdit();
   }
+  disableFooterButtons();
 });
 
 function enableFooterButtons() {
