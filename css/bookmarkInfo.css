@@ -8,12 +8,14 @@
 #history-list li {
   padding-left: 3em;
 }
-#bookmarkInfo {
+#bookmarkInfo,
+#folderInfo {
   padding-top: 1em;
   padding-bottom: 3em;
   background-color: white;
 }
-#info-edit > button {
+#info-edit > button,
+#folder-info-edit > button {
   margin: 0.3em;
 }
 #info-edit {

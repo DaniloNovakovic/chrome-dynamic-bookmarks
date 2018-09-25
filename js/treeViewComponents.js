@@ -103,12 +103,10 @@ function handleFileClick(event) {
               history: dynBook[bookmark.id].history
             })
           });
-
-          const infoDisplay = document.getElementById('info-display');
-          if (infoDisplay.classList.contains('hide')) {
-            hideForm();
-            showInfoDisplay();
-          }
+          hideFolderInfo();
+          showBookmarkInfo();
+          hideForm();
+          showInfoDisplay();
           enableFooterButtons();
         });
       });
@@ -144,4 +142,6 @@ function handleFolderHeaderClick(event) {
   }
 
   folderHeader.setAttribute('opened', newOpened);
+  const folder = folderHeader.parentElement;
+  const folderId = folder.getAttribute('id');
 }

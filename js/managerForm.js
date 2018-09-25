@@ -1,12 +1,12 @@
-const form = document.getElementById('info-edit');
+const infoEditForm = document.getElementById('info-edit');
 const titleInput = document.getElementById('title-info-input');
 const urlInput = document.getElementById('url-info-input');
 const regExpInput = document.getElementById('regExp-info-input');
 const bookmarkIdInput = document.getElementById('bookmark-id-info-input');
-const formSubmitBtn = document.getElementById('info-edit-submit');
-const formCancelBtn = document.getElementById('info-edit-cancel');
+const infoEditSubmitBtn = document.getElementById('info-edit-submit');
+const infoEditCancelBtn = document.getElementById('info-edit-cancel');
 
-form.onsubmit = (event) => {
+infoEditForm.onsubmit = (event) => {
   event.preventDefault();
   const data = {
     id: event.target.id.value,
@@ -14,11 +14,11 @@ form.onsubmit = (event) => {
     title: event.target.title.value,
     regExp: event.target.regExp.value
   };
-  handleSubmit(data);
+  handleBookmarkSubmit(data);
   setBookmarkInfo(data);
   cancelForm();
 };
-function handleSubmit({ id, url, title, regExp }) {
+function handleBookmarkSubmit({ id, url, title, regExp }) {
   if (!id || (!url && !title)) return;
   chrome.bookmarks.update(
     id,
@@ -46,7 +46,7 @@ function handleSubmit({ id, url, title, regExp }) {
   );
 }
 
-formCancelBtn.addEventListener('click', cancelForm);
+infoEditCancelBtn.addEventListener('click', cancelForm);
 
 function cancelForm() {
   hideForm();
@@ -55,10 +55,10 @@ function cancelForm() {
 }
 
 function showForm() {
-  form.classList.remove('hide');
+  infoEditForm.classList.remove('hide');
 }
 function hideForm() {
-  form.classList.add('hide');
+  infoEditForm.classList.add('hide');
 }
 function fillForm(data) {
   titleInput.setAttribute('value', data.title);
