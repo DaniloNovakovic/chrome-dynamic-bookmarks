@@ -167,6 +167,9 @@ function displayFolderInfo(folderId) {
   hideFolderInfoEdit();
   showFolderInfoDisplay();
   showFolderInfo();
+
+  // 0 (root - invisible), 1 (bookmarks bar), and 2 (other bookmarks) are
+  // reserved / unchangable chrome folders
   if (folderId > 2) {
     enableFooterButtons();
   } else {

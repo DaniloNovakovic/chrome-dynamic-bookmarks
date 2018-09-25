@@ -1,3 +1,4 @@
+/* info-edit form */
 const infoEditForm = document.getElementById('info-edit');
 const titleInput = document.getElementById('title-info-input');
 const urlInput = document.getElementById('url-info-input');
@@ -65,5 +66,32 @@ function fillInfoEditForm(data) {
   urlInput.setAttribute('value', data.url);
   regExpInput.setAttribute('value', data.regExp);
   bookmarkIdInput.setAttribute('value', data.id);
+  M.updateTextFields();
+}
+
+/* folder-info-edit form */
+const folderEditForm = document.getElementById('folder-info-edit');
+const folderIdInput = document.getElementById('folder-id-info-input');
+const folderTitleInput = document.getElementById('folder-title-info-input');
+const folderEditCancelBtn = document.getElementById('folder-edit-cancel');
+
+folderEditCancelBtn.addEventListener('click', cancelFolderEditForm);
+
+function cancelFolderEditForm() {
+  hideFolderInfoEdit();
+  showFolderInfoDisplay();
+  if (folderIdInput.getAttribute('value') > 2) {
+    enableFooterButtons();
+  }
+}
+function hideFolderInfoEdit() {
+  folderEditForm.classList.add('hide');
+}
+function showFolderInfoEdit() {
+  folderEditForm.classList.remove('hide');
+}
+function fillFolderEditForm({ id, title }) {
+  folderIdInput.setAttribute('value', id);
+  folderTitleInput.setAttribute('value', title);
   M.updateTextFields();
 }

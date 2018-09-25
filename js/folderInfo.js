@@ -11,12 +11,6 @@ function hideFolderInfoDisplay() {
 function showFolderInfoDisplay() {
   document.getElementById('folder-info-display').classList.remove('hide');
 }
-function hideFolderInfoEdit() {
-  document.getElementById('folder-info-edit').classList.add('hide');
-}
-function showFolderInfoEdit() {
-  document.getElementById('folder-info-edit').classList.remove('hide');
-}
 function isFolderInfoHidden() {
   return document.getElementById('folderInfo').classList.contains('hide');
 }
