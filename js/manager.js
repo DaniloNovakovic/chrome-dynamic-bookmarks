@@ -10,8 +10,14 @@ const addFileForm = document.getElementById('add-file-form');
 const addFolderForm = document.getElementById('add-folder-form');
 
 addFolderBtn.addEventListener('click', () => {
-  const parentId = document.getElementById('parent-id-info').textContent;
+  let parentId = 2;
   const parentIdInput = document.getElementById('parent-id-folder-input');
+
+  if (isFolderInfoHidden()) {
+    parentId = document.getElementById('parent-id-info').textContent || 2;
+  } else {
+    parentId = getFolderInfoData().id || 2;
+  }
   parentIdInput.setAttribute('value', parentId);
 });
 
@@ -32,8 +38,14 @@ addFolderForm.onsubmit = (event) => {
 };
 
 addFileBtn.addEventListener('click', () => {
-  const parentId = document.getElementById('parent-id-info').textContent;
+  let parentId = 2;
   const parentIdInput = document.getElementById('parent-id-file-input');
+
+  if (isFolderInfoHidden()) {
+    parentId = document.getElementById('parent-id-info').textContent || 2;
+  } else {
+    parentId = getFolderInfoData().id || 2;
+  }
   parentIdInput.setAttribute('value', parentId);
 });
 
@@ -66,13 +78,18 @@ addFileForm.onsubmit = (event) => {
 };
 
 deleteBtn.addEventListener('click', () => {
-  const id = document.getElementById('bookmark-id-info').textContent;
+  const id = isFolderInfoHidden()
+    ? document.getElementById('bookmark-id-info').textContent
+    : document.getElementById('folder-children-info').getAttribute('folderId');
   if (id) {
     chrome.bookmarks.remove(id, () => {
       if (chrome.runtime.lastError) {
         console.warn(chrome.runtime.lastError.message);
       } else {
+        clearFolderInfo();
         clearBookmarkInfo();
+        hideFolderInfo();
+        hideBookmarkInfo();
         disableFooterButtons();
       }
     });
@@ -80,9 +97,15 @@ deleteBtn.addEventListener('click', () => {
 });
 
 editBtn.addEventListener('click', () => {
-  fillForm(getInfoData());
-  hideInfoDisplay();
-  showForm();
+  if (isFolderInfoHidden()) {
+    fillInfoEditForm(getInfoData());
+    hideInfoDisplay();
+    showInfoEditForm();
+  } else {
+    fillFolderEditForm(getFolderInfoData());
+    hideFolderInfoDisplay();
+    showFolderInfoEdit();
+  }
   disableFooterButtons();
 });
 

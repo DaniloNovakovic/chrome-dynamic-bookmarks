@@ -41,7 +41,7 @@ const Folder = ({ opened, name, id, folderIconColor }, ...children) => {
         className: 'folder-header hoverable',
         opened: opened
       },
-      i({ className: 'material-icons' }, arrowIcon),
+      i({ className: 'material-icons arrow-icon' }, arrowIcon),
       i(
         { className: `material-icons ${iconColor} text-darken-2 folder-icon` },
         folderIcon
@@ -90,7 +90,7 @@ function handleFileClick(event) {
           } else {
             parentTitle = results[0].title;
           }
-          setBookmarkInfo({
+          displayFileInfo({
             title: bookmark.title,
             url: bookmark.url,
             id: bookmark.id,
@@ -103,23 +103,27 @@ function handleFileClick(event) {
               history: dynBook[bookmark.id].history
             })
           });
-
-          const infoDisplay = document.getElementById('info-display');
-          if (infoDisplay.classList.contains('hide')) {
-            hideForm();
-            showInfoDisplay();
-          }
-          enableFooterButtons();
+          globalSelectHandler.setSelected(file);
         });
       });
     }
   });
 }
 
+function displayFileInfo(data) {
+  setBookmarkInfo(data);
+  hideFolderInfo();
+  hideInfoEditForm();
+  showInfoDisplay();
+  showBookmarkInfo();
+  enableFooterButtons();
+}
+
 function handleFolderHeaderClick(event) {
   const folderHeader = event.target.classList.contains('folder-header')
     ? event.target
     : event.target.parentElement;
+  const folder = folderHeader.parentElement;
   const opened = folderHeader.getAttribute('opened') == 'true';
   const newOpened = !opened;
 
@@ -144,4 +148,31 @@ function handleFolderHeaderClick(event) {
   }
 
   folderHeader.setAttribute('opened', newOpened);
+
+  if (!event.target.classList.contains('arrow-icon')) {
+    displayFolderInfo(folder.getAttribute('id'));
+    globalSelectHandler.setSelected(folderHeader);
+  }
+}
+
+function displayFolderInfo(folderId) {
+  if (!folderId) {
+    return console.warn(`folderId of ${folderId} is invalid`);
+  }
+  document
+    .getElementById('folder-children-info')
+    .setAttribute('folderId', folderId);
+  renderChildren();
+  hideBookmarkInfo();
+  hideFolderInfoEdit();
+  showFolderInfoDisplay();
+  showFolderInfo();
+
+  // 0 (root - invisible), 1 (bookmarks bar), and 2 (other bookmarks) are
+  // reserved / unchangable chrome folders
+  if (folderId > 2) {
+    enableFooterButtons();
+  } else {
+    disableFooterButtons();
+  }
 }

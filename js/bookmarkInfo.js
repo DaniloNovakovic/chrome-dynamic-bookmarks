@@ -86,3 +86,14 @@ function showInfoDisplay() {
 function hideInfoDisplay() {
   document.getElementById('info-display').classList.add('hide');
 }
+function showBookmarkInfo() {
+  document.getElementById('bookmarkInfo').classList.remove('hide');
+}
+
+function hideBookmarkInfo() {
+  document.getElementById('bookmarkInfo').classList.add('hide');
+}
+
+function isBookmarkInfoHidden() {
+  return document.getElementById('bookmarkInfo').classList.contains('hide');
+}
