@@ -1,3 +1,7 @@
+/*
+  large screen > 992px
+  medium screen > 600px
+*/
 #bookmarkInfo p,
 #bookmarkInfo span {
   font-size: 1rem;
@@ -8,8 +12,8 @@
 #history-list li {
   padding-left: 3em;
 }
-#bookmarkInfo,
-#folderInfo {
+#main-content > section {
+  margin-top: 3em;
   padding-top: 1em;
   padding-bottom: 3em;
   background-color: white;

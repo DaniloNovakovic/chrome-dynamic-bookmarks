@@ -1,22 +1,21 @@
 body {
   background-color: #f8f9fa;
 }
-
-/* Nav */
-/*This is taken from: https://ampersandacademy.com/tutorials/materialize-css/navbar-with-autocomplete-search-box*/
-#topbarsearch .input-field .prefix {
-  width: 0rem !important;
+/* NAV */
+.logo {
+  height: 20%;
+  position: relative;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.14);
 }
-#topbarsearch nav ul li:hover,
-nav ul li.active {
-  background-color: none !important;
+.brand-logo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
-.input-field .prefix ~ input,
-.input-field .prefix ~ textarea,
-.input-field .prefix ~ label,
-.input-field .prefix ~ .validate ~ label,
-.input-field .prefix ~ .autocomplete-content {
-  margin-left: 1rem !important;
+.search-wrapper {
+  padding-left: 1em;
+  padding-right: 0.5em;
 }
 
 /* Footer */
