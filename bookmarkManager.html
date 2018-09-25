@@ -17,89 +17,95 @@
 <body>
 
   <!-- NAV -->
-  <div class="navbar-fixed">
-    <nav class="white z-depth-1">
-      <div class="row">
-        <div class="col s1">
-          <img src="./images/icons8_Books_48.png" class="brand-logo" />
-        </div>
-        <div class="hide-on-med-and-down col s5 offset-s5 offset-s1">
-          <div class="row">
-            <div class="input-field col s12 red-text">
-              <i class="material-icons prefix red-text">search</i>
-              <input type="text" id="autocomplete-input" class="autocomplete red-text" placeholder="Search...">
+  <nav class="hide-on-large-only">
+    <div class="nav-wrapper">
+      <img src="./images/icons8_Books_48.png" class="right" alt="Logo">
+      <a href="#" data-target="slide-out" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+    </div>
+  </nav>
+
+
+
+  <ul id="slide-out" class="sidenav sidenav-fixed">
+    <li class="logo">
+      <img src="./images/icons8_Books_64.png" class="brand-logo" />
+    </li>
+    <li class="search">
+      <div class="input-field search-wrapper">
+        <i class="material-icons prefix purple-text">search</i>
+        <input type="text" id="search-input" class="autocomplete purple-text" placeholder="Search">
+      </div>
+    </li>
+    <li id="treeView">
+      <!-- This will be filled by javascript -->
+    </li>
+  </ul>
+
+
+  <!-- Main section-->
+  <div class="row ">
+
+    <main id="main-content" class="col s12 m10 offset-m1 offset-m1 l7 offset-l4 ">
+      <section class="hide z-depth-2" id="bookmarkInfo">
+        <div id="info-display" class="container left-align">
+          <h6>title: <code id="title-info"></code></h6>
+          <h6>url: <code id="url-info"></code></h6>
+          <h6 class="hide">id: <code id="bookmark-id-info"></code></h6>
+          <h6>parent: <code id="parent-title-info"></code></h6>
+          <h6 class="hide">parentId: <code id="parent-id-info"></code></h6>
+          <div id="tracked" class="hide">
+            <h6>regExp: <code id="regExp-info"></code></h6>
+            <div id="history-section">
+              <h6>History:</h6>
+              <ul id="history-list">
+              </ul>
             </div>
           </div>
         </div>
-      </div>
-    </nav>
-  </div>
 
-  <!-- Main section-->
-  <main class="row ">
-    <section class="col s12 m6 l4 " id="treeView">
-      <!-- This will be filled by javascript -->
-    </section>
-
-    <section class="col s12 m6 l7 offset-l1 z-depth-2 hide" id="bookmarkInfo">
-      <div id="info-display" class="container left-align">
-        <h6>title: <code id="title-info"></code></h6>
-        <h6>url: <code id="url-info"></code></h6>
-        <h6 class="hide">id: <code id="bookmark-id-info"></code></h6>
-        <h6>parent: <code id="parent-title-info"></code></h6>
-        <h6 class="hide">parentId: <code id="parent-id-info"></code></h6>
-        <div id="tracked" class="hide">
-          <h6>regExp: <code id="regExp-info"></code></h6>
-          <div id="history-section">
-            <h6>History:</h6>
-            <ul id="history-list">
-            </ul>
+        <form id="info-edit" class="container hide">
+          <div class="input-field hide">
+            <input id="bookmark-id-info-input" type="text" name="id">
           </div>
-        </div>
-      </div>
+          <div class="input-field">
+            <input type="text" class="validate" name="title" id="title-info-input" required>
+            <label for="title-info-input">title:</label>
+          </div>
+          <div class="input-field">
+            <input type="url" class="validate" name="url" id="url-info-input" required>
+            <label for="url-info-input">url:</label>
+            <span class="helper-text" data-error="url must be in form http[s]://..."></span>
+          </div>
 
-      <form id="info-edit" class="container hide">
-        <div class="input-field hide">
-          <input id="bookmark-id-info-input" type="text" name="id">
-        </div>
-        <div class="input-field">
-          <input type="text" class="validate" name="title" id="title-info-input" required>
-          <label for="title-info-input">title:</label>
-        </div>
-        <div class="input-field">
-          <input type="url" class="validate" name="url" id="url-info-input" required>
-          <label for="url-info-input">url:</label>
-          <span class="helper-text" data-error="url must be in form http[s]://..."></span>
-        </div>
+          <div class="input-field">
+            <input type="text" name="regExp" id="regExp-info-input">
+            <label for="regExp-info-input">(optional) regExp:</label>
+          </div>
+          <button id="info-edit-submit" class="btn green" type="submit">Submit<i class="material-icons right">send</i></button>
+          <button id="info-edit-cancel" class="btn red" type="reset">Cancel <i class="material-icons right">cancel</i></button>
+        </form>
+      </section>
 
-        <div class="input-field">
-          <input type="text" name="regExp" id="regExp-info-input">
-          <label for="regExp-info-input">(optional) regExp:</label>
+      <section class="hide z-depth-2" id="folderInfo">
+        <div id="folder-info-display" class="container left-align">
+          <ul id="folder-children-info" folderId="2">
+            <!-- Will be filled with javascript -->
+          </ul>
         </div>
-        <button id="info-edit-submit" class="btn green" type="submit">Submit<i class="material-icons right">send</i></button>
-        <button id="info-edit-cancel" class="btn red" type="reset">Cancel <i class="material-icons right">cancel</i></button>
-      </form>
-    </section>
-
-    <section class="col s12 m6 l7 offset-l1 z-depth-2 hide" id="folderInfo">
-      <div id="folder-info-display" class="container left-align">
-        <ul id="folder-children-info" folderId="2">
-          <!-- Will be filled with javascript -->
-        </ul>
-      </div>
-      <form id="folder-info-edit" class="container hide">
-        <div class="input-field hide">
-          <input id="folder-id-info-input" type="text" name="id">
-        </div>
-        <div class="input-field">
-          <input type="text" class="validate" name="title" id="folder-title-info-input" required>
-          <label for="folder-title-info-input">title:</label>
-        </div>
-        <button id="folder-edit-submit" class="btn green" type="submit">Submit<i class="material-icons right">send</i></button>
-        <button id="folder-edit-cancel" class="btn red" type="reset">Cancel <i class="material-icons right">cancel</i></button>
-      </form>
-    </section>
-  </main>
+        <form id="folder-info-edit" class="container hide">
+          <div class="input-field hide">
+            <input id="folder-id-info-input" type="text" name="id">
+          </div>
+          <div class="input-field">
+            <input type="text" class="validate" name="title" id="folder-title-info-input" required>
+            <label for="folder-title-info-input">title:</label>
+          </div>
+          <button id="folder-edit-submit" class="btn green" type="submit">Submit<i class="material-icons right">send</i></button>
+          <button id="folder-edit-cancel" class="btn red" type="reset">Cancel <i class="material-icons right">cancel</i></button>
+        </form>
+      </section>
+    </main>
+  </div>
 
   <!-- Modal Structure -->
   <div id="addFileModal" class="modal">

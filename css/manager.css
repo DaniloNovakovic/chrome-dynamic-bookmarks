@@ -1,6 +1,22 @@
 body {
   background-color: #f8f9fa;
 }
+/* NAV */
+.logo {
+  height: 20%;
+  position: relative;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.14);
+}
+.brand-logo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.search-wrapper {
+  padding-left: 1em;
+  padding-right: 0.5em;
+}
 
 /* Footer */
 .footer-icons {

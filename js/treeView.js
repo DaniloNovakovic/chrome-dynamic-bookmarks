@@ -1,4 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
+  var sidenavs = document.querySelectorAll('.sidenav');
+  M.Sidenav.init(sidenavs);
+
   const treeView = document.querySelector('#treeView');
 
   chrome.bookmarks.getTree((results) => {
