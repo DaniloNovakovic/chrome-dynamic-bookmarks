@@ -156,6 +156,13 @@ function handleFolderHeaderClick(event) {
 }
 
 function displayFolderInfo(folderId) {
+  if (!folderId) {
+    return console.warn(`folderId of ${folderId} is invalid`);
+  }
+  document
+    .getElementById('folder-children-info')
+    .setAttribute('folderId', folderId);
+  renderChildren();
   hideBookmarkInfo();
   hideFolderInfoEdit();
   showFolderInfoDisplay();

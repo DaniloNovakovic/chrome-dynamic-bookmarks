@@ -79,3 +79,4 @@ const section = (props, ...children) =>
 const button = (props, ...children) =>
   createElement('button', props, ...children);
 const code = (props, ...children) => createElement('code', props, ...children);
+const a = (props, ...children) => createElement('a', props, ...children);

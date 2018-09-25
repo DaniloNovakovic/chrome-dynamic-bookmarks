@@ -21,3 +21,8 @@
 #info-edit {
   background-color: white;
 }
+
+#folder-children-info > * {
+  padding: 0.5em;
+  font-size: 1.2rem;
+}
