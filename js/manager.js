@@ -16,7 +16,10 @@ addFolderBtn.addEventListener('click', () => {
   if (isFolderInfoHidden()) {
     parentId = document.getElementById('parent-id-info').textContent || 2;
   } else {
-    parentId = getFolderInfoData().id || 2;
+    parentId = getFolderInfoData().id;
+    if (!parentId || parentId < 2) {
+      parentId = 2;
+    }
   }
   parentIdInput.setAttribute('value', parentId);
 });
@@ -44,7 +47,10 @@ addFileBtn.addEventListener('click', () => {
   if (isFolderInfoHidden()) {
     parentId = document.getElementById('parent-id-info').textContent || 2;
   } else {
-    parentId = getFolderInfoData().id || 2;
+    parentId = getFolderInfoData().id;
+    if (!parentId || parentId < 2) {
+      parentId = 2;
+    }
   }
   parentIdInput.setAttribute('value', parentId);
 });
@@ -86,7 +92,7 @@ deleteBtn.addEventListener('click', () => {
       if (chrome.runtime.lastError) {
         console.warn(chrome.runtime.lastError.message);
       } else {
-        clearFolderInfo();
+        hideFolderInfoChildren();
         clearBookmarkInfo();
         hideFolderInfo();
         hideBookmarkInfo();

@@ -97,3 +97,12 @@ function hideBookmarkInfo() {
 function isBookmarkInfoHidden() {
   return document.getElementById('bookmarkInfo').classList.contains('hide');
 }
+
+function displayFileInfo(data) {
+  setBookmarkInfo(data);
+  hideFolderInfo();
+  hideInfoEditForm();
+  showInfoDisplay();
+  showBookmarkInfo();
+  enableFooterButtons();
+}
