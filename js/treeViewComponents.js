@@ -90,6 +90,7 @@ function handleFileClick(event) {
           } else {
             parentTitle = results[0].title;
           }
+          clearSearchBar();
           displayFileInfo({
             title: bookmark.title,
             url: bookmark.url,
@@ -108,15 +109,6 @@ function handleFileClick(event) {
       });
     }
   });
-}
-
-function displayFileInfo(data) {
-  setBookmarkInfo(data);
-  hideFolderInfo();
-  hideInfoEditForm();
-  showInfoDisplay();
-  showBookmarkInfo();
-  enableFooterButtons();
 }
 
 function handleFolderHeaderClick(event) {
@@ -149,30 +141,9 @@ function handleFolderHeaderClick(event) {
 
   folderHeader.setAttribute('opened', newOpened);
 
+  clearSearchBar();
   if (!event.target.classList.contains('arrow-icon')) {
     displayFolderInfo(folder.getAttribute('id'));
     globalSelectHandler.setSelected(folderHeader);
-  }
-}
-
-function displayFolderInfo(folderId) {
-  if (!folderId) {
-    return console.warn(`folderId of ${folderId} is invalid`);
-  }
-  document
-    .getElementById('folder-children-info')
-    .setAttribute('folderId', folderId);
-  renderChildren();
-  hideBookmarkInfo();
-  hideFolderInfoEdit();
-  showFolderInfoDisplay();
-  showFolderInfo();
-
-  // 0 (root - invisible), 1 (bookmarks bar), and 2 (other bookmarks) are
-  // reserved / unchangable chrome folders
-  if (folderId > 2) {
-    enableFooterButtons();
-  } else {
-    disableFooterButtons();
   }
 }
