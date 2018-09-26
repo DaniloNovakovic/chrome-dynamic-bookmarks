@@ -67,14 +67,23 @@ function initFolderInfo() {
             const color = dynBook[node.id]
               ? trackedFileIconColor
               : `${defaultFileIconColor} text-darken-1`;
+            const hostName = node.url
+              .match(/^(http[s]?:\/\/.*?\/)/i)[0]
+              .replace(/http[s]:\/\//, '');
+            const faviconLink =
+              'https://www.google.com/s2/favicons?domain=' + hostName;
             childrenList.appendChild(
-              a(
-                {
-                  id: `child-info-${node.id}`,
-                  href: node.url,
-                  className: `hoverable truncate ${color}`
-                },
-                `${node.title}(${node.url})`
+              div(
+                { className: 'child-info-wrapper hoverable' },
+                img({ src: faviconLink, className: 'favicon' }),
+                a(
+                  {
+                    id: `child-info-${node.id}`,
+                    href: node.url,
+                    className: `truncate ${color}`
+                  },
+                  `${node.title}(${node.url})`
+                )
               )
             );
           });
@@ -116,7 +125,7 @@ function renderChildren(renderAll = false) {
           findLeafNodes(child, (node) => {
             const childEl = document.getElementById(`child-info-${node.id}`);
             if (childEl && searchPattern.test(childEl.textContent)) {
-              childEl.classList.remove('hide');
+              childEl.parentElement.classList.remove('hide');
             }
           });
         }

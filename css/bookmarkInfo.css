@@ -26,7 +26,23 @@
   background-color: white;
 }
 
-#folder-children-info > * {
+.child-info-wrapper {
+  position: relative;
+  font-size: 1rem;
   padding: 0.5em;
-  font-size: 1.2rem;
+  padding-left: 2em;
+}
+.child-info-wrapper img {
+  position: absolute;
+  left: 0.5em;
+  top: 50%;
+  transform: translateY(-50%);
+}
+#folderInfo,
+#bookmarkInfo {
+  border-radius: 10px;
+}
+#folder-info-display {
+  padding-left: 1.5em;
+  padding-right: 1.5em;
 }

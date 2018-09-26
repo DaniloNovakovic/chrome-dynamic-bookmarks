@@ -80,3 +80,4 @@ const button = (props, ...children) =>
   createElement('button', props, ...children);
 const code = (props, ...children) => createElement('code', props, ...children);
 const a = (props, ...children) => createElement('a', props, ...children);
+const img = (props, ...children) => createElement('img', props, ...children);
