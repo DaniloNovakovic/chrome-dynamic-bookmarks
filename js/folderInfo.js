@@ -66,7 +66,7 @@ function initFolderInfo() {
           findLeafNodes(child, (node) => {
             const color = dynBook[node.id]
               ? trackedFileIconColor
-              : `${defaultFileIconColor} text-darken-1`;
+              : `${defaultFileIconColor}`;
             const hostName = node.url
               .match(/^(http[s]?:\/\/.*?\/)/i)[0]
               .replace(/http[s]:\/\//, '');
@@ -74,15 +74,20 @@ function initFolderInfo() {
               'https://www.google.com/s2/favicons?domain=' + hostName;
             childrenList.appendChild(
               div(
-                { className: 'child-info-wrapper hoverable' },
+                { className: 'child-info-wrapper' },
                 img({ src: faviconLink, className: 'favicon' }),
                 a(
                   {
                     id: `child-info-${node.id}`,
                     href: node.url,
-                    className: `truncate ${color}`
+                    className: `truncate`,
+                    target: '_blank'
                   },
-                  `${node.title}(${node.url})`
+                  span({ className: `${color} text-darken-4` }, node.title),
+                  span(
+                    { className: `${color}  child-info-link` },
+                    ` (${node.url})`
+                  )
                 )
               )
             );
