@@ -51,9 +51,12 @@
   cursor: pointer;
   border-radius: 50%;
   padding: 2px;
-  transition: background-color 200ms;
+  transition: background-color 50ms;
 }
 .edit-child-info-icon:hover {
+  background-color: #f1f1f1;
+}
+.edit-child-info-icon:active {
   background-color: #e0e0e0;
 }
 #folderInfo,
