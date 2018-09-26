@@ -88,15 +88,24 @@ deleteBtn.addEventListener('click', () => {
     ? document.getElementById('bookmark-id-info').textContent
     : document.getElementById('folder-children-info').getAttribute('folderId');
   if (id) {
-    chrome.bookmarks.remove(id, () => {
+    chrome.bookmarks.get(id, (results) => {
       if (chrome.runtime.lastError) {
         console.warn(chrome.runtime.lastError.message);
       } else {
-        hideFolderInfoChildren();
-        clearBookmarkInfo();
-        hideFolderInfo();
-        hideBookmarkInfo();
-        disableFooterButtons();
+        const parentId = results[0].parentId;
+        chrome.bookmarks.remove(id, () => {
+          if (chrome.runtime.lastError) {
+            console.warn(chrome.runtime.lastError.message);
+          } else {
+            hideFolderInfoChildren();
+            clearBookmarkInfo();
+            hideBookmarkInfo();
+            disableFooterButtons();
+          }
+        });
+        clearSearchBar();
+        displayFolderInfo(parentId);
+        globalSelectHandler.setSelected(document.getElementById(parentId));
       }
     });
   }

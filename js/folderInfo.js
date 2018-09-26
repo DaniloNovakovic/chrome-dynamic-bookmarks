@@ -66,15 +66,38 @@ function initFolderInfo() {
           findLeafNodes(child, (node) => {
             const color = dynBook[node.id]
               ? trackedFileIconColor
-              : `${defaultFileIconColor} text-darken-1`;
+              : `${defaultFileIconColor}`;
+            const hostName = node.url
+              .match(/^(http[s]?:\/\/.*?\/)/i)[0]
+              .replace(/http[s]:\/\//, '');
+            const faviconLink =
+              'https://www.google.com/s2/favicons?domain=' + hostName;
             childrenList.appendChild(
-              a(
-                {
-                  id: `child-info-${node.id}`,
-                  href: node.url,
-                  className: `hoverable truncate ${color}`
-                },
-                `${node.title}(${node.url})`
+              div(
+                { className: 'child-info-wrapper' },
+                img({ src: faviconLink, className: 'favicon' }),
+                a(
+                  {
+                    id: `child-info-${node.id}`,
+                    href: node.url,
+                    className: `truncate`,
+                    target: '_blank'
+                  },
+                  span({ className: `${color} text-darken-4` }, node.title),
+                  span(
+                    { className: `${color}  child-info-link` },
+                    ` (${node.url})`
+                  )
+                ),
+                i(
+                  {
+                    className: 'material-icons edit-child-info-icon',
+                    onClick: () => {
+                      displayBookmark(node.id);
+                    }
+                  },
+                  'more_vert'
+                )
               )
             );
           });
@@ -83,6 +106,7 @@ function initFolderInfo() {
     }
   });
 }
+
 // adds 'hide' class to each child of 'folder-children-info'
 function hideFolderInfoChildren() {
   const childrenList = document.getElementById('folder-children-info');
@@ -116,7 +140,7 @@ function renderChildren(renderAll = false) {
           findLeafNodes(child, (node) => {
             const childEl = document.getElementById(`child-info-${node.id}`);
             if (childEl && searchPattern.test(childEl.textContent)) {
-              childEl.classList.remove('hide');
+              childEl.parentElement.classList.remove('hide');
             }
           });
         }

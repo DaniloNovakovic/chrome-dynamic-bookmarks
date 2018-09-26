@@ -17,13 +17,14 @@
 <body>
 
   <!-- NAV -->
-  <nav class="hide-on-large-only">
-    <div class="nav-wrapper">
-      <img src="./images/icons8_Books_48.png" class="right" alt="Logo">
-      <a href="#" data-target="slide-out" class="sidenav-trigger"><i class="material-icons">menu</i></a>
-    </div>
-  </nav>
-
+  <div class="navbar-fixed hide-on-large-only">
+    <nav>
+      <div class="nav-wrapper">
+        <img src="./images/icons8_Books_48.png" class="right" alt="Logo">
+        <a href="#" data-target="slide-out" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+      </div>
+    </nav>
+  </div>
 
 
   <ul id="slide-out" class="sidenav sidenav-fixed">
@@ -43,13 +44,13 @@
 
 
   <!-- Main section-->
-  <div class="row ">
+  <main class="row ">
 
-    <main id="main-content" class="col s12 m10 offset-m1 offset-m1 l7 offset-l4 ">
+    <div id="main-content" class="col s12 m10 l10 offset-m1 offset-m1 offset-l1 offset-l1 ">
       <section class="hide z-depth-2" id="bookmarkInfo">
         <div id="info-display" class="container left-align">
           <h6>title: <code id="title-info"></code></h6>
-          <h6>url: <code id="url-info"></code></h6>
+          <h6>url: <code class="truncate" id="url-info"></code></h6>
           <h6 class="hide">id: <code id="bookmark-id-info"></code></h6>
           <h6>parent: <code id="parent-title-info"></code></h6>
           <h6 class="hide">parentId: <code id="parent-id-info"></code></h6>
@@ -87,7 +88,7 @@
       </section>
 
       <section class="z-depth-2" id="folderInfo">
-        <div id="folder-info-display" class="container left-align">
+        <div id="folder-info-display" class="left-align">
           <ul id="folder-children-info" folderId="0">
             <!-- Will be filled with javascript -->
           </ul>
@@ -104,8 +105,8 @@
           <button id="folder-edit-cancel" class="btn red" type="reset">Cancel <i class="material-icons right">cancel</i></button>
         </form>
       </section>
-    </main>
-  </div>
+    </div>
+  </main>
 
   <!-- Modal Structure -->
   <div id="addFileModal" class="modal">

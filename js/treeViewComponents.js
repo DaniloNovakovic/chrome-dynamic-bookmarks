@@ -75,40 +75,45 @@ function handleFileClick(event) {
   const file = event.target.classList.contains('file')
     ? event.target
     : event.target.parentElement;
-
-  chrome.bookmarks.get(file.id, (results) => {
-    if (chrome.runtime.lastError) {
-      console.warn(chrome.runtime.lastError.message);
-    } else {
-      const bookmark = results[0];
-      chrome.storage.sync.get(['dynBookmarks'], ({ dynBookmarks }) => {
-        let dynBook = dynBookmarks || {};
-        chrome.bookmarks.get(bookmark.parentId, (results) => {
-          let parentTitle = null;
-          if (chrome.runtime.lastError) {
-            console.warn(chrome.runtime.lastError.message);
-          } else {
-            parentTitle = results[0].title;
-          }
-          clearSearchBar();
-          displayFileInfo({
-            title: bookmark.title,
-            url: bookmark.url,
-            id: bookmark.id,
-            parentId: bookmark.parentId,
-            ...(parentTitle && { parent: parentTitle }),
-            ...(dynBook[bookmark.id] && {
-              regExp: dynBook[bookmark.id].regExp
-            }),
-            ...(dynBook[bookmark.id] && {
-              history: dynBook[bookmark.id].history
-            })
-          });
-          globalSelectHandler.setSelected(file);
-        });
-      });
+  getBookmarkData(file.id, (data) => {
+    if (data) {
+      clearSearchBar();
+      displayFileInfo(data);
+      globalSelectHandler.setSelected(file);
     }
   });
+}
+
+function openAllParentFolders(parentId) {
+  if (!parentId || parentId === '0') {
+    return;
+  } else {
+    console.log('opening parentId ... ' + parentId);
+    openFolder(parentId);
+    chrome.bookmarks.get(parentId, (bookmarks) => {
+      if (chrome.runtime.lastError) {
+        console.warn(chrome.runtime.lastError.message);
+      } else {
+        openAllParentFolders(bookmarks[0].parentId);
+      }
+    });
+  }
+}
+function openFolder(folderId) {
+  const folder = document.getElementById(folderId);
+  const folderHeader = folder.querySelector('.folder-header');
+  if (folder && folderHeader) {
+    let icons = folderHeader.querySelectorAll('.material-icons');
+    icons.forEach((icon) => {
+      if (/arrow/i.test(icon.textContent)) {
+        icon.textContent = openedArrowIcon;
+      } else {
+        icon.textContent = openedFolderIcon;
+      }
+    });
+    folderHeader.nextElementSibling.classList.remove('hide');
+    folderHeader.setAttribute('opened', true);
+  }
 }
 
 function handleFolderHeaderClick(event) {

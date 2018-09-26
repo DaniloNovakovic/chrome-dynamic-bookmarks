@@ -66,6 +66,39 @@ function getInfoData() {
     regExp: document.getElementById('regExp-info').textContent
   };
 }
+function getBookmarkData(bookmarkId, done) {
+  chrome.bookmarks.get(bookmarkId, (results) => {
+    if (chrome.runtime.lastError) {
+      console.warn(chrome.runtime.lastError.message);
+    } else {
+      const bookmark = results[0];
+      chrome.storage.sync.get(['dynBookmarks'], ({ dynBookmarks }) => {
+        let dynBook = dynBookmarks || {};
+        chrome.bookmarks.get(bookmark.parentId, (results) => {
+          let parentTitle = null;
+          if (chrome.runtime.lastError) {
+            console.warn(chrome.runtime.lastError.message);
+          } else {
+            parentTitle = results[0].title;
+          }
+          done({
+            title: bookmark.title,
+            url: bookmark.url,
+            id: bookmark.id,
+            parentId: bookmark.parentId,
+            ...(parentTitle && { parent: parentTitle }),
+            ...(dynBook[bookmark.id] && {
+              regExp: dynBook[bookmark.id].regExp
+            }),
+            ...(dynBook[bookmark.id] && {
+              history: dynBook[bookmark.id].history
+            })
+          });
+        });
+      });
+    }
+  });
+}
 
 function clearBookmarkInfo() {
   setBookmarkInfo({
@@ -105,4 +138,12 @@ function displayFileInfo(data) {
   showInfoDisplay();
   showBookmarkInfo();
   enableFooterButtons();
+}
+
+function displayBookmark(bookmarkId) {
+  getBookmarkData(bookmarkId, (data) => {
+    clearSearchBar();
+    displayFileInfo(data);
+    globalSelectHandler.setSelected(document.getElementById(bookmarkId));
+  });
 }
