@@ -29,12 +29,20 @@
 .child-info-wrapper {
   position: relative;
   font-size: 1rem;
-  padding: 0.5em;
-  padding-left: 2em;
+  padding: 0.5em 2em;
 }
 .child-info-wrapper img {
   position: absolute;
   left: 0.5em;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.edit-child-info-icon {
+  color: #5f6368;
+  font-size: 1.3rem;
+  position: absolute;
+  right: 0em;
   top: 50%;
   transform: translateY(-50%);
 }
@@ -45,4 +53,14 @@
 #folder-info-display {
   padding-left: 1.5em;
   padding-right: 1.5em;
+}
+
+main {
+  padding-left: 300px;
+}
+
+@media only screen and (max-width: 992px) {
+  main {
+    padding-left: 0;
+  }
 }

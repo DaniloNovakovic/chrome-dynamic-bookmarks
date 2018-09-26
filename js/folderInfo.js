@@ -88,6 +88,12 @@ function initFolderInfo() {
                     { className: `${color}  child-info-link` },
                     ` (${node.url})`
                   )
+                ),
+                i(
+                  {
+                    className: 'material-icons edit-child-info-icon'
+                  },
+                  'more_vert'
                 )
               )
             );
