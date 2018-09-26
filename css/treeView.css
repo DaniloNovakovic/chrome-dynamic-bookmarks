@@ -17,6 +17,9 @@
   display: inline-flex;
   vertical-align: middle;
 }
+.sidenav li#treeView {
+  line-height: 2.5em;
+}
 
 /* File */
 .file {
