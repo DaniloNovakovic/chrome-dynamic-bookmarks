@@ -91,7 +91,10 @@ function initFolderInfo() {
                 ),
                 i(
                   {
-                    className: 'material-icons edit-child-info-icon'
+                    className: 'material-icons edit-child-info-icon',
+                    onClick: () => {
+                      displayBookmark(node.id);
+                    }
                   },
                   'more_vert'
                 )
@@ -103,6 +106,15 @@ function initFolderInfo() {
     }
   });
 }
+
+function displayBookmark(bookmarkId) {
+  getBookmarkData(bookmarkId, (data) => {
+    clearSearchBar();
+    displayFileInfo(data);
+    globalSelectHandler.setSelected(document.getElementById(node.id));
+  });
+}
+
 // adds 'hide' class to each child of 'folder-children-info'
 function hideFolderInfoChildren() {
   const childrenList = document.getElementById('folder-children-info');

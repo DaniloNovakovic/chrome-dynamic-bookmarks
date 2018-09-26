@@ -75,8 +75,17 @@ function handleFileClick(event) {
   const file = event.target.classList.contains('file')
     ? event.target
     : event.target.parentElement;
+  getBookmarkData(file.id, (data) => {
+    if (data) {
+      clearSearchBar();
+      displayFileInfo(data);
+      globalSelectHandler.setSelected(file);
+    }
+  });
+}
 
-  chrome.bookmarks.get(file.id, (results) => {
+function getBookmarkData(bookmarkId, done) {
+  chrome.bookmarks.get(bookmarkId, (results) => {
     if (chrome.runtime.lastError) {
       console.warn(chrome.runtime.lastError.message);
     } else {
@@ -90,8 +99,7 @@ function handleFileClick(event) {
           } else {
             parentTitle = results[0].title;
           }
-          clearSearchBar();
-          displayFileInfo({
+          done({
             title: bookmark.title,
             url: bookmark.url,
             id: bookmark.id,
@@ -104,7 +112,6 @@ function handleFileClick(event) {
               history: dynBook[bookmark.id].history
             })
           });
-          globalSelectHandler.setSelected(file);
         });
       });
     }
