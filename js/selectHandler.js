@@ -9,18 +9,18 @@ class selectHandlerFunc {
       this.unselect();
     }
     if (element) {
+      let id;
+      if (element.classList.contains('folder')) {
+        element = element.querySelector('.folder-header');
+      }
       this.oldTxtCol = element.style.color;
       this.oldBgCol = element.style.backgroundColor;
       element.style.backgroundColor = backgroundColor;
       this.currSelected = element;
 
-      let id;
       if (element.classList.contains('folder-header')) {
         id = element.parentElement.getAttribute('id');
-      } else if (
-        element.classList.contains('file') ||
-        element.classList.contains('folder')
-      ) {
+      } else if (element.classList.contains('file')) {
         id = element.getAttribute('id');
       }
       if (id) {

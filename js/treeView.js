@@ -22,13 +22,16 @@ document.addEventListener('DOMContentLoaded', () => {
       );
     }
     if (parent.classList.contains('folder')) {
-      parent
-        .querySelector('ul')
-        .appendChild(
-          bookmark.url
-            ? File({ name: bookmark.title, id: bookmark.id })
-            : Folder({ name: bookmark.title, id: bookmark.id })
-        );
+      const newEl = bookmark.url
+        ? File({ name: bookmark.title, id: bookmark.id })
+        : Folder({ name: bookmark.title, id: bookmark.id });
+      parent.querySelector('ul').appendChild(newEl);
+      if (newEl.classList.contains('folder')) {
+        displayFolderInfo(bookmark.id);
+      } else {
+        displayBookmark(bookmark.id);
+      }
+      globalSelectHandler.setSelected(newEl);
     }
     // note: i wrapped updateTreeColor in timeout because storage is updated AFTER bookmark is created
     setTimeout(updateTreeColor, 100);
