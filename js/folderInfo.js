@@ -107,14 +107,6 @@ function initFolderInfo() {
   });
 }
 
-function displayBookmark(bookmarkId) {
-  getBookmarkData(bookmarkId, (data) => {
-    clearSearchBar();
-    displayFileInfo(data);
-    globalSelectHandler.setSelected(document.getElementById(node.id));
-  });
-}
-
 // adds 'hide' class to each child of 'folder-children-info'
 function hideFolderInfoChildren() {
   const childrenList = document.getElementById('folder-children-info');
