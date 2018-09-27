@@ -1,3 +1,13 @@
+document.addEventListener('DOMContentLoaded', () => {
+  const parentTitleInfo = document.getElementById('parent-title-info');
+  const parentIdInfo = document.getElementById('parent-id-info');
+  parentTitleInfo.addEventListener('click', () => {
+    const id = parentIdInfo.textContent;
+    displayFolderInfo(id);
+    globalSelectHandler.setSelected(document.getElementById(id));
+  });
+});
+
 /**
  * Sets given properties to bookmarkInfo (undefined values will be ignored)
  * @param {object} props - {
@@ -15,7 +25,9 @@ function setBookmarkInfo(props) {
     document.getElementById('title-info').textContent = props.title;
   }
   if (typeof props.url !== 'undefined') {
-    document.getElementById('url-info').textContent = props.url;
+    const urlInfo = document.getElementById('url-info');
+    urlInfo.textContent = props.url;
+    urlInfo.setAttribute('href', props.url);
   }
   if (typeof props.parent !== 'undefined') {
     document.getElementById('parent-title-info').textContent = props.parent;
@@ -27,6 +39,7 @@ function setBookmarkInfo(props) {
     document.getElementById('parent-id-info').textContent = props.parentId;
   }
 
+  const bookmarkInfo = document.getElementById('bookmarkInfo');
   const trackedDiv = document.getElementById('tracked');
   const regExpInfo = document.getElementById('regExp-info');
   const historyList = document.getElementById('history-list');
@@ -38,8 +51,10 @@ function setBookmarkInfo(props) {
         historyList.appendChild(li(null, code(null, url)));
       }
     }
+    bookmarkInfo.classList.add('tracked');
     trackedDiv.classList.remove('hide');
   } else {
+    bookmarkInfo.classList.remove('tracked');
     trackedDiv.classList.add('hide');
     regExpInfo.textContent = '';
   }

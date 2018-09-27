@@ -6,17 +6,43 @@
 #bookmarkInfo span {
   font-size: 1rem;
 }
+
+#bookmarkInfo h6 > * {
+  opacity: 1;
+}
+
 #bookmarkInfo code {
+  color: #757575;
+}
+#bookmarkInfo.tracked a,
+#bookmarkInfo.tracked code {
   color: #f44336;
+}
+#bookmarkInfo.tracked a:hover,
+#bookmarkInfo a:hover {
+  opacity: 0.7;
+}
+#bookmarkInfo.tracked #parent-title-info {
+  color: purple;
+}
+#parent-title-info {
+  cursor: pointer;
+}
+#parent-title-info:hover {
+  opacity: 0.7;
 }
 #history-list li {
   padding-left: 3em;
 }
 #main-content > section {
-  margin-top: 6em;
   padding-top: 1em;
-  padding-bottom: 3em;
   background-color: white;
+}
+#bookmarkInfo {
+  padding-bottom: 2em;
+}
+#folderInfo {
+  padding-bottom: 1.5em;
 }
 #info-edit > button,
 #folder-info-edit > button {
@@ -66,14 +92,4 @@
 #folder-info-display {
   padding-left: 1.5em;
   padding-right: 1.5em;
-}
-
-main {
-  padding-left: 300px;
-}
-
-@media only screen and (max-width: 992px) {
-  main {
-    padding-left: 0;
-  }
 }
