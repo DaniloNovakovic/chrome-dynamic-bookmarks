@@ -18,11 +18,25 @@ body {
   padding-right: 0.5em;
 }
 
+/* Main */
+
+main {
+  padding-top: 6em;
+  padding-left: 300px;
+  padding-bottom: 7em;
+}
+
+@media only screen and (max-width: 992px) {
+  main {
+    padding-left: 0;
+  }
+}
+
 /* Footer */
 .footer-icons {
   position: fixed;
-  bottom: 4em;
-  right: 5em;
+  bottom: 2em;
+  right: 4em;
 }
 .action-btn {
   display: inline-block;

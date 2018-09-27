@@ -88,7 +88,6 @@ function openAllParentFolders(parentId) {
   if (!parentId || parentId === '0') {
     return;
   } else {
-    console.log('opening parentId ... ' + parentId);
     openFolder(parentId);
     chrome.bookmarks.get(parentId, (bookmarks) => {
       if (chrome.runtime.lastError) {

@@ -28,7 +28,6 @@ class selectHandlerFunc {
           if (chrome.runtime.lastError) {
             console.warn(chrome.runtime.lastError.message);
           } else {
-            console.log(bookmarks[0].parentId);
             openAllParentFolders(bookmarks[0].parentId);
           }
         });

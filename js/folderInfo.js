@@ -1,5 +1,35 @@
 document.addEventListener('DOMContentLoaded', () => {
   initFolderInfo();
+
+  chrome.bookmarks.onCreated.addListener((id, bookmark) => {
+    setTimeout(() => {
+      chrome.storage.sync.get(['dynBookmarks'], ({ dynBookmarks }) => {
+        const dynBook = dynBookmarks || {};
+        const color = dynBook[bookmark.id]
+          ? trackedFileIconColor
+          : defaultFileIconColor;
+        const childrenList = document.getElementById('folder-children-info');
+        if (childrenList) {
+          childrenList.appendChild(
+            createFolderInfoChild(
+              bookmark.id,
+              bookmark.title,
+              bookmark.url,
+              color
+            )
+          );
+        }
+      });
+    }, 100);
+  });
+
+  chrome.bookmarks.onRemoved.addListener((id, removeInfo) => {
+    const childInfo = document.getElementById(createChildInfoId(id));
+    if (childInfo) {
+      const childInfoWrapper = childInfo.parentElement;
+      childInfoWrapper.remove();
+    }
+  });
 });
 
 /* Show / Hide functionality */
@@ -66,45 +96,66 @@ function initFolderInfo() {
           findLeafNodes(child, (node) => {
             const color = dynBook[node.id]
               ? trackedFileIconColor
-              : `${defaultFileIconColor}`;
-            const hostName = node.url
-              .match(/^(http[s]?:\/\/.*?\/)/i)[0]
-              .replace(/http[s]:\/\//, '');
-            const faviconLink =
-              'https://www.google.com/s2/favicons?domain=' + hostName;
+              : defaultFileIconColor;
+
             childrenList.appendChild(
-              div(
-                { className: 'child-info-wrapper' },
-                img({ src: faviconLink, className: 'favicon' }),
-                a(
-                  {
-                    id: `child-info-${node.id}`,
-                    href: node.url,
-                    className: `truncate`,
-                    target: '_blank'
-                  },
-                  span({ className: `${color} text-darken-4` }, node.title),
-                  span(
-                    { className: `${color}  child-info-link` },
-                    ` (${node.url})`
-                  )
-                ),
-                i(
-                  {
-                    className: 'material-icons edit-child-info-icon',
-                    onClick: () => {
-                      displayBookmark(node.id);
-                    }
-                  },
-                  'more_vert'
-                )
-              )
+              createFolderInfoChild(node.id, node.title, node.url, color)
             );
           });
         }
       });
     }
   });
+}
+
+// converts bookmarkId into child-info id
+function createChildInfoId(bookmarkId) {
+  return `child-info-${bookmarkId}`;
+}
+/**
+ * Creates and returns new FolderInfoChild element (returns null upon failure)
+ * @param {string} id - (bookmark.id - resulting id of element will be `child-info-${id}`)
+ * @param {string} title - (bookmark.title - name of the bookmark)
+ * @param {string} url - (bookmark.url - url to which bookmark points to)
+ * @param {string} color - materializecss className color of text (note: lightened/darkened are added automatically so don't use them)
+ */
+function createFolderInfoChild(id, title, url, color = defaultFolderIconColor) {
+  if (!id || !url || !title) {
+    console.warn('in createFolderInfo id, url or/and title were invalid');
+    return null;
+  }
+  let hostName = url.match(/^(http[s]?:\/\/.*?\/)/i);
+  let faviconLink;
+  if (hostName) {
+    hostName = hostName[0].replace(/http[s]:\/\//, '');
+    faviconLink = 'https://www.google.com/s2/favicons?domain=' + hostName;
+  } else {
+    faviconLink = '../images/icons8_Books_16.png';
+  }
+
+  return div(
+    { className: 'child-info-wrapper' },
+    img({ src: faviconLink, className: 'favicon' }),
+    a(
+      {
+        id: createChildInfoId(id),
+        href: url,
+        className: `truncate`,
+        target: '_blank'
+      },
+      span({ className: `${color} text-darken-4` }, title),
+      span({ className: `${color}  child-info-link` }, ` (${url})`)
+    ),
+    i(
+      {
+        className: 'material-icons edit-child-info-icon',
+        onClick: () => {
+          displayBookmark(id);
+        }
+      },
+      'more_vert'
+    )
+  );
 }
 
 // adds 'hide' class to each child of 'folder-children-info'

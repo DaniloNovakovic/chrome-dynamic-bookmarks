@@ -13,7 +13,6 @@
   padding-left: 3em;
 }
 #main-content > section {
-  margin-top: 6em;
   padding-top: 1em;
   padding-bottom: 3em;
   background-color: white;
@@ -66,14 +65,4 @@
 #folder-info-display {
   padding-left: 1.5em;
   padding-right: 1.5em;
-}
-
-main {
-  padding-left: 300px;
-}
-
-@media only screen and (max-width: 992px) {
-  main {
-    padding-left: 0;
-  }
 }
