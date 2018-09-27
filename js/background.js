@@ -44,3 +44,23 @@ chrome.bookmarks.onRemoved.addListener((id) => {
     }
   });
 });
+
+const maxHistorySize = 10;
+chrome.bookmarks.onChanged.addListener((id, changeInfo) => {
+  if (changeInfo.url) {
+    chrome.storage.sync.get(['dynBookmarks'], ({ dynBookmarks }) => {
+      const dynBook = dynBookmarks || {};
+      if (dynBook[id]) {
+        if (dynBook[id].history.length >= maxHistorySize) {
+          dynBook[id].history.pop();
+        }
+        dynBook[id].history.unshift(changeInfo.url);
+        chrome.storage.sync.set({ dynBookmarks: dynBook }, () => {
+          if (chrome.runtime.lastError) {
+            console.warn(chrome.runtime.lastError.message);
+          }
+        });
+      }
+    });
+  }
+});

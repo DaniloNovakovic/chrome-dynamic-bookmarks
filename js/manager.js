@@ -73,7 +73,11 @@ addFileForm.onsubmit = (event) => {
       } else if (regExp) {
         chrome.storage.sync.get(['dynBookmarks'], ({ dynBookmarks }) => {
           const dynBook = dynBookmarks || {};
-          dynBook[bookmark.id] = { regExp };
+          dynBook[bookmark.id] = {
+            ...dynBook[bookmark.id],
+            regExp,
+            history: []
+          };
           chrome.storage.sync.set({ dynBookmarks: dynBook });
         });
       }
