@@ -22,13 +22,18 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }, 100);
   });
-
   chrome.bookmarks.onRemoved.addListener((id, removeInfo) => {
     const childInfo = document.getElementById(createChildInfoId(id));
     if (childInfo) {
       const childInfoWrapper = childInfo.parentElement;
       childInfoWrapper.remove();
     }
+  });
+  chrome.bookmarks.onChanged.addListener((id, changeInfo) => {
+    setTimeout(() => renderChildren(false), 100);
+  });
+  chrome.bookmarks.onMoved.addListener((id, moveInfo) => {
+    renderChildren();
   });
 });
 
@@ -130,7 +135,7 @@ function createFolderInfoChild(id, title, url, color = defaultFolderIconColor) {
     hostName = hostName[0].replace(/http[s]:\/\//, '');
     faviconLink = 'https://www.google.com/s2/favicons?domain=' + hostName;
   } else {
-    faviconLink = '../images/icons8_Books_16.png';
+    faviconLink = '../images/default_favicon.png';
   }
 
   return div(
@@ -190,8 +195,30 @@ function renderChildren(renderAll = false) {
         for (let child of results) {
           findLeafNodes(child, (node) => {
             const childEl = document.getElementById(`child-info-${node.id}`);
-            if (childEl && searchPattern.test(childEl.textContent)) {
-              childEl.parentElement.classList.remove('hide');
+            if (childEl) {
+              if (searchPattern.test(childEl.textContent)) {
+                childEl.parentElement.classList.remove('hide');
+              }
+              const spans = childEl.querySelectorAll('span');
+              for (let span of spans) {
+                if (dynBook[node.id]) {
+                  span.classList.replace(
+                    defaultFileIconColor,
+                    trackedFileIconColor
+                  );
+                } else {
+                  span.classList.replace(
+                    trackedFileIconColor,
+                    defaultFileIconColor
+                  );
+                }
+              }
+              if (spans[0].textContent !== node.title) {
+                spans[0].textContent = node.title;
+              } else if (childEl.getAttribute('href') !== node.url) {
+                childEl.setAttribute('href', node.url);
+                spans[1].textContent = ` (${node.url})`;
+              }
             }
           });
         }
