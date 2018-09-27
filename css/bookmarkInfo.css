@@ -14,7 +14,7 @@
 #bookmarkInfo code {
   color: #757575;
 }
-#bookmarkInfo.tracked a,
+#bookmarkInfo.tracked #url-info,
 #bookmarkInfo.tracked code {
   color: #f44336;
 }
@@ -31,9 +31,19 @@
 #parent-title-info:hover {
   opacity: 0.7;
 }
-#history-list li {
-  padding-left: 3em;
+
+#history-list {
+  margin-top: 0em;
 }
+.history-item {
+  padding-left: 3em;
+  padding-bottom: 0.4em;
+  font-size: 0.9rem;
+}
+.history-item-link {
+  color: red;
+}
+
 #main-content > section {
   padding-top: 1em;
   background-color: white;

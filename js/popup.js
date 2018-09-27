@@ -7,6 +7,9 @@ const formResponse = document.getElementById('form-response');
 const popupForm = document.getElementById('popup-form');
 popupForm.addEventListener('submit', popupSubmit);
 
+// url to use in case of error
+const defaultUrl = 'https://www.google.com';
+
 function popupSubmit(event) {
   event.preventDefault();
 
@@ -27,7 +30,7 @@ function popupSubmit(event) {
       currentWindow: true
     },
     function(tabs) {
-      const url = regExp.test(tabs[0].url) ? tabs[0].url : null;
+      const url = tabs[0].url || defaultUrl;
       handleBookmarkSubmit(title, url, regExpString, (err) => {
         if (err) {
           console.warn(err);
@@ -42,18 +45,10 @@ function popupSubmit(event) {
   );
 }
 
-const defaultUrl = 'https://www.google.com';
-
 function handleBookmarkSubmit(title, url, regExp, done) {
-  chrome.bookmarks.search({ title }, (bookmarks) => {
-    chrome.storage.sync.get(['dynBookmarks'], ({ dynBookmarks }) => {
-      let dynBook = dynBookmarks || {};
-      if (bookmarks.length > 0) {
-        updateBookmarks(bookmarks, dynBook, title, url, regExp, done);
-      } else {
-        createBookmark(dynBook, title, url, regExp, done);
-      }
-    });
+  chrome.storage.sync.get(['dynBookmarks'], ({ dynBookmarks }) => {
+    let dynBook = dynBookmarks || {};
+    createBookmark(dynBook, title, url, regExp, done);
   });
 }
 
@@ -63,26 +58,10 @@ function createBookmark(dynBook, title, url, regExp, done) {
     if (chrome.runtime.lastError) {
       done(chrome.runtime.lastError);
     } else {
-      dynBook[newBookmark.id] = { title, regExp };
+      dynBook[newBookmark.id] = { regExp, history: [] };
       chrome.storage.sync.set({ dynBookmarks: dynBook }, () =>
         done(chrome.runtime.lastError)
       );
     }
   });
-}
-
-function updateBookmarks(bookmarks, dynBook, title, url, regExp, done) {
-  for (let bookmark of bookmarks) {
-    dynBook[bookmark.id] = { title, regExp };
-    if (url && bookmark.url !== url) {
-      chrome.bookmarks.update(bookmark.id, { url }, () => {
-        if (chrome.runtime.lastError) {
-          console.warn('Whoops.. ' + chrome.runtime.lastError.message);
-        }
-      });
-    }
-  }
-  chrome.storage.sync.set({ dynBookmarks: dynBook }, () =>
-    done(chrome.runtime.lastError)
-  );
 }

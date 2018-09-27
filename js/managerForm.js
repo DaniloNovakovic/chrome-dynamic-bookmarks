@@ -16,7 +16,6 @@ infoEditForm.onsubmit = (event) => {
     regExp: event.target.regExp.value
   };
   handleBookmarkSubmit(data);
-  setBookmarkInfo(data);
   cancelInfoEditForm();
 };
 function handleBookmarkSubmit({ id, url, title, regExp }) {
@@ -34,10 +33,20 @@ function handleBookmarkSubmit({ id, url, title, regExp }) {
         chrome.storage.sync.get(['dynBookmarks'], ({ dynBookmarks }) => {
           const dynBook = dynBookmarks || {};
           if (regExp) {
-            dynBook[bookmark.id] = { regExp };
+            dynBook[bookmark.id] = {
+              ...dynBook[bookmark.id],
+              regExp,
+              ...(!dynBook[bookmark.id] && { history: [] })
+            };
           } else {
             delete dynBook[bookmark.id];
           }
+          setBookmarkInfo({
+            ...dynBook[bookmark.id],
+            id,
+            title,
+            url
+          });
           chrome.storage.sync.set({ dynBookmarks: dynBook }, () => {
             updateTreeColor();
           });
@@ -50,6 +59,7 @@ function handleBookmarkSubmit({ id, url, title, regExp }) {
 infoEditCancelBtn.addEventListener('click', cancelInfoEditForm);
 
 function cancelInfoEditForm() {
+  infoEditForm.reset();
   hideInfoEditForm();
   showInfoDisplay();
   enableFooterButtons();

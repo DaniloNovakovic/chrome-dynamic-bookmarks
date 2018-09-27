@@ -48,7 +48,18 @@ function setBookmarkInfo(props) {
     regExpInfo.textContent = props.regExp;
     if (typeof props.history !== 'undefined') {
       for (let url of props.history) {
-        historyList.appendChild(li(null, code(null, url)));
+        historyList.appendChild(
+          li(
+            { className: 'history-item' },
+            a(
+              {
+                href: url,
+                className: 'history-item-link truncate'
+              },
+              url
+            )
+          )
+        );
       }
     }
     bookmarkInfo.classList.add('tracked');
@@ -97,17 +108,9 @@ function getBookmarkData(bookmarkId, done) {
             parentTitle = results[0].title;
           }
           done({
-            title: bookmark.title,
-            url: bookmark.url,
-            id: bookmark.id,
-            parentId: bookmark.parentId,
-            ...(parentTitle && { parent: parentTitle }),
-            ...(dynBook[bookmark.id] && {
-              regExp: dynBook[bookmark.id].regExp
-            }),
-            ...(dynBook[bookmark.id] && {
-              history: dynBook[bookmark.id].history
-            })
+            ...bookmark,
+            ...dynBook[bookmark.id],
+            ...(parentTitle && { parent: parentTitle })
           });
         });
       });
