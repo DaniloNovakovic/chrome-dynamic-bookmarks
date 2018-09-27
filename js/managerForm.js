@@ -59,6 +59,7 @@ function handleBookmarkSubmit({ id, url, title, regExp }) {
 infoEditCancelBtn.addEventListener('click', cancelInfoEditForm);
 
 function cancelInfoEditForm() {
+  infoEditForm.reset();
   hideInfoEditForm();
   showInfoDisplay();
   enableFooterButtons();

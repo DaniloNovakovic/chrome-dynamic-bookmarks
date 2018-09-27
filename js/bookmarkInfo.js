@@ -48,7 +48,18 @@ function setBookmarkInfo(props) {
     regExpInfo.textContent = props.regExp;
     if (typeof props.history !== 'undefined') {
       for (let url of props.history) {
-        historyList.appendChild(li(null, code(null, url)));
+        historyList.appendChild(
+          li(
+            { className: 'history-item' },
+            a(
+              {
+                href: url,
+                className: 'history-item-link truncate'
+              },
+              url
+            )
+          )
+        );
       }
     }
     bookmarkInfo.classList.add('tracked');
