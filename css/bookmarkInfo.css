@@ -6,8 +6,27 @@
 #bookmarkInfo span {
   font-size: 1rem;
 }
-#bookmarkInfo code {
+
+#bookmarkInfo h6 > * {
+  opacity: 0.8;
+}
+
+#bookmarkInfo.tracked a,
+#bookmarkInfo.tracked code {
   color: #f44336;
+}
+#bookmarkInfo.tracked a:hover,
+#bookmarkInfo a:hover {
+  opacity: 1;
+}
+#bookmarkInfo.tracked #parent-title-info {
+  color: purple;
+}
+#parent-title-info {
+  cursor: pointer;
+}
+#parent-title-info:hover {
+  opacity: 1;
 }
 #history-list li {
   padding-left: 3em;
