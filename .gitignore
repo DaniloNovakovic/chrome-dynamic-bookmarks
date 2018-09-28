@@ -1,5 +1,7 @@
 *.crx
 .env
-node_modules/
+node_modules
+build
+secrets.*.js
 *.log
 *.pem
