@@ -52,7 +52,12 @@ var options = {
       },
       {
         test: /\.html$/,
-        loader: 'html-loader',
+        use: [
+          {
+            loader: 'html-loader',
+            options: { minimize: true }
+          }
+        ],
         exclude: /node_modules/
       }
     ]
