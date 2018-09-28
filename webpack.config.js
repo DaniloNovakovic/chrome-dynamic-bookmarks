@@ -94,11 +94,11 @@ var options = {
       filename: 'options.html',
       chunks: ['options']
     }),
-    // new HtmlWebpackPlugin({
-    //   template: path.join(__dirname, 'src', 'background.html'),
-    //   filename: 'background.html',
-    //   chunks: ['background']
-    // }),
+    new HtmlWebpackPlugin({
+      template: path.join(__dirname, 'src', 'background.html'),
+      filename: 'background.html',
+      chunks: ['background']
+    }),
     new HtmlWebpackPlugin({
       template: path.join(__dirname, 'src', 'bookmarkManager.html'),
       filename: 'bookmarkManager.html',

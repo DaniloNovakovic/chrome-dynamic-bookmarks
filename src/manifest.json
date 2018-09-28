@@ -5,8 +5,7 @@
   "version": "2.0.0",
   "permissions": ["tabs", "bookmarks", "storage"],
   "background": {
-    "scripts": ["background.js"],
-    "persistent": false
+    "page": "background.html"
   },
   "browser_action": {
     "default_popup": "popup.html",
@@ -27,5 +26,6 @@
   },
   "chrome_url_overrides": {
     "bookmarks": "bookmarkManager.html"
-  }
+  },
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
 }
