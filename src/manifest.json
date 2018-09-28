@@ -1,0 +1,31 @@
+{
+  "manifest_version": 2,
+  "name": "Dynamic Bookmarks",
+  "description": "Updates bookmarks dynamically based on given regExp",
+  "version": "2.0.0",
+  "permissions": ["tabs", "bookmarks", "storage"],
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": false
+  },
+  "browser_action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons8_Books_16.png",
+      "32": "icons8_Books_32.png",
+      "48": "icons8_Books_48.png",
+      "64": "icons8_Books_64.png",
+      "128": "icons8_Books_128.png"
+    }
+  },
+  "icons": {
+    "16": "icons8_Books_16.png",
+    "32": "icons8_Books_32.png",
+    "48": "icons8_Books_48.png",
+    "64": "icons8_Books_64.png",
+    "128": "icons8_Books_128.png"
+  },
+  "chrome_url_overrides": {
+    "bookmarks": "bookmarkManager.html"
+  }
+}
