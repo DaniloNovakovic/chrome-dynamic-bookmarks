@@ -1,6 +1,7 @@
 import { showInfoDisplay, setBookmarkInfo } from '../utils/bookmarkInfo';
 import { showFolderInfoDisplay } from '../utils/folderInfo';
 import { enableFooterButtons } from '../utils/footerButtons';
+import { updateTreeColor } from '../utils/treeView';
 import {
   getInfoEditForm,
   getFolderEditForm,
@@ -8,8 +9,6 @@ import {
   hideFolderInfoEdit,
   hideInfoEditForm
 } from '../utils/managerForm';
-
-// depends: updateTreeColor
 
 document.addEventListener('DOMContentLoaded', () => {
   /* info-edit form */

@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const addFolderBtn = document.getElementById('add-folder-btn');
 
   const modals = document.querySelectorAll('.modal');
-  const modalsInstances = M.Modal.init(modals);
+  M.Modal.init(modals);
   const addFileForm = document.getElementById('add-file-form');
   const addFolderForm = document.getElementById('add-folder-form');
 
