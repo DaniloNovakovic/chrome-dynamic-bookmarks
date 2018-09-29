@@ -1,4 +1,21 @@
+import { section } from '../lib/react-clone';
+import File from '../components/File';
+import Folder from '../components/Folder';
+import {
+  createTree,
+  handleFileClick,
+  handleFolderHeaderClick
+} from './treeViewComponents';
+import options from '../config/config';
+const {
+  defaultFileIconColor,
+  defaultFolderIconColor,
+  trackedFileIconColor,
+  trackedFolderIconColor
+} = options;
+
 document.addEventListener('DOMContentLoaded', () => {
+  console.log(createTree, section);
   var sidenavs = document.querySelectorAll('.sidenav');
   M.Sidenav.init(sidenavs);
 
@@ -23,8 +40,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     if (parent.classList.contains('folder')) {
       const newEl = bookmark.url
-        ? File({ name: bookmark.title, id: bookmark.id })
-        : Folder({ name: bookmark.title, id: bookmark.id });
+        ? File({
+            name: bookmark.title,
+            id: bookmark.id,
+            onClick: handleFileClick
+          })
+        : Folder({
+            name: bookmark.title,
+            id: bookmark.id,
+            onClick: handleFolderHeaderClick
+          });
       parent.querySelector('ul').appendChild(newEl);
       if (newEl.classList.contains('folder')) {
         displayFolderInfo(bookmark.id);

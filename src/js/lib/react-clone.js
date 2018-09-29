@@ -50,7 +50,7 @@ function setProps(el, props) {
 }
 
 //type, [props], [...children]
-function createElement(type, props, ...children) {
+export function createElement(type, props, ...children) {
   if (typeof type === 'function') {
     return type(props);
   } else {
@@ -66,18 +66,40 @@ function createElement(type, props, ...children) {
 }
 
 /* shorthand functions */
-const div = (props, ...children) => createElement('div', props, ...children);
-const ul = (props, ...children) => createElement('ul', props, ...children);
-const li = (props, ...children) => createElement('li', props, ...children);
-const i = (props, ...children) => createElement('i', props, ...children);
-const span = (props, ...children) => createElement('span', props, ...children);
-const header = (props, ...children) =>
+export const div = (props, ...children) =>
+  createElement('div', props, ...children);
+export const ul = (props, ...children) =>
+  createElement('ul', props, ...children);
+export const li = (props, ...children) =>
+  createElement('li', props, ...children);
+export const i = (props, ...children) => createElement('i', props, ...children);
+export const span = (props, ...children) =>
+  createElement('span', props, ...children);
+export const header = (props, ...children) =>
   createElement('header', props, ...children);
-const p = (props, ...children) => createElement('p', props, ...children);
-const section = (props, ...children) =>
+export const p = (props, ...children) => createElement('p', props, ...children);
+export const section = (props, ...children) =>
   createElement('section', props, ...children);
-const button = (props, ...children) =>
+export const button = (props, ...children) =>
   createElement('button', props, ...children);
-const code = (props, ...children) => createElement('code', props, ...children);
-const a = (props, ...children) => createElement('a', props, ...children);
-const img = (props, ...children) => createElement('img', props, ...children);
+export const code = (props, ...children) =>
+  createElement('code', props, ...children);
+export const a = (props, ...children) => createElement('a', props, ...children);
+export const img = (props, ...children) =>
+  createElement('img', props, ...children);
+
+export default {
+  createElement,
+  div,
+  ul,
+  li,
+  i,
+  span,
+  header,
+  p,
+  section,
+  button,
+  code,
+  a,
+  img
+};

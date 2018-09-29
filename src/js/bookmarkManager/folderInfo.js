@@ -241,3 +241,34 @@ function findLeafNodes(rootNode, onLeafNodeFound) {
     }
   }
 }
+
+function openAllParentFolders(parentId) {
+  if (!parentId || parentId === '0') {
+    return;
+  } else {
+    openFolder(parentId);
+    chrome.bookmarks.get(parentId, (bookmarks) => {
+      if (chrome.runtime.lastError) {
+        console.warn(chrome.runtime.lastError.message);
+      } else {
+        openAllParentFolders(bookmarks[0].parentId);
+      }
+    });
+  }
+}
+function openFolder(folderId) {
+  const folder = document.getElementById(folderId);
+  const folderHeader = folder.querySelector('.folder-header');
+  if (folder && folderHeader) {
+    let icons = folderHeader.querySelectorAll('.material-icons');
+    icons.forEach((icon) => {
+      if (/arrow/i.test(icon.textContent)) {
+        icon.textContent = openedArrowIcon;
+      } else {
+        icon.textContent = openedFolderIcon;
+      }
+    });
+    folderHeader.nextElementSibling.classList.remove('hide');
+    folderHeader.setAttribute('opened', true);
+  }
+}

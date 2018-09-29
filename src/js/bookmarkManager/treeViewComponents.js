@@ -1,62 +1,18 @@
-/* File */
-const defaultFileIconColor = 'grey-text';
-const trackedFileIconColor = 'red-text';
-const defaultFolderIconColor = 'grey-text';
-const trackedFolderIconColor = 'purple-text';
-
-const File = ({ name, id, fileIconColor }) => {
-  const iconColor = fileIconColor || defaultFileIconColor;
-  return div(
-    {
-      className: 'file hoverable',
-      onClick: handleFileClick,
-      ...(id && { id })
-    },
-    i({ className: 'material-icons', style: 'opacity: 0;' }, 'arrow_right'),
-    i(
-      { className: `material-icons ${iconColor} file-icon` },
-      'insert_drive_file'
-    ),
-    span(null, name)
-  );
-};
-
-/* Folder */
-
-const openedFolderIcon = 'folder_open';
-const closedFolderIcon = 'folder';
-const openedArrowIcon = 'arrow_drop_down';
-const closedArrowIcon = 'arrow_right';
-
-const Folder = ({ opened, name, id, folderIconColor }, ...children) => {
-  const arrowIcon = opened ? openedArrowIcon : closedArrowIcon;
-  const folderIcon = opened ? openedFolderIcon : closedFolderIcon;
-  const folderName = name || 'unknown';
-  const iconColor = folderIconColor || defaultFolderIconColor;
-  return div(
-    { className: 'folder', ...(id && { id }) },
-    header(
-      {
-        onClick: handleFolderHeaderClick,
-        className: 'folder-header hoverable',
-        opened: opened
-      },
-      i({ className: 'material-icons arrow-icon' }, arrowIcon),
-      i(
-        { className: `material-icons ${iconColor} text-darken-2 folder-icon` },
-        folderIcon
-      ),
-      span(null, folderName)
-    ),
-    ul({ className: opened ? '' : 'hide' }, ...children)
-  );
-};
+import File from '../components/File';
+import Folder from '../components/Folder';
+import options from '../config/config';
+const {
+  openedArrowIcon,
+  closedArrowIcon,
+  openedFolderIcon,
+  closedFolderIcon
+} = options;
 
 /* TreeView */
 
-const createTree = (node) => {
+export function createTree(node) {
   if (!node.children) {
-    return File({ id: node.id, name: node.title });
+    return File({ id: node.id, name: node.title, onClick: handleFileClick });
   } else {
     let childEls = [];
     for (let child of node.children) {
@@ -64,14 +20,19 @@ const createTree = (node) => {
       childEls.push(subTree);
     }
     return Folder(
-      { id: node.id, name: node.title, opened: false },
+      {
+        id: node.id,
+        name: node.title,
+        opened: false,
+        onClick: handleFolderHeaderClick
+      },
       ...childEls
     );
   }
-};
+}
 
 /* onClick handlers */
-function handleFileClick(event) {
+export function handleFileClick(event) {
   const file = event.target.classList.contains('file')
     ? event.target
     : event.target.parentElement;
@@ -84,38 +45,7 @@ function handleFileClick(event) {
   });
 }
 
-function openAllParentFolders(parentId) {
-  if (!parentId || parentId === '0') {
-    return;
-  } else {
-    openFolder(parentId);
-    chrome.bookmarks.get(parentId, (bookmarks) => {
-      if (chrome.runtime.lastError) {
-        console.warn(chrome.runtime.lastError.message);
-      } else {
-        openAllParentFolders(bookmarks[0].parentId);
-      }
-    });
-  }
-}
-function openFolder(folderId) {
-  const folder = document.getElementById(folderId);
-  const folderHeader = folder.querySelector('.folder-header');
-  if (folder && folderHeader) {
-    let icons = folderHeader.querySelectorAll('.material-icons');
-    icons.forEach((icon) => {
-      if (/arrow/i.test(icon.textContent)) {
-        icon.textContent = openedArrowIcon;
-      } else {
-        icon.textContent = openedFolderIcon;
-      }
-    });
-    folderHeader.nextElementSibling.classList.remove('hide');
-    folderHeader.setAttribute('opened', true);
-  }
-}
-
-function handleFolderHeaderClick(event) {
+export function handleFolderHeaderClick(event) {
   const folderHeader = event.target.classList.contains('folder-header')
     ? event.target
     : event.target.parentElement;
@@ -151,3 +81,9 @@ function handleFolderHeaderClick(event) {
     globalSelectHandler.setSelected(folderHeader);
   }
 }
+
+export default {
+  createTree,
+  handleFolderHeaderClick,
+  handleFileClick
+};
