@@ -1,3 +1,16 @@
+import { div, img, a, span, i } from '../lib/react-clone';
+import options from '../config/config';
+import {
+  findLeafNodes,
+  hideFolderInfoChildren,
+  createChildInfoId
+} from '../utils/folderInfo';
+const {
+  trackedFileIconColor,
+  defaultFileIconColor,
+  defaultFolderIconColor
+} = options;
+
 document.addEventListener('DOMContentLoaded', () => {
   initFolderInfo();
 
@@ -37,56 +50,8 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-/* Show / Hide functionality */
-function hideFolderInfo() {
-  document.getElementById('folderInfo').classList.add('hide');
-}
-function showFolderInfo() {
-  document.getElementById('folderInfo').classList.remove('hide');
-}
-function hideFolderInfoDisplay() {
-  document.getElementById('folder-info-display').classList.add('hide');
-}
-function showFolderInfoDisplay() {
-  document.getElementById('folder-info-display').classList.remove('hide');
-}
-function isFolderInfoHidden() {
-  return document.getElementById('folderInfo').classList.contains('hide');
-}
-function getFolderInfoData() {
-  const id = document
-    .getElementById('folder-children-info')
-    .getAttribute('folderId');
-  const folder = document.getElementById(id);
-  const title =
-    (folder && folder.querySelector('.folder-header > span').textContent) || '';
-  return { id, title };
-}
-
-function displayFolderInfo(folderId) {
-  if (!folderId) {
-    return console.warn(`folderId of ${folderId} is invalid`);
-  }
-  document
-    .getElementById('folder-children-info')
-    .setAttribute('folderId', folderId);
-  renderChildren();
-  hideBookmarkInfo();
-  hideFolderInfoEdit();
-  showFolderInfoDisplay();
-  showFolderInfo();
-
-  // 0 (root - invisible), 1 (bookmarks bar), and 2 (other bookmarks) are
-  // reserved / unchangable chrome folders
-  if (folderId > 2) {
-    enableFooterButtons();
-  } else {
-    disableFooterButtons();
-  }
-}
-
 /* Children functionality */
-
+// depends: findLeafNodes, createFolderInfoChild, trackedFileIconColor, defaultFileIconColor
 function initFolderInfo() {
   const childrenList = document.getElementById('folder-children-info');
 
@@ -113,10 +78,7 @@ function initFolderInfo() {
   });
 }
 
-// converts bookmarkId into child-info id
-function createChildInfoId(bookmarkId) {
-  return `child-info-${bookmarkId}`;
-}
+// depends: defaultFolderIconColor, div, img a span i, displayBookmark, createChildInfoId
 /**
  * Creates and returns new FolderInfoChild element (returns null upon failure)
  * @param {string} id - (bookmark.id - resulting id of element will be `child-info-${id}`)
@@ -163,15 +125,12 @@ function createFolderInfoChild(id, title, url, color = defaultFolderIconColor) {
   );
 }
 
-// adds 'hide' class to each child of 'folder-children-info'
-function hideFolderInfoChildren() {
-  const childrenList = document.getElementById('folder-children-info');
-  for (let child of childrenList.children) {
-    child.classList.add('hide');
-  }
-}
+/* depends: 
+ hideFolderInfoChildren, findLeafNodes,
+ defaultFileIconColor, trackedFileIconColor
+*/
 // renders children based on search pattern from 'search-input'
-function renderChildren(renderAll = false) {
+export function renderChildren(renderAll = false) {
   const childrenList = document.getElementById('folder-children-info');
   const folderId =
     renderAll === true ? '0' : childrenList.getAttribute('folderId');
@@ -225,50 +184,4 @@ function renderChildren(renderAll = false) {
       });
     }
   });
-}
-
-/**
- * Traverses a tree and whenever a leaf node is found (elem withouth children property) it will trigger a callback
- * @param {object} rootNode - object with children array
- * @param {function} onLeafNodeFound - callback triggered whenever a leaf is found
- */
-function findLeafNodes(rootNode, onLeafNodeFound) {
-  if (!rootNode.children) {
-    onLeafNodeFound(rootNode);
-  } else {
-    for (let child of rootNode.children) {
-      findLeafNodes(child, onLeafNodeFound);
-    }
-  }
-}
-
-function openAllParentFolders(parentId) {
-  if (!parentId || parentId === '0') {
-    return;
-  } else {
-    openFolder(parentId);
-    chrome.bookmarks.get(parentId, (bookmarks) => {
-      if (chrome.runtime.lastError) {
-        console.warn(chrome.runtime.lastError.message);
-      } else {
-        openAllParentFolders(bookmarks[0].parentId);
-      }
-    });
-  }
-}
-function openFolder(folderId) {
-  const folder = document.getElementById(folderId);
-  const folderHeader = folder.querySelector('.folder-header');
-  if (folder && folderHeader) {
-    let icons = folderHeader.querySelectorAll('.material-icons');
-    icons.forEach((icon) => {
-      if (/arrow/i.test(icon.textContent)) {
-        icon.textContent = openedArrowIcon;
-      } else {
-        icon.textContent = openedFolderIcon;
-      }
-    });
-    folderHeader.nextElementSibling.classList.remove('hide');
-    folderHeader.setAttribute('opened', true);
-  }
 }
