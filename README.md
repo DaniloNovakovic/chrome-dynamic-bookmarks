@@ -9,7 +9,7 @@
 ## Table of Contents
 
 - [Installation](#installation)
-- [Usage](#usage)
+- [Usage (outdated)](#usage)
 - [FAQ](#faq)
 - [Support](#support)
 - [License](#license)
@@ -21,10 +21,13 @@
 Currently this extension is not available on Chrome Web Store, since it is still in developement, but you can install it locally in few steps:
 
 1. [Download](https://github.com/DaniloNovakovic/chrome-dynamic-bookmarks/archive/master.zip) or clone current repository
+1. Navigate to downloaded folder and run `npm init` in console (ex. cmd/terminal/powershell)
+   (Note: you will need to have [node.js](https://nodejs.org/en/) installed on your computer)
+1. Once node_modules is installed run `npm run build` to create production build (or `npm run dev` for development one)
 1. On your browser search page type in (navigate to) `chrome://extensions/`
 1. In the now opened `chrome://extensions/` page turn on the developer mode
 1. Expand the Developer dropodown menu (if needed) and press `Load unpacked` button
-1. Navigate to the downloaded/cloned local folder of this repository and click Ok
+1. Navigate to the downloaded/cloned local folder of this repository, select `build` folder and click Ok
 1. Assuming there are no errors, the extension should load into your browser
 
 ## Usage

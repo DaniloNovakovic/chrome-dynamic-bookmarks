@@ -45,6 +45,7 @@ chrome.bookmarks.onRemoved.addListener((id) => {
   });
 });
 
+// maybe let user setup this in options in future?
 const maxHistorySize = 10;
 chrome.bookmarks.onChanged.addListener((id, changeInfo) => {
   if (changeInfo.url) {

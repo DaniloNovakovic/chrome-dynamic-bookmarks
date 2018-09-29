@@ -1,13 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {
-  const parentTitleInfo = document.getElementById('parent-title-info');
-  const parentIdInfo = document.getElementById('parent-id-info');
-  parentTitleInfo.addEventListener('click', () => {
-    const id = parentIdInfo.textContent;
-    displayFolderInfo(id);
-    globalSelectHandler.setSelected(document.getElementById(id));
-  });
-});
-
+import { li, a } from '../lib/react-clone';
 /**
  * Sets given properties to bookmarkInfo (undefined values will be ignored)
  * @param {object} props - {
@@ -20,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
  * history
  * }
  */
-function setBookmarkInfo(props) {
+export function setBookmarkInfo(props) {
   if (typeof props.title !== 'undefined') {
     document.getElementById('title-info').textContent = props.title;
   }
@@ -82,7 +73,7 @@ function setBookmarkInfo(props) {
  * (doesn't return history currently)
  * }
  */
-function getInfoData() {
+export function getInfoData() {
   return {
     title: document.getElementById('title-info').textContent,
     url: document.getElementById('url-info').textContent,
@@ -92,7 +83,7 @@ function getInfoData() {
     regExp: document.getElementById('regExp-info').textContent
   };
 }
-function getBookmarkData(bookmarkId, done) {
+export function getBookmarkData(bookmarkId, done) {
   chrome.bookmarks.get(bookmarkId, (results) => {
     if (chrome.runtime.lastError) {
       console.warn(chrome.runtime.lastError.message);
@@ -118,7 +109,7 @@ function getBookmarkData(bookmarkId, done) {
   });
 }
 
-function clearBookmarkInfo() {
+export function clearBookmarkInfo() {
   setBookmarkInfo({
     title: '',
     url: '',
@@ -130,38 +121,21 @@ function clearBookmarkInfo() {
   });
 }
 
-function showInfoDisplay() {
+export function showInfoDisplay() {
   document.getElementById('info-display').classList.remove('hide');
 }
 
-function hideInfoDisplay() {
+export function hideInfoDisplay() {
   document.getElementById('info-display').classList.add('hide');
 }
-function showBookmarkInfo() {
+export function showBookmarkInfo() {
   document.getElementById('bookmarkInfo').classList.remove('hide');
 }
 
-function hideBookmarkInfo() {
+export function hideBookmarkInfo() {
   document.getElementById('bookmarkInfo').classList.add('hide');
 }
 
-function isBookmarkInfoHidden() {
+export function isBookmarkInfoHidden() {
   return document.getElementById('bookmarkInfo').classList.contains('hide');
-}
-
-function displayFileInfo(data) {
-  setBookmarkInfo(data);
-  hideFolderInfo();
-  hideInfoEditForm();
-  showInfoDisplay();
-  showBookmarkInfo();
-  enableFooterButtons();
-}
-
-function displayBookmark(bookmarkId) {
-  getBookmarkData(bookmarkId, (data) => {
-    clearSearchBar();
-    displayFileInfo(data);
-    globalSelectHandler.setSelected(document.getElementById(bookmarkId));
-  });
 }
