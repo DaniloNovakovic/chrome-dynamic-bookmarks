@@ -1,6 +1,5 @@
 import { displayFolderInfo } from './displayFunctions';
-
-// depends: globalSelectHandler
+import globalSelectHandler from './selectHandler';
 
 document.addEventListener('DOMContentLoaded', () => {
   const parentTitleInfo = document.getElementById('parent-title-info');

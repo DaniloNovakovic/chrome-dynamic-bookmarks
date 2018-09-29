@@ -4,6 +4,7 @@ import options from '../config/config';
 import { clearSearchBar } from '../utils/searchBar';
 import { getBookmarkData } from '../utils/bookmarkInfo';
 import { displayFileInfo, displayFolderInfo } from './displayFunctions';
+import globalSelectHandler from './selectHandler';
 
 const {
   openedArrowIcon,

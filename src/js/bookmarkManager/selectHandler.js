@@ -2,11 +2,17 @@ import { openAllParentFolders } from '../utils/folderInfo';
 
 // note: edit this file later to have static elements
 
-class selectHandlerFunc {
+class SelectHandler {
   constructor() {
     this.oldBgCol = null;
     this.oldTxtCol = null;
     this.currSelected = null;
+  }
+  static get staticHandler() {
+    if (typeof this._handler == 'undefined') {
+      this._handler = new SelectHandler();
+    }
+    return this._handler;
   }
   setSelected(element, backgroundColor = '#e0e0e0', color = '') {
     if (this.currSelected) {
@@ -47,4 +53,4 @@ class selectHandlerFunc {
   }
 }
 
-var globalSelectHandler = new selectHandlerFunc();
+export default SelectHandler.staticHandler;

@@ -5,6 +5,7 @@ import {
 } from '../utils/folderInfo';
 import { hideBookmarkInfo } from '../utils/bookmarkInfo';
 import { hideFolderInfoEdit } from '../utils/managerForm';
+import globalSelectHandler from './selectHandler';
 
 //depends: globalSelectHandler
 

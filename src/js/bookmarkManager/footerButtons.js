@@ -19,6 +19,7 @@ import {
 } from '../utils/managerForm';
 import { clearSearchBar } from '../utils/searchBar';
 import { displayFolderInfo } from './displayFunctions';
+import globalSelectHandler from './selectHandler';
 
 // depends on globalSelectHandler
 

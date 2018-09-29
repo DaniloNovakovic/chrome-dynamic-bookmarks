@@ -17,6 +17,7 @@ import {
 } from '../utils/footerButtons';
 import { hideInfoEditForm, hideFolderInfoEdit } from '../utils/managerForm';
 import { clearSearchBar } from '../utils/searchBar';
+import globalSelectHandler from './selectHandler';
 
 // depends: globalSelectHandler
 
