@@ -12,6 +12,8 @@
 - [Usage](#usage)
   - [Introduction](#introduction)
   - [Bookmark manager](#bookmark-manager)
+    - [Search bar](#search-bar)
+    - [Folder browser](#folder-browser)
 - [FAQ](#faq)
 - [Support](#support)
 - [License](#license)
@@ -113,7 +115,29 @@ So let's take a look at each...
 
 #### Search bar
 
+It might look naive, but this search bar is using... you guessed it? Regular expressions! This allows you to do ALOT of cool stuff.
+Here i will just list a few snippets / examples that you can use
+
+- `https` - lists all https links
+- `http[^s]` - all http links (without https)
+- `http[s]?://w{3}` - http or https links that start with _www_
+- `http[s]?://[^w]` - http/https links that DON'T start with _www_
+- `http[s]?://.*?\.com/` - http/https links whose domain name ends with _.com_
+- `^n` - all bookmarks with bookmark name starting with letter _n_ (or _N_, by default it is not case sensitive)
+
+> To learn more about regular expression watch [theNetNinja tutorial](https://www.youtube.com/watch?v=r6I-Ahc0HB4&list=PL4cUxeGkcC9g6m_6Sld9Q4jzqdqHd2HiD)
+
 #### Folder browser
+
+[![Folder browser](./doc/folderBrowser.png)]()
+
+This part should be pretty intuitive. By clicking on folder you open/close it. But also it displays all of the bookmarks that are located inside it (no matter how deep, in my case it will also display children of _WebDesignSites_ folder in my case) on the main section of the screen right of the sidenav.
+
+To help guide you visually folders with **purple** color will contain dynamic / tracked bookmarks which are, as we saw previously filled with **red** color.
+
+Clicking on the folder also selects it, which lets you add/edit/delete it as we will see later, same goes for clicking on bookmark.
+
+> note: you can't edit or delete _Bookmark bar_ and _Other bookmarks_ folders because they are special folders created by chrome
 
 <br />
 
