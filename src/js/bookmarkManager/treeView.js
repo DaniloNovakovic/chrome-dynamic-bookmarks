@@ -8,8 +8,7 @@ import {
   handleFileClick,
   handleFolderHeaderClick
 } from './treeViewComponents';
-
-// depends: displayFolderInfo, displayBookmark
+import { displayFolderInfo, displayBookmark } from './displayFunctions';
 
 const {
   defaultFileIconColor,

@@ -1,4 +1,26 @@
-function displayFileInfo(data) {
+import {
+  setBookmarkInfo,
+  showBookmarkInfo,
+  showInfoDisplay,
+  hideBookmarkInfo,
+  getBookmarkData
+} from '../utils/bookmarkInfo';
+import {
+  hideFolderInfo,
+  renderChildren,
+  showFolderInfoDisplay,
+  showFolderInfo
+} from '../utils/folderInfo';
+import {
+  enableFooterButtons,
+  disableFooterButtons
+} from '../utils/footerButtons';
+import { hideInfoEditForm, hideFolderInfoEdit } from '../utils/managerForm';
+import { clearSearchBar } from '../utils/searchBar';
+
+// depends: globalSelectHandler
+
+export function displayFileInfo(data) {
   setBookmarkInfo(data);
   hideFolderInfo();
   hideInfoEditForm();
@@ -7,7 +29,7 @@ function displayFileInfo(data) {
   enableFooterButtons();
 }
 
-function displayBookmark(bookmarkId) {
+export function displayBookmark(bookmarkId) {
   getBookmarkData(bookmarkId, (data) => {
     clearSearchBar();
     displayFileInfo(data);
@@ -15,7 +37,7 @@ function displayBookmark(bookmarkId) {
   });
 }
 
-function displayFolderInfo(folderId) {
+export function displayFolderInfo(folderId) {
   if (!folderId) {
     return console.warn(`folderId of ${folderId} is invalid`);
   }

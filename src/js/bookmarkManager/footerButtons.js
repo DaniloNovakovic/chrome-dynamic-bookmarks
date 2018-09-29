@@ -1,7 +1,26 @@
-// this file will hold logic considering add/edit/delete buttons
-
-// depends on... almost everything :P xD
 import { disableFooterButtons } from '../utils/footerButtons';
+import {
+  isFolderInfoHidden,
+  getFolderInfoData,
+  hideFolderInfoDisplay,
+  hideFolderInfoChildren
+} from '../utils/folderInfo';
+import {
+  getInfoData,
+  hideInfoDisplay,
+  clearBookmarkInfo,
+  hideBookmarkInfo
+} from '../utils/bookmarkInfo';
+import {
+  showInfoEditForm,
+  showFolderInfoEdit,
+  fillInfoEditForm,
+  fillFolderEditForm
+} from '../utils/managerForm';
+import { clearSearchBar } from '../utils/searchBar';
+import { displayFolderInfo } from './displayFunctions';
+
+// depends on globalSelectHandler
 
 document.addEventListener('DOMContentLoaded', () => {
   const editBtn = document.getElementById('edit-btn');

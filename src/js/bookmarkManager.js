@@ -18,4 +18,4 @@ import './bookmarkManager/bookmarkInfo.js';
 import './bookmarkManager/folderInfo.js';
 import './bookmarkManager/treeView.js';
 import './bookmarkManager/managerForm.js';
-import './bookmarkManager/manager.js';
+import './bookmarkManager/footerButtons.js';

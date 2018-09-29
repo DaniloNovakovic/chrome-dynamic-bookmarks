@@ -3,8 +3,7 @@ import Folder from '../components/Folder';
 import options from '../config/config';
 import { clearSearchBar } from '../utils/searchBar';
 import { getBookmarkData } from '../utils/bookmarkInfo';
-
-// depends: displayFileInfo, displayFolderInfo
+import { displayFileInfo, displayFolderInfo } from './displayFunctions';
 
 const {
   openedArrowIcon,

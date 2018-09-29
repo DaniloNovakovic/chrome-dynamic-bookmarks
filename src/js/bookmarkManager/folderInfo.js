@@ -1,17 +1,17 @@
 import { div, img, a, span, i } from '../lib/react-clone';
 import options from '../config/config';
+import { displayBookmark } from './displayFunctions';
 import {
   findLeafNodes,
   renderChildren,
   createChildInfoId
 } from '../utils/folderInfo';
+
 const {
   trackedFileIconColor,
   defaultFileIconColor,
   defaultFolderIconColor
 } = options;
-
-// depends: displayBookmark
 
 document.addEventListener('DOMContentLoaded', () => {
   initFolderInfo();
