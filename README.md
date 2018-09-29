@@ -198,8 +198,9 @@ Here you are offered with two options:
 1. Add folder (topmost icon)
 1. Add bookmark
 
-Which will prompt a modal form for you to fill.
-New bookmark/folder will be created inside currently selected directory.
+Both will prompt a modal form for you to fill.
+
+> New bookmark/folder will be created inside currently selected directory.
 
 <br />
 
