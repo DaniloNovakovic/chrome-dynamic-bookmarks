@@ -1,3 +1,11 @@
+import options from '../config/config';
+const {
+  defaultFileIconColor,
+  defaultFolderIconColor,
+  trackedFileIconColor,
+  trackedFolderIconColor
+} = options;
+
 export function updateTreeColor() {
   chrome.storage.sync.get(['dynBookmarks'], ({ dynBookmarks }) => {
     let dynBook = dynBookmarks || {};
