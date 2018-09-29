@@ -159,6 +159,30 @@ Our bookmark information has following informations:
 - _regExp_ - regular expression (will be hidden if it is not dynamic bookmark)
 - _history_ - history of 10 most recent links that bookmark was pointing to (for dynamic bookmarks only)
 
+#### Action buttons
+
+You might have noticed that edit and delete buttons have became available once you clicked on a bookmark. Let's have a look at what they do...
+
+##### Delete button
+
+[![Delete button](./doc/deleteButton.PNG)]()
+
+This one is most straightforward out of them all. It deletes currently selected element wheter if it is folder or bookmark, and it selects the parent of the element. If you cannot delete a folder (_ex. Other bookmarks and Bookmarks bar_) it will be greyed out and you won't be able to click it.
+
+##### Edit button
+
+[![Edit button](./doc/editButton.PNG)]()
+
+There are two different scenarios upon pressing edit button:
+
+- Folder is selected - it will prompt you with a form to change it's name
+  [![Edit folder form](./doc/editFolderForm.PNG)]()
+
+- Bookmark is selected - it will prompt you with a form to change name, url or regular expression
+  [![Edit bookmark form](./doc/editBookmarkForm.PNG)]()
+
+> **Deleting regular expression will UNTRACK the bookmark!**
+
 <br />
 
 ---
