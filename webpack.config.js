@@ -3,6 +3,7 @@ var CleanWebpackPlugin = require('clean-webpack-plugin');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var Buffer = require('buffer/').Buffer;
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 var fileExtensions = [
   'jpg',
@@ -42,8 +43,12 @@ var options = {
       },
       {
         test: /\.css$/,
-        loader: 'style-loader!css-loader',
-        exclude: /node_modules/
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader
+          },
+          'css-loader'
+        ]
       },
       {
         test: new RegExp('.(' + fileExtensions.join('|') + ')$'),
@@ -99,6 +104,12 @@ var options = {
       template: path.join(__dirname, 'src', 'bookmarkManager.html'),
       filename: 'bookmarkManager.html',
       chunks: ['bookmarkManager']
+    }),
+    new MiniCssExtractPlugin({
+      // Options similar to the same options in webpackOptions.output
+      // both options are optional
+      filename: '[name].css',
+      chunkFilename: '[id].css'
     })
   ]
 };
