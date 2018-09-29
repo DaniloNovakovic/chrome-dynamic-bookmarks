@@ -14,6 +14,7 @@
   - [Bookmark manager](#bookmark-manager)
     - [Search bar](#search-bar)
     - [Folder browser](#folder-browser)
+    - [Bookmark information](#bookmark-information)
 - [FAQ](#faq)
 - [Support](#support)
 - [License](#license)
@@ -44,20 +45,20 @@ Lets start off by clicking on the extension icon on top right. <br>
 
 <br>
 
-[![Empty Form](./doc/popup-empty-form.png)]()
+[![Empty Form](./doc/popup-empty-form.PNG)]()
 
 Here we need to enter a name of the bookmark we wish to create,
 and a regular expression based on which our bookmark will be updated <br />
 
 As a demonstration, pictures below will show you how we can use this extension to keep track of the playlist on youtube, and the one that we are going to be using is [Regular Expressions Tutorial](https://www.youtube.com/watch?v=r6I-Ahc0HB4&list=PL4cUxeGkcC9g6m_6Sld9Q4jzqdqHd2HiD) by theNetNinja<br />
 
-[![NetNinja RegExp Tutorial front page](./doc/netNinjaRegExpPlaylistPage.png)]()
+[![NetNinja RegExp Tutorial front page](./doc/netNinjaRegExpPlaylistPage.PNG)]()
 
 <br>
 
 What now? Well what would you do if you wanted to bookmark this page? You would press the star icon <br>
 
-[![star icon](./doc/regularBookmark.png)]()
+[![star icon](./doc/regularBookmark.PNG)]()
 
 And the new bookmark would be added pointing to current url with default location of `Other bookmarks` folder.
 
@@ -70,12 +71,12 @@ So now that we got that covered, what should our regular expression be?
 Well let's have a closer look at the url of the playlist:
 <br>
 
-[![playlist url](./doc/playlistUrl.png)]()
+[![playlist url](./doc/playlistUrl.PNG)]()
 
 The `list=` part of the url is the id of the playlist (it is how youtube knows which playlist we are on). What is so great about this? Well let's try clicking on few videos inside a playlist:
 
-[![playlistVideoOne url](./doc/playlistVideoOne.png)]()
-[![playlistVideoTwo url](./doc/playlistVideoTwo.png)]()
+[![playlistVideoOne url](./doc/playlistVideoOne.PNG)]()
+[![playlistVideoTwo url](./doc/playlistVideoTwo.PNG)]()
 
 Notice how `list=PL4cUxeGkcC9g6m_6Sld9Q4jzqdqHd2HiD` is contained in EVERY video inside a playlist.
 Great! That means we can use it.
@@ -84,8 +85,8 @@ So what is gonna be our regular expression?
 
 Well it is gonna be `list=PL4cUxeGkcC9g6m_6Sld9Q4jzqdqHd2HiD`, meaning that if a url contains that, then our bookmark will be updated. So let's fill in the form and submit!
 
-[![filling form](./doc/fillingForm.png)]()
-[![form submited](./doc/formSubmited.png)]()
+[![filling form](./doc/fillingForm.PNG)]()
+[![form submited](./doc/formSubmited.PNG)]()
 
 Congrats! You have successfully created your first dynamic bookmark!
 
@@ -100,7 +101,7 @@ There are two ways we can open it:
 1. by right clicking on bookmark bar then Bookmark manager
 1. by navigating to `chrome://bookmarks`
 
-[![Bookmark manager page](./doc/managerPage.png)]()
+[![Bookmark manager page](./doc/managerPage.PNG)]()
 
 Once you open bookmark manager on the right will be shown All of the bookmark files. Which ones do you think are dynamic/tracked and which ones are regular bookmarks? You guessed it. The red ones are dynamic ones.
 
@@ -129,7 +130,7 @@ Here i will just list a few snippets / examples that you can use
 
 #### Folder browser
 
-[![Folder browser](./doc/folderBrowser.png)]()
+[![Folder browser](./doc/folderBrowser.PNG)]()
 
 This part should be pretty intuitive. By clicking on folder you open/close it. But also it displays all of the bookmarks that are located inside it (no matter how deep, in my case it will also display children of _WebDesignSites_ folder in my case) on the main section of the screen right of the sidenav.
 
@@ -138,6 +139,25 @@ To help guide you visually folders with **purple** color will contain dynamic / 
 Clicking on the folder also selects it, which lets you add/edit/delete it as we will see later, same goes for clicking on bookmark.
 
 > note: you can't edit or delete _Bookmark bar_ and _Other bookmarks_ folders because they are special folders created by chrome
+
+#### Bookmark information
+
+There are two ways to select bookmark:
+
+1. Clicking on it through sidenav
+1. By pressing on right most icon from main section
+
+[![displaying bookmark info](./doc/displayingBookmarkInfo.PNG)]()
+
+[![bookmark info section](./doc/bookmarkInfoSection.PNG)]()
+
+Our bookmark information has following informations:
+
+- _title_ - name of the bookmark
+- _url_ - url of page that bookmark is currently pointing to (clickable)
+- _parent_ - name of parent folder. (clickable)
+- _regExp_ - regular expression (will be hidden if it is not dynamic bookmark)
+- _history_ - history of 10 most recent links that bookmark was pointing to (for dynamic bookmarks only)
 
 <br />
 
