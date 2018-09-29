@@ -54,15 +54,18 @@ document.addEventListener('DOMContentLoaded', () => {
             onClick: handleFolderHeaderClick
           });
       parent.querySelector('ul').appendChild(newEl);
-      if (newEl.classList.contains('folder')) {
-        displayFolderInfo(bookmark.id);
-      } else {
-        displayBookmark(bookmark.id);
-      }
-      globalSelectHandler.setSelected(newEl);
+
+      // note: i wrapped this in timeout because storage is updated AFTER bookmark is created
+      setTimeout(() => {
+        if (newEl.classList.contains('folder')) {
+          displayFolderInfo(bookmark.id);
+        } else {
+          displayBookmark(bookmark.id);
+        }
+        globalSelectHandler.setSelected(newEl);
+        updateTreeColor();
+      }, 100);
     }
-    // note: i wrapped updateTreeColor in timeout because storage is updated AFTER bookmark is created
-    setTimeout(updateTreeColor, 100);
   });
 
   chrome.bookmarks.onRemoved.addListener((id, removeInfo) => {
