@@ -1,3 +1,7 @@
+import { openAllParentFolders } from '../utils/folderInfo';
+
+// note: edit this file later to have static elements
+
 class selectHandlerFunc {
   constructor() {
     this.oldBgCol = null;
@@ -43,5 +47,4 @@ class selectHandlerFunc {
   }
 }
 
-// use this handler if you want to have uniquely selected element
 var globalSelectHandler = new selectHandlerFunc();
