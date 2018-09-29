@@ -2,7 +2,7 @@ import { div, img, a, span, i } from '../lib/react-clone';
 import options from '../config/config';
 import {
   findLeafNodes,
-  hideFolderInfoChildren,
+  renderChildren,
   createChildInfoId
 } from '../utils/folderInfo';
 const {
@@ -10,6 +10,8 @@ const {
   defaultFileIconColor,
   defaultFolderIconColor
 } = options;
+
+// depends: displayBookmark
 
 document.addEventListener('DOMContentLoaded', () => {
   initFolderInfo();
@@ -123,65 +125,4 @@ function createFolderInfoChild(id, title, url, color = defaultFolderIconColor) {
       'more_vert'
     )
   );
-}
-
-/* depends: 
- hideFolderInfoChildren, findLeafNodes,
- defaultFileIconColor, trackedFileIconColor
-*/
-// renders children based on search pattern from 'search-input'
-export function renderChildren(renderAll = false) {
-  const childrenList = document.getElementById('folder-children-info');
-  const folderId =
-    renderAll === true ? '0' : childrenList.getAttribute('folderId');
-
-  let searchPattern;
-  try {
-    let searchInput = document.getElementById('search-input').value;
-    searchPattern = new RegExp(searchInput, 'i');
-  } catch {
-    console.warn('invalid reg exp');
-    searchPattern = new RegExp(); // this matched anything
-  }
-
-  chrome.bookmarks.getSubTree(folderId, (results) => {
-    if (chrome.runtime.lastError) {
-      console.warn(chrome.runtime.lastError.message);
-    } else {
-      chrome.storage.sync.get(['dynBookmarks'], ({ dynBookmarks }) => {
-        const dynBook = dynBookmarks || {};
-        hideFolderInfoChildren();
-        for (let child of results) {
-          findLeafNodes(child, (node) => {
-            const childEl = document.getElementById(`child-info-${node.id}`);
-            if (childEl) {
-              if (searchPattern.test(childEl.textContent)) {
-                childEl.parentElement.classList.remove('hide');
-              }
-              const spans = childEl.querySelectorAll('span');
-              for (let span of spans) {
-                if (dynBook[node.id]) {
-                  span.classList.replace(
-                    defaultFileIconColor,
-                    trackedFileIconColor
-                  );
-                } else {
-                  span.classList.replace(
-                    trackedFileIconColor,
-                    defaultFileIconColor
-                  );
-                }
-              }
-              if (spans[0].textContent !== node.title) {
-                spans[0].textContent = node.title;
-              } else if (childEl.getAttribute('href') !== node.url) {
-                childEl.setAttribute('href', node.url);
-                spans[1].textContent = ` (${node.url})`;
-              }
-            }
-          });
-        }
-      });
-    }
-  });
 }
