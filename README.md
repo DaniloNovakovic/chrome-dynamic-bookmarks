@@ -10,6 +10,8 @@
 
 - [Installation](#installation)
 - [Usage](#usage)
+  - [Introduction](#introduction)
+  - [Bookmark manager](#bookmark-manager)
 - [FAQ](#faq)
 - [Support](#support)
 - [License](#license)
@@ -31,6 +33,8 @@ Currently this extension is not available on Chrome Web Store, since it is still
 1. Assuming there are no errors, the extension should load into your browser
 
 ## Usage
+
+### Introduction
 
 Lets start off by clicking on the extension icon on top right. <br>
 
@@ -82,6 +86,34 @@ Well it is gonna be `list=PL4cUxeGkcC9g6m_6Sld9Q4jzqdqHd2HiD`, meaning that if a
 [![form submited](./doc/formSubmited.png)]()
 
 Congrats! You have successfully created your first dynamic bookmark!
+
+### Bookmark manager
+
+So we created our bookmark, but what if we had alot of bookmarks.
+How will we know which ones are tracked / dynamic and which ones arent? What if we wanted to untrack? What if we wanted to maybe change our regural expression? Etc.
+For these reasons a new extended bookmark manager which focused on these problems had to be made.
+
+There are two ways we can open it:
+
+1. by right clicking on bookmark bar then Bookmark manager
+1. by navigating to `chrome://bookmarks`
+
+[![Bookmark manager page](./doc/managerPage.png)]()
+
+Once you open bookmark manager on the right will be shown All of the bookmark files. Which ones do you think are dynamic/tracked and which ones are regular bookmarks? You guessed it. The red ones are dynamic ones.
+
+On the left side (sidenav) you can see two main elements.
+
+[![search bar](./doc/searchBar.png)]()
+
+1. Search bar
+1. Folder browser / Tree view
+
+So let's take a look at each...
+
+#### Search bar
+
+#### Folder browser
 
 <br />
 
