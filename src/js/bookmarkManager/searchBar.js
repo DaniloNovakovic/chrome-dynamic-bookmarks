@@ -7,8 +7,6 @@ import { hideBookmarkInfo } from '../utils/bookmarkInfo';
 import { hideFolderInfoEdit } from '../utils/managerForm';
 import globalSelectHandler from './selectHandler';
 
-//depends: globalSelectHandler
-
 document.addEventListener('DOMContentLoaded', () => {
   const searchBar = document.getElementById('search-input');
   searchBar.addEventListener('keyup', () => {

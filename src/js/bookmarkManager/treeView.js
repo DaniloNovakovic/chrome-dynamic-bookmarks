@@ -9,6 +9,7 @@ import {
   handleFolderHeaderClick
 } from './treeViewComponents';
 import { displayFolderInfo, displayBookmark } from './displayFunctions';
+import globalSelectHandler from './selectHandler';
 
 const {
   defaultFileIconColor,

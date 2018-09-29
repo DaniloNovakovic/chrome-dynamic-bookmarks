@@ -21,8 +21,6 @@ import { clearSearchBar } from '../utils/searchBar';
 import { displayFolderInfo } from './displayFunctions';
 import globalSelectHandler from './selectHandler';
 
-// depends on globalSelectHandler
-
 document.addEventListener('DOMContentLoaded', () => {
   const editBtn = document.getElementById('edit-btn');
   const deleteBtn = document.getElementById('delete-btn');
