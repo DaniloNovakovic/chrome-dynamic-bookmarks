@@ -12,7 +12,6 @@ import '../css/manager.css';
 
 // js
 import './lib/materialize.min.js';
-import './lib/react-clone.js';
 import './bookmarkManager/selectHandler.js';
 import './bookmarkManager/searchBar.js';
 import './bookmarkManager/bookmarkInfo.js';
