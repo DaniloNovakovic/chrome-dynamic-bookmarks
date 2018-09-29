@@ -66,13 +66,13 @@ What now? Well what would you do if you wanted to bookmark this page? You would 
 
 And the new bookmark would be added pointing to current url with default location of `Other bookmarks` folder.
 
-Same thing is happening here. Once we submit our form a bookmark is gonna be added into `Other bookmarks` folder, except it is gonna be updated whenever we load a new page containing a url matching our regular expression.
+Same thing is happening here. **Once we submit our form a bookmark is gonna be added into `Other bookmarks` folder**, except it is gonna be updated whenever we load a new page containing a url matching our regular expression.
 
 But WHAT is a regular expression? Ever looked through page by using CTRL+F? Well regular expression is kinda the same, except it contains special characters which you can find more about by watching playlist that we are already on.
 But for now we won't be needing these special characters.
 
 So now that we got that covered, what should our regular expression be?
-Well let's have a closer look at the url of the playlist:
+Let's have a closer look at the url of the playlist:
 <br>
 
 [![playlist url](./doc/playlistUrl.PNG)]()
@@ -94,6 +94,8 @@ Well it is gonna be `list=PL4cUxeGkcC9g6m_6Sld9Q4jzqdqHd2HiD`, meaning that if a
 
 Congrats! You have successfully created your first dynamic bookmark!
 
+We can now freely watch netNinja regExp playlist and our bookmark will be automatically updated whenever we click on new video inside that playlist, letting us easily come back later exactly where we left off!
+
 ### Bookmark manager
 
 So we created our bookmark, but what if we had alot of bookmarks.
@@ -107,20 +109,20 @@ There are two ways we can open it:
 
 [![Bookmark manager page](./doc/managerPage.PNG)]()
 
-Once you open bookmark manager on the right will be shown All of the bookmark files. Which ones do you think are dynamic/tracked and which ones are regular bookmarks? You guessed it. The red ones are dynamic ones.
+Once you open bookmark manager on the right will be shown All of the bookmark files. Which ones do you think are dynamic/tracked and which ones are regular bookmarks? You guessed it. The red ones are dynamic.
 
 On the left side (sidenav) you can see two main elements.
 
 [![search bar](./doc/searchBar.png)]()
 
-1. Search bar
-1. Folder browser / Tree view
+  1. Search bar
+  1. Folder browser / Tree view
 
-So let's take a look at each...
+So let's take a closer look at each...
 
 #### Search bar
 
-It might look naive, but this search bar is using... you guessed it? Regular expressions! This allows you to do ALOT of cool stuff.
+It might look naive, but this search bar is using... you guessed it... Regular expressions! This allows you to do ALOT of cool stuff.
 Here i will just list a few snippets / examples that you can use
 
 - `https` - lists all https links
@@ -171,7 +173,7 @@ You might have noticed that edit and delete buttons have became available once y
 
 [![Delete button](./doc/deleteButton.PNG)]()
 
-This one is most straightforward out of them all. It deletes currently selected element wheter if it is folder or bookmark, and it selects the parent of the element. If you cannot delete a folder (_ex. Other bookmarks and Bookmarks bar_) it will be greyed out and you won't be able to click it.
+This one is most straightforward out of them all. **It deletes currently selected element** wheter if it is folder or bookmark. If you cannot delete a folder (_ex. Other bookmarks and Bookmarks bar_) it will be greyed out and you won't be able to click it.
 
 ##### Edit button
 
@@ -179,10 +181,10 @@ This one is most straightforward out of them all. It deletes currently selected 
 
 There are two different scenarios upon pressing edit button:
 
-- Folder is selected - it will prompt you with a form to change it's name
+- _Folder is selected_ - it will prompt you with a form to change it's name
   [![Edit folder form](./doc/editFolderForm.PNG)]()
 
-- Bookmark is selected - it will prompt you with a form to change name, url or regular expression
+- _Bookmark is selected_ - it will prompt you with a form to change name, url or regular expression
   [![Edit bookmark form](./doc/editBookmarkForm.PNG)]()
 
 > **Deleting regular expression will UNTRACK the bookmark!**
