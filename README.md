@@ -8,8 +8,8 @@
 
 ## Table of Contents
 
-- [Installation](#installation)
-- [Usage](#usage)
+- [Installation (outdated)](#installation)
+- [Usage (outdated)](#usage)
 - [FAQ](#faq)
 - [Support](#support)
 - [License](#license)
