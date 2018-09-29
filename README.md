@@ -15,6 +15,10 @@
     - [Search bar](#search-bar)
     - [Folder browser](#folder-browser)
     - [Bookmark information](#bookmark-information)
+    - [Action buttons](#action-buttons)
+      - [Delete](#delete-button)
+      - [Edit](#edit-button)
+      - [Add](#add-button)
 - [FAQ](#faq)
 - [Support](#support)
 - [License](#license)
@@ -182,6 +186,20 @@ There are two different scenarios upon pressing edit button:
   [![Edit bookmark form](./doc/editBookmarkForm.PNG)]()
 
 > **Deleting regular expression will UNTRACK the bookmark!**
+
+##### Add button
+
+To open this one hover over it.
+
+[![Add button](./doc/addButton.PNG)]()
+
+Here you are offered with two options:
+
+1. Add folder (topmost icon)
+1. Add bookmark
+
+Which will prompt a modal form for you to fill.
+New bookmark/folder will be created inside currently selected directory.
 
 <br />
 
