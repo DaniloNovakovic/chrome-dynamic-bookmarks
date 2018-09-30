@@ -17,17 +17,26 @@ body {
   padding-left: 1em;
   padding-right: 0.5em;
 }
+#search-filter {
+  text-align: right;
+  padding: 2em 2em 0em 300px;
+}
+#search-filter * {
+  padding-left: 2em;
+}
 
 /* Main */
 
 main {
-  padding-top: 6em;
   padding-left: 300px;
   padding-bottom: 7em;
 }
 
 @media only screen and (max-width: 992px) {
   main {
+    padding-left: 0;
+  }
+  #search-filter {
     padding-left: 0;
   }
 }

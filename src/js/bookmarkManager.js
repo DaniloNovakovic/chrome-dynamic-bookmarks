@@ -13,7 +13,7 @@ import '../css/manager.css';
 // js
 import './lib/materialize.min.js';
 import './bookmarkManager/selectHandler.js';
-import './bookmarkManager/searchBar.js';
+import './bookmarkManager/search.js';
 import './bookmarkManager/bookmarkInfo.js';
 import './bookmarkManager/folderInfo.js';
 import './bookmarkManager/treeView.js';

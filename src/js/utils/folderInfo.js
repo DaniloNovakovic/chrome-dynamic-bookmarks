@@ -113,6 +113,10 @@ export function renderChildren(renderAll = false) {
     searchPattern = new RegExp(); // this matched anything
   }
 
+  const isTrackedChecked = document.getElementById('tracked-checkbox').checked;
+  const isUntrackedChecked = document.getElementById('untracked-checkbox')
+    .checked;
+
   chrome.bookmarks.getSubTree(folderId, (results) => {
     if (chrome.runtime.lastError) {
       console.warn(chrome.runtime.lastError.message);
@@ -123,18 +127,19 @@ export function renderChildren(renderAll = false) {
         for (let child of results) {
           findLeafNodes(child, (node) => {
             const childEl = document.getElementById(`child-info-${node.id}`);
-            if (childEl) {
-              if (searchPattern.test(childEl.textContent)) {
-                childEl.parentElement.classList.remove('hide');
-              }
+            if (childEl && searchPattern.test(childEl.textContent)) {
               const spans = childEl.querySelectorAll('span');
-              for (let span of spans) {
-                if (dynBook[node.id]) {
+              if (dynBook[node.id] && isTrackedChecked) {
+                childEl.parentElement.classList.remove('hide');
+                for (let span of spans) {
                   span.classList.replace(
                     defaultFileIconColor,
                     trackedFileIconColor
                   );
-                } else {
+                }
+              } else if (!dynBook[node.id] && isUntrackedChecked) {
+                childEl.parentElement.classList.remove('hide');
+                for (let span of spans) {
                   span.classList.replace(
                     trackedFileIconColor,
                     defaultFileIconColor

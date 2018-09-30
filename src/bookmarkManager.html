@@ -38,6 +38,19 @@
     </li>
   </ul>
 
+  <div id="search-filter" class="row">
+    <div class="col s12 m10 l10 offset-m1 offset-m1 offset-l1 offset-l1">
+      <label>
+        <input id="tracked-checkbox" type="checkbox" checked="checked" />
+        <span>Tracked</span>
+      </label>
+      <label>
+        <input id="untracked-checkbox" type="checkbox" checked="checked" />
+        <span>Untracked</span>
+      </label>
+    </div>
+
+  </div>
 
   <!-- Main section-->
   <main class="row ">
@@ -83,7 +96,9 @@
         </form>
       </section>
 
+
       <section class="z-depth-2" id="folderInfo">
+
         <div id="folder-info-display" class="left-align">
           <ul id="folder-children-info" folderId="0">
             <!-- Will be filled with javascript -->

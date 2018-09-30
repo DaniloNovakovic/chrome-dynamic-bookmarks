@@ -25,6 +25,9 @@
 #bookmarkInfo.tracked #parent-title-info {
   color: purple;
 }
+#bookmarkInfo {
+  margin-top: 5em;
+}
 #parent-title-info {
   cursor: pointer;
 }
