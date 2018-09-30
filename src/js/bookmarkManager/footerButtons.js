@@ -17,7 +17,7 @@ import {
   fillInfoEditForm,
   fillFolderEditForm
 } from '../utils/managerForm';
-import { clearSearchBar } from '../utils/searchBar';
+import { clearSearchBar, disableSearchFilter } from '../utils/searchBar';
 import { displayFolderInfo } from './displayFunctions';
 import globalSelectHandler from './selectHandler';
 
@@ -149,6 +149,7 @@ document.addEventListener('DOMContentLoaded', () => {
       fillFolderEditForm(getFolderInfoData());
       hideFolderInfoDisplay();
       showFolderInfoEdit();
+      disableSearchFilter();
     }
     disableFooterButtons();
   });

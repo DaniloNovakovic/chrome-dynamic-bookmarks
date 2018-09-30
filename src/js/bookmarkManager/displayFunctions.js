@@ -16,7 +16,12 @@ import {
   disableFooterButtons
 } from '../utils/footerButtons';
 import { hideInfoEditForm, hideFolderInfoEdit } from '../utils/managerForm';
-import { clearSearchBar } from '../utils/searchBar';
+import {
+  clearSearchBar,
+  showSearchFilter,
+  hideSearchFilter,
+  enableSearchFilter
+} from '../utils/searchBar';
 import globalSelectHandler from './selectHandler';
 
 // depends: globalSelectHandler
@@ -25,6 +30,7 @@ export function displayFileInfo(data) {
   setBookmarkInfo(data);
   hideFolderInfo();
   hideInfoEditForm();
+  hideSearchFilter();
   showInfoDisplay();
   showBookmarkInfo();
   enableFooterButtons();
@@ -48,6 +54,8 @@ export function displayFolderInfo(folderId) {
   renderChildren();
   hideBookmarkInfo();
   hideFolderInfoEdit();
+  showSearchFilter();
+  enableSearchFilter();
   showFolderInfoDisplay();
   showFolderInfo();
 

@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "Dynamic Bookmarks",
   "description": "Updates bookmarks dynamically based on given regExp",
-  "version": "2.0.2",
+  "version": "2.1.1",
   "permissions": ["tabs", "bookmarks", "storage"],
   "background": {
     "page": "background.html"

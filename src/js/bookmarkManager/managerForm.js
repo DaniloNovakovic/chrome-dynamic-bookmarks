@@ -9,6 +9,7 @@ import {
   hideFolderInfoEdit,
   hideInfoEditForm
 } from '../utils/managerForm';
+import { enableSearchFilter } from '../utils/searchBar';
 
 document.addEventListener('DOMContentLoaded', () => {
   /* info-edit form */
@@ -102,6 +103,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function cancelFolderEditForm() {
     hideFolderInfoEdit();
     showFolderInfoDisplay();
+    enableSearchFilter();
     if (folderIdInput.getAttribute('value') > 2) {
       enableFooterButtons();
     }
