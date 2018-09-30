@@ -29,8 +29,12 @@
 
 ## Installation
 
-Currently this extension is not available on Chrome Web Store, since it is still in developement, but you can install it locally in few steps:
+#### For users (recommended):
+1. Click [here](https://chrome.google.com/webstore/detail/dynamic-bookmarks/ilhojkjlfkppedidhpecepohnmlndopb)
+1. Select **Add to chrome**
+1. Enjoy!
 
+#### To install locally (for developers):
 1. [Download](https://github.com/DaniloNovakovic/chrome-dynamic-bookmarks/archive/master.zip) or clone current repository
 1. Navigate to downloaded folder and run `npm init` in console (ex. cmd/terminal/powershell)
    (Note: you will need to have [node.js](https://nodejs.org/en/) installed on your computer)
