@@ -67,7 +67,7 @@ What now? Well what would you do if you wanted to bookmark this page? You would 
 
 And the new bookmark would be added pointing to current url with default location of `Other bookmarks` folder.
 
-Same thing is happening here. **Once we submit our form a bookmark is gonna be added into `Other bookmarks` folder**, except it is gonna be updated whenever we load a new page containing a url matching our regular expression.
+Same thing is happening here. **Once we submit our form, a bookmark is gonna be added into `Other bookmarks` folder**, except it is gonna be updated whenever we load a new page containing a url matching our regular expression.
 
 But WHAT is a regular expression? Ever looked through page by using CTRL+F? Well regular expression is kinda the same, except it contains special characters which you can find more about by watching playlist that we are already on.
 But for now we won't be needing these special characters.
@@ -110,7 +110,7 @@ There are two ways we can open it:
 
 [![Bookmark manager page](./doc/managerPage.PNG)]()
 
-Once you open bookmark manager on the right will be shown All of the bookmark files. Which ones do you think are dynamic/tracked and which ones are regular bookmarks? You guessed it. The red ones are dynamic.
+Once you open bookmark manager on the right will be shown All of the bookmark files. Which ones do you think are dynamic/tracked and which ones are regular bookmarks? You guessed it. **The red ones are dynamic**.
 
 On the left side (sidenav) you can see two main elements.
 
@@ -125,7 +125,7 @@ So let's take a closer look at each...
 
 #### Search bar
 
-It might look naive, but this search bar is using... you guessed it... Regular expressions! This allows you to do ALOT of cool stuff.
+It might look naive, but this search bar is using regular expressions, allowing you to do ALOT of cool stuff.
 Here i will just list a few snippets / examples that you can use
 
 - `https` - lists all https links
@@ -149,7 +149,7 @@ You can also filter out your search by checking/unchecking checkboxes on the top
 
 [![Folder browser](./doc/folderBrowser.PNG)]()
 
-This part should be pretty intuitive. It works exactly like Windows Explorer. By clicking on arrow or double clicking on folder you open/close it, and if you click once on a folder you will see its content without toggling it, which is all of the bookmarks that are located inside it (no matter how deep, in my case it will also display children of _WebDesignSites_ folder).
+This part should be pretty intuitive. It works exactly like Windows Explorer. **By clicking on arrow or double clicking on folder you open/close it**, and if you click once on a folder you will see its content without toggling it, which is all of the bookmarks that are located inside it (no matter how deep, in my case it will also display children of _WebDesignSites_ folder).
 
 To help guide you visually, folders with **purple** color will contain dynamic / tracked bookmarks which are, as we saw previously filled with **red** color.
 
