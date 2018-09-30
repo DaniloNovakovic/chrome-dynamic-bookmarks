@@ -21,6 +21,7 @@ const Folder = (
     header(
       {
         onClick: onClick,
+        onDblclick: onClick,
         className: 'folder-header hoverable',
         opened: opened
       },

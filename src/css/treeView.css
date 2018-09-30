@@ -7,6 +7,10 @@
   overflow: auto;
   white-space: nowrap;
 }
+#treeView * {
+  user-select: none;
+  -webkit-user-select: none;
+}
 #treeView span {
   display: inline-flex;
   vertical-align: middle;

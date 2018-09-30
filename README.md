@@ -138,9 +138,9 @@ Here i will just list a few snippets / examples that you can use
 
 [![Folder browser](./doc/folderBrowser.PNG)]()
 
-This part should be pretty intuitive. By clicking on folder you open/close it. But also it displays all of the bookmarks that are located inside it (no matter how deep, in my case it will also display children of _WebDesignSites_ folder in my case) on the main section of the screen right of the sidenav.
+This part should be pretty intuitive. It works exactly like Windows Explorer. By clicking on arrow or double clicking on folder you open/close it, and if you click once on a folder you will see its content without toggling it, which is all of the bookmarks that are located inside it (no matter how deep, in my case it will also display children of _WebDesignSites_ folder).
 
-To help guide you visually folders with **purple** color will contain dynamic / tracked bookmarks which are, as we saw previously filled with **red** color.
+To help guide you visually, folders with **purple** color will contain dynamic / tracked bookmarks which are, as we saw previously filled with **red** color.
 
 Clicking on the folder also selects it, which lets you add/edit/delete it as we will see later, same goes for clicking on bookmark.
 
