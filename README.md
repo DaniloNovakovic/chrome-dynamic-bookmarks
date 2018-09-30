@@ -9,17 +9,16 @@
 ## Table of Contents
 
 - [Installation](#installation)
-- [Usage](#usage)
-  - [Introduction](#introduction)
-  - [Bookmark manager](#bookmark-manager)
-    - [Search bar](#search-bar)
-      - [Filters](#filters)
-    - [Folder browser](#folder-browser)
-    - [Bookmark information](#bookmark-information)
-    - [Action buttons](#action-buttons)
-      - [Delete](#delete-button)
-      - [Edit](#edit-button)
-      - [Add](#add-button)
+- [Introduction](#introduction)
+- [Bookmark manager](#bookmark-manager)
+  - [Search bar](#search-bar)
+    - [Filters](#filters)
+  - [Folder browser](#folder-browser)
+  - [Bookmark information](#bookmark-information)
+  - [Action buttons](#action-buttons)
+    - [Delete](#delete-button)
+    - [Edit](#edit-button)
+    - [Add](#add-button)
 - [FAQ](#faq)
 - [Support](#support)
 - [License](#license)
@@ -40,9 +39,7 @@ Currently this extension is not available on Chrome Web Store, since it is still
 1. Navigate to the downloaded/cloned local folder of this repository, select `build` folder and click Ok
 1. Assuming there are no errors, the extension should load into your browser
 
-## Usage
-
-### Introduction
+## Introduction
 
 Lets start off by clicking on the extension icon on top right. <br>
 
@@ -97,7 +94,9 @@ Congrats! You have successfully created your first dynamic bookmark!
 
 We can now freely watch netNinja regExp playlist and our bookmark will be automatically updated whenever we click on new video inside that playlist, letting us easily come back later exactly where we left off!
 
-### Bookmark manager
+---
+
+## Bookmark manager
 
 So we created our bookmark, but what if we had alot of bookmarks.
 How will we know which ones are tracked / dynamic and which ones arent? What if we wanted to untrack? What if we wanted to maybe change our regural expression? Etc.
@@ -123,7 +122,7 @@ So let's take a closer look at each...
 
 ---
 
-#### Search bar
+### Search bar
 
 It might look naive, but this search bar is using regular expressions, allowing you to do ALOT of cool stuff.
 Here i will just list a few snippets / examples that you can use
@@ -137,7 +136,7 @@ Here i will just list a few snippets / examples that you can use
 
 > To learn more about regular expression watch [theNetNinja tutorial](https://www.youtube.com/watch?v=r6I-Ahc0HB4&list=PL4cUxeGkcC9g6m_6Sld9Q4jzqdqHd2HiD)
 
-##### Filters
+#### Filters
 
 You can also filter out your search by checking/unchecking checkboxes on the top right, letting you show only tracked ones, untracked ones, or both.
 
@@ -145,7 +144,7 @@ You can also filter out your search by checking/unchecking checkboxes on the top
 
 ---
 
-#### Folder browser
+### Folder browser
 
 [![Folder browser](./doc/folderBrowser.PNG)]()
 
@@ -159,7 +158,7 @@ Clicking on the folder also selects it, which lets you add/edit/delete it as we 
 
 ---
 
-#### Bookmark information
+### Bookmark information
 
 There are two ways to select bookmark:
 
@@ -180,17 +179,17 @@ Our bookmark information has following informations:
 
 ---
 
-#### Action buttons
+### Action buttons
 
 You might have noticed that edit and delete buttons have became available once you clicked on a bookmark. Let's have a look at what they do...
 
-##### Delete button
+#### Delete button
 
 [![Delete button](./doc/deleteButton.PNG)]()
 
 This one is most straightforward out of them all. **It deletes currently selected element** wheter if it is folder or bookmark. If you cannot delete a folder (_ex. Other bookmarks and Bookmarks bar_) it will be greyed out and you won't be able to click it.
 
-##### Edit button
+#### Edit button
 
 [![Edit button](./doc/editButton.PNG)]()
 
@@ -204,7 +203,7 @@ There are two different scenarios upon pressing edit button:
 
 > **Deleting regular expression will UNTRACK the bookmark!**
 
-##### Add button
+#### Add button
 
 To open this one hover over it.
 
