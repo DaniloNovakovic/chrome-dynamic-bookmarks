@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Dynamic Bookmarks",
-  "description": "Updates bookmarks dynamically based on given regExp",
+  "description": "Chrome extension which dynamically updates bookmarks based on the specified regular expression.",
   "version": "2.2.0",
   "permissions": ["tabs", "bookmarks", "storage"],
   "background": {
