@@ -56,7 +56,15 @@ export function handleFolderHeaderClick(event) {
     : event.target.parentElement;
   const folder = folderHeader.parentElement;
   const opened = folderHeader.getAttribute('opened') == 'true';
-  const newOpened = !opened;
+  let newOpened = opened;
+
+  if (event.type == 'click') {
+    newOpened = event.target.classList.contains('arrow-icon')
+      ? !opened
+      : opened;
+  } else if (event.type == 'dblclick') {
+    newOpened = !opened;
+  }
 
   let icons = folderHeader.querySelectorAll('.material-icons');
   icons.forEach((icon) => {
