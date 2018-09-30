@@ -122,16 +122,11 @@ document.addEventListener('DOMContentLoaded', () => {
           console.warn(chrome.runtime.lastError.message);
         } else {
           const parentId = results[0].parentId;
-          chrome.bookmarks.remove(id, () => {
-            if (chrome.runtime.lastError) {
-              console.warn(chrome.runtime.lastError.message);
-            } else {
-              hideFolderInfoChildren();
-              clearBookmarkInfo();
-              hideBookmarkInfo();
-              disableFooterButtons();
-            }
-          });
+          if (isFolderInfoHidden()) {
+            chrome.bookmarks.remove(id, deleteBtnCallback); // removes bookmark
+          } else {
+            chrome.bookmarks.removeTree(id, deleteBtnCallback); // removes folder
+          }
           clearSearchBar();
           displayFolderInfo(parentId);
           globalSelectHandler.setSelected(document.getElementById(parentId));
@@ -139,6 +134,17 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
   });
+
+  function deleteBtnCallback() {
+    if (chrome.runtime.lastError) {
+      console.warn(chrome.runtime.lastError.message);
+    } else {
+      hideFolderInfoChildren();
+      clearBookmarkInfo();
+      hideBookmarkInfo();
+      disableFooterButtons();
+    }
+  }
 
   editBtn.addEventListener('click', () => {
     if (isFolderInfoHidden()) {
