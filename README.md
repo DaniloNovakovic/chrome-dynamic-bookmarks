@@ -13,6 +13,7 @@
   - [Introduction](#introduction)
   - [Bookmark manager](#bookmark-manager)
     - [Search bar](#search-bar)
+      - [Filters](#filters)
     - [Folder browser](#folder-browser)
     - [Bookmark information](#bookmark-information)
     - [Action buttons](#action-buttons)
@@ -120,6 +121,8 @@ On the left side (sidenav) you can see two main elements.
 
 So let's take a closer look at each...
 
+---
+
 #### Search bar
 
 It might look naive, but this search bar is using... you guessed it... Regular expressions! This allows you to do ALOT of cool stuff.
@@ -134,6 +137,14 @@ Here i will just list a few snippets / examples that you can use
 
 > To learn more about regular expression watch [theNetNinja tutorial](https://www.youtube.com/watch?v=r6I-Ahc0HB4&list=PL4cUxeGkcC9g6m_6Sld9Q4jzqdqHd2HiD)
 
+##### Filters
+
+You can also filter out your search by checking/unchecking checkboxes on the top right, letting you show only tracked ones, untracked ones, or both.
+
+[![Search filters](./doc/searchFilters.PNG)]()
+
+---
+
 #### Folder browser
 
 [![Folder browser](./doc/folderBrowser.PNG)]()
@@ -145,6 +156,8 @@ To help guide you visually, folders with **purple** color will contain dynamic /
 Clicking on the folder also selects it, which lets you add/edit/delete it as we will see later, same goes for clicking on bookmark.
 
 > note: you can't edit or delete _Bookmark bar_ and _Other bookmarks_ folders because they are special folders created by chrome
+
+---
 
 #### Bookmark information
 
@@ -164,6 +177,8 @@ Our bookmark information has following informations:
 - _parent_ - name of parent folder. (clickable)
 - _regExp_ - regular expression (will be hidden if it is not dynamic bookmark)
 - _history_ - history of 10 most recent links that bookmark was pointing to (for dynamic bookmarks only)
+
+---
 
 #### Action buttons
 
@@ -203,8 +218,6 @@ Here you are offered with two options:
 Both will prompt a modal form for you to fill.
 
 > New bookmark/folder will be created inside currently selected directory.
-
-<br />
 
 ---
 
