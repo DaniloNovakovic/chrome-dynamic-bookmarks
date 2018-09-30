@@ -19,7 +19,8 @@ import { hideInfoEditForm, hideFolderInfoEdit } from '../utils/managerForm';
 import {
   clearSearchBar,
   showSearchFilter,
-  hideSearchFilter
+  hideSearchFilter,
+  enableSearchFilter
 } from '../utils/searchBar';
 import globalSelectHandler from './selectHandler';
 
@@ -54,6 +55,7 @@ export function displayFolderInfo(folderId) {
   hideBookmarkInfo();
   hideFolderInfoEdit();
   showSearchFilter();
+  enableSearchFilter();
   showFolderInfoDisplay();
   showFolderInfo();
 
