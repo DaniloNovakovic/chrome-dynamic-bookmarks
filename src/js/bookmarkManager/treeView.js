@@ -6,7 +6,10 @@ import { updateTreeColor } from '../utils/treeView';
 import {
   createTree,
   handleFileClick,
-  handleFolderHeaderClick
+  handleFolderHeaderClick,
+  drag,
+  drop,
+  allowDrop
 } from './treeViewComponents';
 import { displayFolderInfo, displayBookmark } from './displayFunctions';
 import globalSelectHandler from './selectHandler';
@@ -46,12 +49,20 @@ document.addEventListener('DOMContentLoaded', () => {
         ? File({
             name: bookmark.title,
             id: bookmark.id,
-            onClick: handleFileClick
+            onClick: handleFileClick,
+            draggable: true,
+            onDrop: drop,
+            onDragover: allowDrop,
+            onDragstart: drag
           })
         : Folder({
             name: bookmark.title,
             id: bookmark.id,
-            onClick: handleFolderHeaderClick
+            onClick: handleFolderHeaderClick,
+            draggable: true,
+            onDrop: drop,
+            onDragover: allowDrop,
+            onDragstart: drag
           });
       parent.querySelector('ul').appendChild(newEl);
 
@@ -93,6 +104,14 @@ document.addEventListener('DOMContentLoaded', () => {
     if (parent.classList.contains('folder')) {
       parent.querySelector('ul').appendChild(elem);
     }
-    setTimeout(updateTreeColor, 100);
+    setTimeout(() => {
+      if (elem.classList.contains('folder')) {
+        displayFolderInfo(id);
+      } else {
+        displayBookmark(id);
+      }
+      globalSelectHandler.setSelected(elem);
+      updateTreeColor();
+    }, 100);
   });
 });

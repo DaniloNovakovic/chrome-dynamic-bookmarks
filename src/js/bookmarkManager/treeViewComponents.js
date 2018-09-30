@@ -17,7 +17,15 @@ const {
 
 export function createTree(node) {
   if (!node.children) {
-    return File({ id: node.id, name: node.title, onClick: handleFileClick });
+    return File({
+      id: node.id,
+      name: node.title,
+      onClick: handleFileClick,
+      draggable: true,
+      onDrop: drop,
+      onDragover: allowDrop,
+      onDragstart: drag
+    });
   } else {
     let childEls = [];
     for (let child of node.children) {
@@ -29,10 +37,66 @@ export function createTree(node) {
         id: node.id,
         name: node.title,
         opened: false,
-        onClick: handleFolderHeaderClick
+        onClick: handleFolderHeaderClick,
+        onDrop: drop,
+        onDragover: allowDrop,
+        ...(node.id > 2 && {
+          draggable: true,
+          onDragstart: drag
+        })
       },
       ...childEls
     );
+  }
+}
+
+export function drag(ev) {
+  if (ev.target.classList.contains('file')) {
+    ev.dataTransfer.setData('text', ev.target.getAttribute('id'));
+  } else if (ev.target.classList.contains('folder-header')) {
+    const id = ev.target.parentElement.getAttribute('id');
+    ev.dataTransfer.setData('text', id);
+  } else if (ev.target.classList.contains('folder')) {
+    ev.dataTransfer.setData('text', ev.target.getAttribute('id'));
+  }
+}
+
+export function allowDrop(ev) {
+  ev.preventDefault();
+}
+
+export function drop(ev) {
+  ev.preventDefault();
+  var id = ev.dataTransfer.getData('text');
+  if (!id) {
+    console.warn('id in drop is undefined!');
+    return;
+  }
+
+  let parentId;
+  if (this.classList.contains('folder-header')) {
+    parentId = this.parentElement.getAttribute('id');
+  } else if (this.classList.contains('folder')) {
+    parentId = this.getAttribute('id');
+  }
+
+  if (this.classList.contains('file')) {
+    chrome.bookmarks.get(this.getAttribute('id'), (results) => {
+      if (chrome.runtime.lastError) {
+        console.warn(chrome.runtime.lastError.message);
+      } else {
+        parentId = results[0].parentId;
+        chrome.bookmarks.move(id, { parentId }, handleError);
+      }
+    });
+  } else if (parentId) {
+    chrome.bookmarks.move(id, { parentId }, handleError);
+  }
+}
+
+function handleError() {
+  if (chrome.runtime.lastError) {
+    console.warn(chrome.runtime.lastError.message);
   }
 }
 

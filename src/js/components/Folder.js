@@ -8,10 +8,10 @@ const {
   defaultFolderIconColor
 } = options;
 
-const Folder = (
-  { opened, name, id, folderIconColor, onClick },
-  ...children
-) => {
+const Folder = (props, ...children) => {
+  const { opened, name, id, folderIconColor, onClick } = props;
+  const headerParams = { ...props };
+  delete headerParams.id;
   const arrowIcon = opened ? openedArrowIcon : closedArrowIcon;
   const folderIcon = opened ? openedFolderIcon : closedFolderIcon;
   const folderName = name || 'unknown';
@@ -20,6 +20,7 @@ const Folder = (
     { className: 'folder', ...(id && { id }) },
     header(
       {
+        ...headerParams,
         onClick: onClick,
         onDblclick: onClick,
         className: 'folder-header hoverable',
