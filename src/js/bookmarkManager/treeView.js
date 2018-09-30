@@ -104,6 +104,14 @@ document.addEventListener('DOMContentLoaded', () => {
     if (parent.classList.contains('folder')) {
       parent.querySelector('ul').appendChild(elem);
     }
-    setTimeout(updateTreeColor, 100);
+    setTimeout(() => {
+      if (elem.classList.contains('folder')) {
+        displayFolderInfo(id);
+      } else {
+        displayBookmark(id);
+      }
+      globalSelectHandler.setSelected(elem);
+      updateTreeColor();
+    }, 100);
   });
 });
