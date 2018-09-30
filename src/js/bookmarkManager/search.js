@@ -13,8 +13,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const searchFilter = document.getElementById('search-filter');
   const trackedCheckbox = document.getElementById('tracked-checkbox');
   const untrackedCheckbox = document.getElementById('untracked-checkbox');
-
+  const folderChildrenInfo = document.getElementById('folder-children-info');
   searchBar.addEventListener('keyup', () => {
+    const folderId = folderChildrenInfo.getAttribute('folderId');
+    if (folderId != '0') {
+      folderChildrenInfo.setAttribute('folderId', 0);
+    }
     renderChildren(true);
     hideBookmarkInfo();
     hideFolderInfoEdit();
