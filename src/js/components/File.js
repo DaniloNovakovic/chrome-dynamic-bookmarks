@@ -2,20 +2,19 @@ import { div, i, span } from '../lib/react-clone';
 import options from '../config/config';
 const { defaultFileIconColor } = options;
 
-const File = ({ name, id, fileIconColor, onClick }) => {
-  const iconColor = fileIconColor || defaultFileIconColor;
+const File = (props) => {
+  const iconColor = props.fileIconColor || defaultFileIconColor;
   return div(
     {
-      className: 'file hoverable',
-      onClick: onClick,
-      ...(id && { id })
+      ...props,
+      className: `file hoverable ${props.className}`
     },
     i({ className: 'material-icons', style: 'opacity: 0;' }, 'arrow_right'),
     i(
       { className: `material-icons ${iconColor} file-icon` },
       'insert_drive_file'
     ),
-    span(null, name)
+    span(null, props.name)
   );
 };
 
