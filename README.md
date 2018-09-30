@@ -19,6 +19,8 @@
     - [Delete](#delete-button)
     - [Edit](#edit-button)
     - [Add](#add-button)
+  - [Changing parent folder](#changing-parent-folder)
+- [What next?](#what-next?)
 - [FAQ](#faq)
 - [Support](#support)
 - [License](#license)
@@ -115,8 +117,8 @@ On the left side (sidenav) you can see two main elements.
 
 [![search bar](./doc/searchBar.png)]()
 
-  1. Search bar
-  1. Folder browser / Tree view
+1. Search bar
+1. Folder browser / Tree view
 
 So let's take a closer look at each...
 
@@ -217,6 +219,26 @@ Here you are offered with two options:
 Both will prompt a modal form for you to fill.
 
 > New bookmark/folder will be created inside currently selected directory.
+
+---
+
+### Changing parent folder
+
+There is one more thing left to cover. By now you may be wondering: _How do i move bookmark/folder?_
+Well it's super easy. Simply click on it, and while holding the left mouse button, drag it over to the parent folder and release. Thats it! :)
+
+> Reminder: You can't move _Other bookmarks_ and _Bookmarks bar_ because they are special chrome folders which can't be changed
+
+---
+
+## What next?
+
+Like i said it would be good to learn regular expression because knowing it will really let you take full advantage of this extension.
+
+My recommendations are The Coding Train and already mentioned, theNetNinja. You can also use search bar to experiment with regular expressions.
+
+If you have questions which aren't answered in FAQ you can contact me at <a href="https://www.linkedin.com/in/danilo-novakovi%C4%87-821934167/" target="_blank">`Linkedin`</a> or by (prefferably) posting an issue on github.
+Same goes for if you have an additional idea on how to improve this extension.
 
 ---
 
