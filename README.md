@@ -9,17 +9,16 @@
 ## Table of Contents
 
 - [Installation](#installation)
-- [Usage](#usage)
-  - [Introduction](#introduction)
-  - [Bookmark manager](#bookmark-manager)
-    - [Search bar](#search-bar)
-      - [Filters](#filters)
-    - [Folder browser](#folder-browser)
-    - [Bookmark information](#bookmark-information)
-    - [Action buttons](#action-buttons)
-      - [Delete](#delete-button)
-      - [Edit](#edit-button)
-      - [Add](#add-button)
+- [Introduction](#introduction)
+- [Bookmark manager](#bookmark-manager)
+  - [Search bar](#search-bar)
+    - [Filters](#filters)
+  - [Folder browser](#folder-browser)
+  - [Bookmark information](#bookmark-information)
+  - [Action buttons](#action-buttons)
+    - [Delete](#delete-button)
+    - [Edit](#edit-button)
+    - [Add](#add-button)
 - [FAQ](#faq)
 - [Support](#support)
 - [License](#license)
@@ -40,9 +39,7 @@ Currently this extension is not available on Chrome Web Store, since it is still
 1. Navigate to the downloaded/cloned local folder of this repository, select `build` folder and click Ok
 1. Assuming there are no errors, the extension should load into your browser
 
-## Usage
-
-### Introduction
+## Introduction
 
 Lets start off by clicking on the extension icon on top right. <br>
 
@@ -67,13 +64,13 @@ What now? Well what would you do if you wanted to bookmark this page? You would 
 
 And the new bookmark would be added pointing to current url with default location of `Other bookmarks` folder.
 
-Same thing is happening here. Once we submit our form a bookmark is gonna be added into `Other bookmarks` folder, except it is gonna be updated whenever we load a new page containing a url matching our regular expression.
+Same thing is happening here. **Once we submit our form, a bookmark is gonna be added into `Other bookmarks` folder**, except it is gonna be updated whenever we load a new page containing a url matching our regular expression.
 
 But WHAT is a regular expression? Ever looked through page by using CTRL+F? Well regular expression is kinda the same, except it contains special characters which you can find more about by watching playlist that we are already on.
 But for now we won't be needing these special characters.
 
 So now that we got that covered, what should our regular expression be?
-Well let's have a closer look at the url of the playlist:
+Let's have a closer look at the url of the playlist:
 <br>
 
 [![playlist url](./doc/playlistUrl.PNG)]()
@@ -95,7 +92,11 @@ Well it is gonna be `list=PL4cUxeGkcC9g6m_6Sld9Q4jzqdqHd2HiD`, meaning that if a
 
 Congrats! You have successfully created your first dynamic bookmark!
 
-### Bookmark manager
+We can now freely watch netNinja regExp playlist and our bookmark will be automatically updated whenever we click on new video inside that playlist, letting us easily come back later exactly where we left off!
+
+---
+
+## Bookmark manager
 
 So we created our bookmark, but what if we had alot of bookmarks.
 How will we know which ones are tracked / dynamic and which ones arent? What if we wanted to untrack? What if we wanted to maybe change our regural expression? Etc.
@@ -108,22 +109,22 @@ There are two ways we can open it:
 
 [![Bookmark manager page](./doc/managerPage.PNG)]()
 
-Once you open bookmark manager on the right will be shown All of the bookmark files. Which ones do you think are dynamic/tracked and which ones are regular bookmarks? You guessed it. The red ones are dynamic ones.
+Once you open bookmark manager on the right will be shown All of the bookmark files. Which ones do you think are dynamic/tracked and which ones are regular bookmarks? You guessed it. **The red ones are dynamic**.
 
 On the left side (sidenav) you can see two main elements.
 
 [![search bar](./doc/searchBar.png)]()
 
-1. Search bar
-1. Folder browser / Tree view
+  1. Search bar
+  1. Folder browser / Tree view
 
-So let's take a look at each...
+So let's take a closer look at each...
 
 ---
 
-#### Search bar
+### Search bar
 
-It might look naive, but this search bar is using... you guessed it? Regular expressions! This allows you to do ALOT of cool stuff.
+It might look naive, but this search bar is using regular expressions, allowing you to do ALOT of cool stuff.
 Here i will just list a few snippets / examples that you can use
 
 - `https` - lists all https links
@@ -135,7 +136,7 @@ Here i will just list a few snippets / examples that you can use
 
 > To learn more about regular expression watch [theNetNinja tutorial](https://www.youtube.com/watch?v=r6I-Ahc0HB4&list=PL4cUxeGkcC9g6m_6Sld9Q4jzqdqHd2HiD)
 
-##### Filters
+#### Filters
 
 You can also filter out your search by checking/unchecking checkboxes on the top right, letting you show only tracked ones, untracked ones, or both.
 
@@ -143,11 +144,11 @@ You can also filter out your search by checking/unchecking checkboxes on the top
 
 ---
 
-#### Folder browser
+### Folder browser
 
 [![Folder browser](./doc/folderBrowser.PNG)]()
 
-This part should be pretty intuitive. It works exactly like Windows Explorer. By clicking on arrow or double clicking on folder you open/close it, and if you click once on a folder you will see its content without toggling it, which is all of the bookmarks that are located inside it (no matter how deep, in my case it will also display children of _WebDesignSites_ folder).
+This part should be pretty intuitive. It works exactly like Windows Explorer. **By clicking on arrow or double clicking on folder you open/close it**, and if you click once on a folder you will see its content without toggling it, which is all of the bookmarks that are located inside it (no matter how deep, in my case it will also display children of _WebDesignSites_ folder).
 
 To help guide you visually, folders with **purple** color will contain dynamic / tracked bookmarks which are, as we saw previously filled with **red** color.
 
@@ -157,7 +158,7 @@ Clicking on the folder also selects it, which lets you add/edit/delete it as we 
 
 ---
 
-#### Bookmark information
+### Bookmark information
 
 There are two ways to select bookmark:
 
@@ -178,31 +179,31 @@ Our bookmark information has following informations:
 
 ---
 
-#### Action buttons
+### Action buttons
 
 You might have noticed that edit and delete buttons have became available once you clicked on a bookmark. Let's have a look at what they do...
 
-##### Delete button
+#### Delete button
 
 [![Delete button](./doc/deleteButton.PNG)]()
 
-This one is most straightforward out of them all. It deletes currently selected element wheter if it is folder or bookmark, and it selects the parent of the element. If you cannot delete a folder (_ex. Other bookmarks and Bookmarks bar_) it will be greyed out and you won't be able to click it.
+This one is most straightforward out of them all. **It deletes currently selected element** wheter if it is folder or bookmark. If you cannot delete a folder (_ex. Other bookmarks and Bookmarks bar_) it will be greyed out and you won't be able to click it.
 
-##### Edit button
+#### Edit button
 
 [![Edit button](./doc/editButton.PNG)]()
 
 There are two different scenarios upon pressing edit button:
 
-- Folder is selected - it will prompt you with a form to change it's name
+- _Folder is selected_ - it will prompt you with a form to change it's name
   [![Edit folder form](./doc/editFolderForm.PNG)]()
 
-- Bookmark is selected - it will prompt you with a form to change name, url or regular expression
+- _Bookmark is selected_ - it will prompt you with a form to change name, url or regular expression
   [![Edit bookmark form](./doc/editBookmarkForm.PNG)]()
 
 > **Deleting regular expression will UNTRACK the bookmark!**
 
-##### Add button
+#### Add button
 
 To open this one hover over it.
 
