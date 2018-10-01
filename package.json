@@ -1,7 +1,7 @@
 {
   "name": "chrome-dynamic-bookmarks",
-  "version": "2.2.0",
-  "description": "Updates bookmarks dynamically based on given regExp",
+  "version": "2.2.1",
+  "description": "Chrome extension which dynamically updates bookmarks based on the specified regular expression.",
   "scripts": {
     "dev": "webpack --mode development",
     "build": "webpack --mode production",
