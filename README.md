@@ -20,7 +20,7 @@
     - [Edit](#edit-button)
     - [Add](#add-button)
   - [Changing parent folder](#changing-parent-folder)
-- [What next?](#what-next?)
+- [What next?](#what-next)
 - [FAQ](#faq)
 - [Support](#support)
 - [License](#license)
@@ -247,6 +247,11 @@ Same goes for if you have an additional idea on how to improve this extension.
 ---
 
 ## FAQ
+- **What is *regExp*?**
+    - `regExp` (short for regular expression) is a rule upon which it is determined if the URL that you are currently on should be updated. 
+    - For example, let's say that your `regExp` was `crunchyroll.com/gintama`. 
+    - If you were on a `http://www.crunchyroll.com/gintama/episode-182-screw-popularity-votes-534414`, then that link would match our `regExp` because `crunchyroll.com/gintama` is contained in this URL, and in turn our bookmark would be updated. 
+    - But if you were on, let's say, `https://github.com/DaniloNovakovic/chrome-dynamic-bookmarks`, then it would NOT match our `regExp`, hence our bookmark would not be updated. 
 
 ---
 
