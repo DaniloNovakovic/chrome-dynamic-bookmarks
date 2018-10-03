@@ -108,8 +108,8 @@ We can now freely watch netNinja regExp playlist and our bookmark will be automa
 
 ### **Crunchyroll**:
 
-Let's say you wanted to watch Gintama on Crunchyroll.
-First let's see what part of the url stays the same. As example let's click a few episodes and see the URL of these episodes:
+Let's say you wanted to watch Gintama on Crunchyroll. <br>
+First let's see what part of the url stays the same. <br> As example let's click a few episodes and see the URL of these episodes:
 
 ```
 http://www.crunchyroll.com/gintama/episode-182-screw-popularity-votes-534414
@@ -117,14 +117,14 @@ http://www.crunchyroll.com/gintama/episode-187-its-goodbye-once-a-flag-is-set-53
 http://www.crunchyroll.com/gintama/episode-186-beware-of-foreshadows-535984
 ```
 
-So ask yourself, **which part of these urls stays the same?**
-Well it is **crunchyroll.com/gintama/** , so we would enter this as our **_regExp_** .
-Now every time you clicked on link containing _crunchyroll.com/gintama_ , our bookmark would automatically update to point to that new URL.
+So ask yourself, **which part of these urls stays the same?** <br>
+Well it is **crunchyroll.com/gintama/** , so we would enter this as our **_regExp_** . <br>
+Now every time you clicked on link containing _crunchyroll.com/gintama_ , our bookmark would automatically update to point to that new URL. <br>
 But if we were to go to, let's say `http://www.crunchyroll.com/mushi-shi`, then our bookmark would NOT update because _crunchyroll.com/gintama_ is not contained in that link.
 
 ### **Kissanime**:
 
-Now what if we wanted to watch Naruto on kissanime?
+Now what if we wanted to watch Naruto on kissanime? <br>
 Again, let's try clicking on few episodes and check the links:
 
 ```
@@ -132,7 +132,7 @@ https://kissanime.ac/Anime/Naruto-Dub.21820/Episode-186-Laughing-Shino?id=104053
 https://kissanime.ac/Anime/Naruto-Dub.21820/Episode-197-Crisis-The-Hidden-Leaf-11-Gather?id=104064
 ```
 
-Ok so what part stays the same?
+Ok so what part stays the same?<br>
 It's **_kissanime.ac/Anime/Naruto-Dub.21820_** , so this would be our **_regExp_**
 
 ---
