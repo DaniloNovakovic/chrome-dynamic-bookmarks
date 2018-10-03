@@ -17,7 +17,6 @@
     - [Kissanime](#kissanime)
 - [Bookmark manager](#bookmark-manager)
   - [Search bar](#search-bar)
-    - [Filters](#filters)
   - [Folder browser](#folder-browser)
   - [Bookmark information](#bookmark-information)
   - [Action buttons](#action-buttons)
@@ -175,12 +174,6 @@ Here i will just list a few snippets / examples that you can use
 
 > To learn more about regular expression watch [theNetNinja tutorial](https://www.youtube.com/watch?v=r6I-Ahc0HB4&list=PL4cUxeGkcC9g6m_6Sld9Q4jzqdqHd2HiD)
 
-#### Filters
-
-You can also filter out your search by checking/unchecking checkboxes on the top right, letting you show only tracked ones, untracked ones, or both.
-
-[![Search filters](./doc/searchFilters.PNG)]()
-
 ---
 
 ### Folder browser
@@ -206,15 +199,15 @@ There are two ways to select bookmark:
 
 [![displaying bookmark info](./doc/displayingBookmarkInfo.PNG)]()
 
-[![bookmark info section](./doc/bookmarkInfoSection.PNG)]()
-
-Our bookmark information has following informations:
+Selecting a bookmark will display following:
 
 - _title_ - name of the bookmark
 - _url_ - url of page that bookmark is currently pointing to (clickable)
 - _parent_ - name of parent folder. (clickable)
 - _regExp_ - regular expression (will be hidden if it is not dynamic bookmark)
 - _history_ - history of 10 most recent links that bookmark was pointing to (for dynamic bookmarks only)
+
+[![bookmark info section](./doc/bookmarkInfoSection.PNG)]()
 
 ---
 
@@ -235,10 +228,7 @@ This one is most straightforward out of them all. **It deletes currently selecte
 There are two different scenarios upon pressing edit button:
 
 - _Folder is selected_ - it will prompt you with a form to change it's name
-  [![Edit folder form](./doc/editFolderForm.PNG)]()
-
 - _Bookmark is selected_ - it will prompt you with a form to change name, url or regular expression
-  [![Edit bookmark form](./doc/editBookmarkForm.PNG)]()
 
 > **Deleting regular expression will UNTRACK the bookmark!**
 
