@@ -10,6 +10,11 @@
 
 - [Installation](#installation)
 - [Introduction](#introduction)
+- [Examples](#examples)
+  - [Tracking videos in a youtube playlist](#tracking-videos-in-a-youtube-playlist)
+  - [Tracking anime](#tracking-anime)
+    - [Crunchyroll](#crunchyroll)
+    - [Kissanime](#kissanime)
 - [Bookmark manager](#bookmark-manager)
   - [Search bar](#search-bar)
     - [Filters](#filters)
@@ -30,11 +35,13 @@
 ## Installation
 
 #### For users (recommended):
+
 1. Click [here](https://chrome.google.com/webstore/detail/dynamic-bookmarks/ilhojkjlfkppedidhpecepohnmlndopb)
 1. Select **Add to chrome**
 1. Enjoy!
 
 #### To install locally (for developers):
+
 1. [Download](https://github.com/DaniloNovakovic/chrome-dynamic-bookmarks/archive/master.zip) or clone current repository
 1. Navigate to downloaded folder and run `npm init` in console (ex. cmd/terminal/powershell)
    (Note: you will need to have [node.js](https://nodejs.org/en/) installed on your computer)
@@ -56,26 +63,24 @@ Lets start off by clicking on the extension icon on top right. <br>
 [![Empty Form](./doc/popup-empty-form.PNG)]()
 
 Here we need to enter a name of the bookmark we wish to create,
-and a regular expression based on which our bookmark will be updated <br />
+and a regular expression (regExp) based on which our bookmark will be updated. <br />
 
-As a demonstration, pictures below will show you how we can use this extension to keep track of the playlist on youtube, and the one that we are going to be using is [Regular Expressions Tutorial](https://www.youtube.com/watch?v=r6I-Ahc0HB4&list=PL4cUxeGkcC9g6m_6Sld9Q4jzqdqHd2HiD) by theNetNinja<br />
+But WHAT is a **regular expression**? It simply **is a sequence of characters that define a search pattern**. Ever did CTRL+F to find something on page? Well it's preety much the same thing, but with extra special characters that let your search be more flexible.
+
+Once the form is submited a dynamic bookmark will be created inside `Other bookmarks` folder.
+
+---
+
+## Examples
+
+### **_Tracking videos in a youtube playlist_**
+
+As a demonstration we are going to be using [Regular Expressions Tutorial](https://www.youtube.com/watch?v=r6I-Ahc0HB4&list=PL4cUxeGkcC9g6m_6Sld9Q4jzqdqHd2HiD) by theNetNinja<br />
 
 [![NetNinja RegExp Tutorial front page](./doc/netNinjaRegExpPlaylistPage.PNG)]()
 
 <br>
 
-What now? Well what would you do if you wanted to bookmark this page? You would press the star icon <br>
-
-[![star icon](./doc/regularBookmark.PNG)]()
-
-And the new bookmark would be added pointing to current url with default location of `Other bookmarks` folder.
-
-Same thing is happening here. **Once we submit our form, a bookmark is gonna be added into `Other bookmarks` folder**, except it is gonna be updated whenever we load a new page containing a url matching our regular expression.
-
-But WHAT is a regular expression? Ever looked through page by using CTRL+F? Well regular expression is kinda the same, except it contains special characters which you can find more about by watching playlist that we are already on.
-But for now we won't be needing these special characters.
-
-So now that we got that covered, what should our regular expression be?
 Let's have a closer look at the url of the playlist:
 <br>
 
@@ -99,6 +104,37 @@ Well it is gonna be `list=PL4cUxeGkcC9g6m_6Sld9Q4jzqdqHd2HiD`, meaning that if a
 Congrats! You have successfully created your first dynamic bookmark!
 
 We can now freely watch netNinja regExp playlist and our bookmark will be automatically updated whenever we click on new video inside that playlist, letting us easily come back later exactly where we left off!
+
+## **_Tracking anime_**
+
+### **Crunchyroll**:
+
+Let's say you wanted to watch Gintama on Crunchyroll.
+First let's see what part of the url stays the same. As example let's click a few episodes and see the URL of these episodes:
+
+```
+http://www.crunchyroll.com/gintama/episode-182-screw-popularity-votes-534414
+http://www.crunchyroll.com/gintama/episode-187-its-goodbye-once-a-flag-is-set-537056
+http://www.crunchyroll.com/gintama/episode-186-beware-of-foreshadows-535984
+```
+
+So ask yourself, **which part of these urls stays the same?**
+Well it is **crunchyroll.com/gintama/** , so we would enter this as our **_regExp_** .
+Now every time you clicked on link containing _crunchyroll.com/gintama_ , our bookmark would automatically update to point to that new URL.
+But if we were to go to, let's say `http://www.crunchyroll.com/mushi-shi`, then our bookmark would NOT update because _crunchyroll.com/gintama_ is not contained in that link.
+
+### **Kissanime**:
+
+Now what if we wanted to watch Naruto on kissanime?
+Again, let's try clicking on few episodes and check the links:
+
+```
+https://kissanime.ac/Anime/Naruto-Dub.21820/Episode-186-Laughing-Shino?id=104053
+https://kissanime.ac/Anime/Naruto-Dub.21820/Episode-197-Crisis-The-Hidden-Leaf-11-Gather?id=104064
+```
+
+Ok so what part stays the same?
+It's **_kissanime.ac/Anime/Naruto-Dub.21820_** , so this would be our **_regExp_**
 
 ---
 
