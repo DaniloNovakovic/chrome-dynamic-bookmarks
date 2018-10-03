@@ -146,19 +146,16 @@ For these reasons a new extended bookmark manager which focused on these problem
 
 There are two ways we can open it:
 
-1. by right clicking on bookmark bar then Bookmark manager
-1. by navigating to `chrome://bookmarks`
+- by right clicking on bookmark bar then Bookmark manager
+- by navigating to `chrome://bookmarks`
 
 [![Bookmark manager page](./doc/managerPage.PNG)]()
 
-Once you open bookmark manager on the right will be shown All of the bookmark files. Which ones do you think are dynamic/tracked and which ones are regular bookmarks? You guessed it. **The red ones are dynamic**.
+Once you open bookmark manager, on the right, all of the bookmark files will be shown. For easier navigation **dynamic bookmarks** are shown in **red color**.
 
 On the left side (sidenav) you can see two main elements.
 
 [![search bar](./doc/searchBar.png)]()
-
-1. Search bar
-1. Folder browser / Tree view
 
 So let's take a closer look at each...
 
