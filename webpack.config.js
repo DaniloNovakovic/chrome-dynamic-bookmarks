@@ -3,7 +3,9 @@ var CleanWebpackPlugin = require('clean-webpack-plugin');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var Buffer = require('buffer/').Buffer;
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 var fileExtensions = [
   'jpg',
@@ -28,6 +30,19 @@ var options = {
   output: {
     path: path.join(__dirname, 'build'),
     filename: '[name].bundle.js'
+  },
+  optimization: {
+    splitChunks: {
+      chunks: 'all'
+    },
+    minimizer: [
+      new UglifyJsPlugin({
+        cache: true,
+        parallel: true,
+        sourceMap: true // set to true if you want JS source maps
+      }),
+      new OptimizeCSSAssetsPlugin({})
+    ]
   },
   module: {
     rules: [
@@ -88,7 +103,7 @@ var options = {
     new HtmlWebpackPlugin({
       template: path.join(__dirname, 'src', 'popup.html'),
       filename: 'popup.html',
-      chunks: ['popup']
+      excludeChunks: ['bookmarkManager', 'background', 'options']
     }),
     new HtmlWebpackPlugin({
       template: path.join(__dirname, 'src', 'options.html'),
@@ -103,7 +118,7 @@ var options = {
     new HtmlWebpackPlugin({
       template: path.join(__dirname, 'src', 'bookmarkManager.html'),
       filename: 'bookmarkManager.html',
-      chunks: ['bookmarkManager']
+      excludeChunks: ['popup', 'options', 'background']
     }),
     new MiniCssExtractPlugin({
       // Options similar to the same options in webpackOptions.output
