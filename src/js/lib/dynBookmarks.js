@@ -92,3 +92,18 @@ export function create(props, done) {
     done
   );
 }
+
+export function findByIdAndRemove(id, done) {
+  findAll((err, dynBook) => {
+    if (err) {
+      if (typeof done == 'function') {
+        done(err);
+      } else {
+        console.warn(err);
+      }
+    } else if (dynBook[id]) {
+      delete dynBook[id];
+      overwrite(dynBook, done);
+    }
+  });
+}
