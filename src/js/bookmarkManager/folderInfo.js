@@ -25,14 +25,24 @@ document.addEventListener('DOMContentLoaded', () => {
           : defaultFileIconColor;
         const childrenList = document.getElementById('folder-children-info');
         if (childrenList) {
-          childrenList.appendChild(
-            createFolderInfoChild(
-              bookmark.id,
-              bookmark.title,
-              bookmark.url,
-              color
-            )
+          const infoChild = createFolderInfoChild(
+            bookmark.id,
+            bookmark.title,
+            bookmark.url,
+            color
           );
+          if (infoChild) {
+            childrenList.appendChild(infoChild);
+          } else {
+            console.warn(
+              `failed to create infoChild ${JSON.stringify({
+                id: bookmark.id,
+                title: bookmark.title,
+                url: bookmark.url,
+                color
+              })}`
+            );
+          }
         }
       });
     }, 100);
@@ -69,10 +79,23 @@ function initFolderInfo() {
             const color = dynBook[node.id]
               ? trackedFileIconColor
               : defaultFileIconColor;
-
-            childrenList.appendChild(
-              createFolderInfoChild(node.id, node.title, node.url, color)
+            const infoChild = createFolderInfoChild(
+              node.id,
+              node.title,
+              node.url,
+              color
             );
+            if (infoChild) {
+              childrenList.appendChild(infoChild);
+            } else {
+              console.warn(
+                `failed to create infoChild ${JSON.stringify({
+                  id: node.id,
+                  title: node.title,
+                  url: node.url
+                })}`
+              );
+            }
           });
         }
       });
@@ -88,9 +111,14 @@ function initFolderInfo() {
  * @param {string} url - (bookmark.url - url to which bookmark points to)
  * @param {string} color - materializecss className color of text (note: lightened/darkened are added automatically so don't use them)
  */
-function createFolderInfoChild(id, title, url, color = defaultFolderIconColor) {
-  if (!id || !url || !title) {
-    console.warn('in createFolderInfo id, url or/and title were invalid');
+function createFolderInfoChild(
+  id,
+  title = 'unknown',
+  url = 'about:blank',
+  color = defaultFolderIconColor
+) {
+  if (!id) {
+    console.warn('in createFolderInfoChild id was undefined');
     return null;
   }
   let hostName = url.match(/^(http[s]?:\/\/.*?\/)/i);

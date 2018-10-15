@@ -20,6 +20,7 @@ import {
 import { clearSearchBar, disableSearchFilter } from '../utils/searchBar';
 import { displayFolderInfo } from './displayFunctions';
 import globalSelectHandler from './selectHandler';
+import * as dynBookmarks from '../lib/dynBookmarks';
 
 document.addEventListener('DOMContentLoaded', () => {
   const editBtn = document.getElementById('edit-btn');
@@ -94,14 +95,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (chrome.runtime.lastError) {
           console.warn(chrome.runtime.lastError.message);
         } else if (regExp) {
-          chrome.storage.sync.get(['dynBookmarks'], ({ dynBookmarks }) => {
-            const dynBook = dynBookmarks || {};
-            dynBook[bookmark.id] = {
-              ...dynBook[bookmark.id],
-              regExp,
-              history: []
-            };
-            chrome.storage.sync.set({ dynBookmarks: dynBook });
+          dynBookmarks.findByIdAndUpdate(bookmark.id, {
+            regExp,
+            history: []
           });
         }
         const modal = document.getElementById('addFileModal');
