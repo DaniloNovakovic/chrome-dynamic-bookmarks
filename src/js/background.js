@@ -1,11 +1,13 @@
+import * as dbm from './lib/dynBookmarks';
+
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
   if (!changeInfo.url) return;
 
   const newUrl = changeInfo.url;
 
   // get bookmarks
-  chrome.storage.sync.get(['dynBookmarks'], ({ dynBookmarks }) => {
-    let dynBook = dynBookmarks || {};
+  dbm.findAll((err, dynBook) => {
+    if (err) console.warn(err);
     for (let id in dynBook) {
       let { regExp } = dynBook[id];
       try {
@@ -29,18 +31,13 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
 });
 
 chrome.bookmarks.onRemoved.addListener((id) => {
-  chrome.storage.sync.get(['dynBookmarks'], ({ dynBookmarks }) => {
-    let dynBook = dynBookmarks || {};
-    if (dynBook[id]) {
-      delete dynBook[id];
+  dbm.findByIdAndRemove(id, (err) => {
+    if (err) {
+      console.warn(err);
+    } else {
       console.log(
         `Successfully removed bookmark with id of ${id} from storage`
       );
-      chrome.storage.sync.set({ dynBookmarks: dynBook }, () => {
-        if (chrome.runtime.lastError) {
-          console.warn(chrome.runtime.lastError.message);
-        }
-      });
     }
   });
 });
@@ -49,16 +46,17 @@ chrome.bookmarks.onRemoved.addListener((id) => {
 const maxHistorySize = 10;
 chrome.bookmarks.onChanged.addListener((id, changeInfo) => {
   if (changeInfo.url) {
-    chrome.storage.sync.get(['dynBookmarks'], ({ dynBookmarks }) => {
-      const dynBook = dynBookmarks || {};
-      if (dynBook[id]) {
+    dbm.findAll((err, dynBook) => {
+      if (err) {
+        console.warn(err);
+      } else if (dynBook[id]) {
         if (dynBook[id].history.length >= maxHistorySize) {
           dynBook[id].history.pop();
         }
         dynBook[id].history.unshift(changeInfo.url);
-        chrome.storage.sync.set({ dynBookmarks: dynBook }, () => {
-          if (chrome.runtime.lastError) {
-            console.warn(chrome.runtime.lastError.message);
+        dbm.overwrite(dynBook, (err) => {
+          if (err) {
+            console.warn(err);
           }
         });
       }

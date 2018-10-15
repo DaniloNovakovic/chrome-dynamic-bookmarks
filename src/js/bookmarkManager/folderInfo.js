@@ -6,6 +6,7 @@ import {
   renderChildren,
   createChildInfoId
 } from '../utils/folderInfo';
+import * as dynBookmarks from '../lib/dynBookmarks';
 
 const {
   trackedFileIconColor,
@@ -18,21 +19,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
   chrome.bookmarks.onCreated.addListener((id, bookmark) => {
     setTimeout(() => {
-      chrome.storage.sync.get(['dynBookmarks'], ({ dynBookmarks }) => {
-        const dynBook = dynBookmarks || {};
-        const color = dynBook[bookmark.id]
-          ? trackedFileIconColor
-          : defaultFileIconColor;
+      dynBookmarks.findById(bookmark.id, (err, dynBookItem) => {
+        if (err) console.warn(err);
+        const color = dynBookItem ? trackedFileIconColor : defaultFileIconColor;
         const childrenList = document.getElementById('folder-children-info');
         if (childrenList) {
-          childrenList.appendChild(
-            createFolderInfoChild(
-              bookmark.id,
-              bookmark.title,
-              bookmark.url,
-              color
-            )
+          const infoChild = createFolderInfoChild(
+            bookmark.id,
+            bookmark.title,
+            bookmark.url,
+            color
           );
+          if (infoChild) {
+            childrenList.appendChild(infoChild);
+          } else {
+            console.warn(
+              `failed to create infoChild ${JSON.stringify({
+                id: bookmark.id,
+                title: bookmark.title,
+                url: bookmark.url,
+                color
+              })}`
+            );
+          }
         }
       });
     }, 100);
@@ -61,18 +70,31 @@ function initFolderInfo() {
     if (chrome.runtime.lastError) {
       console.warn(chrome.runtime.lastError.message);
     } else {
-      chrome.storage.sync.get(['dynBookmarks'], ({ dynBookmarks }) => {
-        const dynBook = dynBookmarks || {};
+      dynBookmarks.findAll((err, dynBook) => {
+        if (err) console.warn(err);
         childrenList.innerHTML = '';
         for (let child of results) {
           findLeafNodes(child, (node) => {
             const color = dynBook[node.id]
               ? trackedFileIconColor
               : defaultFileIconColor;
-
-            childrenList.appendChild(
-              createFolderInfoChild(node.id, node.title, node.url, color)
+            const infoChild = createFolderInfoChild(
+              node.id,
+              node.title,
+              node.url,
+              color
             );
+            if (infoChild) {
+              childrenList.appendChild(infoChild);
+            } else {
+              console.warn(
+                `failed to create infoChild ${JSON.stringify({
+                  id: node.id,
+                  title: node.title,
+                  url: node.url
+                })}`
+              );
+            }
           });
         }
       });
@@ -88,9 +110,14 @@ function initFolderInfo() {
  * @param {string} url - (bookmark.url - url to which bookmark points to)
  * @param {string} color - materializecss className color of text (note: lightened/darkened are added automatically so don't use them)
  */
-function createFolderInfoChild(id, title, url, color = defaultFolderIconColor) {
-  if (!id || !url || !title) {
-    console.warn('in createFolderInfo id, url or/and title were invalid');
+function createFolderInfoChild(
+  id,
+  title = 'unknown',
+  url = 'about:blank',
+  color = defaultFolderIconColor
+) {
+  if (!id) {
+    console.warn('in createFolderInfoChild id was undefined');
     return null;
   }
   let hostName = url.match(/^(http[s]?:\/\/.*?\/)/i);
@@ -99,7 +126,9 @@ function createFolderInfoChild(id, title, url, color = defaultFolderIconColor) {
     hostName = hostName[0].replace(/http[s]:\/\//, '');
     faviconLink = 'https://www.google.com/s2/favicons?domain=' + hostName;
   } else {
-    faviconLink = '../images/default_favicon.png';
+    // i used this instead of ../images/ because default_favicon is located
+    // in same folder after `npm run dev` (or build)
+    faviconLink = './default_favicon.png';
   }
 
   return div(
