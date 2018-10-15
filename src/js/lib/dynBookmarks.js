@@ -18,7 +18,7 @@ export function findAll(done) {
 /**
  * finds dynBook[id] in form `{regExp:String, history: [String]}`
  * @param {string} id - id of dynamic bookmark
- * @param {function} done - callback function called with `done(error, dynBook[id])`
+ * @param {function} done - callback function called with `done(error, dynBookItem)`
  */
 export function findById(id, done) {
   findAll((err, dynBook) => {
@@ -31,7 +31,7 @@ export function findById(id, done) {
  * Updates dynamic bookmark with given id (creates one if it doesn't exist)
  * @param {string} id - id of dynamic bookmark
  * @param {object} options - `{regExp: String, history:[String]}`
- * @param {function} done - (optional) callback function called with done(error, updatedDynBook)
+ * @param {function} done - (optional) callback function called with done(error, updatedDynBookItem)
  */
 export function findByIdAndUpdate(id, options, done) {
   findAll((err, dynBook) => {

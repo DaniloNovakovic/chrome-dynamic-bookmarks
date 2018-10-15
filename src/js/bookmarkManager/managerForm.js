@@ -10,6 +10,7 @@ import {
   hideInfoEditForm
 } from '../utils/managerForm';
 import { enableSearchFilter } from '../utils/searchBar';
+import * as dynBookmarks from '../lib/dynBookmarks';
 
 document.addEventListener('DOMContentLoaded', () => {
   /* info-edit form */
@@ -39,8 +40,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (chrome.runtime.lastError) {
           console.warn(chrome.runtime.lastError.message);
         } else {
-          chrome.storage.sync.get(['dynBookmarks'], ({ dynBookmarks }) => {
-            const dynBook = dynBookmarks || {};
+          dynBookmarks.findAll((err, dynBook) => {
+            if (err) return console.warn(err);
             if (regExp) {
               dynBook[bookmark.id] = {
                 ...dynBook[bookmark.id],
@@ -56,8 +57,12 @@ document.addEventListener('DOMContentLoaded', () => {
               title,
               url
             });
-            chrome.storage.sync.set({ dynBookmarks: dynBook }, () => {
-              updateTreeColor();
+            dynBookmarks.overwrite(dynBook, (err) => {
+              if (err) {
+                console.warn(err);
+              } else {
+                updateTreeColor();
+              }
             });
           });
         }

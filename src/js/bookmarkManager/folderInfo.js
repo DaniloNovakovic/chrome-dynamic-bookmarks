@@ -6,6 +6,7 @@ import {
   renderChildren,
   createChildInfoId
 } from '../utils/folderInfo';
+import * as dynBookmarks from '../lib/dynBookmarks';
 
 const {
   trackedFileIconColor,
@@ -18,11 +19,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   chrome.bookmarks.onCreated.addListener((id, bookmark) => {
     setTimeout(() => {
-      chrome.storage.sync.get(['dynBookmarks'], ({ dynBookmarks }) => {
-        const dynBook = dynBookmarks || {};
-        const color = dynBook[bookmark.id]
-          ? trackedFileIconColor
-          : defaultFileIconColor;
+      dynBookmarks.findById(bookmark.id, (err, dynBookItem) => {
+        if (err) console.warn(err);
+        const color = dynBookItem ? trackedFileIconColor : defaultFileIconColor;
         const childrenList = document.getElementById('folder-children-info');
         if (childrenList) {
           const infoChild = createFolderInfoChild(
@@ -71,8 +70,8 @@ function initFolderInfo() {
     if (chrome.runtime.lastError) {
       console.warn(chrome.runtime.lastError.message);
     } else {
-      chrome.storage.sync.get(['dynBookmarks'], ({ dynBookmarks }) => {
-        const dynBook = dynBookmarks || {};
+      dynBookmarks.findAll((err, dynBook) => {
+        if (err) console.warn(err);
         childrenList.innerHTML = '';
         for (let child of results) {
           findLeafNodes(child, (node) => {
@@ -127,7 +126,9 @@ function createFolderInfoChild(
     hostName = hostName[0].replace(/http[s]:\/\//, '');
     faviconLink = 'https://www.google.com/s2/favicons?domain=' + hostName;
   } else {
-    faviconLink = '../images/default_favicon.png';
+    // i used this instead of ../images/ because default_favicon is located
+    // in same folder after `npm run dev` (or build)
+    faviconLink = './default_favicon.png';
   }
 
   return div(
