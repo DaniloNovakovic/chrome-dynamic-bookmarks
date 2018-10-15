@@ -1,3 +1,5 @@
+import * as dynBookmarks from '../lib/dynBookmarks';
+
 document.addEventListener('DOMContentLoaded', function() {
   // materializecss modal
   const popupModalEl = document.querySelector('#popup-modal');
@@ -17,6 +19,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // extract values from form
     const title = event.target['bookmark_name'].value;
     let regExpString = event.target.regexp.value;
+    let regExp;
     try {
       regExp = new RegExp(event.target.regexp.value);
     } catch {
@@ -35,8 +38,7 @@ document.addEventListener('DOMContentLoaded', function() {
         handleBookmarkSubmit(title, url, regExpString, (err) => {
           if (err) {
             console.warn(err);
-            formResponse.textContent =
-              err.message || 'Unexpected error occured';
+            formResponse.textContent = err;
           } else {
             formResponse.textContent =
               'Bookmark has been submitted successfully.!';
@@ -48,21 +50,18 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   function handleBookmarkSubmit(title, url, regExp, done) {
-    chrome.storage.sync.get(['dynBookmarks'], ({ dynBookmarks }) => {
-      let dynBook = dynBookmarks || {};
-      createBookmark(dynBook, title, url, regExp, done);
-    });
-  }
-
-  function createBookmark(dynBook, title, url, regExp, done) {
     const newUrl = url || defaultUrl;
     chrome.bookmarks.create({ title, url: newUrl }, (newBookmark) => {
       if (chrome.runtime.lastError) {
-        done(chrome.runtime.lastError);
+        done(chrome.runtime.lastError.message);
       } else {
-        dynBook[newBookmark.id] = { regExp, history: [] };
-        chrome.storage.sync.set({ dynBookmarks: dynBook }, () =>
-          done(chrome.runtime.lastError)
+        dynBookmarks.create(
+          {
+            id: newBookmark.id,
+            regExp,
+            history: []
+          },
+          done
         );
       }
     });

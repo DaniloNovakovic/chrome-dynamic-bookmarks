@@ -73,3 +73,22 @@ export function overwrite(newDynBook, done) {
     }
   });
 }
+
+/**
+ * Creates dynBookmark item and sets it into the storage
+ * @param {object} props - `{id:String, regExp:String, history:[String] (optional)}`
+ * @param {function} done - callback function called with (err, createdItem)
+ */
+export function create(props, done) {
+  if (!props.id || !props.regExp) {
+    done('id or regExp props are missing in dynBookmarks.create!');
+  }
+  findByIdAndUpdate(
+    props.id,
+    {
+      regExp: props.regExp,
+      history: props.history || []
+    },
+    done
+  );
+}
