@@ -19,9 +19,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // extract values from form
     const title = event.target['bookmark_name'].value;
     let regExpString = event.target.regexp.value;
-    let regExp;
     try {
-      regExp = new RegExp(event.target.regexp.value);
+      new RegExp(event.target.regexp.value);
     } catch {
       formResponse.textContent = 'Invalid regular expression';
       popupModalInstance.open();

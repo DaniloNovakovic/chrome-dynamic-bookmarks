@@ -1,4 +1,6 @@
 import options from '../config/config';
+import * as dbm from '../lib/dynBookmarks';
+
 const {
   defaultFileIconColor,
   defaultFolderIconColor,
@@ -7,8 +9,8 @@ const {
 } = options;
 
 export function updateTreeColor() {
-  chrome.storage.sync.get(['dynBookmarks'], ({ dynBookmarks }) => {
-    let dynBook = dynBookmarks || {};
+  dbm.findAll((err, dynBook) => {
+    if (err) console.warn(err);
     chrome.bookmarks.getTree((results) => {
       const rootNode = results[0];
       (function traverseTree(node) {

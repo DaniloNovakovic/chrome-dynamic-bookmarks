@@ -1,7 +1,6 @@
 import { section } from '../lib/react-clone';
 import File from '../components/File';
 import Folder from '../components/Folder';
-import options from '../config/config';
 import { updateTreeColor } from '../utils/treeView';
 import {
   createTree,
@@ -13,13 +12,6 @@ import {
 } from './treeViewComponents';
 import { displayFolderInfo, displayBookmark } from './displayFunctions';
 import globalSelectHandler from './selectHandler';
-
-const {
-  defaultFileIconColor,
-  defaultFolderIconColor,
-  trackedFileIconColor,
-  trackedFolderIconColor
-} = options;
 
 document.addEventListener('DOMContentLoaded', () => {
   var sidenavs = document.querySelectorAll('.sidenav');

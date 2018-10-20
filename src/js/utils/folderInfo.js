@@ -1,3 +1,5 @@
+import * as dbm from '../lib/dynBookmarks';
+
 /* Show / Hide export functionality */
 export function hideFolderInfo() {
   document.getElementById('folderInfo').classList.add('hide');
@@ -121,8 +123,8 @@ export function renderChildren(renderAll = false) {
     if (chrome.runtime.lastError) {
       console.warn(chrome.runtime.lastError.message);
     } else {
-      chrome.storage.sync.get(['dynBookmarks'], ({ dynBookmarks }) => {
-        const dynBook = dynBookmarks || {};
+      dbm.findAll((err, dynBook) => {
+        if (err) console.warn(err);
         hideFolderInfoChildren();
         for (let child of results) {
           findLeafNodes(child, (node) => {
