@@ -106,6 +106,7 @@ export function renderChildren(renderAll = false) {
   const folderId =
     renderAll === true ? '0' : childrenList.getAttribute('folderId');
 
+  // extract search pattern from search-input
   let searchPattern;
   try {
     let searchInput = document.getElementById('search-input').value;
@@ -119,35 +120,28 @@ export function renderChildren(renderAll = false) {
   const isUntrackedChecked = document.getElementById('untracked-checkbox')
     .checked;
 
-  chrome.bookmarks.getSubTree(folderId, (results) => {
+  chrome.bookmarks.getSubTree(folderId, (subTrees) => {
     if (chrome.runtime.lastError) {
       console.warn(chrome.runtime.lastError.message);
     } else {
       dbm.findAll((err, dynBook) => {
         if (err) console.warn(err);
         hideFolderInfoChildren();
-        for (let child of results) {
-          findLeafNodes(child, (node) => {
+        for (let tree of subTrees) {
+          findLeafNodes(tree, (node) => {
             const childEl = document.getElementById(`child-info-${node.id}`);
+            // filter by search pattern
             if (childEl && searchPattern.test(childEl.textContent)) {
               const spans = childEl.querySelectorAll('span');
+
+              // filter by tracked/untracked
               if (dynBook[node.id] && isTrackedChecked) {
-                childEl.parentElement.classList.remove('hide');
-                for (let span of spans) {
-                  span.classList.replace(
-                    defaultFileIconColor,
-                    trackedFileIconColor
-                  );
-                }
+                showTracked(childEl);
               } else if (!dynBook[node.id] && isUntrackedChecked) {
-                childEl.parentElement.classList.remove('hide');
-                for (let span of spans) {
-                  span.classList.replace(
-                    trackedFileIconColor,
-                    defaultFileIconColor
-                  );
-                }
+                showUntracked(childEl);
               }
+
+              // update information if bookmark is changed
               if (spans[0].textContent !== node.title) {
                 spans[0].textContent = node.title;
               } else if (childEl.getAttribute('href') !== node.url) {
@@ -160,4 +154,21 @@ export function renderChildren(renderAll = false) {
       });
     }
   });
+}
+
+/* Functions below are NOT exported, they are intended to make functions above more readable */
+function showTracked(childEl) {
+  const spans = childEl.querySelectorAll('span');
+  childEl.parentElement.classList.remove('hide');
+  replaceAllClass(spans, defaultFileIconColor, trackedFileIconColor);
+}
+function showUntracked(childEl) {
+  const spans = childEl.querySelectorAll('span');
+  childEl.parentElement.classList.remove('hide');
+  replaceAllClass(spans, trackedFileIconColor, defaultFileIconColor);
+}
+function replaceAllClass(nodesArray, oldClass, newClass) {
+  for (let node of nodesArray) {
+    node.classList.replace(oldClass, newClass);
+  }
 }
