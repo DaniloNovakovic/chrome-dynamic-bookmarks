@@ -4,7 +4,8 @@ import { displayBookmark } from './displayFunctions';
 import {
   findLeafNodes,
   renderChildren,
-  createChildInfoId
+  createChildInfoId,
+  sortFolderInfoChildren
 } from '../utils/folderInfo';
 import * as dynBookmarks from '../lib/dynBookmarks';
 
@@ -97,6 +98,7 @@ function initFolderInfo() {
             }
           });
         }
+        sortFolderInfoChildren();
       });
     }
   });
@@ -141,7 +143,7 @@ function createFolderInfoChild(
         className: `truncate`,
         target: '_blank'
       },
-      span({ className: `${color} text-darken-4` }, title),
+      span({ className: `${color} text-darken-4 child-info-title` }, title),
       span({ className: `${color}  child-info-link` }, ` (${url})`)
     ),
     i(

@@ -1,7 +1,6 @@
 import { section } from '../lib/react-clone';
 import File from '../components/File';
 import Folder from '../components/Folder';
-import options from '../config/config';
 import { updateTreeColor } from '../utils/treeView';
 import {
   createTree,
@@ -13,13 +12,6 @@ import {
 } from './treeViewComponents';
 import { displayFolderInfo, displayBookmark } from './displayFunctions';
 import globalSelectHandler from './selectHandler';
-
-const {
-  defaultFileIconColor,
-  defaultFolderIconColor,
-  trackedFileIconColor,
-  trackedFolderIconColor
-} = options;
 
 document.addEventListener('DOMContentLoaded', () => {
   var sidenavs = document.querySelectorAll('.sidenav');
@@ -64,7 +56,8 @@ document.addEventListener('DOMContentLoaded', () => {
             onDragover: allowDrop,
             onDragstart: drag
           });
-      parent.querySelector('ul').appendChild(newEl);
+
+      appendSorted(parent.querySelector('ul'), newEl);
 
       // note: i wrapped this in timeout because storage is updated AFTER bookmark is created
       setTimeout(() => {
@@ -90,6 +83,9 @@ document.addEventListener('DOMContentLoaded', () => {
   chrome.bookmarks.onChanged.addListener((id, changeInfo) => {
     if (changeInfo.title) {
       let elem = document.getElementById(id);
+      elem.setAttribute('name', changeInfo.title);
+      appendSorted(elem.parentElement, elem);
+
       if (elem.classList.contains('folder')) {
         elem = elem.querySelector('.folder-header') || elem;
       }
@@ -102,7 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const elem = document.getElementById(id);
     const parent = document.getElementById(moveInfo.parentId);
     if (parent.classList.contains('folder')) {
-      parent.querySelector('ul').appendChild(elem);
+      appendSorted(parent.querySelector('ul'), elem);
     }
     setTimeout(() => {
       if (elem.classList.contains('folder')) {
@@ -115,3 +111,31 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 100);
   });
 });
+
+function appendSorted(parent, element) {
+  if (!parent) return console.warn('parent in appendSorted is undefined');
+  if (!element) return console.warn('element in appendSorted is undefined');
+  let appended = false;
+  const elemName = element.getAttribute('name').toLowerCase();
+  const isElemFolder = element.classList.contains('folder');
+  for (let child of parent.children) {
+    try {
+      const childName = child.getAttribute('name').toLowerCase();
+      const isChildFolder = child.classList.contains('folder');
+
+      if (
+        (isElemFolder && !isChildFolder) ||
+        (isElemFolder === isChildFolder && childName > elemName)
+      ) {
+        parent.insertBefore(element, child);
+        appended = true;
+        break;
+      }
+    } catch (err) {
+      console.warn(err);
+    }
+  }
+  if (!appended) {
+    parent.appendChild(element);
+  }
+}

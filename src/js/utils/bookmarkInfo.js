@@ -1,4 +1,5 @@
 import { li, a } from '../lib/react-clone';
+import * as dbm from '../lib/dynBookmarks';
 /**
  * Sets given properties to bookmarkInfo (undefined values will be ignored)
  * @param {object} props - {
@@ -89,8 +90,8 @@ export function getBookmarkData(bookmarkId, done) {
       console.warn(chrome.runtime.lastError.message);
     } else {
       const bookmark = results[0];
-      chrome.storage.sync.get(['dynBookmarks'], ({ dynBookmarks }) => {
-        let dynBook = dynBookmarks || {};
+      dbm.findAll((err, dynBook) => {
+        if (err) console.warn(err);
         chrome.bookmarks.get(bookmark.parentId, (results) => {
           let parentTitle = null;
           if (chrome.runtime.lastError) {
