@@ -1,4 +1,5 @@
 import * as dbm from '../lib/dynBookmarks';
+import sortList from '../lib/sortList';
 
 /* Show / Hide export functionality */
 export function hideFolderInfo() {
@@ -127,6 +128,7 @@ export function renderChildren(renderAll = false) {
       dbm.findAll((err, dynBook) => {
         if (err) console.warn(err);
         hideFolderInfoChildren();
+        sortFolderInfoChildren();
         for (let tree of subTrees) {
           findLeafNodes(tree, (node) => {
             const childEl = document.getElementById(`child-info-${node.id}`);
@@ -152,6 +154,26 @@ export function renderChildren(renderAll = false) {
           });
         }
       });
+    }
+  });
+}
+
+export function sortFolderInfoChildren() {
+  sortList('folder-children-info', (lhs, rhs) => {
+    const lhsUrl = lhs.querySelector('.child-info-link').textContent;
+    const rhsUrl = rhs.querySelector('.child-info-link').textContent;
+
+    const lhsTitle = lhs
+      .querySelector('.child-info-title')
+      .textContent.toLowerCase();
+    const rhsTitle = rhs
+      .querySelector('.child-info-title')
+      .textContent.toLowerCase();
+
+    if (lhsTitle === rhsTitle) {
+      return lhsUrl > rhsUrl;
+    } else {
+      return lhsTitle > rhsTitle;
     }
   });
 }
