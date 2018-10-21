@@ -39,7 +39,11 @@ class SelectHandler {
             console.warn(chrome.runtime.lastError.message);
           } else {
             openAllParentFolders(bookmarks[0].parentId);
-            window.location = '#' + id;
+            element.scrollIntoView({
+              behavior: 'smooth',
+              block: 'center',
+              inline: 'nearest'
+            });
           }
         });
       }
