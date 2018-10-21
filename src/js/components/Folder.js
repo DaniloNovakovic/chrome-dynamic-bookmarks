@@ -17,7 +17,7 @@ const Folder = (props, ...children) => {
   const folderName = name || 'unknown';
   const iconColor = folderIconColor || defaultFolderIconColor;
   return div(
-    { className: 'folder', ...(id && { id }) },
+    { className: 'folder', name: folderName, ...(id && { id }) },
     header(
       {
         ...headerParams,
