@@ -6,6 +6,7 @@ import {
 import { showSearchFilter } from '../utils/searchBar';
 import { hideBookmarkInfo } from '../utils/bookmarkInfo';
 import { hideFolderInfoEdit } from '../utils/managerForm';
+import { disableFooterButtons } from '../utils/footerButtons';
 import globalSelectHandler from './selectHandler';
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -24,6 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
     showSearchFilter();
     showFolderInfoDisplay();
     showFolderInfo();
+    disableFooterButtons();
     globalSelectHandler.unselect();
   });
 
