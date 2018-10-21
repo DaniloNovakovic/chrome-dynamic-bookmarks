@@ -28,6 +28,21 @@ export function createTree(node) {
     });
   } else {
     let childEls = [];
+    node.children.sort((lhs, rhs) => {
+      let retVal = 0;
+      if (!lhs.children ^ !rhs.children) {
+        // only one is folder
+        retVal = !lhs.children ? 1 : -1;
+      } else {
+        // both or none are folders
+        if (lhs.title.toLowerCase() < rhs.title.toLowerCase()) {
+          retVal = -1;
+        } else {
+          retVal = 1;
+        }
+      }
+      return retVal;
+    });
     for (let child of node.children) {
       let subTree = createTree(child);
       childEls.push(subTree);
