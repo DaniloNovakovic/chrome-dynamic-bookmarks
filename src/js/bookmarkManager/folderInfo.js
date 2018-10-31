@@ -125,7 +125,7 @@ function createFolderInfoChild(
   let hostName = url.match(/^(http[s]?:\/\/.*?\/)/i);
   let faviconLink;
   if (hostName) {
-    hostName = hostName[0].replace(/http[s]:\/\//, '');
+    hostName = hostName[0].replace(/http[s]?:\/\//, '');
     faviconLink = 'https://www.google.com/s2/favicons?domain=' + hostName;
   } else {
     // i used this instead of ../images/ because default_favicon is located

@@ -13,10 +13,40 @@ document.addEventListener('DOMContentLoaded', function() {
   // url to use in case of error
   const defaultUrl = 'https://www.google.com';
 
+  chrome.tabs.query(
+    {
+      active: true,
+      currentWindow: true
+    },
+    function(tabs) {
+      const url = tabs[0].url || defaultUrl;
+
+      // fill form
+      const urlInput = document.getElementById('url-input');
+      const regExpInput = document.getElementById('regexp-input');
+
+      if (urlInput) {
+        urlInput.value = url;
+      }
+      if (/youtube\.com\/.*list=\w+/.test(url)) {
+        const regExpString = url.match(/list=\w+/i);
+        regExpInput.value = `youtube\.com\/.*${regExpString}`;
+      } else {
+        const subUrl = url.match(/^(http[s]?:\/\/)?(.*\/)|(.*$)/);
+        if (subUrl) {
+          const regExpString = subUrl[0].replace(/http[s]?:\/\/(www\.)?/, '');
+          regExpInput.value = `${regExpString.replace(/[.]/g, `\.`)}.*`;
+        }
+      }
+      M.updateTextFields();
+    }
+  );
+
   function popupSubmit(event) {
     event.preventDefault();
 
     // extract values from form
+    const url = event.target['url'].value;
     const title = event.target['bookmark_name'].value;
     let regExpString = event.target.regexp.value;
     try {
@@ -27,25 +57,15 @@ document.addEventListener('DOMContentLoaded', function() {
       return false;
     }
 
-    chrome.tabs.query(
-      {
-        active: true,
-        currentWindow: true
-      },
-      function(tabs) {
-        const url = tabs[0].url || defaultUrl;
-        handleBookmarkSubmit(title, url, regExpString, (err) => {
-          if (err) {
-            console.warn(err);
-            formResponse.textContent = err;
-          } else {
-            formResponse.textContent =
-              'Bookmark has been submitted successfully.!';
-          }
-          popupModalInstance.open();
-        });
+    handleBookmarkSubmit(title, url, regExpString, (err) => {
+      if (err) {
+        console.warn(err);
+        formResponse.textContent = err;
+      } else {
+        formResponse.textContent = 'Bookmark has been submitted successfully.!';
       }
-    );
+      popupModalInstance.open();
+    });
   }
 
   function handleBookmarkSubmit(title, url, regExp, done) {
