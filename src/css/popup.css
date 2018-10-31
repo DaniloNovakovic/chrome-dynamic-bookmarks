@@ -1,5 +1,6 @@
 #popup-form {
   min-width: 320px;
-  min-height: 200px;
+  min-height: 260px;
   padding-right: 2em;
+  padding-bottom: 1em;
 }

@@ -64,6 +64,8 @@ Lets start off by clicking on the extension icon on top right. <br>
 Here we need to enter a name of the bookmark we wish to create,
 and a regular expression (regExp) based on which our bookmark will be updated. <br />
 
+> Note: Since v2.4.0 regExp is automatically generated / suggested.
+
 But WHAT is a **regular expression**? It simply **is a sequence of characters that define a search pattern**. Ever did CTRL+F to find something on page? Well it's preety much the same thing, but with extra special characters that let your search be more flexible.
 
 Once the form is submited a dynamic bookmark will be created inside `Other bookmarks` folder.
