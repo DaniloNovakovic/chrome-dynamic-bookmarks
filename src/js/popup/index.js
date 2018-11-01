@@ -28,14 +28,17 @@ document.addEventListener('DOMContentLoaded', function() {
       if (urlInput) {
         urlInput.value = url;
       }
-      if (/youtube\.com\/.*list=\w+/.test(url)) {
-        const regExpString = url.match(/list=\w+/i);
-        regExpInput.value = `youtube\.com\/.*${regExpString}`;
+      if (/youtube\.com\/.*list=[a-z0-9-]+/i.test(url)) {
+        const regExpString = url.match(/list=[a-z0-9-]+/i);
+        regExpInput.value = `youtube\\.com/.*${regExpString}`;
       } else {
         const subUrl = url.match(/^(http[s]?:\/\/)?(.*\/)|(.*$)/);
         if (subUrl) {
-          const regExpString = subUrl[0].replace(/http[s]?:\/\/(www\.)?/, '');
-          regExpInput.value = `${regExpString.replace(/[.]/g, `\.`)}.*`;
+          const regExpString = subUrl[0].replace(
+            /^(http[s]?:\/\/)?(www\.)?/,
+            ''
+          );
+          regExpInput.value = `${regExpString.replace(/\./g, `\\.`)}.*`;
         }
       }
       M.updateTextFields();
