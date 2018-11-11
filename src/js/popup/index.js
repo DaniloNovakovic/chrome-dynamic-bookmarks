@@ -32,14 +32,11 @@ document.addEventListener('DOMContentLoaded', function() {
         const regExpString = url.match(/list=[a-z0-9-]+/i);
         regExpInput.value = `youtube\\.com/.*${regExpString}`;
       } else {
-        const subUrl = url.match(/^(http[s]?:\/\/)?(.*\/)|(.*$)/);
-        if (subUrl) {
-          const regExpString = subUrl[0].replace(
-            /^(http[s]?:\/\/)?(www\.)?/,
-            ''
-          );
-          regExpInput.value = `${regExpString.replace(/\./g, `\\.`)}.*`;
-        }
+        const regExpString = url.replace(
+          /(^(http[s]?:\/\/)?(www\.)?)|(\/[^/]*?(\?.*)?$)|(\/[^/?]+\/$)/g,
+          ''
+        );
+        regExpInput.value = regExpString.replace(/\./g, `\\.`);
       }
       M.updateTextFields();
     }
