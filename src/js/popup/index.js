@@ -20,11 +20,16 @@ document.addEventListener('DOMContentLoaded', function() {
     },
     function(tabs) {
       const url = tabs[0].url || defaultUrl;
+      const title = tabs[0].title || '';
 
       // fill form
+      const bookmarkNameInput = document.getElementById('bookmark-name-input');
       const urlInput = document.getElementById('url-input');
       const regExpInput = document.getElementById('regexp-input');
 
+      if (bookmarkNameInput) {
+        bookmarkNameInput.value = title;
+      }
       if (urlInput) {
         urlInput.value = url;
       }
