@@ -28,8 +28,8 @@ document.addEventListener('DOMContentLoaded', function() {
       if (urlInput) {
         urlInput.value = url;
       }
-      if (/youtube\.com\/.*list=[a-z0-9-]+/i.test(url)) {
-        const regExpString = url.match(/list=[a-z0-9-]+/i);
+      if (/youtube\.com\/.*list=[^&]+/i.test(url)) {
+        const regExpString = url.match(/list=[^&]+/i);
         regExpInput.value = `youtube\\.com/.*${regExpString}`;
       } else {
         const regExpString = url.replace(
