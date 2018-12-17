@@ -20,16 +20,21 @@ document.addEventListener('DOMContentLoaded', function() {
     },
     function(tabs) {
       const url = tabs[0].url || defaultUrl;
+      const title = tabs[0].title || '';
 
       // fill form
+      const bookmarkNameInput = document.getElementById('bookmark-name-input');
       const urlInput = document.getElementById('url-input');
       const regExpInput = document.getElementById('regexp-input');
 
+      if (bookmarkNameInput) {
+        bookmarkNameInput.value = title;
+      }
       if (urlInput) {
         urlInput.value = url;
       }
-      if (/youtube\.com\/.*list=[a-z0-9-]+/i.test(url)) {
-        const regExpString = url.match(/list=[a-z0-9-]+/i);
+      if (/youtube\.com\/.*list=[^&]+/i.test(url)) {
+        const regExpString = url.match(/list=[^&]+/i);
         regExpInput.value = `youtube\\.com/.*${regExpString}`;
       } else {
         const regExpString = url.replace(
