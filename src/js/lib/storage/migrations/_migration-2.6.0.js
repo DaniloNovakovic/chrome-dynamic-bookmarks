@@ -10,13 +10,21 @@ function _logError(errMsg) {
   }
 }
 
+function _isMigrated(dynBook) {
+  return Object.keys(dynBook).length == 0;
+}
+
 export class Migrator260 extends Migrator {
   up(done = _logError) {
     dbm25x.findAll((err, dynBook = {}) => {
       if (err) {
         return done(err);
       }
+      if (_isMigrated(dynBook)) {
+        return done(null);
+      }
       dbm260.overwrite(dynBook, done);
+      dbm25x.clearAll();
     });
   }
   down(done = _logError) {

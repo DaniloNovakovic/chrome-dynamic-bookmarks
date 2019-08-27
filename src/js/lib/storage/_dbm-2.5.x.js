@@ -6,7 +6,7 @@ export const dynBookmarksPropName = "dynBookmarks";
  * finds dynBook object in hash map form: `{ bookmark_id: { regExp:String, history:[String] } }`
  * @param {function} done - callback function called with `done(error, dynBook)`
  */
-export function findAll(done) {
+export function findAll(done = _logError) {
   chrome.storage.sync.get([dynBookmarksPropName], result => {
     if (chrome.runtime.lastError) {
       done(chrome.runtime.lastError.message);
@@ -22,7 +22,7 @@ export function findAll(done) {
  * @param {string} id - id of dynamic bookmark
  * @param {function} done - callback function called with `done(error, dynBookItem)`
  */
-export function findById(id, done) {
+export function findById(id, done = _logError) {
   findAll((err, dynBook) => {
     if (err) done(err);
     else done(null, dynBook[id]);
@@ -35,7 +35,7 @@ export function findById(id, done) {
  * @param {object} options - `{regExp: String, history:[String]}`
  * @param {function} done - (optional) callback function called with done(error, updatedDynBookItem)
  */
-export function findByIdAndUpdate(id, options, done) {
+export function findByIdAndUpdate(id, options, done = _logError) {
   findAll((err, dynBook) => {
     if (err) {
       if (typeof done == "function") {
@@ -64,7 +64,7 @@ export function findByIdAndUpdate(id, options, done) {
  * @param {object} newDynBook - new dynamic bookmarks object in form `{bookmark_id: {regExp: String, history:[String]}}`
  * @param {function} done - callback function called with done(error)
  */
-export function overwrite(newDynBook, done) {
+export function overwrite(newDynBook, done = _logError) {
   chrome.storage.sync.set({ [dynBookmarksPropName]: newDynBook }, () => {
     if (typeof done == "function") {
       if (chrome.runtime.lastError) {
@@ -81,7 +81,7 @@ export function overwrite(newDynBook, done) {
  * @param {object} props - `{id:String, regExp:String, history:[String] (optional)}`
  * @param {function} done - callback function called with (err, createdItem)
  */
-export function create(props, done) {
+export function create(props, done = _logError) {
   if (!props.id || !props.regExp) {
     done("id or regExp props are missing in dynBookmarks.create!");
   }
@@ -95,7 +95,7 @@ export function create(props, done) {
   );
 }
 
-export function findByIdAndRemove(id, done) {
+export function findByIdAndRemove(id, done = _logError) {
   findAll((err, dynBook) => {
     if (err) {
       if (typeof done == "function") {
@@ -108,4 +108,20 @@ export function findByIdAndRemove(id, done) {
       overwrite(dynBook, done);
     }
   });
+}
+
+export function clearAll(done = _logError) {
+  chrome.storage.sync.remove([dynBookmarksPropName], () => {
+    if (chrome.runtime.lastError) {
+      done(chrome.runtime.lastError.message);
+    } else {
+      done(null);
+    }
+  });
+}
+
+function _logError(errMsg) {
+  if (errMsg) {
+    console.error(errMsg);
+  }
 }
