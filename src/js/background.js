@@ -1,4 +1,7 @@
-import * as dbm from './lib/dynBookmarks';
+import * as dbm from "./lib/dynBookmarks";
+import { migrateStorage } from "./lib/storage/migrations";
+
+migrateStorage();
 
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
   if (!changeInfo.url) return;
@@ -30,8 +33,8 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
   });
 });
 
-chrome.bookmarks.onRemoved.addListener((id) => {
-  dbm.findByIdAndRemove(id, (err) => {
+chrome.bookmarks.onRemoved.addListener(id => {
+  dbm.findByIdAndRemove(id, err => {
     if (err) {
       console.warn(err);
     } else {
@@ -54,7 +57,7 @@ chrome.bookmarks.onChanged.addListener((id, changeInfo) => {
           dynBook[id].history.pop();
         }
         dynBook[id].history.unshift(changeInfo.url);
-        dbm.overwrite(dynBook, (err) => {
+        dbm.overwrite(dynBook, err => {
           if (err) {
             console.warn(err);
           }

@@ -1,8 +1,8 @@
 export class Migrator {
   /**Execute migration */
-  up = () => {};
+  up = done => {};
   /**Undo migration */
-  down = () => {};
+  down = done => {};
 }
 
 export default Migrator;
