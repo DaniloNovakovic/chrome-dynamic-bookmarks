@@ -110,6 +110,10 @@ export function findByIdAndRemove(id, done = _logError) {
   });
 }
 
+/**
+ * Removes DynBookmarks object from `chrome.storage.sync`
+ * @param {function} done - callback function called with `done(errMsg)`
+ */
 export function clearAll(done = _logError) {
   chrome.storage.sync.remove([dynBookmarksPropName], () => {
     if (chrome.runtime.lastError) {

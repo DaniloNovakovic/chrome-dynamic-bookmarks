@@ -23,8 +23,12 @@ export class Migrator260 extends Migrator {
       if (_isMigrated(dynBook)) {
         return done(null);
       }
-      dbm260.overwrite(dynBook, done);
-      dbm25x.clearAll();
+      dbm25x.clearAll(errMsg => {
+        if (errMsg) {
+          return done(errMsg);
+        }
+        dbm260.overwrite(dynBook, done);
+      });
     });
   }
   down(done = _logError) {
