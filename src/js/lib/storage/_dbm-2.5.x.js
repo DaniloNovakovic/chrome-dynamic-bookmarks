@@ -1,6 +1,4 @@
-/**
- * Collection of storage functions used in versions pre-2.6
- */
+///<reference path="../../chrome.intellisense.js"/>
 
 export const dynBookmarksPropName = "dynBookmarks";
 
