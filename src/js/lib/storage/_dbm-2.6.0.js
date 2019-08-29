@@ -1,5 +1,6 @@
 ///<reference path="../../chrome.intellisense.js"/>
-import { logError, checkAndHandleError } from "../../utils/log";
+import { checkAndHandleError } from "../../utils/log";
+
 export const dbmIdsPropName = "dbm_ids";
 
 class Dbm260 {

@@ -2,19 +2,14 @@
 
 import * as dbm25x from "../_dbm-2.5.x";
 import dbm260 from "../_dbm-2.6.0";
-
-function _logError(errMsg) {
-  if (errMsg) {
-    console.error(errMsg);
-  }
-}
+import { logError } from "../../../utils/log";
 
 function _isMigrated(dynBook) {
   return Object.keys(dynBook).length == 0;
 }
 
 export class Migrator260 {
-  up(done = _logError) {
+  up(done = logError) {
     console.log("Running 2.6.0 migration...");
     dbm25x.findAll((err, dynBook = {}) => {
       if (err) {

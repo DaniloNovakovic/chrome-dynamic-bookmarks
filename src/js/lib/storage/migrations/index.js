@@ -11,7 +11,7 @@ export function migrateStorage() {
       if (err) {
         console.error(err);
       } else {
-        console.log("Finished migrating the data to 2.6.x storage");
+        console.log("Finished migrating the data to 2.6.x storage.");
       }
     });
   } catch (e) {
