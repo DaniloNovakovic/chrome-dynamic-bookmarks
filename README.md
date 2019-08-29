@@ -6,15 +6,13 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
+![Usage demo](doc/usage-demo.gif)
+
 ## Table of Contents
 
 - [Installation](#installation)
 - [Introduction](#introduction)
-- [Examples](#examples)
-  - [Tracking videos in a youtube playlist](#tracking-videos-in-a-youtube-playlist)
-  - [Tracking anime](#tracking-anime)
-    - [Crunchyroll](#crunchyroll)
-    - [Kissanime](#kissanime)
+- [Overcoming Custom URL Notation](#overcoming-custom-url-notation)
 - [Bookmark manager](#bookmark-manager)
   - [Search bar](#search-bar)
   - [Folder browser](#folder-browser)
@@ -33,13 +31,13 @@
 
 ## Installation
 
-#### For users (recommended):
+### For users (recommended)
 
 1. Click [here](https://chrome.google.com/webstore/detail/dynamic-bookmarks/ilhojkjlfkppedidhpecepohnmlndopb)
 1. Select **Add to chrome**
 1. Enjoy!
 
-#### To install locally (for developers):
+### To install locally (for developers)
 
 1. [Download](https://github.com/DaniloNovakovic/chrome-dynamic-bookmarks/archive/master.zip) or clone current repository
 1. Navigate to downloaded folder and run `npm init` in console (ex. cmd/terminal/powershell)
@@ -55,87 +53,38 @@
 
 Lets start off by clicking on the extension icon on top right. <br>
 
-[![Extension Location](./doc/bookmark-popup-location.JPG)]()
+![Extension Location](./doc/bookmark-popup-location.JPG)
 
-<br>
+Upon clicking a button, form with automatically filled input form will be shown. <br />
 
-[![Empty Form](./doc/popup-empty-form.PNG)]()
+![Empty Form](./doc/popup-opened-form.PNG)
 
-Here we need to enter a name of the bookmark we wish to create,
-and a regular expression (regExp) based on which our bookmark will be updated. <br />
+While *Bookmark name*, and *Url* fields are self explanatory, you might be wondering what does `RegExp` (short for *regular expression*) field represent?
 
-> Note: Since v2.4.0 regExp is automatically generated / suggested.
-
-But WHAT is a **regular expression**? It simply **is a sequence of characters that define a search pattern**. Ever did CTRL+F to find something on page? Well it's preety much the same thing, but with extra special characters that let your search be more flexible.
+It simply **is a sequence of characters that define a search pattern**. Ever did CTRL+F to find something on page? Well it's prety much the same thing, but with extra special characters that let your search be more flexible.
 
 Once the form is submited a dynamic bookmark will be created inside `Other bookmarks` folder.
 
----
-
-## Examples
-
-### **_Tracking videos in a youtube playlist_**
-
-As a demonstration we are going to be using [Regular Expressions Tutorial](https://www.youtube.com/watch?v=r6I-Ahc0HB4&list=PL4cUxeGkcC9g6m_6Sld9Q4jzqdqHd2HiD) by theNetNinja<br />
-
-[![NetNinja RegExp Tutorial front page](./doc/netNinjaRegExpPlaylistPage.PNG)]()
-
-<br>
-
-Let's have a closer look at the url of the playlist:
-<br>
-
-[![playlist url](./doc/playlistUrl.PNG)]()
-
-The `list=` part of the url is the id of the playlist (it is how youtube knows which playlist we are on). What is so great about this? Well let's try clicking on few videos inside a playlist:
-
-[![playlistVideoOne url](./doc/playlistVideoOne.PNG)]()
-[![playlistVideoTwo url](./doc/playlistVideoTwo.PNG)]()
-
-Notice how `list=PL4cUxeGkcC9g6m_6Sld9Q4jzqdqHd2HiD` is contained in EVERY video inside a playlist.
-Great! That means we can use it.
-
-So what is gonna be our regular expression?
-
-Well it is gonna be `list=PL4cUxeGkcC9g6m_6Sld9Q4jzqdqHd2HiD`, meaning that if a url contains that, then our bookmark will be updated. So let's fill in the form and submit!
-
-[![filling form](./doc/fillingForm.PNG)]()
-[![form submited](./doc/formSubmited.PNG)]()
+![Form Submitted](./doc/formSubmitted.PNG)
 
 Congrats! You have successfully created your first dynamic bookmark!
 
-We can now freely watch netNinja regExp playlist and our bookmark will be automatically updated whenever we click on new video inside that playlist, letting us easily come back later exactly where we left off!
+---
 
-## **_Tracking anime_**
+## Overcoming Custom URL Notation
 
-### **Crunchyroll**:
+In most of the cases you won't even have to worry about `RegExp` field since automatically generated value will be good enough, but you might run into rare ocassions where site will be using unique url notation which would require manual entry of this field.
 
-Let's say you wanted to watch Gintama on Crunchyroll. <br>
-First let's see what part of the url stays the same. <br> As example let's click a few episodes and see the URL of these episodes:
+An example of such a site is `animekisa.tv`. Let's see how we can generate regular expression using a very simple tactic.
 
-```
-http://www.crunchyroll.com/gintama/episode-182-screw-popularity-votes-534414
-http://www.crunchyroll.com/gintama/episode-187-its-goodbye-once-a-flag-is-set-537056
-http://www.crunchyroll.com/gintama/episode-186-beware-of-foreshadows-535984
-```
+First, let's **click on few episodes**:
 
-So ask yourself, **which part of these urls stays the same?** <br>
-Well it is **crunchyroll.com/gintama/** , so we would enter this as our **_regExp_** . <br>
-Now every time you clicked on link containing _crunchyroll.com/gintama_ , our bookmark would automatically update to point to that new URL. <br>
-But if we were to go to, let's say `http://www.crunchyroll.com/mushi-shi`, then our bookmark would NOT update because _crunchyroll.com/gintama_ is not contained in that link.
+- `https://animekisa.tv/mo-dao-zu-shi-season-2-episode-3`
+- `https://animekisa.tv/mo-dao-zu-shi-season-2-episode-4`
 
-### **Kissanime**:
+Now ask yourself, **what part stays the same?** - `animekisa.tv/mo-dao-zu-shi-season-2`
 
-Now what if we wanted to watch Naruto on kissanime? <br>
-Again, let's try clicking on few episodes and check the links:
-
-```
-https://kissanime.ac/Anime/Naruto-Dub.21820/Episode-186-Laughing-Shino?id=104053
-https://kissanime.ac/Anime/Naruto-Dub.21820/Episode-197-Crisis-The-Hidden-Leaf-11-Gather?id=104064
-```
-
-Ok so what part stays the same?<br>
-It's **_kissanime.ac/Anime/Naruto-Dub.21820_** , so this would be our **_regExp_**
+And that would be our value for the `RegExp` field!
 
 ---
 
@@ -150,13 +99,13 @@ There are two ways we can open it:
 - by right clicking on bookmark bar then Bookmark manager
 - by navigating to `chrome://bookmarks`
 
-[![Bookmark manager page](./doc/managerPage.PNG)]()
+![Bookmark manager page](./doc/managerPage.PNG)
 
 Once you open bookmark manager, on the right, all of the bookmark files will be shown. For easier navigation **dynamic bookmarks** are shown in **red color**.
 
 On the left side (sidenav) you can see two main elements.
 
-[![search bar](./doc/searchBar.png)]()
+![search bar](./doc/searchBar.png)
 
 So let's take a closer look at each...
 
@@ -180,7 +129,7 @@ Here i will just list a few snippets / examples that you can use
 
 ### Folder browser
 
-[![Folder browser](./doc/folderBrowser.PNG)]()
+![Folder browser](./doc/folderBrowser.PNG)
 
 This part should be pretty intuitive. It works exactly like Windows Explorer. **By clicking on arrow or double clicking on folder you open/close it**, and if you click once on a folder you will see its content without toggling it, which is all of the bookmarks that are located inside it (no matter how deep, in my case it will also display children of _WebDesignSites_ folder).
 
@@ -199,7 +148,7 @@ There are two ways to select bookmark:
 1. Clicking on it through sidenav
 1. By pressing on right most icon from main section
 
-[![displaying bookmark info](./doc/displayingBookmarkInfo.PNG)]()
+![displaying bookmark info](./doc/displayingBookmarkInfo.PNG)
 
 Selecting a bookmark will display following:
 
@@ -209,7 +158,7 @@ Selecting a bookmark will display following:
 - _regExp_ - regular expression (will be hidden if it is not dynamic bookmark)
 - _history_ - history of 10 most recent links that bookmark was pointing to (for dynamic bookmarks only)
 
-[![bookmark info section](./doc/bookmarkInfoSection.PNG)]()
+![bookmark info section](./doc/bookmarkInfoSection.PNG)
 
 ---
 
@@ -219,13 +168,13 @@ You might have noticed that edit and delete buttons have became available once y
 
 #### Delete button
 
-[![Delete button](./doc/deleteButton.PNG)]()
+![Delete button](./doc/deleteButton.PNG)
 
 This one is most straightforward out of them all. **It deletes currently selected element** wheter if it is folder or bookmark. If you cannot delete a folder (_ex. Other bookmarks and Bookmarks bar_) it will be greyed out and you won't be able to click it.
 
 #### Edit button
 
-[![Edit button](./doc/editButton.PNG)]()
+![Edit button](./doc/editButton.PNG)
 
 There are two different scenarios upon pressing edit button:
 
@@ -238,7 +187,7 @@ There are two different scenarios upon pressing edit button:
 
 To open this one hover over it.
 
-[![Add button](./doc/addButton.PNG)]()
+![Add button](./doc/addButton.PNG)
 
 Here you are offered with two options:
 
@@ -260,7 +209,7 @@ Well it's super easy. Simply **click on it, and while holding the left mouse but
 
 ---
 
-## What next?
+## What next
 
 Like i said it would be good to learn regular expressions because knowing it will really let you take full advantage of this extension.
 
@@ -272,6 +221,7 @@ Same goes for if you have an additional idea on how to improve this extension.
 ---
 
 ## FAQ
+
 - **What is *regExp*?**
     - `regExp` (short for regular expression) is a rule upon which it is determined if the URL that you are currently on should be updated. 
     - For example, let's say that your `regExp` was `crunchyroll.com/gintama`. 
