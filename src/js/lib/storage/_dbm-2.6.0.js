@@ -16,7 +16,8 @@ class Dbm260 {
       if (errMsg) return done(errMsg);
       this.storage.get(ids, result => {
         if (!checkAndHandleError(done)) {
-          done(null, result);
+          const dynBook = _cloneWithMappedKeys(result, _convertToBookmarkId);
+          done(null, dynBook);
         }
       });
     });
@@ -43,7 +44,7 @@ class Dbm260 {
     const key = _convertToDbmId(id);
     this.storage.remove([key], () => {
       if (!checkAndHandleError(done)) {
-        done(null);
+        this._removeKeyFromDbmIds(key, done);
       }
     });
   };
@@ -65,15 +66,25 @@ class Dbm260 {
     });
   };
 
+  /**
+   * Creates dynBookmark item and sets it into the storage
+   * @param {object} props - `{id:String, regExp:String, history:[String] (optional)}`
+   * @param {function} done - callback function called with (err, createdItem)
+   */
   create({ id = "", regExp = "", history = [] }, done) {
     const key = _convertToDbmId(id);
-    this._setItem(key, { regExp, history }, done);
+    this._setItem(key, { regExp, history }, (errMsg, createdItem) => {
+      if (errMsg) return done(errMsg);
+      this._addKeyToDbmIds(key, errMsg => {
+        done(errMsg, createdItem);
+      });
+    });
   }
   /**
    * Overwrites dynamic bookmarks object from storage with `newDynBook`.
-   * `Warning`: This function is DANGEROUS! Potential data loss!
+   * `Warning`: This function is **DANGEROUS**! Potential data loss!
    * @param {object} newDynBook - new dynamic bookmarks object in form `{bookmark_id: {regExp: String, history:[String]}}`
-   * @param {function} done - callback function called with done(error)
+   * @param {function} done - callback function called with `done(errMsg: String)`
    */
   overwrite(newDynBook = {}, done) {
     const newDynBookMapped = _cloneWithMappedKeys(newDynBook);
@@ -85,6 +96,11 @@ class Dbm260 {
       this._updateStorageItems(newDynBookMapped, done);
     });
   }
+
+  /**
+   * Returns list of tracked dbm ids
+   * @param {function} done - callback function called with `done(errMsg: string, ids: string[])`
+   */
   _getAllIds(done) {
     this.storage.get([dbmIdsPropName], result => {
       if (!checkAndHandleError(done)) {
@@ -120,11 +136,8 @@ class Dbm260 {
    * @param {function} done - Callback function called with `done(errMsg)`
    */
   _addKeyToDbmIds(key, done) {
-    this.storage.get([dbmIdsPropName], result => {
-      if (checkAndHandleError(done)) {
-        return;
-      }
-      let ids = result[dbmIdsPropName] || [];
+    this._getAllIds((errMsg, ids = []) => {
+      if (errMsg) return done(errMsg);
       if (ids.includes(key)) {
         return done(null);
       }
@@ -132,7 +145,13 @@ class Dbm260 {
       this._setItem(dbmIdsPropName, ids, done);
     });
   }
-
+  _removeKeyFromDbmIds(key, done) {
+    this._getAllIds((errMsg, ids = []) => {
+      if (errMsg) return done(errMsg);
+      const newIds = ids.filter(el => el !== key);
+      this._setItem(dbmIdsPropName, newIds, done);
+    });
+  }
   /**
    * Sets `item` as `{[key]: item}` in `storage`.
    * @param {function} done - callback function called with `done(errMsg, storageItem)`
@@ -140,14 +159,15 @@ class Dbm260 {
   _setItem(key, item, done) {
     this.storage.set({ [key]: item }, () => {
       if (!checkAndHandleError(done)) {
-        this._addKeyToDbmIds(key, errMsg => {
-          done(errMsg, item);
-        });
+        done(null, item);
       }
     });
   }
 }
 
+function _convertToBookmarkId(dbmId = "") {
+  return dbmId.replace(/^dbm_/, "");
+}
 function _convertToDbmId(id) {
   if (/^dbm_.*/.test(id)) {
     return id;
