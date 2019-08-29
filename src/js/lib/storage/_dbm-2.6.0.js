@@ -11,7 +11,16 @@ class Dbm260 {
   /**`
    * @param {function} done - callback function called with `done(error, dynBook)`
    */
-  findAll = done => {};
+  findAll = done => {
+    this._getAllIds((errMsg, ids = []) => {
+      if (errMsg) return done(errMsg);
+      this.storage.get(ids, result => {
+        if (!checkAndHandleError(done)) {
+          done(null, result);
+        }
+      });
+    });
+  };
 
   /**
    * @param {string} id - id of dynamic bookmark
@@ -69,18 +78,22 @@ class Dbm260 {
   overwrite(newDynBook = {}, done) {
     const newDynBookMapped = _cloneWithMappedKeys(newDynBook);
     console.log("dynBookMapped", newDynBookMapped);
-    this.storage.get([dbmIdsPropName], response => {
-      if (checkAndHandleError()) {
-        return;
-      }
-      const idsToRemove = this._getIdsToRemove(response, newDynBookMapped);
+    this._getAllIds((errMsg, ids = []) => {
+      if (errMsg) return done(errMsg);
+      const idsToRemove = this._getIdsToRemove(ids, newDynBookMapped);
       this._removeIds(idsToRemove);
       this._updateStorageItems(newDynBookMapped, done);
     });
   }
-
-  _getIdsToRemove(response, newDynBookMapped) {
-    const dbmIds = response[dbmIdsPropName] || [];
+  _getAllIds(done) {
+    this.storage.get([dbmIdsPropName], result => {
+      if (!checkAndHandleError(done)) {
+        const ids = result[dbmIdsPropName] || [];
+        done(null, ids);
+      }
+    });
+  }
+  _getIdsToRemove(dbmIds = [], newDynBookMapped = {}) {
     const idsToRemove = dbmIds.filter(key => !(key in newDynBookMapped));
     return idsToRemove;
   }
