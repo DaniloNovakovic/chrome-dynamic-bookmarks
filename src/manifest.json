@@ -24,8 +24,5 @@
     "64": "icons8_Books_64.png",
     "128": "icons8_Books_128.png"
   },
-  "chrome_url_overrides": {
-    "bookmarks": "bookmarkManager.html"
-  },
   "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
 }
