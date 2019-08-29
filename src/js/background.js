@@ -1,4 +1,8 @@
-import * as dbm from './lib/dynBookmarks';
+import * as dbm from "./lib/dynBookmarks";
+import { migrateStorage } from "./lib/storage/migrations";
+import { logWarn } from "./utils/log";
+
+migrateStorage();
 
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
   if (!changeInfo.url) return;
@@ -30,8 +34,8 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
   });
 });
 
-chrome.bookmarks.onRemoved.addListener((id) => {
-  dbm.findByIdAndRemove(id, (err) => {
+chrome.bookmarks.onRemoved.addListener(id => {
+  dbm.findByIdAndRemove(id, err => {
     if (err) {
       console.warn(err);
     } else {
@@ -44,22 +48,16 @@ chrome.bookmarks.onRemoved.addListener((id) => {
 
 // maybe let user setup this in options in future?
 const maxHistorySize = 10;
+
 chrome.bookmarks.onChanged.addListener((id, changeInfo) => {
   if (changeInfo.url) {
-    dbm.findAll((err, dynBook) => {
-      if (err) {
-        console.warn(err);
-      } else if (dynBook[id]) {
-        if (dynBook[id].history.length >= maxHistorySize) {
-          dynBook[id].history.pop();
-        }
-        dynBook[id].history.unshift(changeInfo.url);
-        dbm.overwrite(dynBook, (err) => {
-          if (err) {
-            console.warn(err);
-          }
-        });
+    dbm.findById(id, (err, item) => {
+      if (err) return console.warn(err);
+      if (item.history.length >= maxHistorySize) {
+        item.history.pop();
       }
+      item.history.unshift(changeInfo.url);
+      dbm.findByIdAndUpdate(id, item, logWarn);
     });
   }
 });
