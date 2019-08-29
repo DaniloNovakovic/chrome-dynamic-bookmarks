@@ -94,12 +94,11 @@ So we created our bookmark, but what if we had alot of bookmarks.
 How will we know which ones are tracked / dynamic and which ones arent? What if we wanted to untrack? What if we wanted to maybe change our regural expression? Etc.
 For these reasons a new extended bookmark manager which focused on these problems had to be made.
 
-There are two ways we can open it:
+You open it by pressing on `Open Manager` tab inside popup window
 
-- by right clicking on bookmark bar then Bookmark manager
-- by navigating to `chrome://bookmarks`
+![Open Bookmark Manager](./doc/open-manager.PNG)
 
-![Bookmark manager page](./doc/managerPage.PNG)
+![Bookmark manager page](./doc/manager-page.PNG)
 
 Once you open bookmark manager, on the right, all of the bookmark files will be shown. For easier navigation **dynamic bookmarks** are shown in **red color**.
 
@@ -113,7 +112,7 @@ So let's take a closer look at each...
 
 ### Search bar
 
-It might look naive, but this search bar is using regular expressions, allowing you to do ALOT of cool stuff.
+It might look naive, but this search bar is using regular expressions, allowing you to do **ALOT** of cool stuff.
 Here i will just list a few snippets / examples that you can use
 
 - `https` - lists all https links
@@ -211,11 +210,11 @@ Well it's super easy. Simply **click on it, and while holding the left mouse but
 
 ## What next
 
-Like i said it would be good to learn regular expressions because knowing it will really let you take full advantage of this extension.
+It would be good to learn regular expressions because knowing them will really let you take full advantage of this extension.
 
-My recommendations are The Coding Train and already mentioned, theNetNinja. You can also use search bar to experiment with regular expressions.
+My recommendations are [The Coding Train](https://www.youtube.com/watch?v=7DG3kCDx53c) and [theNetNinja](https://www.youtube.com/watch?v=r6I-Ahc0HB4&list=PL4cUxeGkcC9g6m_6Sld9Q4jzqdqHd2HiD). You can also use search bar to experiment with regular expressions.
 
-If you have questions which aren't answered in FAQ you can contact me at [Linkedin](https://www.linkedin.com/in/danilo-novakovi%C4%87-821934167/) or by (prefferably) posting an issue on github.
+If you have questions which aren't answered in [FAQ](#faq) you can contact me at [Linkedin](https://www.linkedin.com/in/danilo-novakovi%C4%87-821934167/) or by (prefferably) posting an issue on GitHub.
 Same goes for if you have an additional idea on how to improve this extension.
 
 ---
@@ -223,10 +222,10 @@ Same goes for if you have an additional idea on how to improve this extension.
 ## FAQ
 
 - **What is *regExp*?**
-    - `regExp` (short for regular expression) is a rule upon which it is determined if the URL that you are currently on should be updated. 
-    - For example, let's say that your `regExp` was `crunchyroll.com/gintama`. 
-    - If you were on a `http://www.crunchyroll.com/gintama/episode-182-screw-popularity-votes-534414`, then that link would match our `regExp` because `crunchyroll.com/gintama` is contained in this URL, and in turn our bookmark would be updated. 
-    - But if you were on, let's say, `https://github.com/DaniloNovakovic/chrome-dynamic-bookmarks`, then it would NOT match our `regExp`, hence our bookmark would not be updated. 
+  - `regExp` (short for regular expression) is a rule upon which it is determined if the URL that you are currently on should be updated.
+  - For example, let's say that your `regExp` was `crunchyroll.com/gintama`.
+  - If you were on a `http://www.crunchyroll.com/gintama/episode-182-screw-popularity-votes-534414`, then that link would match our `regExp` because `crunchyroll.com/gintama` is contained in this URL, and in turn our bookmark would be updated.
+  - But if you were on, let's say, `https://github.com/DaniloNovakovic/chrome-dynamic-bookmarks`, then it would NOT match our `regExp`, hence our bookmark would not be updated.
 
 ---
 
