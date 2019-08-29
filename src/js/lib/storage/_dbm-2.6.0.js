@@ -3,7 +3,7 @@ import { checkAndHandleError } from "../../utils/log";
 
 export const dbmIdsPropName = "dbm_ids";
 
-class Dbm260 {
+export class Dbm260 {
   constructor(storage = chrome.storage.sync) {
     this.storage = storage;
   }

@@ -1,6 +1,6 @@
 /** Adapter **/
 
-import * as dbm from "./storage/_dbm-2.5.x";
+import dbm from "./storage/_dbm-2.6.0";
 
 export function findAll(done) {
   dbm.findAll(done);
