@@ -1,17 +1,17 @@
-import * as dynBookmarks from '../lib/dynBookmarks';
+import * as dynBookmarks from "../lib/dynBookmarks";
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener("DOMContentLoaded", function() {
   // materializecss modal
-  const popupModalEl = document.querySelector('#popup-modal');
+  const popupModalEl = document.querySelector("#popup-modal");
   const popupModalInstance = M.Modal.init(popupModalEl, { dismissible: true });
-  const formResponse = document.getElementById('form-response');
+  const formResponse = document.getElementById("form-response");
 
   // update storage on form submit
-  const popupForm = document.getElementById('popup-form');
-  popupForm.addEventListener('submit', popupSubmit);
+  const popupForm = document.getElementById("popup-form");
+  popupForm.addEventListener("submit", popupSubmit);
 
   // url to use in case of error
-  const defaultUrl = 'https://www.google.com';
+  const defaultUrl = "https://www.google.com";
 
   chrome.tabs.query(
     {
@@ -20,12 +20,12 @@ document.addEventListener('DOMContentLoaded', function() {
     },
     function(tabs) {
       const url = tabs[0].url || defaultUrl;
-      const title = tabs[0].title || '';
+      const title = tabs[0].title || "";
 
       // fill form
-      const bookmarkNameInput = document.getElementById('bookmark-name-input');
-      const urlInput = document.getElementById('url-input');
-      const regExpInput = document.getElementById('regexp-input');
+      const bookmarkNameInput = document.getElementById("bookmark-name-input");
+      const urlInput = document.getElementById("url-input");
+      const regExpInput = document.getElementById("regexp-input");
 
       if (bookmarkNameInput) {
         bookmarkNameInput.value = title;
@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', function() {
       } else {
         const regExpString = url.replace(
           /(^(http[s]?:\/\/)?(www\.)?)|(\/[^/]*?(\?.*)?$)|(\/[^/?]+\/$)/g,
-          ''
+          ""
         );
         regExpInput.value = regExpString.replace(/\./g, `\\.`);
       }
@@ -51,23 +51,23 @@ document.addEventListener('DOMContentLoaded', function() {
     event.preventDefault();
 
     // extract values from form
-    const url = event.target['url'].value;
-    const title = event.target['bookmark_name'].value;
+    const url = event.target["url"].value;
+    const title = event.target["bookmark_name"].value;
     let regExpString = event.target.regexp.value;
     try {
       new RegExp(event.target.regexp.value);
     } catch {
-      formResponse.textContent = 'Invalid regular expression';
+      formResponse.textContent = "Invalid regular expression";
       popupModalInstance.open();
       return false;
     }
 
-    handleBookmarkSubmit(title, url, regExpString, (err) => {
+    handleBookmarkSubmit(title, url, regExpString, err => {
       if (err) {
         console.warn(err);
         formResponse.textContent = err;
       } else {
-        formResponse.textContent = 'Bookmark has been submitted successfully.!';
+        formResponse.textContent = "Bookmark has been submitted successfully.!";
       }
       popupModalInstance.open();
     });
@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   function handleBookmarkSubmit(title, url, regExp, done) {
     const newUrl = url || defaultUrl;
-    chrome.bookmarks.create({ title, url: newUrl }, (newBookmark) => {
+    chrome.bookmarks.create({ title, url: newUrl }, newBookmark => {
       if (chrome.runtime.lastError) {
         done(chrome.runtime.lastError.message);
       } else {
