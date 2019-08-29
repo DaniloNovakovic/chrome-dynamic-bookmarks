@@ -1,6 +1,6 @@
 import * as dbm from "./lib/dynBookmarks";
 import { migrateStorage } from "./lib/storage/migrations";
-import { logError } from "./utils/log";
+import { logWarn } from "./utils/log";
 
 migrateStorage();
 
@@ -57,7 +57,7 @@ chrome.bookmarks.onChanged.addListener((id, changeInfo) => {
         item.history.pop();
       }
       item.history.unshift(changeInfo.url);
-      dbm.findByIdAndUpdate(id, item, logError);
+      dbm.findByIdAndUpdate(id, item, logWarn);
     });
   }
 });
