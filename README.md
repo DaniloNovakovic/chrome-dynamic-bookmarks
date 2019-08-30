@@ -98,13 +98,13 @@ You open it by pressing on the `Open Manager` tab inside a popup window
 
 ![Open Bookmark Manager](./doc/open-manager.PNG)
 
-![Bookmark manager page](./doc/manager-page.PNG)
-
 Once you open the bookmark manager, on the right, all of the bookmark files will be shown. For easier navigation **dynamic bookmarks** are shown in **red color**.
+
+![Bookmark Manager Page](./doc/manager-page.PNG)
 
 On the left side (side nav) you can see two main elements.
 
-![search bar](./doc/searchBar.png)
+![Search Bar](./doc/searchBar.png)
 
 So let's take a closer look at each...
 
