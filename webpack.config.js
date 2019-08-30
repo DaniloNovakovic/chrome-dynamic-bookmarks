@@ -57,7 +57,8 @@ const options = {
               "@babel/preset-env",
               {
                 plugins: ["@babel/plugin-proposal-class-properties"]
-              }
+              },
+              "@babel/preset-react"
             ]
           }
         }
