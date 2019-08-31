@@ -12,12 +12,13 @@ function a11yProps(index) {
 
 export default function NavTabs(props) {
   return (
-    <AppBar component="nav" position="static">
+    <AppBar position="static" color="primary">
       <Tabs
         variant="fullWidth"
         value={props.value}
         onChange={props.onChange}
         aria-label="Navigation Tabs"
+        indicatorColor="primary"
       >
         <LinkTab label="Add Bookmark" {...a11yProps(0)} />
         <LinkTab

@@ -1,17 +1,9 @@
 import React, { useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
 import TabPanel from "../helpers/TabPanel";
 import NavTabs from "./NavTabs";
-
-const useStyles = makeStyles(theme => ({
-  root: {
-    flexGrow: 1,
-    backgroundColor: theme.palette.background.paper
-  }
-}));
+import BookmarkForm from "./BookmarkForm";
 
 export default function Popup() {
-  const classes = useStyles();
   const [value, setValue] = useState(0);
 
   function handleChange(_event, newValue) {
@@ -19,11 +11,11 @@ export default function Popup() {
   }
 
   return (
-    <div className={classes.root}>
+    <>
       <NavTabs value={value} onChange={handleChange}></NavTabs>
       <TabPanel value={value} index={0}>
-        First Tab
+        <BookmarkForm />
       </TabPanel>
-    </div>
+    </>
   );
 }
