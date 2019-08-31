@@ -2,26 +2,28 @@
 <html lang="en" class="popup-wrapper">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="viewport"
+      content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no"
+    />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>DynBookmark Popup Form</title>
+
+    <!-- Fonts to support Material Design -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+    />
+    <!-- Icons to support Material Design -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    />
+    <title>Dynamic Bookmark Popup Form</title>
   </head>
 
   <body class="popup-wrapper">
-    <nav class="nav-extended">
-      <div class="nav-content">
-        <ul class="tabs tabs-transparent">
-          <li class="tab"><a class="active">Add Bookmark</a></li>
-          <li class="tab">
-            <a id="open-manager" target="_blank" href="bookmarkManager.html"
-              >Open Manager</a
-            >
-          </li>
-        </ul>
-      </div>
-    </nav>
+    <div id="root"/>
     <div class="container">
-      <div id="root"></div>
       <form action="#" id="popup-form" class="popup-form">
         <div class="input-field">
           <label for="bookmark-name-input">Bookmark name: </label>

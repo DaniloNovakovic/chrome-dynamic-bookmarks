@@ -133,7 +133,10 @@ const options = {
       filename: "[name].css",
       chunkFilename: "[id].css"
     })
-  ]
+  ],
+  watchOptions: {
+    ignored: ["/node_modules/", "/doc/", "README.md", "/build/"]
+  }
 };
 
 module.exports = options;

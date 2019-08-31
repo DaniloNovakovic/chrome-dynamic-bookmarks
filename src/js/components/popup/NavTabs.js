@@ -1,0 +1,33 @@
+import React from "react";
+import AppBar from "@material-ui/core/AppBar";
+import Tabs from "@material-ui/core/Tabs";
+import LinkTab from "../helpers/LinkTab";
+
+function a11yProps(index) {
+  return {
+    id: `nav-tab-${index}`,
+    "aria-controls": `nav-tabpanel-${index}`
+  };
+}
+
+export default function NavTabs(props) {
+  return (
+    <AppBar component="nav" position="static">
+      <Tabs
+        variant="fullWidth"
+        value={props.value}
+        onChange={props.onChange}
+        aria-label="Navigation Tabs"
+      >
+        <LinkTab label="Add Bookmark" {...a11yProps(0)} />
+        <LinkTab
+          label="Open Manager"
+          href="bookmarkManager.html"
+          target="_blank"
+          rel="noopener"
+          {...a11yProps(1)}
+        />
+      </Tabs>
+    </AppBar>
+  );
+}
