@@ -18,57 +18,6 @@
 
   <body class="popup-wrapper">
     <div id="root"/>
-    <div class="container">
-      <form action="#" id="popup-form" class="popup-form">
-        <div class="input-field">
-          <label for="bookmark-name-input">Bookmark name: </label>
-          <input
-            type="text"
-            id="bookmark-name-input"
-            name="bookmark_name"
-            required
-          />
-        </div>
-
-        <div class="input-field">
-          <label for="url-input">Url: </label>
-          <input
-            type="url"
-            class="validate"
-            id="url-input"
-            name="url"
-            required
-          />
-          <span
-            class="helper-text"
-            data-error="url must be in form http[s]://..."
-          ></span>
-        </div>
-
-        <div class="input-field">
-          <label for="regexp-input">RegExp: </label>
-          <input type="text" id="regexp-input" name="regexp" required />
-        </div>
-
-        <div class="input-field popup-form-btn-wrapper">
-          <button class="btn waves-effect waves-light green" type="submit">
-            Submit
-            <i class="material-icons right">send</i>
-          </button>
-        </div>
-      </form>
-
-      <!-- Modal Structure -->
-      <div id="popup-modal" class="modal">
-        <div class="modal-content">
-          <p id="form-response"></p>
-        </div>
-        <div class="modal-footer">
-          <a href="#!" class="modal-close waves-effect waves-green btn-flat"
-            >Close</a
-          >
-        </div>
-      </div>
     </div>
   </body>
 </html>

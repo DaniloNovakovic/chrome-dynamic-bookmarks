@@ -1,6 +1,27 @@
-import React, { Component } from "react";
-import { Formik, Field, Form, ErrorMessage } from "formik";
+import React from "react";
+import { Formik, Field, Form } from "formik";
 import * as Yup from "yup";
+import { TextField } from "formik-material-ui";
+import Button from "@material-ui/core/Button";
+import Icon from "@material-ui/core/Icon";
+import Container from "@material-ui/core/Container";
+import { makeStyles } from "@material-ui/core/styles";
+import clsx from "clsx";
+
+const useStyles = makeStyles(theme => ({
+  button: {
+    margin: "2em 0"
+  },
+  leftIcon: {
+    marginRight: theme.spacing(1)
+  },
+  rightIcon: {
+    marginLeft: theme.spacing(1)
+  },
+  iconSmall: {
+    fontSize: 20
+  }
+}));
 
 const BookmarkSchema = Yup.object().shape({
   bookmarkName: Yup.string()
@@ -26,36 +47,59 @@ function handleBookmarkSubmit(values) {
   console.log("Submitting ", values);
 }
 
-export default class BookmarkForm extends Component {
-  render() {
-    return (
-      <Formik
-        initialValues={{ bookmarkName: "", url: "", regexp: "" }}
-        validationSchema={BookmarkSchema}
-        onSubmit={(values, actions) => {
-          actions.setSubmitting(false);
-          handleBookmarkSubmit(values);
-          actions.setStatus("Submitted!");
-        }}
-        render={({ isSubmitting, status }) => (
+export default function BookmarkForm() {
+  const classes = useStyles();
+
+  return (
+    <Formik
+      initialValues={{ bookmarkName: "", url: "", regexp: "" }}
+      validationSchema={BookmarkSchema}
+      onSubmit={(values, actions) => {
+        actions.setSubmitting(false);
+        handleBookmarkSubmit(values);
+      }}
+      render={({ isSubmitting, submitForm }) => (
+        <Container>
           <Form>
-            <Field type="text" name="bookmarkName" />
-            <ErrorMessage name="bookmarkName" component="p" />
-
-            <Field type="url" name="url" />
-            <ErrorMessage name="url" component="p" />
-
-            <Field type="text" name="regexp" />
-            <ErrorMessage name="regexp" component="p" />
-
-            {status && status.msg && <div>{status.msg}</div>}
-
-            <button type="submit" disabled={isSubmitting}>
+            <Field
+              type="text"
+              name="bookmarkName"
+              label="Bookmark name"
+              margin="normal"
+              fullWidth
+              component={TextField}
+            />
+            <Field
+              type="url"
+              name="url"
+              label="Url"
+              margin="normal"
+              fullWidth
+              component={TextField}
+            />
+            <Field
+              type="text"
+              name="regexp"
+              label="Regular Expression"
+              margin="normal"
+              fullWidth
+              component={TextField}
+            />
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={submitForm}
+              disabled={isSubmitting}
+              className={classes.button}
+            >
               Submit
-            </button>
+              <Icon className={clsx(classes.rightIcon, classes.iconSmall)}>
+                send
+              </Icon>
+            </Button>
           </Form>
-        )}
-      />
-    );
-  }
+        </Container>
+      )}
+    />
+  );
 }
