@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import TabPanel from "../helpers/TabPanel";
 import NavTabs from "./NavTabs";
-import BookmarkForm from "./BookmarkForm";
+import BookmarkForm from "./BookmarkForm.jsWrapper";
 
 export default function Popup() {
   const [value, setValue] = useState(0);
