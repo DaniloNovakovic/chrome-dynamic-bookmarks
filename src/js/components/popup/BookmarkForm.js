@@ -7,6 +7,7 @@ import Icon from "@material-ui/core/Icon";
 import Container from "@material-ui/core/Container";
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
+import { withSnackbar } from "notistack";
 
 const useStyles = makeStyles(theme => ({
   button: {
@@ -43,14 +44,22 @@ const BookmarkSchema = Yup.object().shape({
     })
 });
 
-export default function BookmarkForm({ initialValues, handleSubmit }) {
+export function BookmarkForm({ initialValues, handleSubmit, enqueueSnackbar }) {
   const classes = useStyles();
 
   return (
     <Formik
       initialValues={initialValues}
       validationSchema={BookmarkSchema}
-      onSubmit={handleSubmit}
+      onSubmit={(values, actions) => {
+        handleSubmit(values, status => {
+          actions.setSubmitting(false);
+          actions.setStatus(status);
+          if (enqueueSnackbar) {
+            enqueueSnackbar(status.message, { variant: status.type });
+          }
+        });
+      }}
       render={({ isSubmitting, submitForm }) => (
         <Container>
           <Form>
@@ -96,3 +105,5 @@ export default function BookmarkForm({ initialValues, handleSubmit }) {
     />
   );
 }
+
+export default withSnackbar(BookmarkForm);

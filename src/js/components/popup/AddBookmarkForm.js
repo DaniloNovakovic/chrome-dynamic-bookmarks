@@ -20,19 +20,21 @@ export default function AddBookmarkForm() {
   };
   /**
    * @param {any} values - `{bookmarkName, url, regexp}`
-   * @param {FormikActions<any>} actions - Formik actions
+   * @param {function} done - callback function called with
+   * `done({type: enum:'default' | 'success' | 'error' | 'info' , message:string})`
    */
-  function handleSubmit(values, actions) {
+  function handleSubmit(values, done) {
     createTrackedBookmark(
       { title: values.bookmarkName, ...values },
-      (errMsg, bookmark) => {
+      (errMsg, { id = "" }) => {
         if (errMsg) {
-          console.warn(errMsg);
+          done({ type: "error", message: errMsg });
         } else {
-          console.log(`Successfully created bookmark ${bookmark.id}`);
-          actions.resetForm();
+          done({
+            type: "success",
+            message: `Successfully created bookmark ${id}`
+          });
         }
-        actions.setSubmitting(false);
       }
     );
   }
