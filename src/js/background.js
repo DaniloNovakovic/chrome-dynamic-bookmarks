@@ -1,3 +1,5 @@
+///<reference path="./chrome.intellisense.js"/>
+
 import * as dbm from "./lib/dynBookmarks";
 import { migrateStorage } from "./lib/storage/migrations";
 import { logWarn } from "./utils/log";
