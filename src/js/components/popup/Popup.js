@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import TabPanel from "../helpers/TabPanel";
 import NavTabs from "./NavTabs";
-import BookmarkForm from "./BookmarkForm";
+import AddBookmarkForm from "./AddBookmarkForm";
 
 export default function Popup() {
   const [value, setValue] = useState(0);
@@ -14,7 +14,7 @@ export default function Popup() {
     <>
       <NavTabs value={value} onChange={handleChange}></NavTabs>
       <TabPanel value={value} index={0}>
-        <BookmarkForm />
+        <AddBookmarkForm />
       </TabPanel>
     </>
   );

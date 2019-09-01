@@ -43,24 +43,14 @@ const BookmarkSchema = Yup.object().shape({
     })
 });
 
-export default function BookmarkForm({
-  initialValues = {
-    bookmarkName: "New Bookmark",
-    url: "https://www.google.com",
-    regexp: ".*"
-  },
-  handleSubmit = values => console.log(values)
-}) {
+export default function BookmarkForm({ initialValues, handleSubmit }) {
   const classes = useStyles();
 
   return (
     <Formik
       initialValues={initialValues}
       validationSchema={BookmarkSchema}
-      onSubmit={(values, actions) => {
-        handleSubmit(values);
-        actions.setSubmitting(false);
-      }}
+      onSubmit={handleSubmit}
       render={({ isSubmitting, submitForm }) => (
         <Container>
           <Form>
