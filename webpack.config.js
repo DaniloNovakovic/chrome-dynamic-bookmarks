@@ -32,6 +32,7 @@ const options = {
     path: path.join(__dirname, "build"),
     filename: "[name].bundle.js"
   },
+  //devtool: "inline-source-map",
   optimization: {
     splitChunks: {
       chunks: "all"
@@ -50,18 +51,7 @@ const options = {
       {
         test: /\.m?js$/,
         exclude: /(node_modules|bower_components)/,
-        use: {
-          loader: "babel-loader",
-          options: {
-            presets: [
-              "@babel/preset-env",
-              {
-                plugins: ["@babel/plugin-proposal-class-properties"]
-              },
-              "@babel/preset-react"
-            ]
-          }
-        }
+        use: ["babel-loader"]
       },
       {
         test: /\.css$/,
