@@ -23,6 +23,7 @@ const fileExtensions = [
 
 const options = {
   entry: {
+    vendor: ["react", "react-dom"],
     popup: path.join(__dirname, "src", "js", "popup.js"),
     options: path.join(__dirname, "src", "js", "options.js"),
     background: path.join(__dirname, "src", "js", "background.js"),
@@ -32,10 +33,17 @@ const options = {
     path: path.join(__dirname, "build"),
     filename: "[name].bundle.js"
   },
-  //devtool: "inline-source-map",
+  //devtool: "source-map",
   optimization: {
     splitChunks: {
-      chunks: "all"
+      cacheGroups: {
+        vendor: {
+          chunks: "initial",
+          test: "vendor",
+          name: "vendor",
+          enforce: true
+        }
+      }
     },
     minimizer: [
       new UglifyJsPlugin({
@@ -59,7 +67,9 @@ const options = {
           {
             loader: MiniCssExtractPlugin.loader
           },
-          "css-loader"
+          {
+            loader: "css-loader"
+          }
         ]
       },
       {
