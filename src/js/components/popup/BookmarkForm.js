@@ -27,7 +27,7 @@ const useStyles = makeStyles(theme => ({
 const BookmarkSchema = Yup.object().shape({
   bookmarkName: Yup.string()
     .min(2, "Minimum of 2 characters is required!")
-    .max(50, "Maximum allowed characters is 50!")
+    .max(100, "Maximum allowed characters is 100!")
     .required("Required!"),
   url: Yup.string()
     .url("Invalid URL! (Must be in form https://...)")
