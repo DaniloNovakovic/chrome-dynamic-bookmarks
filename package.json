@@ -3,9 +3,9 @@
   "version": "3.0.0",
   "description": "Chrome extension which dynamically updates bookmarks based on the specified regular expression.",
   "scripts": {
-    "watch": "webpack --watch --mode development --config webpack.config.development.js",
-    "dev": "webpack --mode development --config webpack.config.development.js",
-    "build": "cross-env NODE_ENV=production webpack -p --config webpack.config.production.js",
+    "watch": "webpack --watch --env.env=dev",
+    "dev": "webpack --env.env=dev",
+    "build": "cross-env NODE_ENV=production webpack -p --env.env=prod",
     "clean": "rimraf build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -29,6 +29,7 @@
     "babel-loader": "^8.0.6",
     "babel-plugin-import": "^1.12.1",
     "buffer": "^5.2.1",
+    "chalk": "^2.4.2",
     "clean-webpack-plugin": "^3.0.0",
     "copy-webpack-plugin": "^5.0.3",
     "cross-env": "^5.2.1",
@@ -45,7 +46,8 @@
     "webpack": "^4.35.3",
     "webpack-bundle-analyzer": "^3.4.1",
     "webpack-cli": "^3.3.5",
-    "webpack-dev-server": "^3.8.0"
+    "webpack-dev-server": "^3.8.0",
+    "webpack-merge": "^4.2.2"
   },
   "main": "index.js",
   "repository": {

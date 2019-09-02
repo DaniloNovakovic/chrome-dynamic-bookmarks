@@ -1,12 +1,11 @@
-const pjson = require("./package.json");
+const pjson = require("../package.json");
 const path = require("path");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const webpack = require("webpack");
+const commonPaths = require("./common-paths");
 
 const fileExtensions = [
   "jpg",
@@ -24,16 +23,15 @@ const fileExtensions = [
 const options = {
   entry: {
     vendor: ["react", "react-dom"],
-    popup: path.join(__dirname, "src", "js", "popup.js"),
-    options: path.join(__dirname, "src", "js", "options.js"),
-    background: path.join(__dirname, "src", "js", "background.js"),
-    bookmarkManager: path.join(__dirname, "src", "js", "bookmarkManager.js")
+    popup: path.join(commonPaths.appEntry, "popup.js"),
+    options: path.join(commonPaths.appEntry, "options.js"),
+    background: path.join(commonPaths.appEntry, "background.js"),
+    bookmarkManager: path.join(commonPaths.appEntry, "bookmarkManager.js")
   },
   output: {
-    path: path.join(__dirname, "build"),
+    path: commonPaths.outputPath,
     filename: "[name].bundle.js"
   },
-  //devtool: "source-map",
   optimization: {
     splitChunks: {
       cacheGroups: {
@@ -44,15 +42,7 @@ const options = {
           enforce: true
         }
       }
-    },
-    minimizer: [
-      new UglifyJsPlugin({
-        cache: true,
-        parallel: true,
-        sourceMap: true // set to true if you want JS source maps
-      }),
-      new OptimizeCSSAssetsPlugin({})
-    ]
+    }
   },
   module: {
     rules: [
@@ -63,28 +53,11 @@ const options = {
       },
       {
         test: /\.css$/,
-        use: [
-          {
-            loader: MiniCssExtractPlugin.loader
-          },
-          {
-            loader: "css-loader"
-          }
-        ]
+        use: [MiniCssExtractPlugin.loader, "css-loader"]
       },
       {
         test: new RegExp(".(" + fileExtensions.join("|") + ")$"),
         loader: "file-loader?name=[name].[ext]",
-        exclude: /node_modules/
-      },
-      {
-        test: /\.html$/,
-        use: [
-          {
-            loader: "html-loader",
-            options: { minimize: true }
-          }
-        ],
         exclude: /node_modules/
       }
     ]
@@ -94,7 +67,7 @@ const options = {
     new CleanWebpackPlugin(),
     new CopyWebpackPlugin([
       {
-        from: "src/manifest.json",
+        from: path.join(commonPaths.htmlEntry, "manifest.json"),
         transform: function(content, path) {
           // generates the manifest file using the package.json informations
           const contentJson = JSON.parse(content.toString());
@@ -108,22 +81,22 @@ const options = {
       }
     ]),
     new HtmlWebpackPlugin({
-      template: path.join(__dirname, "src", "popup.html"),
+      template: path.join(commonPaths.htmlEntry, "popup.html"),
       filename: "popup.html",
       excludeChunks: ["bookmarkManager", "background", "options"]
     }),
     new HtmlWebpackPlugin({
-      template: path.join(__dirname, "src", "options.html"),
+      template: path.join(commonPaths.htmlEntry, "options.html"),
       filename: "options.html",
       chunks: ["options"]
     }),
     new HtmlWebpackPlugin({
-      template: path.join(__dirname, "src", "background.html"),
+      template: path.join(commonPaths.htmlEntry, "background.html"),
       filename: "background.html",
       chunks: ["background"]
     }),
     new HtmlWebpackPlugin({
-      template: path.join(__dirname, "src", "bookmarkManager.html"),
+      template: path.join(commonPaths.htmlEntry, "bookmarkManager.html"),
       filename: "bookmarkManager.html",
       excludeChunks: ["popup", "options", "background"]
     }),
