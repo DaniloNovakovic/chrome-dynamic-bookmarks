@@ -19,6 +19,8 @@ const addons = (/* string | string[] */ addonsArg) => {
 // section in 'package.json'.
 // console.log(env); => { env: 'dev' }
 module.exports = env => {
+  //console.log(env);
+
   // We use 'buildValidations' to check for the 'env' flag
   if (!env) {
     throw new Error(buildValidations.ERR_NO_ENV_FLAG);
