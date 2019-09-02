@@ -1,5 +1,6 @@
 const TerserPlugin = require("terser-webpack-plugin");
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
 const options = {
   mode: "production",
@@ -29,7 +30,8 @@ const options = {
         exclude: /node_modules/
       }
     ]
-  }
+  },
+  plugins: [new CleanWebpackPlugin()]
 };
 
 module.exports = options;
