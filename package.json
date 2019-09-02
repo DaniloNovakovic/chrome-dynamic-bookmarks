@@ -5,9 +5,9 @@
   "scripts": {
     "watch": "webpack --watch --env.env=dev",
     "dev": "webpack --env.env=dev",
-    "dev:bundleanalyzer": "webpack --env.env=dev --env.addons=bundleanalyzer",
+    "analyze-dev": "webpack --env.env=dev --env.addons=bundleanalyzer",
     "build": "cross-env NODE_ENV=production webpack -p --env.env=prod",
-    "build:bundleanalyzer": "cross-env NODE_ENV=production webpack -p --env.env=prod --env.addons=bundleanalyzer",
+    "analyze-build": "cross-env NODE_ENV=production webpack -p --env.env=prod --env.addons=bundleanalyzer",
     "clean": "rimraf build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
