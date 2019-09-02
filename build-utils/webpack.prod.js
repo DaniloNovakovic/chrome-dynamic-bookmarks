@@ -1,14 +1,17 @@
-const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
+const TerserPlugin = require("terser-webpack-plugin");
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 
 const options = {
   mode: "production",
   optimization: {
     minimizer: [
-      new UglifyJsPlugin({
+      new TerserPlugin({
         cache: true,
         parallel: true,
-        sourceMap: true
+        sourceMap: true,
+        chunkFilter: chunk => {
+          return chunk.name !== "vendor";
+        }
       }),
       new OptimizeCSSAssetsPlugin({})
     ]
