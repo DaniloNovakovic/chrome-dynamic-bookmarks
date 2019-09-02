@@ -104,7 +104,7 @@ function Manager(props) {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap>
-            Dynamic Bookmarks
+            Dynamic Bookmark
           </Typography>
         </Toolbar>
       </AppBar>
@@ -142,7 +142,7 @@ function Manager(props) {
       <main className={classes.content}>
         <div className={classes.toolbar} />
         <Typography paragraph>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+          Lorem lorem dolor sit amet, consectetur adipiscing elit, sed do
           eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus
           dolor purus non enim praesent elementum facilisis leo vel. Risus at
           ultrices mi tempus imperdiet. Semper risus in hendrerit gravida rutrum

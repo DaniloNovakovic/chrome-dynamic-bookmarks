@@ -3,13 +3,14 @@ import "../images/default_favicon.png";
 import "../images/icons8_Books_48.png";
 import "../images/icons8_Books_64.png";
 
+import { AppContainer } from "react-hot-loader";
 import React from "react";
 import ReactDOM from "react-dom";
 import Manager from "./components/bookmarkManager/Manager";
 import { SnackbarProvider } from "notistack";
 import SnackbarCloseButton from "./components/helpers/SnackbarCloseButton";
 
-const app = () => {
+const App = () => {
   return (
     <SnackbarProvider
       maxSnack={1}
@@ -26,4 +27,15 @@ const app = () => {
 };
 
 const element = document.getElementById("root");
-element && ReactDOM.render(app(), element);
+if (element) {
+  ReactDOM.render(
+    <AppContainer>
+      <App />
+    </AppContainer>,
+    element
+  );
+}
+
+if (module.hot) {
+  module.hot.accept();
+}

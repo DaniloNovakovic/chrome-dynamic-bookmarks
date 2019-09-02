@@ -3,7 +3,7 @@ const webpack = require("webpack");
 
 const options = {
   mode: "development",
-  //devtool: "inline-source-map",
+  devtool: "inline-source-map",
   output: {
     publicPath: "/"
   },
