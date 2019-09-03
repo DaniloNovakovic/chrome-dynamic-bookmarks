@@ -11,7 +11,7 @@ export function SideNav({
   handleDrawerToggle
 }) {
   return (
-    <nav className={className} aria-label="mailbox folders">
+    <nav className={className}>
       <Hidden smUp implementation="css">
         <Drawer
           variant="temporary"
