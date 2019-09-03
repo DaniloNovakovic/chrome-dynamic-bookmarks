@@ -23,12 +23,6 @@ const useStyles = makeStyles(theme => ({
       width: `calc(100% - ${drawerWidth}px)`
     }
   },
-  menuButton: {
-    marginRight: theme.spacing(2),
-    [theme.breakpoints.up("sm")]: {
-      display: "none"
-    }
-  },
   drawerPaper: {
     width: drawerWidth
   }
@@ -46,9 +40,13 @@ function Manager() {
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <MainNav classes={classes} handleDrawerToggle={handleDrawerToggle} />
+      <MainNav
+        className={classes.appBar}
+        handleDrawerToggle={handleDrawerToggle}
+      />
       <SideNav
-        classes={classes}
+        className={classes.drawer}
+        drawerClassName={classes.drawerPaper}
         direction={theme.direction}
         mobileOpen={mobileOpen}
         handleDrawerToggle={handleDrawerToggle}
