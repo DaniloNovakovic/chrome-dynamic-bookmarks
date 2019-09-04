@@ -1,18 +1,16 @@
 // images
-import "../images/icons8_Books_16.png";
-import "../images/icons8_Books_32.png";
-import "../images/icons8_Books_48.png";
-import "../images/icons8_Books_64.png";
-import "../images/icons8_Books_128.png";
+import "./assets/images/default_favicon.png";
+import "./assets/images/icons8_Books_48.png";
+import "./assets/images/icons8_Books_64.png";
 
-// js
+import { AppContainer } from "react-hot-loader";
 import React from "react";
 import ReactDOM from "react-dom";
-import Popup from "./components/popup/Popup";
+import Manager from "./components/bookmarkManager/Manager";
 import { SnackbarProvider } from "notistack";
 import SnackbarCloseButton from "./components/helpers/SnackbarCloseButton";
 
-const app = () => {
+const App = () => {
   return (
     <SnackbarProvider
       maxSnack={1}
@@ -23,10 +21,21 @@ const app = () => {
       }}
       action={key => <SnackbarCloseButton key={key} />}
     >
-      <Popup />
+      <Manager />
     </SnackbarProvider>
   );
 };
 
 const element = document.getElementById("root");
-element && ReactDOM.render(app(), element);
+if (element) {
+  ReactDOM.render(
+    <AppContainer>
+      <App />
+    </AppContainer>,
+    element
+  );
+}
+
+if (module.hot) {
+  module.hot.accept();
+}
