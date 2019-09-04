@@ -1,8 +1,3 @@
-// images
-import "./assets/images/default_favicon.png";
-import "./assets/images/icons8_Books_48.png";
-import "./assets/images/icons8_Books_64.png";
-
 import { AppContainer } from "react-hot-loader";
 import React from "react";
 import ReactDOM from "react-dom";

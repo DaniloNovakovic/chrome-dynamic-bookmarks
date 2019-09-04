@@ -22,10 +22,10 @@ const fileExtensions = [
 const options = {
   entry: {
     vendor: ["react", "react-dom"],
-    popup: path.join(commonPaths.appEntry, "popup.js"),
-    options: path.join(commonPaths.appEntry, "options.js"),
-    background: path.join(commonPaths.appEntry, "background.js"),
-    bookmarkManager: path.join(commonPaths.appEntry, "bookmarkManager.js")
+    popup: path.join(commonPaths.srcPath, "popup.js"),
+    options: path.join(commonPaths.srcPath, "options.js"),
+    background: path.join(commonPaths.srcPath, "background.js"),
+    bookmarkManager: path.join(commonPaths.srcPath, "bookmarkManager.js")
   },
   output: {
     path: commonPaths.outputPath,
@@ -65,7 +65,7 @@ const options = {
     new webpack.ProgressPlugin(),
     new CopyWebpackPlugin([
       {
-        from: path.join(commonPaths.htmlEntry, "manifest.json"),
+        from: path.join(commonPaths.publicPath, "manifest.json"),
         transform: function(content, path) {
           // generates the manifest file using the package.json informations
           const contentJson = JSON.parse(content.toString());
@@ -76,25 +76,31 @@ const options = {
           };
           return JSON.stringify(newManifest);
         }
+      },
+      {
+        from: "*",
+        to: "[name].[ext]",
+        test: /.*(\.png)|(\.ico)/,
+        context: commonPaths.publicPath
       }
     ]),
     new HtmlWebpackPlugin({
-      template: path.join(commonPaths.htmlEntry, "popup.html"),
+      template: path.join(commonPaths.publicPath, "popup.html"),
       filename: "popup.html",
       excludeChunks: ["bookmarkManager", "background", "options"]
     }),
     new HtmlWebpackPlugin({
-      template: path.join(commonPaths.htmlEntry, "options.html"),
+      template: path.join(commonPaths.publicPath, "options.html"),
       filename: "options.html",
       chunks: ["options"]
     }),
     new HtmlWebpackPlugin({
-      template: path.join(commonPaths.htmlEntry, "background.html"),
+      template: path.join(commonPaths.publicPath, "background.html"),
       filename: "background.html",
       chunks: ["background"]
     }),
     new HtmlWebpackPlugin({
-      template: path.join(commonPaths.htmlEntry, "bookmarkManager.html"),
+      template: path.join(commonPaths.publicPath, "bookmarkManager.html"),
       filename: "bookmarkManager.html",
       excludeChunks: ["popup", "options", "background"]
     }),
