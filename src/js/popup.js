@@ -5,9 +5,6 @@ import "../images/icons8_Books_48.png";
 import "../images/icons8_Books_64.png";
 import "../images/icons8_Books_128.png";
 
-// styles
-import "../css/popup.css";
-
 // js
 import React from "react";
 import ReactDOM from "react-dom";
