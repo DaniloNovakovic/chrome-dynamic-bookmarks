@@ -1,7 +1,9 @@
 ///<reference path="../../chrome.intellisense.js"/>
 import { checkAndHandleError } from "../../utils/log";
+
 export default {
-  create
+  create,
+  getTreeRoot
 };
 
 const bookmarks = chrome.bookmarks;
@@ -16,6 +18,19 @@ function create(bookmark, done) {
   bookmarks.create(bookmark, newBookmark => {
     if (!checkAndHandleError(done)) {
       done(null, newBookmark);
+    }
+  });
+}
+
+/**
+ * Retrives the root node of the bookmarks
+ * @param {function} done - callback function called with `done(errMsg, treeRoot)`
+ */
+function getTreeRoot(done) {
+  bookmarks.getTree(results => {
+    if (!checkAndHandleError(done)) {
+      const rootNode = results[0];
+      done(null, rootNode);
     }
   });
 }

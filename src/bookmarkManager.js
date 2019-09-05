@@ -1,4 +1,3 @@
-import { AppContainer } from "react-hot-loader";
 import React from "react";
 import ReactDOM from "react-dom";
 import Manager from "./components/bookmarkManager/Manager";
@@ -23,14 +22,5 @@ const App = () => {
 
 const element = document.getElementById("root");
 if (element) {
-  ReactDOM.render(
-    <AppContainer>
-      <App />
-    </AppContainer>,
-    element
-  );
-}
-
-if (module.hot) {
-  module.hot.accept();
+  ReactDOM.render(<App />, element);
 }
