@@ -1,15 +1,28 @@
+import React from "react";
 import File from "../File";
 import Folder from "../Folder";
 
-export default function createTree(node) {
+const defaultOptions = {
+  includeFiles: false
+};
+
+export default function createTree(node, options = defaultOptions) {
   if (_isFile(node)) {
-    return File(node);
+    return options.includeFiles ? File(node) : <div />;
   }
-  const children = _getSortedNodes(node.children);
+  const children = _getChildren(node, options);
   return Folder({
     ...node,
-    children: children.map(child => createTree(child))
+    children
   });
+}
+
+function _getChildren(node, options) {
+  let children = _getSortedNodes(node.children);
+  if (!options.includeFiles) {
+    children = children.filter(child => !_isFile(child));
+  }
+  return children.map(child => createTree(child, options));
 }
 
 function _getSortedNodes(children = []) {

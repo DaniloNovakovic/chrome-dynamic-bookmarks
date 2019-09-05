@@ -4,13 +4,21 @@ import FolderIcon from "@material-ui/icons/Folder";
 
 export default function Folder(props) {
   const { children, id, title } = props;
-  return (
-    <StyledTreeItem
-      key={id}
-      nodeId={id}
-      labelText={title}
-      labelIcon={FolderIcon}
-      children={children}
-    />
-  );
+
+  let inputProps = {
+    key: id,
+    nodeId: id,
+    labelText: title,
+    labelIcon: FolderIcon
+  };
+
+  if (!_isEmpty(children)) {
+    inputProps.children = children;
+  }
+
+  return <StyledTreeItem {...inputProps} />;
+}
+
+function _isEmpty(array = []) {
+  return array && array.length == 0;
 }

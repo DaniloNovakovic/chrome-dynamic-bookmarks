@@ -38,7 +38,7 @@ export default function StyledTreeItem(props) {
     <TreeItem
       label={
         <div className={classes.labelRoot}>
-          <LabelIcon color="inherit" className={classes.labelIcon} />
+          <LabelIcon color="primary" className={classes.labelIcon} />
           <Typography variant="body2" className={classes.labelText} noWrap>
             {labelText}
           </Typography>
