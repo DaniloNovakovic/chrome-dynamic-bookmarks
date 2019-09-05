@@ -1,9 +1,9 @@
 import React from "react";
 import Drawer from "@material-ui/core/Drawer";
 import Hidden from "@material-ui/core/Hidden";
-import { SideNavContent } from "./SideNavContent";
+import SideNavContent from "./SideNavContent";
 
-export function SideNav({
+export default function SideNav({
   className,
   drawerClassName,
   direction,

@@ -5,6 +5,8 @@ import MenuIcon from "@material-ui/icons/Menu";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
+import SearchInput from "./SearchInput";
+import MainNavMenu from "./MainNavMenu";
 
 const useStyles = makeStyles(theme => ({
   menuButton: {
@@ -12,10 +14,17 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.up("sm")]: {
       display: "none"
     }
+  },
+  title: {
+    flexGrow: 1,
+    display: "none",
+    [theme.breakpoints.up("sm")]: {
+      display: "block"
+    }
   }
 }));
 
-export function MainNav({ className, handleDrawerToggle }) {
+export default function MainNav({ className, handleDrawerToggle }) {
   const classes = useStyles();
 
   return (
@@ -30,9 +39,11 @@ export function MainNav({ className, handleDrawerToggle }) {
         >
           <MenuIcon />
         </IconButton>
-        <Typography variant="h6" noWrap>
+        <Typography className={classes.title} variant="h6" noWrap>
           Dynamic Bookmarks
         </Typography>
+        <SearchInput />
+        <MainNavMenu />
       </Toolbar>
     </AppBar>
   );

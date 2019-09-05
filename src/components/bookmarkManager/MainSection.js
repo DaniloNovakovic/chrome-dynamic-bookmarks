@@ -10,7 +10,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export function MainSection() {
+export default function MainSection() {
   const classes = useStyles();
 
   return (
