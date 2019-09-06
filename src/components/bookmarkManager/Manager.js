@@ -26,6 +26,9 @@ const useStyles = makeStyles(theme => ({
   mainSection: {
     flexGrow: 1,
     padding: theme.spacing(3, 4),
+    [theme.breakpoints.up("sm")]: {
+      width: `calc(100% - ${drawerWidth}px)`
+    },
     [theme.breakpoints.up("lg")]: {
       padding: theme.spacing(3, 8)
     }
