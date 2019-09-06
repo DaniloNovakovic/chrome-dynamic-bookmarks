@@ -11,17 +11,24 @@ const useStyles = makeStyles(theme => ({
   root: {
     display: "flex"
   },
-  drawer: {
+  mainNav: {
+    zIndex: theme.zIndex.drawer + 1
+  },
+  sideNav: {
     [theme.breakpoints.up("sm")]: {
       width: drawerWidth,
       flexShrink: 0
     }
   },
-  appBar: {
-    zIndex: theme.zIndex.drawer + 1
-  },
   drawerPaper: {
     width: drawerWidth
+  },
+  mainSection: {
+    flexGrow: 1,
+    padding: theme.spacing(3, 4),
+    [theme.breakpoints.up("lg")]: {
+      padding: theme.spacing(3, 8)
+    }
   }
 }));
 
@@ -38,17 +45,17 @@ export default function Manager() {
     <div className={classes.root}>
       <CssBaseline />
       <MainNav
-        className={classes.appBar}
+        className={classes.mainNav}
         handleDrawerToggle={handleDrawerToggle}
       />
       <SideNav
-        className={classes.drawer}
+        className={classes.sideNav}
         drawerClassName={classes.drawerPaper}
         direction={theme.direction}
         mobileOpen={mobileOpen}
         handleDrawerToggle={handleDrawerToggle}
       />
-      <MainSection />
+      <MainSection className={classes.mainSection} />
     </div>
   );
 }
