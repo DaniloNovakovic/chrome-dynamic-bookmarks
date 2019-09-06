@@ -3,7 +3,7 @@
   "name": "Dynamic Bookmarks",
   "description": "Chrome extension which dynamically updates bookmarks based on the specified regular expression.",
   "version": "2.6.0",
-  "permissions": ["tabs", "bookmarks", "storage"],
+  "permissions": ["tabs", "bookmarks", "storage", "chrome://favicon/"],
   "background": {
     "page": "background.html"
   },

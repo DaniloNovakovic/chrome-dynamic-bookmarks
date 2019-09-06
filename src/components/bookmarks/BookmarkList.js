@@ -4,24 +4,43 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
-import InboxIcon from "@material-ui/icons/Inbox";
 import FileActionMenu from "./FileActionMenu";
+import { makeStyles } from "@material-ui/styles";
+import BookmarkIcon from "./BookmarkIcon";
 
-const BookmarkListItem = () => (
-  <ListItem button>
-    <ListItemIcon>
-      <InboxIcon edge="start" />
-    </ListItemIcon>
-    <ListItemText
-      primary="Regular Expressions (RegEx) Tutorial #1 - What is RegEx? - YouTube"
-      secondary="https://www.youtube.com/watch?v=r6I-Ahc0HB4&list=PL4cUxeGkcC9g6m_6Sld9Q4jzqdqHd2HiD"
-      secondaryTypographyProps={{ noWrap: true }}
-    />
-    <ListItemSecondaryAction>
-      <FileActionMenu edge="end" />
-    </ListItemSecondaryAction>
-  </ListItem>
-);
+const iconSize = 24;
+
+const useStyles = makeStyles(theme => ({
+  bookmarkListItem: {
+    minWidth: iconSize * 2
+  }
+}));
+
+const BookmarkListItem = () => {
+  const classes = useStyles();
+
+  const item = {
+    title: "Regular Expressions (RegEx) Tutorial #1 - What is RegEx? - YouTube",
+    url:
+      "https://www.youtube.com/watch?v=r6I-Ahc0HB4&list=PL4cUxeGkcC9g6m_6Sld9Q4jzqdqHd2HiD"
+  };
+
+  return (
+    <ListItem button>
+      <ListItemIcon className={classes.bookmarkListItem}>
+        <BookmarkIcon url={item.url} size={iconSize} />
+      </ListItemIcon>
+      <ListItemText
+        primary={item.title}
+        secondary={item.url}
+        secondaryTypographyProps={{ noWrap: true }}
+      />
+      <ListItemSecondaryAction>
+        <FileActionMenu edge="end" />
+      </ListItemSecondaryAction>
+    </ListItem>
+  );
+};
 
 export default function BookmarkList() {
   return (
