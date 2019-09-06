@@ -35,17 +35,35 @@ export default function FileActionMenu({ edge = "end" }) {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <MenuItem onClick={handleClose}>Edit</MenuItem>
-        <MenuItem onClick={handleClose}>Delete</MenuItem>
+        <MenuItem onClick={handleClose} dense>
+          Edit
+        </MenuItem>
+        <MenuItem onClick={handleClose} dense>
+          Delete
+        </MenuItem>
         <Divider />
-        <MenuItem onClick={handleClose}>Cut</MenuItem>
-        <MenuItem onClick={handleClose}>Copy</MenuItem>
-        <MenuItem onClick={handleClose}>Copy URL</MenuItem>
-        <MenuItem onClick={handleClose}>Paste</MenuItem>
+        <MenuItem onClick={handleClose} dense>
+          Cut
+        </MenuItem>
+        <MenuItem onClick={handleClose} dense>
+          Copy
+        </MenuItem>
+        <MenuItem onClick={handleClose} dense>
+          Copy URL
+        </MenuItem>
+        <MenuItem onClick={handleClose} dense>
+          Paste
+        </MenuItem>
         <Divider />
-        <MenuItem onClick={handleClose}>Open in new tab</MenuItem>
-        <MenuItem onClick={handleClose}>Open in new window</MenuItem>
-        <MenuItem onClick={handleClose}>Open in new incognito window</MenuItem>
+        <MenuItem onClick={handleClose} dense>
+          Open in new tab
+        </MenuItem>
+        <MenuItem onClick={handleClose} dense>
+          Open in new window
+        </MenuItem>
+        <MenuItem onClick={handleClose} dense>
+          Open in new incognito window
+        </MenuItem>
       </Menu>
     </div>
   );

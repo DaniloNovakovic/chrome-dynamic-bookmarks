@@ -34,10 +34,16 @@ export default function MainNavMenu() {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <MenuItem onClick={handleClose}>Sort by name</MenuItem>
+        <MenuItem onClick={handleClose} dense>
+          Sort by name
+        </MenuItem>
         <Divider />
-        <MenuItem onClick={handleClose}>Add new bookmark</MenuItem>
-        <MenuItem onClick={handleClose}>Add new folder</MenuItem>
+        <MenuItem onClick={handleClose} dense>
+          Add new bookmark
+        </MenuItem>
+        <MenuItem onClick={handleClose} dense>
+          Add new folder
+        </MenuItem>
       </Menu>
     </div>
   );
