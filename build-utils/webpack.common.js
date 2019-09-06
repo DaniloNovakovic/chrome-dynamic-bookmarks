@@ -80,7 +80,7 @@ const options = {
       {
         from: "*",
         to: "[name].[ext]",
-        test: /.*(\.png)|(\.ico)/,
+        test: /\.(png|ico)$/,
         context: commonPaths.publicPath
       }
     ]),
