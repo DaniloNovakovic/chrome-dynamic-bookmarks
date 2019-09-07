@@ -4,7 +4,7 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
-import FileActionMenu from "./FileActionMenu";
+import FolderActionMenu from "./FolderActionMenu";
 import { makeStyles } from "@material-ui/styles";
 import FolderIcon from "@material-ui/icons/Folder";
 
@@ -27,7 +27,7 @@ export default function FolderListItem(props) {
       </ListItemIcon>
       <ListItemText primary={bookmark.title} />
       <ListItemSecondaryAction>
-        <FileActionMenu edge="end" />
+        <FolderActionMenu edge="end" />
       </ListItemSecondaryAction>
     </ListItem>
   );
