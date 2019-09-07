@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import LinkTab from "../helpers/LinkTab";
@@ -32,3 +33,8 @@ export default function NavTabs(props) {
     </AppBar>
   );
 }
+
+NavTabs.propTypes = {
+  value: PropTypes.number.isRequired,
+  onChange: PropTypes.func.isRequired
+};

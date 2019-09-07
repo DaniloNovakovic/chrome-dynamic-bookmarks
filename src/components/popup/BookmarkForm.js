@@ -1,6 +1,6 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { Formik, Field, Form } from "formik";
-import * as Yup from "yup";
 import { TextField } from "formik-material-ui";
 import Button from "@material-ui/core/Button";
 import Icon from "@material-ui/core/Icon";
@@ -8,6 +8,7 @@ import Container from "@material-ui/core/Container";
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 import { withSnackbar } from "notistack";
+import BookmarkSchema from "./BookmarkSchema";
 
 const useStyles = makeStyles(theme => ({
   button: {
@@ -24,28 +25,9 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const BookmarkSchema = Yup.object().shape({
-  bookmarkName: Yup.string()
-    .min(2, "Minimum of 2 characters is required!")
-    .max(100, "Maximum allowed characters is 100!")
-    .required("Required!"),
-  url: Yup.string()
-    .url("Invalid URL! (Must be in form https://...)")
-    .required("Required!"),
-  regexp: Yup.string()
-    .required("Required!")
-    .test("is-regex", "Invalid regular expression", function(value) {
-      try {
-        new RegExp(value);
-        return true;
-      } catch {
-        return false;
-      }
-    })
-});
-
-export function BookmarkForm({ initialValues, handleSubmit, enqueueSnackbar }) {
+export function BookmarkForm(props) {
   const classes = useStyles();
+  const { initialValues, handleSubmit, enqueueSnackbar } = props;
 
   return (
     <Formik
@@ -105,5 +87,15 @@ export function BookmarkForm({ initialValues, handleSubmit, enqueueSnackbar }) {
     />
   );
 }
+
+BookmarkForm.propTypes = {
+  initialValues: PropTypes.shape({
+    bookmarkName: PropTypes.string.isRequired,
+    url: PropTypes.string.isRequired,
+    regexp: PropTypes.string.isRequired
+  }),
+  enqueueSnackbar: PropTypes.func.isRequired,
+  handleSubmit: PropTypes.func.isRequired
+};
 
 export default withSnackbar(BookmarkForm);

@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import StyledTreeItem from "../helpers/StyledTreeItem";
 import InsertDriveFileIcon from "@material-ui/icons/InsertDriveFile";
 
@@ -13,3 +14,8 @@ export default function File(props) {
     />
   );
 }
+
+File.propTypes = {
+  id: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired
+};
