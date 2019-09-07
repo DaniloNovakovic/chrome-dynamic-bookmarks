@@ -11,18 +11,18 @@ import BookmarkIcon from "./BookmarkIcon";
 const iconSize = 24;
 
 const useStyles = makeStyles(theme => ({
-  bookmarkListItem: {
+  iconWrapper: {
     minWidth: iconSize * 2
   }
 }));
 
-export default function BookmarkListItem(props) {
+export default function FileListItem(props) {
   const classes = useStyles();
   const { bookmark = {} } = props;
 
   return (
     <ListItem button>
-      <ListItemIcon className={classes.bookmarkListItem}>
+      <ListItemIcon className={classes.iconWrapper}>
         <BookmarkIcon url={bookmark.url} size={iconSize} />
       </ListItemIcon>
       <ListItemText
@@ -37,8 +37,8 @@ export default function BookmarkListItem(props) {
   );
 }
 
-BookmarkListItem.propTypes = {
-  bookmarks: PropTypes.shape({
+FileListItem.propTypes = {
+  bookmark: PropTypes.shape({
     title: PropTypes.string,
     url: PropTypes.string
   }).isRequired

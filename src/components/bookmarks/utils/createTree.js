@@ -31,8 +31,8 @@ function _getSortedNodes(children = []) {
     if (_isOnlyOneFolder(lhs, rhs)) {
       return _isFile(lhs) ? 1 : -1;
     }
-    lhsTitle = lhs.title.toLowerCase();
-    rhsTitle = rhs.title.toLowerCase();
+    const lhsTitle = lhs.title.toLowerCase();
+    const rhsTitle = rhs.title.toLowerCase();
     return lhsTitle.localeCompare(rhsTitle);
   });
   return sorted;

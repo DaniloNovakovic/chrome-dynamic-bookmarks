@@ -3,7 +3,9 @@ import { checkAndHandleError } from "../../utils/log";
 
 export default {
   create,
-  getTreeRoot
+  getTreeRoot,
+  getChildren,
+  search
 };
 
 const bookmarks = chrome.bookmarks;
@@ -31,6 +33,36 @@ function getTreeRoot(done) {
     if (!checkAndHandleError(done)) {
       const rootNode = results[0];
       done(null, rootNode);
+    }
+  });
+}
+
+/**
+ * Retrieves the children of the specified BookmarkTreeNode `id`.
+ * @param {string} id
+ * @param {function} done - callback called with `done([bookmarks])`
+ */
+function getChildren(id, done) {
+  bookmarks.getChildren(id, results => {
+    if (checkAndHandleError()) {
+      done([]);
+    } else {
+      done(results);
+    }
+  });
+}
+
+/**
+ * Searches for BookmarkTreeNodes matching the given query.
+ * @param {string} query - string of words and quoted phrases that are matched against bookmark URLs and titles
+ * @param {callback} done - callback function called with `done([bookmarks])`
+ */
+function search(query, done) {
+  bookmarks.search(query || {}, results => {
+    if (checkAndHandleError()) {
+      done([]);
+    } else {
+      done(results);
     }
   });
 }

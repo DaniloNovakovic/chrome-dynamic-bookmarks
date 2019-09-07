@@ -1,6 +1,7 @@
 import React from "react";
 import List from "@material-ui/core/List";
-import BookmarkListItem from "./BookmarkListItem";
+import FileListItem from "./FileListItem";
+import FolderListItem from "./FolderListItem";
 
 export default function BookmarkList() {
   const item = {
@@ -11,9 +12,9 @@ export default function BookmarkList() {
 
   return (
     <List aria-label="main bookmark list" dense>
-      <BookmarkListItem bookmark={item} />
-      <BookmarkListItem bookmark={item} />
-      <BookmarkListItem bookmark={item} />
+      <FolderListItem bookmark={item} />
+      <FileListItem bookmark={item} />
+      <FileListItem bookmark={item} />
     </List>
   );
 }
