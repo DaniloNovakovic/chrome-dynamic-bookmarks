@@ -31,6 +31,9 @@ const options = {
     path: commonPaths.outputPath,
     filename: "[name].bundle.js"
   },
+  resolve: {
+    modules: ["node_modules", commonPaths.srcPath]
+  },
   optimization: {
     splitChunks: {
       cacheGroups: {

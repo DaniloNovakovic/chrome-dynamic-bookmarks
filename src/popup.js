@@ -1,10 +1,10 @@
 import React from "react";
-import ReactDOM from "react-dom";
+import { render } from "react-dom";
 import Popup from "./components/popup/Popup";
 import { SnackbarProvider } from "notistack";
 import SnackbarCloseButton from "./components/helpers/SnackbarCloseButton";
 
-const app = () => {
+const App = () => {
   return (
     <SnackbarProvider
       maxSnack={1}
@@ -21,4 +21,4 @@ const app = () => {
 };
 
 const element = document.getElementById("root");
-element && ReactDOM.render(app(), element);
+element && render(<App />, element);

@@ -22,6 +22,10 @@
     "notistack": "^0.8.9",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
+    "react-redux": "^7.1.1",
+    "redux": "^4.0.4",
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.3.0",
     "yup": "^0.27.0"
   },
   "devDependencies": {
@@ -45,6 +49,7 @@
     "optimize-css-assets-webpack-plugin": "^5.0.3",
     "prop-types": "^15.7.2",
     "react-hot-loader": "^4.12.12",
+    "redux-devtools": "^3.5.0",
     "rimraf": "^3.0.0",
     "style-loader": "^0.23.1",
     "terser-webpack-plugin": "^1.4.1",
