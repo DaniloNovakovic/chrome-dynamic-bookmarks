@@ -1,20 +1,32 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import List from "@material-ui/core/List";
-import FileListItem from "./FileListItem";
+import { isFolder } from "./utils/comparisons";
 import FolderListItem from "./FolderListItem";
+import FileListItem from "./FileListItem";
+import filterNodes from "./utils/filterNodes";
+import getSortedNodes from "./utils/getSortedNodes";
 
 export default function BookmarkList() {
-  const item = {
-    title: "Regular Expressions (RegEx) Tutorial #1 - What is RegEx? - YouTube",
-    url:
-      "https://www.youtube.com/watch?v=r6I-Ahc0HB4&list=PL4cUxeGkcC9g6m_6Sld9Q4jzqdqHd2HiD"
-  };
+  const bookmarkNodes = useSelector(state => state.bookmarkNodes);
+
+  const filtered = filterNodes(bookmarkNodes);
+  const sorted = getSortedNodes(filtered);
+  const items = sorted.map(node => {
+    return mapNodeToJsx(node);
+  });
 
   return (
     <List aria-label="main bookmark list" dense>
-      <FolderListItem bookmark={item} />
-      <FileListItem bookmark={item} />
-      <FileListItem bookmark={item} />
+      {items}
     </List>
+  );
+}
+
+function mapNodeToJsx(node) {
+  return isFolder(node) ? (
+    <FolderListItem key={node.id} bookmark={node} />
+  ) : (
+    <FileListItem key={node.id} bookmark={node} />
   );
 }

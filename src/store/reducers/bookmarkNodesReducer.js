@@ -14,6 +14,20 @@ const initState = {
     parentId: 2,
     title: "My Folder",
     children: [5]
+  },
+  "7": {
+    id: 7,
+    parentId: 2,
+    title: "Anas folder",
+    children: [5]
+  },
+  "8": {
+    id: 8,
+    parentId: 2,
+    title: "Banana Fish",
+    url:
+      "https://www.youtube.com/watch?v=r6I-Ahc0HB4&list=PL4cUxeGkcC9g6m_6Sld9Q4jzqdqHd2HiD",
+    regExp: /youtube\.com/
   }
 };
 
