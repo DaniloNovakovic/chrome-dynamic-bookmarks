@@ -1,7 +1,7 @@
 import { bm as bookmarks } from "./bookmarks";
 import { dbm as storage } from "./storage";
 import normalizeBookmarkTree from "./normalizeBookmarkTree";
-import { combineCommonProperties } from "../utils/combineCommonProperties";
+import combineProps from "../utils/combineProps";
 
 export function createTrackedBookmark({ title, url, regExp }, done) {
   bookmarks.create({ title, url }, (errMsg, newBookmark) => {
@@ -44,7 +44,7 @@ function _combineWithTrackedBookmarks(normalizedTree, done) {
     if (errMsg) {
       return done(errMsg);
     }
-    const combined = combineCommonProperties(normalizedTree, trackedBookmarks);
+    const combined = combineProps(normalizedTree, trackedBookmarks);
     done(null, combined);
   });
 }
