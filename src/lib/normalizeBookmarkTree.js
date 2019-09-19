@@ -9,14 +9,19 @@ function isFile(node) {
 export default function normalizeBookmarkTree(treeRoot) {
   const normalized = {};
 
-  (function(node) {
+  (function traverseTree(node) {
     if (isFile(node)) {
       normalized[node.id] = node;
       return;
     }
+    let childIds = [];
+    for (let child of node.children) {
+      traverseTree(child);
+      childIds.push(child.id);
+    }
     normalized[node.id] = {
       ...node,
-      children: node.children.map(value => value.id)
+      children: childIds
     };
   })(treeRoot);
 
