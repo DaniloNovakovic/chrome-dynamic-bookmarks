@@ -16,7 +16,7 @@ const bookmarks = chrome.bookmarks;
  * @param {object} bookmark - `{parentId:string?, index:integer?, title:string?, url:string?}`
  * @param {function} done - callback function called with `done(errMsg, newBookmark)`
  */
-function create(bookmark, done) {
+export function create(bookmark, done) {
   bookmarks.create(bookmark, newBookmark => {
     if (!checkAndHandleError(done)) {
       done(null, newBookmark);
@@ -28,7 +28,7 @@ function create(bookmark, done) {
  * Retrives the root node of the bookmarks
  * @param {function} done - callback function called with `done(errMsg, treeRoot)`
  */
-function getTreeRoot(done) {
+export function getTreeRoot(done) {
   bookmarks.getTree(results => {
     if (!checkAndHandleError(done)) {
       const rootNode = results[0];
@@ -42,7 +42,7 @@ function getTreeRoot(done) {
  * @param {string} id
  * @param {function} done - callback called with `done([bookmarks])`
  */
-function getChildren(id, done) {
+export function getChildren(id, done) {
   bookmarks.getChildren(id, results => {
     if (checkAndHandleError()) {
       done([]);
@@ -57,7 +57,7 @@ function getChildren(id, done) {
  * @param {string} query - string of words and quoted phrases that are matched against bookmark URLs and titles
  * @param {callback} done - callback function called with `done([bookmarks])`
  */
-function search(query, done) {
+export function search(query, done) {
   bookmarks.search(query || {}, results => {
     if (checkAndHandleError()) {
       done([]);

@@ -8,6 +8,7 @@ import rootReducer from "./store/reducers/rootReducer";
 import { SnackbarProvider } from "notistack";
 import Manager from "./components/bookmarkManager/Manager";
 import SnackbarCloseButton from "./components/helpers/SnackbarCloseButton";
+import { getBookmarkNodes } from "./store/actions/bookmarkNodesActions";
 
 const loggerMiddleware = createLogger();
 
@@ -15,6 +16,8 @@ const store = createStore(
   rootReducer,
   applyMiddleware(thunkMiddleware, loggerMiddleware)
 );
+
+store.dispatch(getBookmarkNodes());
 
 const App = () => {
   return (
