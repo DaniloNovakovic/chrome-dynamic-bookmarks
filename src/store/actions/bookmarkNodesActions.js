@@ -14,3 +14,9 @@ export function getBookmarkNodes() {
     });
   };
 }
+
+export const APPLY_FILTER = "APPLY_FILTER";
+
+export function applyFilter(filter = {}) {
+  return { type: APPLY_FILTER, filter };
+}

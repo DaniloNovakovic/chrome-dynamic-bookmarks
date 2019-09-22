@@ -1,4 +1,6 @@
 import React from "react";
+import { connect } from "react-redux";
+import { applyFilter } from "store/actions/bookmarkNodesActions";
 import AppBar from "@material-ui/core/AppBar";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
@@ -24,7 +26,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function MainNav({ className, handleDrawerToggle }) {
+export function MainNav({ className, handleDrawerToggle, applyFilter }) {
   const classes = useStyles();
 
   return (
@@ -42,9 +44,14 @@ export default function MainNav({ className, handleDrawerToggle }) {
         <Typography className={classes.title} variant="h6" noWrap>
           Dynamic Bookmarks
         </Typography>
-        <SearchInput />
+        <SearchInput onChange={searchText => applyFilter({ searchText })} />
         <MainNavMenu />
       </Toolbar>
     </AppBar>
   );
 }
+
+export default connect(
+  null,
+  { applyFilter }
+)(MainNav);

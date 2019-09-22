@@ -1,5 +1,4 @@
 const commonPaths = require("./common-paths");
-const webpack = require("webpack");
 
 const options = {
   mode: "development",
@@ -21,7 +20,6 @@ const options = {
       }
     ]
   },
-  plugins: [new webpack.HotModuleReplacementPlugin()],
   devServer: {
     contentBase: commonPaths.outputPath,
     compress: false,

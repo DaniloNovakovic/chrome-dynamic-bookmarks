@@ -9,3 +9,11 @@ export function isFile(node) {
 export function isFolder(node) {
   return !node.url;
 }
+
+export function isRoot(node) {
+  return node.id == "0";
+}
+
+export function isTracked(node) {
+  return !!node.regExp;
+}

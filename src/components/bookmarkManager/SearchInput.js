@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 import InputBase from "@material-ui/core/InputBase";
 import { fade, makeStyles } from "@material-ui/core/styles";
 import SearchIcon from "@material-ui/icons/Search";
+import useDebounce from "utils/hooks";
 
 const useStyles = makeStyles(theme => ({
   search: {
@@ -43,8 +45,17 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function SearchInput() {
+export default function SearchInput(props) {
   const classes = useStyles();
+  const [searchTerm, setSearchTerm] = useState("");
+  const debouncedSearchedTerm = useDebounce(searchTerm, 200);
+
+  useEffect(
+    () => {
+      props.onChange(debouncedSearchedTerm);
+    },
+    [debouncedSearchedTerm] // Only call effect if debounced search term changes
+  );
 
   return (
     <div className={classes.search}>
@@ -58,7 +69,12 @@ export default function SearchInput() {
           input: classes.inputInput
         }}
         inputProps={{ "aria-label": "search" }}
+        onChange={event => setSearchTerm(event.target.value)}
       />
     </div>
   );
 }
+
+SearchInput.propTypes = {
+  onChange: PropTypes.func.isRequired
+};
