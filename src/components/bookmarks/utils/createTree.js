@@ -1,3 +1,4 @@
+import React from "react";
 import getSortedNodes from "./getSortedNodes";
 import { isFile } from "./comparisons";
 import Folder from "../Folder";
