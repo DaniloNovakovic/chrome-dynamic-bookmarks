@@ -1,28 +1,22 @@
-import React from "react";
-import File from "../File";
-import Folder from "../Folder";
-import { isFile } from "./comparisons";
 import getSortedNodes from "./getSortedNodes";
+import { isFile } from "./comparisons";
+import Folder from "../Folder";
 
-const defaultOptions = {
-  includeFiles: false
-};
-
-export default function createTree(node, options = defaultOptions) {
+export default function createTree(nodes = {}, rootId = "0") {
+  const node = nodes[rootId];
   if (isFile(node)) {
-    return options.includeFiles ? File(node) : <div />;
+    return <div key={rootId} />;
   }
-  const children = _getChildren(node, options);
+  const children = _getChildren(nodes, rootId);
   return Folder({
     ...node,
+    key: rootId,
     children
   });
 }
 
-function _getChildren(node, options) {
-  let children = getSortedNodes(node.children);
-  if (!options.includeFiles) {
-    children = children.filter(child => !isFile(child));
-  }
-  return children.map(child => createTree(child, options));
+function _getChildren(nodes, rootId) {
+  let children = nodes[rootId].children.map(childId => nodes[childId]);
+  let sorted = getSortedNodes(children);
+  return sorted.map(child => createTree(nodes, child.id));
 }
