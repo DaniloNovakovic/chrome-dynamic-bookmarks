@@ -95,5 +95,5 @@ StyledTreeItem.propTypes = {
   selected: PropTypes.bool,
   labelProps: PropTypes.any,
   expanded: PropTypes.bool,
-  toggleExpanded: PropTypes.func.isRequired
+  toggleExpanded: PropTypes.func
 };
