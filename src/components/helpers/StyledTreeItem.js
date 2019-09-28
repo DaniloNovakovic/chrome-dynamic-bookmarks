@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
@@ -42,22 +42,18 @@ const useStyles = makeStyles(theme => {
   };
 });
 
-export default function StyledTreeItem(props) {
-  const [expanded, setExpanded] = useState(false);
+export default function StyledTreeItem({
+  labelText,
+  labelIcon: LabelIcon,
+  labelInfo,
+  children = [],
+  selected = false,
+  expanded = false,
+  toggleExpanded,
+  labelProps = {},
+  ...other
+}) {
   const classes = useStyles();
-  const {
-    labelText,
-    labelIcon: LabelIcon,
-    labelInfo,
-    children = [],
-    selected = false,
-    labelProps = {},
-    ...other
-  } = props;
-
-  function toggleExpanded() {
-    setExpanded(!expanded);
-  }
 
   const ExpandIcon = expanded ? ExpandMoreIcon : ChevronRightIcon;
 
@@ -69,7 +65,6 @@ export default function StyledTreeItem(props) {
           { [classes.selected]: selected },
           labelProps.className
         )}
-        onDoubleClick={toggleExpanded}
         {...labelProps}
       >
         {children.length == 0 ? (
@@ -98,5 +93,7 @@ StyledTreeItem.propTypes = {
   labelText: PropTypes.string.isRequired,
   children: PropTypes.arrayOf(PropTypes.element),
   selected: PropTypes.bool,
-  labelProps: PropTypes.any
+  labelProps: PropTypes.any,
+  expanded: PropTypes.bool,
+  toggleExpanded: PropTypes.func.isRequired
 };

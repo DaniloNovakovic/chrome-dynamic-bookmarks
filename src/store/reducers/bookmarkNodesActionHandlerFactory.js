@@ -1,5 +1,6 @@
 import ActionHandlerFactory from "./helpers/actionHandlerFactory";
 import * as actions from "../actions/bookmarkNodesActions";
+import getBreadcrumbs from "lib/getBreadcrumbs";
 
 function successHandler(state, action) {
   return {
@@ -17,10 +18,14 @@ function errorHandler(state, action) {
   };
 }
 
-function applyFilterHandler(state, action) {
+function applyFilterHandler(state, { filter = {} }) {
+  const parentId = filter.parentId;
+  const breadcrumbs = getBreadcrumbs(state.nodes, parentId);
+
   return {
     ...state,
-    filter: action.filter
+    filter,
+    breadcrumbs
   };
 }
 

@@ -1,4 +1,5 @@
 import React from "react";
+import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
@@ -7,6 +8,7 @@ import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import FolderActionMenu from "./FolderActionMenu";
 import { makeStyles } from "@material-ui/styles";
 import FolderIcon from "@material-ui/icons/Folder";
+import { applyFilter } from "store/actions/bookmarkNodesActions";
 
 const iconSize = 24;
 
@@ -16,12 +18,15 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function FolderListItem(props) {
+export function FolderListItem(props) {
   const classes = useStyles();
-  const { bookmark = {} } = props;
+  const { bookmark = {}, applyFilter } = props;
 
   return (
-    <ListItem button>
+    <ListItem
+      button
+      onDoubleClick={() => applyFilter({ parentId: bookmark.id })}
+    >
       <ListItemIcon className={classes.iconWrapper}>
         <FolderIcon />
       </ListItemIcon>
@@ -32,6 +37,11 @@ export default function FolderListItem(props) {
     </ListItem>
   );
 }
+
+export default connect(
+  null,
+  { applyFilter }
+)(FolderListItem);
 
 FolderListItem.propTypes = {
   bookmark: PropTypes.shape({

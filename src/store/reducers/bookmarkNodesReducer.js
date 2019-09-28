@@ -4,7 +4,8 @@ const initialState = {
   filter: {},
   nodes: {},
   isFaulted: false,
-  errMsg: false
+  errMsg: false,
+  breadcrumbs: []
 };
 
 const bookmarkNodesReducer = (state = initialState, action) => {
