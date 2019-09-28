@@ -1,7 +1,7 @@
 import getSortedNodes from "./getSortedNodes";
 import { isFile } from "./comparisons";
-import Folder from "../Folder";
-import File from "../File";
+import FolderTreeItem from "../FolderTreeItem";
+import FileTreeItem from "../FileTreeItem";
 
 const defaultOptions = {
   ignoreFiles: true
@@ -14,10 +14,10 @@ export default function createTree(
 ) {
   const node = nodes[rootId];
   if (isFile(node)) {
-    return File({ ...node, key: { rootId } });
+    return FileTreeItem({ ...node, key: { rootId } });
   }
   const children = _getChildren(nodes, rootId, options);
-  return Folder({
+  return FolderTreeItem({
     ...node,
     key: rootId,
     children
