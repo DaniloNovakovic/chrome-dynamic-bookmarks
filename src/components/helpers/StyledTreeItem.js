@@ -98,6 +98,5 @@ StyledTreeItem.propTypes = {
   labelText: PropTypes.string.isRequired,
   children: PropTypes.arrayOf(PropTypes.element),
   selected: PropTypes.bool,
-  onNodeClick: PropTypes.func,
   labelProps: PropTypes.any
 };

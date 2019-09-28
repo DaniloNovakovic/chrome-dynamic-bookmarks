@@ -1,3 +1,4 @@
+import React from "react";
 import getSortedNodes from "./getSortedNodes";
 import { isFile } from "./comparisons";
 import FolderTreeItem from "../FolderTreeItem";
@@ -14,14 +15,10 @@ export default function createTree(
 ) {
   const node = nodes[rootId];
   if (isFile(node)) {
-    return FileTreeItem({ ...node, key: { rootId } });
+    return <FileTreeItem {...node} key={rootId} />;
   }
   const children = _getChildren(nodes, rootId, options);
-  return FolderTreeItem({
-    ...node,
-    key: rootId,
-    children
-  });
+  return <FolderTreeItem {...node} key={rootId} children={children} />;
 }
 
 function _getChildren(nodes, rootId, options = {}) {

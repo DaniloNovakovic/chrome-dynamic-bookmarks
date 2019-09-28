@@ -1,15 +1,25 @@
 import React from "react";
+import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import StyledTreeItem from "../helpers/StyledTreeItem";
 import FolderIcon from "@material-ui/icons/Folder";
+import { applyFilter } from "store/actions/bookmarkNodesActions";
 
-export default function FolderTreeItem(props) {
-  const { children = [], id, title } = props;
+function _isEmpty(array = []) {
+  return array && array.length == 0;
+}
+
+export function FolderTreeItem(props) {
+  const { children = [], id, title, selectedNodeId, applyFilter } = props;
 
   let inputProps = {
     key: id,
+    selected: selectedNodeId == id,
     labelText: title,
-    labelIcon: FolderIcon
+    labelIcon: FolderIcon,
+    labelProps: {
+      onClick: () => applyFilter({ parentId: id })
+    }
   };
 
   if (!_isEmpty(children)) {
@@ -19,9 +29,14 @@ export default function FolderTreeItem(props) {
   return <StyledTreeItem {...inputProps} />;
 }
 
-function _isEmpty(array = []) {
-  return array && array.length == 0;
+function mapStateToProps({ bookmarkNodes }) {
+  return { selectedNodeId: bookmarkNodes.filter.parentId };
 }
+
+export default connect(
+  mapStateToProps,
+  { applyFilter }
+)(FolderTreeItem);
 
 FolderTreeItem.propTypes = {
   id: PropTypes.string.isRequired,
