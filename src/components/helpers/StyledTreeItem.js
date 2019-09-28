@@ -1,10 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
-import TreeItem from "@material-ui/lab/TreeItem";
 import Typography from "@material-ui/core/Typography";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import ChevronRightIcon from "@material-ui/icons/ChevronRight";
+import Collapse from "@material-ui/core/Collapse";
+import Box from "@material-ui/core/Box";
 
 const useStyles = makeStyles(theme => ({
+  children: {
+    paddingLeft: theme.spacing(1)
+  },
   label: {
     fontWeight: "inherit",
     color: "inherit"
@@ -24,6 +30,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function StyledTreeItem(props) {
+  const [expanded, setExpanded] = useState(false);
   const classes = useStyles();
   const {
     labelText,
@@ -31,29 +38,45 @@ export default function StyledTreeItem(props) {
     labelInfo,
     color,
     bgColor,
+    children = [],
+    nodeId,
     ...other
   } = props;
 
+  console.log(labelText, children);
+
+  function toggleExpanded() {
+    setExpanded(!expanded);
+  }
+
+  const ExpandIcon = expanded ? ExpandMoreIcon : ChevronRightIcon;
+
   return (
-    <TreeItem
-      label={
-        <div className={classes.labelRoot}>
-          <LabelIcon color="primary" className={classes.labelIcon} />
-          <Typography variant="body2" className={classes.labelText} noWrap>
-            {labelText}
-          </Typography>
-          <Typography variant="caption" color="inherit">
-            {labelInfo}
-          </Typography>
-        </div>
-      }
-      {...other}
-    />
+    <Box {...other}>
+      <Box className={classes.labelRoot} onDoubleClick={toggleExpanded}>
+        {children.length == 0 ? (
+          <ExpandIcon style={{ opacity: 0 }} />
+        ) : (
+          <ExpandIcon onClick={toggleExpanded} />
+        )}
+        <LabelIcon color="primary" className={classes.labelIcon} />
+        <Typography variant="body2" className={classes.labelText} noWrap>
+          {labelText}
+        </Typography>
+        <Typography variant="caption" color="inherit">
+          {labelInfo}
+        </Typography>
+      </Box>
+      <Collapse className={classes.children} in={expanded}>
+        {children}
+      </Collapse>
+    </Box>
   );
 }
 
 StyledTreeItem.propTypes = {
   labelIcon: PropTypes.elementType.isRequired,
   labelInfo: PropTypes.string,
-  labelText: PropTypes.string.isRequired
+  labelText: PropTypes.string.isRequired,
+  children: PropTypes.arrayOf(PropTypes.element)
 };
