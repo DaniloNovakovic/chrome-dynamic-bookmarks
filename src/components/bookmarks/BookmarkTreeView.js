@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import createTree from "./utils/createTree";
+import { nodesSelector } from "store/selectors/index";
 
 export function BookmarkTreeView({ className, nodes = {} }) {
   const rootNode = nodes["0"] || { children: [] };
@@ -12,7 +13,7 @@ export function BookmarkTreeView({ className, nodes = {} }) {
 
 function mapStateToProps(state) {
   return {
-    nodes: state.bookmarkNodes.nodes
+    nodes: nodesSelector(state)
   };
 }
 

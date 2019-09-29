@@ -6,6 +6,7 @@ import Paper from "@material-ui/core/Paper";
 import Breadcrumbs from "@material-ui/core/Breadcrumbs";
 import { applyFilter as applyFilterAction } from "store/actions/bookmarkNodesActions";
 import Link from "@material-ui/core/Link";
+import { breadcrumbsSelector } from "store/selectors/index";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -55,14 +56,9 @@ export function BookmarkBreadcrumbs(props) {
   );
 }
 
-function mapStateToProps({ bookmarkNodes = {} }) {
-  const nodes = bookmarkNodes.nodes;
-  const breadcrumbs = bookmarkNodes.breadcrumbs
-    .map(id => nodes[id])
-    .filter(node => node && !!node.title);
-
+function mapStateToProps(state) {
   return {
-    breadcrumbs
+    breadcrumbs: breadcrumbsSelector(state)
   };
 }
 

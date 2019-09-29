@@ -4,8 +4,7 @@ import List from "@material-ui/core/List";
 import FolderListItem from "./FolderListItem";
 import FileListItem from "./FileListItem";
 import { isFolder } from "utils/bookmarkNodes/comparisons";
-import filterNodes from "utils/bookmarkNodes/filterNodes";
-import getSortedNodes from "utils/bookmarkNodes/getSortedNodes";
+import { filteredNodesSelector } from "store/selectors/index";
 
 function mapNodeToJsx(node) {
   return isFolder(node) ? (
@@ -16,8 +15,7 @@ function mapNodeToJsx(node) {
 }
 
 export function BookmarkList({ nodes = {} }) {
-  const sorted = getSortedNodes(nodes);
-  const items = sorted.map(node => {
+  const items = nodes.map(node => {
     return mapNodeToJsx(node);
   });
 
@@ -28,12 +26,8 @@ export function BookmarkList({ nodes = {} }) {
   );
 }
 
-function getFilteredNodes({ bookmarkNodes = {} }) {
-  return filterNodes(bookmarkNodes.nodes, bookmarkNodes.filter);
-}
-
 function mapStateToProps(state) {
-  return { nodes: getFilteredNodes(state) };
+  return { nodes: filteredNodesSelector(state) };
 }
 
 export default connect(mapStateToProps)(BookmarkList);

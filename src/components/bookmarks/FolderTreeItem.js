@@ -4,10 +4,11 @@ import PropTypes from "prop-types";
 import StyledTreeItem from "../helpers/StyledTreeItem";
 import FolderIcon from "@material-ui/icons/Folder";
 import { applyFilter } from "store/actions/bookmarkNodesActions";
+import { breadcrumbIdsSelector, filterSelector } from "store/selectors/index";
 
-function _isAncestor(breadcrumbs = [], id = "0") {
-  for (let i = 0; i < breadcrumbs.length - 1; ++i) {
-    if (id == breadcrumbs[i]) {
+function _isAncestor(breadcrumbIds = [], id = "0") {
+  for (let i = 0; i < breadcrumbIds.length - 1; ++i) {
+    if (id == breadcrumbIds[i]) {
       return true;
     }
   }
@@ -20,16 +21,16 @@ export function FolderTreeItem({
   title,
   selectedNodeId,
   applyFilter,
-  breadcrumbs = []
+  breadcrumbIds = []
 }) {
   const [expanded, setExpanded] = useState(false);
   const selected = selectedNodeId == id;
 
   useEffect(() => {
-    if (_isAncestor(breadcrumbs, id)) {
+    if (_isAncestor(breadcrumbIds, id)) {
       setExpanded(true);
     }
-  }, [breadcrumbs]);
+  }, [breadcrumbIds]);
 
   function toggleExpanded() {
     setExpanded(!expanded);
@@ -54,10 +55,10 @@ export function FolderTreeItem({
   );
 }
 
-function mapStateToProps({ bookmarkNodes }) {
+function mapStateToProps(state) {
   return {
-    selectedNodeId: bookmarkNodes.filter.parentId,
-    breadcrumbs: bookmarkNodes.breadcrumbs
+    selectedNodeId: filterSelector(state).parentId,
+    breadcrumbIds: breadcrumbIdsSelector(state)
   };
 }
 

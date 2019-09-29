@@ -1,4 +1,4 @@
-const defaultHandler = (state, action) => {
+const defaultHandler = state => {
   return state;
 };
 

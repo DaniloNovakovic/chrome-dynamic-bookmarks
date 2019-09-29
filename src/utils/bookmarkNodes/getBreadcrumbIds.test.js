@@ -1,4 +1,4 @@
-import getBreadcrumbs from "./getBreadcrumbs";
+import getBreadcrumbIds from "./getBreadcrumbIds";
 
 describe("getBreadcrumbs", () => {
   const nodes = {
@@ -21,7 +21,7 @@ describe("getBreadcrumbs", () => {
     }
   };
   it("returns valid breadcrumb", () => {
-    const breadcrumbs = getBreadcrumbs(nodes, "3");
+    const breadcrumbs = getBreadcrumbIds(nodes, "3");
     expect(breadcrumbs).toEqual(["0", "2", "3"]);
   });
 });

@@ -1,4 +1,4 @@
-export default function getBreadcrumbs(nodes = {}, id = "0") {
+export default function getBreadcrumbIds(nodes = {}, id = "0") {
   let breadcrumbs = [];
   let currId = id;
   while (currId) {
