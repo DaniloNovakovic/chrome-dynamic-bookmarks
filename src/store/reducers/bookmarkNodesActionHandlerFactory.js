@@ -3,9 +3,10 @@ import * as actions from "../actions/bookmarkNodesActions";
 import getBreadcrumbs from "lib/getBreadcrumbs";
 
 function successHandler(state, action) {
+  const nodes = { ...action.bookmarkNodes };
   return {
     ...state,
-    nodes: action.bookmarkNodes,
+    nodes,
     isFaulted: false,
     errMsg: ""
   };
