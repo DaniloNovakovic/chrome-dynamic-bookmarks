@@ -29,8 +29,8 @@ export const filteredNodesSelector = createSelector(
 
 export const breadcrumbIdsSelector = createSelector(
   nodesSelector,
-  filterSelector,
-  (nodes, filter) => getBreadcrumbIds(nodes, filter.parentId)
+  state => state.filter.parentId,
+  (nodes, parentId) => getBreadcrumbIds(nodes, parentId)
 );
 
 export const breadcrumbsSelector = createSelector(

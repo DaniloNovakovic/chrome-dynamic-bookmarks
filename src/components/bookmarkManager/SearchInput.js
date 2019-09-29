@@ -48,7 +48,7 @@ const useStyles = makeStyles(theme => ({
 export default function SearchInput(props) {
   const classes = useStyles();
   const [searchTerm, setSearchTerm] = useState("");
-  const debouncedSearchedTerm = useDebounce(searchTerm, 200);
+  const debouncedSearchedTerm = useDebounce(searchTerm, 500);
 
   useEffect(
     () => {
