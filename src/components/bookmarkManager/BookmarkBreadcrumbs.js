@@ -42,7 +42,12 @@ export function BookmarkBreadcrumbs(props) {
   ) : (
     <div className={clsx(classes.root, className)} {...other}>
       <Paper elevation={0} className={classes.paper}>
-        <Breadcrumbs separator="›" aria-label="breadcrumb">
+        <Breadcrumbs
+          separator="›"
+          aria-label="breadcrumb"
+          itemsAfterCollapse={3}
+          maxItems={5}
+        >
           {items}
         </Breadcrumbs>
       </Paper>

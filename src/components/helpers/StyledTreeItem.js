@@ -1,46 +1,12 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
-import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import Collapse from "@material-ui/core/Collapse";
 import Box from "@material-ui/core/Box";
-
-const useStyles = makeStyles(theme => {
-  return {
-    children: {
-      paddingLeft: theme.spacing(1)
-    },
-    label: {
-      fontWeight: "inherit",
-      color: "inherit"
-    },
-    labelRoot: {
-      display: "flex",
-      alignItems: "center",
-      padding: theme.spacing(0.5, 0),
-      userSelect: "none",
-      "&:hover": {
-        backgroundColor: theme.palette.action.hover,
-        cursor: "pointer"
-      },
-      "&$selected, &$selected:hover": {
-        backgroundColor: theme.palette.action.selected
-      }
-    },
-    labelIcon: {
-      marginRight: theme.spacing(1)
-    },
-    labelText: {
-      fontWeight: "inherit",
-      flexGrow: 1
-    },
-    /* Pseudo-class applied to the root element if `selected={true}`. */
-    selected: {}
-  };
-});
+import useStyles from "./TreeItemStyles";
 
 export default function StyledTreeItem({
   labelText,
@@ -53,13 +19,25 @@ export default function StyledTreeItem({
   labelProps = {},
   ...other
 }) {
+  const labelElement = useRef(null);
   const classes = useStyles();
+
+  useEffect(() => {
+    if (selected) {
+      labelElement.current.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+        inline: "nearest"
+      });
+    }
+  }, [selected]);
 
   const ExpandIcon = expanded ? ExpandMoreIcon : ChevronRightIcon;
 
   return (
     <Box {...other}>
       <Box
+        ref={labelElement}
         className={clsx(
           classes.labelRoot,
           { [classes.selected]: selected },

@@ -8,7 +8,8 @@ function successHandler(state, action) {
     ...state,
     nodes,
     isFaulted: false,
-    errMsg: ""
+    errMsg: "",
+    filter: { parentId: "1" }
   };
 }
 function errorHandler(state, action) {
