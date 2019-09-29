@@ -20,19 +20,20 @@ const useStyles = makeStyles(theme => ({
 
 export function FolderListItem(props) {
   const classes = useStyles();
-  const { bookmark = {}, applyFilter } = props;
+  const { node = {}, applyFilter, ...others } = props;
 
   return (
     <ListItem
       button
-      onDoubleClick={() => applyFilter({ parentId: bookmark.id })}
+      onDoubleClick={() => applyFilter({ parentId: node.id })}
+      {...others}
     >
       <ListItemIcon className={classes.iconWrapper}>
         <FolderIcon />
       </ListItemIcon>
-      <ListItemText primary={bookmark.title} />
+      <ListItemText primary={node.title} />
       <ListItemSecondaryAction>
-        <FolderActionMenu edge="end" />
+        <FolderActionMenu edge="end" nodeId={node.id} />
       </ListItemSecondaryAction>
     </ListItem>
   );
@@ -44,7 +45,7 @@ export default connect(
 )(FolderListItem);
 
 FolderListItem.propTypes = {
-  bookmark: PropTypes.shape({
+  node: PropTypes.shape({
     title: PropTypes.string
   }).isRequired
 };

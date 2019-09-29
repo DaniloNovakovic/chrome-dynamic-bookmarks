@@ -18,27 +18,27 @@ const useStyles = makeStyles(theme => ({
 
 export default function FileListItem(props) {
   const classes = useStyles();
-  const { bookmark = {} } = props;
+  const { node = {}, ...others } = props;
 
   return (
-    <ListItem button>
+    <ListItem button {...others}>
       <ListItemIcon className={classes.iconWrapper}>
-        <BookmarkIcon url={bookmark.url} size={iconSize} />
+        <BookmarkIcon url={node.url} size={iconSize} />
       </ListItemIcon>
       <ListItemText
-        primary={bookmark.title}
-        secondary={bookmark.url}
+        primary={node.title}
+        secondary={node.url}
         secondaryTypographyProps={{ noWrap: true }}
       />
       <ListItemSecondaryAction>
-        <FileActionMenu edge="end" />
+        <FileActionMenu edge="end" nodeId={node.id} />
       </ListItemSecondaryAction>
     </ListItem>
   );
 }
 
 FileListItem.propTypes = {
-  bookmark: PropTypes.shape({
+  node: PropTypes.shape({
     title: PropTypes.string,
     url: PropTypes.string
   }).isRequired

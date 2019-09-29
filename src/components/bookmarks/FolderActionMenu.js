@@ -5,7 +5,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import Divider from "@material-ui/core/Divider";
 
-export default function FileActionMenu({ edge = "end" }) {
+export default function FolderActionMenu({ edge = "end", nodeId }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   function handleClick(event) {
@@ -21,7 +21,7 @@ export default function FileActionMenu({ edge = "end" }) {
       <IconButton
         edge={edge}
         aria-label="more actions"
-        aria-controls="folder-action-menu"
+        aria-controls={`folder-${nodeId}-action-menu`}
         aria-haspopup="true"
         onClick={handleClick}
         color="inherit"
@@ -29,7 +29,7 @@ export default function FileActionMenu({ edge = "end" }) {
         <MoreVertIcon />
       </IconButton>
       <Menu
-        id="folder-action-menu"
+        id={`folder-${nodeId}-action-menu`}
         anchorEl={anchorEl}
         keepMounted
         open={Boolean(anchorEl)}

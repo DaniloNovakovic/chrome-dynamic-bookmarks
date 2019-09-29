@@ -6,17 +6,10 @@ import FileListItem from "./FileListItem";
 import { isFolder } from "utils/bookmarkNodes/comparisons";
 import { filteredNodesSelector } from "store/selectors/index";
 
-function mapNodeToJsx(node) {
-  return isFolder(node) ? (
-    <FolderListItem key={node.id} bookmark={node} />
-  ) : (
-    <FileListItem key={node.id} bookmark={node} />
-  );
-}
-
-export function BookmarkList({ nodes = {} }) {
-  const items = nodes.map(node => {
-    return mapNodeToJsx(node);
+export function BookmarkList({ filteredNodes = [] }) {
+  const items = filteredNodes.map(node => {
+    const ListItem = isFolder(node) ? FolderListItem : FileListItem;
+    return <ListItem key={node.id} node={node} />;
   });
 
   return (
@@ -27,7 +20,9 @@ export function BookmarkList({ nodes = {} }) {
 }
 
 function mapStateToProps(state) {
-  return { nodes: filteredNodesSelector(state) };
+  return {
+    filteredNodes: filteredNodesSelector(state)
+  };
 }
 
 export default connect(mapStateToProps)(BookmarkList);
