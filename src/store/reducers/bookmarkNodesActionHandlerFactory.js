@@ -1,6 +1,6 @@
 import ActionHandlerFactory from "./helpers/actionHandlerFactory";
 import * as actions from "../actions/bookmarkNodesActions";
-import getBreadcrumbs from "lib/getBreadcrumbs";
+import getBreadcrumbs from "utils/bookmarkNodes/getBreadcrumbs";
 
 function successHandler(state, action) {
   const nodes = { ...action.bookmarkNodes };

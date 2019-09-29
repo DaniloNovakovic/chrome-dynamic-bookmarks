@@ -1,6 +1,6 @@
 import React from "react";
-import getSortedNodes from "./getSortedNodes";
-import { isFile } from "./comparisons";
+import getSortedNodes from "utils/bookmarkNodes/getSortedNodes";
+import { isFile } from "utils/bookmarkNodes/comparisons";
 import FolderTreeItem from "../FolderTreeItem";
 import FileTreeItem from "../FileTreeItem";
 

@@ -1,11 +1,11 @@
 import React from "react";
 import { connect } from "react-redux";
 import List from "@material-ui/core/List";
-import { isFolder } from "./utils/comparisons";
 import FolderListItem from "./FolderListItem";
 import FileListItem from "./FileListItem";
-import filterNodes from "./utils/filterNodes";
-import getSortedNodes from "./utils/getSortedNodes";
+import { isFolder } from "utils/bookmarkNodes/comparisons";
+import filterNodes from "utils/bookmarkNodes/filterNodes";
+import getSortedNodes from "utils/bookmarkNodes/getSortedNodes";
 
 function mapNodeToJsx(node) {
   return isFolder(node) ? (
@@ -15,9 +15,8 @@ function mapNodeToJsx(node) {
   );
 }
 
-export function BookmarkList({ nodes = {}, filter = {} }) {
-  const filtered = filterNodes(nodes, filter);
-  const sorted = getSortedNodes(filtered);
+export function BookmarkList({ nodes = {} }) {
+  const sorted = getSortedNodes(nodes);
   const items = sorted.map(node => {
     return mapNodeToJsx(node);
   });
@@ -29,8 +28,12 @@ export function BookmarkList({ nodes = {}, filter = {} }) {
   );
 }
 
-function mapStateToProps({ bookmarkNodes = {} }) {
-  return { nodes: bookmarkNodes.nodes, filter: bookmarkNodes.filter };
+function getFilteredNodes({ bookmarkNodes = {} }) {
+  return filterNodes(bookmarkNodes.nodes, bookmarkNodes.filter);
+}
+
+function mapStateToProps(state) {
+  return { nodes: getFilteredNodes(state) };
 }
 
 export default connect(mapStateToProps)(BookmarkList);

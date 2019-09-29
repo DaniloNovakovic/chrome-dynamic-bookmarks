@@ -1,6 +1,6 @@
 import React from "react";
-import DefaultIcon from "../../assets/images/default_favicon.png";
-import { getFaviconSrc } from "../../utils/favicon";
+import DefaultIcon from "assets/images/default_favicon.png";
+import { getFaviconSrc } from "utils/favicon";
 
 export default function BookmarkIcon({ url, size = 24 }) {
   const faviconSrc = getFaviconSrc({ size, scaleFactor: 1, pageUrl: url });
