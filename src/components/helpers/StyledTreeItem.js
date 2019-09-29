@@ -70,7 +70,12 @@ export default function StyledTreeItem({
         {children.length == 0 ? (
           <ExpandIcon style={{ opacity: 0 }} />
         ) : (
-          <ExpandIcon onClick={toggleExpanded} />
+          <ExpandIcon
+            onClick={event => {
+              event.stopPropagation();
+              toggleExpanded && toggleExpanded();
+            }}
+          />
         )}
         <LabelIcon color="primary" className={classes.labelIcon} />
         <Typography variant="body2" className={classes.labelText} noWrap>

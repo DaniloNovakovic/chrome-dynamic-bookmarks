@@ -36,7 +36,8 @@ export function FolderTreeItem({
   }
 
   const labelProps = {
-    onClick: () => !selected && applyFilter({ parentId: id })
+    onClick: () => !selected && applyFilter({ parentId: id }),
+    onDoubleClick: () => toggleExpanded()
   };
 
   return (
