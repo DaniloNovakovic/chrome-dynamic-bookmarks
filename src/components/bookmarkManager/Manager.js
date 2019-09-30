@@ -1,6 +1,7 @@
 import React from "react";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
+import Box from "@material-ui/core/Box";
 import MainSection from "./MainSection";
 import SideNav from "./SideNav";
 import MainNav from "./MainNav";
@@ -45,7 +46,7 @@ export default function Manager() {
   }
 
   return (
-    <div className={classes.root}>
+    <Box className={classes.root}>
       <CssBaseline />
       <MainNav
         className={classes.mainNav}
@@ -59,6 +60,6 @@ export default function Manager() {
         handleDrawerToggle={handleDrawerToggle}
       />
       <MainSection className={classes.mainSection} />
-    </div>
+    </Box>
   );
 }
