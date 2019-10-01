@@ -7,7 +7,7 @@ export default function BookmarkIcon({ url, size = 24 }) {
   const faviconSrc2 = getFaviconSrc({ size, scaleFactor: 2, pageUrl: url });
 
   return (
-    <div
+    <span
       style={{
         backgroundRepeat: "no-repeat",
         height: `${size}px`,

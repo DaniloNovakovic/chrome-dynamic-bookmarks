@@ -2,26 +2,16 @@ import React from "react";
 import PropTypes from "prop-types";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
-import { makeStyles } from "@material-ui/styles";
 import BookmarkIcon from "./BookmarkIcon";
 import IconButton from "@material-ui/core/IconButton";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import { FileActionMenuContext } from "./FileActionMenuContext";
-
-const iconSize = 24;
-
-const useStyles = makeStyles(theme => ({
-  iconWrapper: {
-    minWidth: iconSize * 2
-  }
-}));
+import Typography from "@material-ui/core/Typography";
 
 export default function FileListItem(props) {
-  const classes = useStyles();
   const { setAnchorEl } = React.useContext(FileActionMenuContext);
-  const { node = {}, ...others } = props;
+  const { node = {}, iconSize = 24, selected, ...others } = props;
 
   function showActionMenu(event) {
     setAnchorEl(event.currentTarget);
@@ -29,14 +19,30 @@ export default function FileListItem(props) {
 
   return (
     <ListItem button {...others}>
-      <ListItemIcon className={classes.iconWrapper}>
+      <ListItemIcon style={{ minWidth: iconSize, padding: 3 }}>
         <BookmarkIcon url={node.url} size={iconSize} />
       </ListItemIcon>
-      <ListItemText
-        primary={node.title}
-        secondary={node.url}
-        secondaryTypographyProps={{ noWrap: true }}
-      />
+      <Typography
+        variant="body2"
+        noWrap
+        component="span"
+        color="textPrimary"
+        style={{ marginInlineStart: iconSize }}
+      >
+        {node.title}
+      </Typography>
+      <Typography
+        variant="body2"
+        noWrap
+        component="span"
+        color="textSecondary"
+        style={{
+          marginInlineStart: "1em",
+          ...(!selected && { display: "none" })
+        }}
+      >
+        {node.url}
+      </Typography>
       <ListItemSecondaryAction>
         <IconButton
           edge="end"

@@ -5,25 +5,16 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
-import { makeStyles } from "@material-ui/styles";
-import FolderIcon from "@material-ui/icons/Folder";
+import Icon from "@material-ui/core/Icon";
 import { applyFilter } from "store/actions/bookmarkNodesActions";
 import IconButton from "@material-ui/core/IconButton";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import { FolderActionMenuContext } from "./FolderActionMenuContext";
-
-const iconSize = 24;
-
-const useStyles = makeStyles(theme => ({
-  iconWrapper: {
-    minWidth: iconSize * 2
-  }
-}));
+import Typography from "@material-ui/core/Typography";
 
 export function FolderListItem(props) {
-  const classes = useStyles();
   const { setAnchorEl } = React.useContext(FolderActionMenuContext);
-  const { node = {}, applyFilter, ...others } = props;
+  const { node = {}, applyFilter, iconSize = 24, selected, ...others } = props;
 
   function showActionMenu(event) {
     setAnchorEl(event.currentTarget);
@@ -35,10 +26,18 @@ export function FolderListItem(props) {
       onDoubleClick={() => applyFilter({ parentId: node.id })}
       {...others}
     >
-      <ListItemIcon className={classes.iconWrapper}>
-        <FolderIcon />
+      <ListItemIcon style={{ minWidth: iconSize, padding: 1 }}>
+        <Icon style={{ fontSize: iconSize + 3 }}>folder</Icon>
       </ListItemIcon>
-      <ListItemText primary={node.title} />
+      <Typography
+        variant="body2"
+        noWrap
+        component="span"
+        color="textPrimary"
+        style={{ marginInlineStart: iconSize }}
+      >
+        {node.title}
+      </Typography>
       <ListItemSecondaryAction>
         <IconButton
           edge="end"
