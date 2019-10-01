@@ -18,8 +18,8 @@ export default function FileListItem(props) {
   }
 
   return (
-    <ListItem button {...others}>
-      <ListItemIcon style={{ minWidth: iconSize, padding: 3 }}>
+    <ListItem button style={{ minHeight: "35px" }} {...others}>
+      <ListItemIcon style={{ minWidth: iconSize, margin: 2 }}>
         <BookmarkIcon url={node.url} size={iconSize} />
       </ListItemIcon>
       <Typography
@@ -51,8 +51,9 @@ export default function FileListItem(props) {
           aria-haspopup="true"
           onClick={showActionMenu}
           color="inherit"
+          size="small"
         >
-          <MoreVertIcon />
+          <MoreVertIcon fontSize="small" />
         </IconButton>
       </ListItemSecondaryAction>
     </ListItem>

@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import Icon from "@material-ui/core/Icon";
 import { applyFilter } from "store/actions/bookmarkNodesActions";
@@ -24,6 +23,7 @@ export function FolderListItem(props) {
     <ListItem
       button
       onDoubleClick={() => applyFilter({ parentId: node.id })}
+      style={{ minHeight: "35px" }}
       {...others}
     >
       <ListItemIcon style={{ minWidth: iconSize, padding: 1 }}>
@@ -46,8 +46,9 @@ export function FolderListItem(props) {
           aria-haspopup="true"
           onClick={showActionMenu}
           color="inherit"
+          size="small"
         >
-          <MoreVertIcon />
+          <MoreVertIcon fontSize="small" />
         </IconButton>
       </ListItemSecondaryAction>
     </ListItem>
