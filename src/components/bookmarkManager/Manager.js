@@ -5,6 +5,10 @@ import Box from "@material-ui/core/Box";
 import MainSection from "./MainSection";
 import SideNav from "./SideNav";
 import MainNav from "./MainNav";
+import { FileActionMenuContextProvider } from "components/bookmarks/FileActionMenuContext";
+import FileActionMenu from "components/bookmarks/FileActionMenu";
+import { FolderActionMenuContextProvider } from "components/bookmarks/FolderActionMenuContext";
+import FolderActionMenu from "components/bookmarks/FolderActionMenu";
 
 const drawerWidth = 240;
 
@@ -48,18 +52,24 @@ export default function Manager() {
   return (
     <Box className={classes.root}>
       <CssBaseline />
-      <MainNav
-        className={classes.mainNav}
-        handleDrawerToggle={handleDrawerToggle}
-      />
-      <SideNav
-        className={classes.sideNav}
-        drawerClassName={classes.drawerPaper}
-        direction={theme.direction}
-        mobileOpen={mobileOpen}
-        handleDrawerToggle={handleDrawerToggle}
-      />
-      <MainSection className={classes.mainSection} />
+      <FolderActionMenuContextProvider>
+        <FileActionMenuContextProvider>
+          <FolderActionMenu />
+          <FileActionMenu />
+          <MainNav
+            className={classes.mainNav}
+            handleDrawerToggle={handleDrawerToggle}
+          />
+          <SideNav
+            className={classes.sideNav}
+            drawerClassName={classes.drawerPaper}
+            direction={theme.direction}
+            mobileOpen={mobileOpen}
+            handleDrawerToggle={handleDrawerToggle}
+          />
+          <MainSection className={classes.mainSection} />
+        </FileActionMenuContextProvider>
+      </FolderActionMenuContextProvider>
     </Box>
   );
 }

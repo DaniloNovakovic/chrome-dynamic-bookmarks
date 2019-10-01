@@ -4,9 +4,11 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
-import FileActionMenu from "./FileActionMenu";
 import { makeStyles } from "@material-ui/styles";
 import BookmarkIcon from "./BookmarkIcon";
+import IconButton from "@material-ui/core/IconButton";
+import MoreVertIcon from "@material-ui/icons/MoreVert";
+import { FileActionMenuContext } from "./FileActionMenuContext";
 
 const iconSize = 24;
 
@@ -18,7 +20,12 @@ const useStyles = makeStyles(theme => ({
 
 export default function FileListItem(props) {
   const classes = useStyles();
+  const { setAnchorEl } = React.useContext(FileActionMenuContext);
   const { node = {}, ...others } = props;
+
+  function showActionMenu(event) {
+    setAnchorEl(event.currentTarget);
+  }
 
   return (
     <ListItem button {...others}>
@@ -31,7 +38,16 @@ export default function FileListItem(props) {
         secondaryTypographyProps={{ noWrap: true }}
       />
       <ListItemSecondaryAction>
-        <FileActionMenu edge="end" nodeId={node.id} />
+        <IconButton
+          edge="end"
+          aria-label="more actions"
+          aria-controls={`bookmark-action-menu`}
+          aria-haspopup="true"
+          onClick={showActionMenu}
+          color="inherit"
+        >
+          <MoreVertIcon />
+        </IconButton>
       </ListItemSecondaryAction>
     </ListItem>
   );
