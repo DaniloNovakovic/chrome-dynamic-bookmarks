@@ -13,7 +13,7 @@ function a11yProps(index) {
 
 export default function NavTabs(props) {
   return (
-    <AppBar position="static" color="primary">
+    <AppBar position="static">
       <Tabs
         variant="fullWidth"
         value={props.value}

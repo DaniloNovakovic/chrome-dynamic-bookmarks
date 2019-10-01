@@ -3,7 +3,6 @@ import { render } from "react-dom";
 import { Provider } from "react-redux";
 import { createStore, applyMiddleware } from "redux";
 import thunkMiddleware from "redux-thunk";
-import { createLogger } from "redux-logger";
 import { SnackbarProvider } from "notistack";
 import Manager from "./components/bookmarkManager/Manager";
 import SnackbarCloseButton from "./components/helpers/SnackbarCloseButton";
@@ -12,12 +11,14 @@ import rootReducer from "./store/reducers/rootReducer";
 import { ThemeProvider } from "@material-ui/styles";
 import theme from "./theme";
 
-const loggerMiddleware = createLogger();
+let middleware = [thunkMiddleware];
 
-const store = createStore(
-  rootReducer,
-  applyMiddleware(thunkMiddleware, loggerMiddleware)
-);
+if (process.env.NODE_ENV !== "production") {
+  const reduxLogger = require("redux-logger");
+  middleware = [...middleware, reduxLogger.createLogger()];
+}
+
+const store = createStore(rootReducer, applyMiddleware(...middleware));
 
 store.dispatch(getBookmarkNodes());
 
