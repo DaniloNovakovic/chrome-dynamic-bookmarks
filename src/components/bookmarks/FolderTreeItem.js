@@ -3,9 +3,10 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import FolderIcon from "@material-ui/icons/Folder";
-import Typography from "@material-ui/core/Typography";
+import FolderOpenIcon from "@material-ui/icons/FolderOpen";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
+import Typography from "@material-ui/core/Typography";
 import Collapse from "@material-ui/core/Collapse";
 import Box from "@material-ui/core/Box";
 import useStyles from "../helpers/TreeItemStyles";
@@ -45,6 +46,7 @@ export function FolderTreeItem({
   }
 
   const ExpandIcon = expanded ? ExpandMoreIcon : ChevronRightIcon;
+  const FolderItemIcon = expanded ? FolderOpenIcon : FolderIcon;
 
   return (
     <Box>
@@ -64,7 +66,7 @@ export function FolderTreeItem({
             }}
           />
         )}
-        <FolderIcon color="primary" className={classes.labelIcon} />
+        <FolderItemIcon className={classes.labelIcon} />
         <Typography variant="body2" className={classes.labelText} noWrap>
           {title}
         </Typography>

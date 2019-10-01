@@ -1,13 +1,10 @@
 import { makeStyles } from "@material-ui/core/styles";
 
 export default makeStyles(theme => {
+  const iconColor = theme.treeViewIconColor || "currentColor";
   return {
     children: {
       paddingLeft: theme.spacing(1)
-    },
-    label: {
-      fontWeight: "inherit",
-      color: "inherit"
     },
     labelRoot: {
       display: "flex",
@@ -23,7 +20,8 @@ export default makeStyles(theme => {
       }
     },
     labelIcon: {
-      marginRight: theme.spacing(1)
+      marginRight: theme.spacing(1),
+      fill: iconColor
     },
     labelText: {
       fontWeight: "inherit",
