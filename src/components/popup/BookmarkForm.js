@@ -47,8 +47,8 @@ export function BookmarkForm(props) {
           <Form>
             <Field
               type="text"
-              name="bookmarkName"
-              label="Bookmark name"
+              name="title"
+              label="Title"
               margin="normal"
               fullWidth
               component={TextField}
@@ -63,7 +63,7 @@ export function BookmarkForm(props) {
             />
             <Field
               type="text"
-              name="regexp"
+              name="regExp"
               label="Regular Expression"
               margin="normal"
               fullWidth

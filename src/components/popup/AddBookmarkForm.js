@@ -21,9 +21,8 @@ export default function AddBookmarkForm() {
         if (errMsg) {
           console.warn(errMsg);
         }
-        const regexp = generateRegExp(url);
-        console.log(regexp);
-        setInitialValues({ bookmarkName: title, url, regexp });
+        const regExp = generateRegExp(url);
+        setInitialValues({ title, url, regExp });
       }
     );
   }, []);
@@ -38,17 +37,14 @@ export default function AddBookmarkForm() {
 }
 
 function handleSubmit(values, done) {
-  createTrackedBookmark(
-    { title: values.bookmarkName, regExp: values.regexp, ...values },
-    (errMsg, { id = "" }) => {
-      if (errMsg) {
-        done({ type: "error", message: errMsg });
-      } else {
-        done({
-          type: "success",
-          message: `Successfully created bookmark ${id}`
-        });
-      }
+  createTrackedBookmark(values, (errMsg, { id = "" }) => {
+    if (errMsg) {
+      done({ type: "error", message: errMsg });
+    } else {
+      done({
+        type: "success",
+        message: `Successfully created bookmark ${id}`
+      });
     }
-  );
+  });
 }
