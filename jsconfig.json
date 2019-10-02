@@ -3,6 +3,7 @@
     "jsx": "react",
     "target": "es6",
     "baseUrl": "src",
+    "module": "commonjs",
     "allowSyntheticDefaultImports": true,
     "paths": {
       "assets/*": ["./assets/*", "./assets/*/index"],
