@@ -4,7 +4,11 @@ import { dbm } from "./lib/storage";
 import { migrateStorage } from "./lib/storage/migrations";
 import { logWarn } from "./utils/log";
 
-migrateStorage();
+chrome.runtime.onInstalled.addListener(({ reason = "update" }) => {
+  if (reason === "update") {
+    migrateStorage();
+  }
+});
 
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
   if (!changeInfo.url) return;
