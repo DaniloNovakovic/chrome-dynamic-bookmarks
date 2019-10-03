@@ -1,15 +1,19 @@
-///<reference path="../shared/lib/browser/chrome.intellisense.js"/>
+import {
+  getCurrentBrowser,
+  logWarn,
+  dbm,
+  migrateStorage
+} from "shared/lib/browser";
 
-import { dbm, migrateStorage } from "shared/lib/browser/storage";
-import { logWarn } from "shared/lib/log";
+const browser = getCurrentBrowser();
 
-chrome.runtime.onInstalled.addListener(({ reason = "update" }) => {
+browser.runtime.onInstalled.addListener(({ reason = "update" }) => {
   if (reason === "update") {
     migrateStorage();
   }
 });
 
-chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
+browser.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
   if (!changeInfo.url) return;
 
   const newUrl = changeInfo.url;
@@ -29,9 +33,9 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
       }
       if (regExp.test(newUrl)) {
         console.log(`Updating bookmark with id of ${id} to url: ${newUrl}`);
-        chrome.bookmarks.update(id, { url: newUrl }, () => {
-          if (chrome.runtime.lastError) {
-            console.warn(chrome.runtime.lastError.message);
+        browser.bookmarks.update(id, { url: newUrl }, () => {
+          if (browser.runtime.lastError) {
+            console.warn(browser.runtime.lastError.message);
           }
         });
       }
@@ -39,7 +43,7 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
   });
 });
 
-chrome.bookmarks.onRemoved.addListener(id => {
+browser.bookmarks.onRemoved.addListener(id => {
   dbm.findByIdAndRemove(id, err => {
     if (err) {
       console.warn(err);
@@ -54,7 +58,7 @@ chrome.bookmarks.onRemoved.addListener(id => {
 // maybe let user setup this in options in future?
 const maxHistorySize = 10;
 
-chrome.bookmarks.onChanged.addListener((id, changeInfo) => {
+browser.bookmarks.onChanged.addListener((id, changeInfo) => {
   if (changeInfo.url) {
     dbm.findById(id, (err, item) => {
       if (err) return console.warn(err);

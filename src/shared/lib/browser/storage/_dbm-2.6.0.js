@@ -1,10 +1,12 @@
-///<reference path="../chrome.intellisense.js"/>
-import { checkAndHandleError } from "shared/lib/log";
+import { checkAndHandleError } from "shared/lib/browser/log";
+import getCurrentBrowser from "../getCurrentBrowser";
+
+const browser = getCurrentBrowser();
 
 export const dbmIdsPropName = "dbm_ids";
 
 export class Dbm260 {
-  constructor(storage = chrome.storage.sync) {
+  constructor(storage = browser.storage.sync) {
     this.storage = storage;
   }
 

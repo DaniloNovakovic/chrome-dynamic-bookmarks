@@ -1,6 +1,8 @@
-///<reference path="../chrome.intellisense.js"/>
-import { checkAndHandleError } from "shared/lib/log";
-const tabs = chrome.tabs;
+import { checkAndHandleError } from "shared/lib/browser/log";
+import getCurrentBrowser from "../getCurrentBrowser";
+
+const browser = getCurrentBrowser();
+const tabs = browser.tabs;
 
 /**
  * Returns currently opened tab info

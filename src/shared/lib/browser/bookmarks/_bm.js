@@ -1,5 +1,8 @@
-///<reference path="../chrome.intellisense.js"/>
-import { checkAndHandleError } from "shared/lib/log";
+import { checkAndHandleError } from "shared/lib/browser/log";
+import getCurrentBrowser from "../getCurrentBrowser";
+
+const browser = getCurrentBrowser();
+const bookmarks = browser.bookmarks;
 
 export default {
   create,
@@ -7,8 +10,6 @@ export default {
   getChildren,
   search
 };
-
-const bookmarks = chrome.bookmarks;
 
 /**
  * Creates a bookmark or folder under the specified parentId.

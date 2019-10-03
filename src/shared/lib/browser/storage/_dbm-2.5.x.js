@@ -1,5 +1,7 @@
-///<reference path="../chrome.intellisense.js"/>
-import { logError } from "shared/lib/log";
+import { logError } from "shared/lib/browser/log";
+import getCurrentBrowser from "../getCurrentBrowser";
+
+const browser = getCurrentBrowser();
 
 export const dynBookmarksPropName = "dynBookmarks";
 
@@ -8,9 +10,9 @@ export const dynBookmarksPropName = "dynBookmarks";
  * @param {function} done - callback function called with `done(error, dynBook)`
  */
 export function findAll(done = logError) {
-  chrome.storage.sync.get([dynBookmarksPropName], result => {
-    if (chrome.runtime.lastError) {
-      done(chrome.runtime.lastError.message);
+  browser.storage.sync.get([dynBookmarksPropName], result => {
+    if (browser.runtime.lastError) {
+      done(browser.runtime.lastError.message);
     } else {
       const dynBook = result[dynBookmarksPropName] || {};
       done(null, dynBook);
@@ -66,10 +68,10 @@ export function findByIdAndUpdate(id, options, done = logError) {
  * @param {function} done - callback function called with done(error)
  */
 export function overwrite(newDynBook, done = logError) {
-  chrome.storage.sync.set({ [dynBookmarksPropName]: newDynBook }, () => {
+  browser.storage.sync.set({ [dynBookmarksPropName]: newDynBook }, () => {
     if (typeof done == "function") {
-      if (chrome.runtime.lastError) {
-        done(chrome.runtime.lastError.message);
+      if (browser.runtime.lastError) {
+        done(browser.runtime.lastError.message);
       } else {
         done(null);
       }
@@ -112,13 +114,13 @@ export function findByIdAndRemove(id, done = logError) {
 }
 
 /**
- * Removes DynBookmarks object from `chrome.storage.sync`
+ * Removes DynBookmarks object from `browser.storage.sync`
  * @param {function} done - callback function called with `done(errMsg)`
  */
 export function clearAll(done = logError) {
-  chrome.storage.sync.remove([dynBookmarksPropName], () => {
-    if (chrome.runtime.lastError) {
-      done(chrome.runtime.lastError.message);
+  browser.storage.sync.remove([dynBookmarksPropName], () => {
+    if (browser.runtime.lastError) {
+      done(browser.runtime.lastError.message);
     } else {
       done(null);
     }
