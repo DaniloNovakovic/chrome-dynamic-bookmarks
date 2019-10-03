@@ -1,0 +1,11 @@
+export const BM_NODE_CHANGED = "BM_NODE_CHANGED";
+export const BM_NODE_CREATED = "BM_NODE_CREATED";
+export const BM_NODE_MOVED = "BM_NODE_MOVED";
+export const BM_NODE_REMOVED = "BM_NODE_REMOVED";
+
+export default {
+  BM_NODE_CHANGED,
+  BM_NODE_CREATED,
+  BM_NODE_MOVED,
+  BM_NODE_REMOVED
+};

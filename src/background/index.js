@@ -1,11 +1,12 @@
-import {
-  getCurrentBrowser,
-  logWarn,
-  dbm,
-  migrateStorage
-} from "shared/lib/browser";
+import { getCurrentBrowser, migrateStorage } from "shared/lib/browser";
+import addTabsListeners from "./addTabsListeners";
+import addBookmarkListeners from "./addBookmarkListeners";
+import createObservable from "./createObservable";
 
 const browser = getCurrentBrowser();
+const observable = createObservable();
+
+observable.subscribe("logger", event => console.log(event));
 
 browser.runtime.onInstalled.addListener(({ reason = "update" }) => {
   if (reason === "update") {
@@ -13,60 +14,22 @@ browser.runtime.onInstalled.addListener(({ reason = "update" }) => {
   }
 });
 
-browser.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
-  if (!changeInfo.url) return;
+browser.runtime.onConnect.addListener(port => {
+  const key = getKeyFromPort(port);
+  console.log("subscribing", key);
+  observable.subscribe(key, event => port.postMessage(event));
 
-  const newUrl = changeInfo.url;
-
-  // get bookmarks
-  dbm.findAll((err, dynBook) => {
-    if (err) console.warn(err);
-    for (let id in dynBook) {
-      let { regExp } = dynBook[id];
-      try {
-        regExp = new RegExp(regExp);
-      } catch {
-        console.warn(
-          `regExp: ${regExp} from dynBookmarks.id of ${id} is invalid...`
-        );
-        continue;
-      }
-      if (regExp.test(newUrl)) {
-        console.log(`Updating bookmark with id of ${id} to url: ${newUrl}`);
-        browser.bookmarks.update(id, { url: newUrl }, () => {
-          if (browser.runtime.lastError) {
-            console.warn(browser.runtime.lastError.message);
-          }
-        });
-      }
-    }
+  port.onDisconnect.addListener(p => {
+    console.log("unsubscribing", p);
+    observable.unsubscribe(key);
   });
 });
 
-browser.bookmarks.onRemoved.addListener(id => {
-  dbm.findByIdAndRemove(id, err => {
-    if (err) {
-      console.warn(err);
-    } else {
-      console.log(
-        `Successfully removed bookmark with id of ${id} from storage`
-      );
-    }
-  });
-});
+function getKeyFromPort(port) {
+  console.log(port);
+  const sender = port.sender;
+  return `${sender.id}-${sender.url}-${sender.tlsChannelId}`;
+}
 
-// maybe let user setup this in options in future?
-const maxHistorySize = 10;
-
-browser.bookmarks.onChanged.addListener((id, changeInfo) => {
-  if (changeInfo.url) {
-    dbm.findById(id, (err, item) => {
-      if (err) return console.warn(err);
-      if (item.history.length >= maxHistorySize) {
-        item.history.pop();
-      }
-      item.history.unshift(changeInfo.url);
-      dbm.findByIdAndUpdate(id, item, logWarn);
-    });
-  }
-});
+addBookmarkListeners(event => observable.notify(event));
+addTabsListeners();
