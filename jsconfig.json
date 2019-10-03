@@ -6,11 +6,7 @@
     "module": "commonjs",
     "allowSyntheticDefaultImports": true,
     "paths": {
-      "assets/*": ["./assets/*", "./assets/*/index"],
-      "components/*": ["./components/*", "./components/*/index"],
-      "lib/*": ["./lib/*", "./lib/*/index"],
-      "store/*": ["./store/*", "./store/*/index"],
-      "utils/*": ["./utils/*", "./utils/*/index"]
+      "shared/*": ["./shared/*", "./shared/*/index"]
     }
   },
   "exclude": ["node_modules", "build"]
