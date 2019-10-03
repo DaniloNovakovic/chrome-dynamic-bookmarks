@@ -1,5 +1,5 @@
-///<reference path="../../chrome.intellisense.js"/>
-import { checkAndHandleError } from "../../utils/log";
+///<reference path="../chrome.intellisense.js"/>
+import { checkAndHandleError } from "utils/log";
 
 export const dbmIdsPropName = "dbm_ids";
 

@@ -1,7 +1,7 @@
 import { bm as bookmarks } from "./bookmarks";
 import { dbm as storage } from "./storage";
 import normalizeBookmarkTree from "./normalizeBookmarkTree";
-import combineProps from "../utils/combineProps";
+import combineProps from "utils/combineProps";
 
 export function createTrackedBookmark({ title, url, regExp }, done) {
   bookmarks.create({ title, url }, (errMsg, newBookmark) => {

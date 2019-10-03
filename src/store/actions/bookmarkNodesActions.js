@@ -1,4 +1,4 @@
-import { getBookmarkNodes as _getBookmarkNodes } from "lib/dynBookmarksFacade";
+import { getBookmarkNodes as _getBookmarkNodes } from "lib/browser/dynBookmarksFacade";
 
 export const GET_BM_NODES_SUCCESS = "GET_BM_NODES_SUCCESS";
 export const GET_BM_NODES_ERROR = "GET_BM_NODES_ERROR";

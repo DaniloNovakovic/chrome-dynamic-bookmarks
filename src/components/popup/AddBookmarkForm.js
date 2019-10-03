@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import BookmarkForm from "../bookmarks/form/BookmarkForm";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { makeStyles } from "@material-ui/core/styles";
-import { createTrackedBookmark } from "lib/dynBookmarksFacade";
-import { getCurrentTab } from "lib/tabs";
+import { createTrackedBookmark } from "lib/browser/dynBookmarksFacade";
+import { getCurrentTab } from "lib/browser/tabs";
 import generateRegExp from "utils/regexp/generator";
 
 const useStyles = makeStyles(theme => ({

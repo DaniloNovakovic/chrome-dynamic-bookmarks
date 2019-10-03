@@ -1,7 +1,6 @@
-///<reference path="./chrome.intellisense.js"/>
+///<reference path="./lib/browser/chrome.intellisense.js"/>
 
-import { dbm } from "./lib/storage";
-import { migrateStorage } from "./lib/storage/migrations";
+import { dbm, migrateStorage } from "./lib/browser/storage";
 import { logWarn } from "./utils/log";
 
 chrome.runtime.onInstalled.addListener(({ reason = "update" }) => {

@@ -1,8 +1,8 @@
-///<reference path="../../../chrome.intellisense.js"/>
+///<reference path="../../chrome.intellisense.js"/>
 
 import * as dbm25x from "../_dbm-2.5.x";
 import dbm260 from "../_dbm-2.6.0";
-import { logError } from "../../../utils/log";
+import { logError } from "utils/log";
 
 function _isMigrated(dynBook) {
   return Object.keys(dynBook).length == 0;

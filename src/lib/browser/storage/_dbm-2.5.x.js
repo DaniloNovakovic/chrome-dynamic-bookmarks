@@ -1,5 +1,5 @@
-///<reference path="../../chrome.intellisense.js"/>
-import { logError } from "../../utils/log";
+///<reference path="../chrome.intellisense.js"/>
+import { logError } from "utils/log";
 
 export const dynBookmarksPropName = "dynBookmarks";
 
