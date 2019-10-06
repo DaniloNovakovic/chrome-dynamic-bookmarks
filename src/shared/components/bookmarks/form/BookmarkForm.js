@@ -88,9 +88,9 @@ export function BookmarkForm(props) {
 
 BookmarkForm.propTypes = {
   initialValues: PropTypes.shape({
-    bookmarkName: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
     url: PropTypes.string.isRequired,
-    regexp: PropTypes.string.isRequired
+    regExp: PropTypes.string.isRequired
   }),
   enqueueSnackbar: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired

@@ -15,5 +15,6 @@ export default function addMessageListeners() {
     console.groupEnd();
 
     router.handleRequest(request, sendResponse);
+    return true;
   });
 }

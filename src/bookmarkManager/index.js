@@ -33,7 +33,7 @@ const App = () => {
             vertical: "bottom",
             horizontal: "right"
           }}
-          action={key => <SnackbarCloseButton key={key} />}
+          action={key => <SnackbarCloseButton id={key} />}
         >
           <Manager />
         </SnackbarProvider>

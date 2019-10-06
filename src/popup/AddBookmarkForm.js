@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { CircularProgress } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import BookmarkForm from "shared/components/bookmarks/form/BookmarkForm";
-import { createTrackedBookmark } from "shared/lib/browser/dynBookmarksFacade";
-import { getCurrentTab } from "shared/lib/browser/tabs";
+import { sendMessage, getCurrentTab } from "shared/lib/browser";
+import { ADD_BM_NODE } from "shared/constants/requestTypes.js.js";
 import generateRegExp from "shared/lib/regexp/generator";
 
 const useStyles = makeStyles(theme => ({
@@ -37,14 +37,5 @@ export default function AddBookmarkForm() {
 }
 
 function handleSubmit(values, done) {
-  createTrackedBookmark(values, (errMsg, { id = "" }) => {
-    if (errMsg) {
-      done({ type: "error", message: errMsg });
-    } else {
-      done({
-        type: "success",
-        message: `Successfully created bookmark ${id}`
-      });
-    }
-  });
+  sendMessage(ADD_BM_NODE, values, done);
 }
