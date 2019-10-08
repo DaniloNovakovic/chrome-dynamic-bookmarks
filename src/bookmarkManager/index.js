@@ -6,9 +6,12 @@ import SnackbarCloseButton from "shared/components/helpers/SnackbarCloseButton";
 import Manager from "./Manager";
 import { ThemeProvider } from "@material-ui/styles";
 import theme from "shared/theme";
-import getStore from "./getStore";
+import { getStore } from "shared/store";
+import attachStoreToListeners from "./attachStoreToListeners";
 
 const store = getStore();
+
+attachStoreToListeners(store);
 
 const App = () => {
   return (
