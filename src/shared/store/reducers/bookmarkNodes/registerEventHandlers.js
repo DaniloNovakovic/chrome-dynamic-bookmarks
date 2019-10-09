@@ -18,7 +18,6 @@ function onNodeMoved(state, { data = {} }) {
 
 function onNodeRemoved(state, { data = {} }) {
   const nodeId = data.id;
-  console.log("nodeId", nodeId);
   if (!(nodeId in state.data)) {
     return state;
   }
@@ -32,7 +31,26 @@ function onNodeRemoved(state, { data = {} }) {
   return { ...state, data: newData };
 }
 
+function onNodeChanged(state, { data = {} }) {
+  const nodeId = data.id;
+  if (!(nodeId in state.data)) {
+    return state;
+  }
+  const node = state.data[nodeId];
+  return {
+    ...state,
+    data: {
+      ...state.data,
+      [nodeId]: {
+        ...node,
+        ...data
+      }
+    }
+  };
+}
+
 export default function registerEventHandlers(factory) {
   factory.register(events.BM_NODE_MOVED, onNodeMoved);
   factory.register(events.BM_NODE_REMOVED, onNodeRemoved);
+  factory.register(events.BM_NODE_CHANGED, onNodeChanged);
 }
