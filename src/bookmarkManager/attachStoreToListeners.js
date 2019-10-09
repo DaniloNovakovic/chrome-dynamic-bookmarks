@@ -1,6 +1,6 @@
 import connectToBackground from "./connectToBackground";
 import { getBookmarkNodes } from "shared/store/actions";
-import getEventHandlers from "./getEventHandlers";
+import getEventReducer from "./getEventReducer";
 import createEventQueueHandler from "./createEventQueueHandler";
 import createDebouncedHandler from "./createDebouncedHandler";
 
@@ -10,8 +10,8 @@ function initStore(store) {
 
 export default function attachStoreToListeners(store) {
   initStore(store);
-  const eventHandlers = getEventHandlers();
-  const eventQueueHandler = createEventQueueHandler(store, eventHandlers);
+  const eventReducer = getEventReducer();
+  const eventQueueHandler = createEventQueueHandler(store, eventReducer);
   const debouncedEventHandle = createDebouncedHandler(eventQueueHandler);
   connectToBackground(debouncedEventHandle);
 }

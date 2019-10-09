@@ -14,7 +14,7 @@ export default class Queue {
     this._denque.clear();
   }
   isEmpty() {
-    this._denque.isEmpty();
+    return this._denque.isEmpty();
   }
   toArray() {
     return this._denque.toArray();
