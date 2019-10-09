@@ -1,4 +1,5 @@
 import events from "shared/constants/events";
+import { removeProp } from "shared/lib/objects";
 
 function onNodeMoved(state, { data = {} }) {
   const nodeId = data.id;
@@ -15,6 +16,23 @@ function onNodeMoved(state, { data = {} }) {
   };
 }
 
+function onNodeRemoved(state, { data = {} }) {
+  const nodeId = data.id;
+  console.log("nodeId", nodeId);
+  if (!(nodeId in state.data)) {
+    return state;
+  }
+  const node = state.data[nodeId];
+  const parentNode = state.data[node.parentId];
+  const newData = removeProp(state.data, nodeId);
+  newData[parentNode.id] = {
+    ...parentNode,
+    children: parentNode.children.filter(childId => childId !== nodeId)
+  };
+  return { ...state, data: newData };
+}
+
 export default function registerEventHandlers(factory) {
   factory.register(events.BM_NODE_MOVED, onNodeMoved);
+  factory.register(events.BM_NODE_REMOVED, onNodeRemoved);
 }
