@@ -1,4 +1,4 @@
-import actionTypes from "shared/store/actions/actionTypes";
+import actionTypes from "shared/constants/actionTypes";
 
 export default function createEventQueueHandler(store, reducer) {
   return function queueHandler(eventQueue) {

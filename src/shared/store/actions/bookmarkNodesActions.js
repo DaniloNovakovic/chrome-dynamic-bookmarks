@@ -1,4 +1,4 @@
-import actionTypes from "./actionTypes";
+import actionTypes from "shared/constants/actionTypes";
 import { getBookmarkNodes as _getBookmarkNodes } from "shared/lib/browser/dynBookmarksFacade";
 
 export function getBookmarkNodes() {

@@ -1,7 +1,7 @@
 import { combineReducers } from "redux";
 import bookmarkNodes from "./bookmarkNodesReducer";
 import filter from "./filterReducer";
-import actionTypes from "../actions/actionTypes";
+import actionTypes from "shared/constants/actionTypes";
 
 const appReducer = combineReducers({
   bookmarkNodes,

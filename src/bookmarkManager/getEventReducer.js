@@ -1,5 +1,5 @@
+import rootReducer from "shared/store/reducers/rootReducer";
+
 export default function getEventReducer() {
-  return function(state, event) {
-    return state;
-  };
+  return rootReducer;
 }
