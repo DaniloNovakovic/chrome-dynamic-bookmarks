@@ -49,8 +49,23 @@ function onNodeChanged(state, { data = {} }) {
   };
 }
 
+function onNodeCreated(state, { data = {} }) {
+  const nodeId = data.id;
+  if (nodeId in state.data) {
+    return onNodeChanged(state, { data });
+  }
+  return {
+    ...state,
+    data: {
+      ...state.data,
+      [nodeId]: { ...data }
+    }
+  };
+}
+
 export default function registerEventHandlers(factory) {
   factory.register(events.BM_NODE_MOVED, onNodeMoved);
   factory.register(events.BM_NODE_REMOVED, onNodeRemoved);
   factory.register(events.BM_NODE_CHANGED, onNodeChanged);
+  factory.register(events.BM_NODE_CREATED, onNodeCreated);
 }
