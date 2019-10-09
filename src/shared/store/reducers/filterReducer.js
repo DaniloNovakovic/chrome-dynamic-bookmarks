@@ -1,6 +1,6 @@
 import createReducer from "./helpers/createReducer";
 import ActionHandlerFactory from "./helpers/actionHandlerFactory";
-import { APPLY_FILTER } from "../actions/bookmarkNodesActions";
+import actionTypes from "../actions/actionTypes";
 
 const initialState = {
   searchText: "",
@@ -16,6 +16,6 @@ function applyFilterHandler(_, { filter }) {
 }
 
 const factory = new ActionHandlerFactory();
-factory.register(APPLY_FILTER, applyFilterHandler);
+factory.register(actionTypes.APPLY_FILTER, applyFilterHandler);
 
 export default createReducer(factory, initialState);

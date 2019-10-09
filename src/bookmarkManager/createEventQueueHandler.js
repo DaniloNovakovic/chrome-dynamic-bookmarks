@@ -1,3 +1,5 @@
+import actionTypes from "shared/store/actions/actionTypes";
+
 export default function createEventQueueHandler(store, reducer) {
   return function queueHandler(eventQueue) {
     let state = store.getState();
@@ -5,6 +7,6 @@ export default function createEventQueueHandler(store, reducer) {
       const event = eventQueue.dequeue();
       state = reducer(state, event);
     }
-    store.dispatch({ type: "SET_STATE", state });
+    store.dispatch({ type: actionTypes.SET_STATE, state });
   };
 }

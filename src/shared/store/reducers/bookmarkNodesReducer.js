@@ -1,6 +1,6 @@
 import createReducer from "./helpers/createReducer";
 import ActionHandlerFactory from "./helpers/actionHandlerFactory";
-import * as actions from "../actions/bookmarkNodesActions";
+import actionTypes from "../actions/actionTypes";
 
 const initialState = {
   data: {},
@@ -24,7 +24,7 @@ function errorHandler(state, action) {
 }
 
 const factory = new ActionHandlerFactory();
-factory.register(actions.GET_BM_NODES_SUCCESS, successHandler);
-factory.register(actions.GET_BM_NODES_ERROR, errorHandler);
+factory.register(actionTypes.GET_BM_NODES_SUCCESS, successHandler);
+factory.register(actionTypes.GET_BM_NODES_ERROR, errorHandler);
 
 export default createReducer(factory, initialState);
