@@ -1,5 +1,5 @@
-import createReducer from "./helpers/createReducer";
-import ActionHandlerFactory from "./helpers/actionHandlerFactory";
+import createReducer from "../helpers/createReducer";
+import ActionHandlerFactory from "../helpers/actionHandlerFactory";
 import actionTypes from "shared/constants/actionTypes";
 
 const initialState = {
