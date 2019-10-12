@@ -1,8 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Paper, Container } from "@material-ui/core";
-import BookmarkList from "shared/components/bookmarks/BookmarkList";
-import BookmarkBreadcrumbs from "shared/components/bookmarks/BookmarkBreadcrumbs";
+import { BookmarkList, BookmarkBreadcrumbs } from "shared/components/bookmarks";
 
 const useStyles = makeStyles(theme => ({
   toolbar: theme.mixins.toolbar

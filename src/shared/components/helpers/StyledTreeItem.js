@@ -1,11 +1,9 @@
 import React, { useRef, useEffect } from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
-import Typography from "@material-ui/core/Typography";
+import { Typography, Collapse, Box } from "@material-ui/core";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
-import Collapse from "@material-ui/core/Collapse";
-import Box from "@material-ui/core/Box";
 import useStyles from "./TreeItemStyles";
 
 export default function StyledTreeItem({

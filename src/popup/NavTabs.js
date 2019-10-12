@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { AppBar, Tabs } from "@material-ui/core";
-import LinkTab from "shared/components/helpers/LinkTab";
+import { LinkTab } from "shared/components/helpers";
 
 function a11yProps(index) {
   return {

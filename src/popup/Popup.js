@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import NavTabs from "./NavTabs";
 import AddBookmarkForm from "./AddBookmarkForm";
 import { CssBaseline, Box } from "@material-ui/core";
-import TabPanel from "shared/components/helpers/TabPanel";
+import { TabPanel } from "shared/components/helpers";
 
 export default function Popup() {
   const [value, setValue] = useState(0);

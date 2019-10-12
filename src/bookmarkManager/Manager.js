@@ -4,10 +4,12 @@ import { makeStyles, useTheme } from "@material-ui/styles";
 import MainSection from "./MainSection";
 import SideNav from "./SideNav";
 import MainNav from "./MainNav";
-import { FileActionMenuContextProvider } from "shared/components/bookmarks/FileActionMenuContext";
-import FileActionMenu from "shared/components/bookmarks/FileActionMenu";
-import { FolderActionMenuContextProvider } from "shared/components/bookmarks/FolderActionMenuContext";
-import FolderActionMenu from "shared/components/bookmarks/FolderActionMenu";
+import {
+  FileActionMenuContextProvider,
+  FileActionMenu,
+  FolderActionMenuContextProvider,
+  FolderActionMenu
+} from "shared/components/bookmarks";
 
 const drawerWidth = 240;
 

@@ -3,7 +3,7 @@ import { render } from "react-dom";
 import Popup from "./Popup";
 import { SnackbarProvider } from "notistack";
 import { ThemeProvider } from "@material-ui/styles";
-import SnackbarCloseButton from "shared/components/helpers/SnackbarCloseButton";
+import { SnackbarCloseButton } from "shared/components/helpers";
 import theme from "shared/theme";
 
 const App = () => {

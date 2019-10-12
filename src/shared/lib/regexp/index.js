@@ -1,2 +1,2 @@
-export {default} from './escape-string'
-export {default} from './generator'
+export { default as escapeRegExp } from "./escape-string";
+export { default as generateRegExp } from "./generator";

@@ -43,4 +43,4 @@ export function getTheme(type = "dark") {
   }
 }
 
-export default createMuiTheme(getTheme("dark"));
+export default createMuiTheme(getTheme());

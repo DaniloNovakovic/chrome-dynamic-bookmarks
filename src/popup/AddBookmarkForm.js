@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { CircularProgress, Container } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
-import BookmarkForm from "shared/components/bookmarks/form/BookmarkForm";
+import { BookmarkForm } from "shared/components/bookmarks";
 import { sendMessage, getCurrentTab } from "shared/lib/browser";
-import { ADD_BM_NODE } from "shared/constants/requestTypes.js.js";
-import generateRegExp from "shared/lib/regexp/generator";
+import { ADD_BM_NODE } from "shared/constants/requestTypes";
+import { generateRegExp } from "shared/lib/regexp";
 
 const useStyles = makeStyles(theme => ({
   progress: {

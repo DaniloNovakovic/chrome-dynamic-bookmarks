@@ -3,8 +3,8 @@ import { connect } from "react-redux";
 import { makeStyles } from "@material-ui/styles";
 import { AppBar, IconButton, Toolbar, Typography } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
-import { applyFilter } from "shared/store/actions/bookmarkNodesActions";
-import SearchInput from "shared/components/helpers/SearchInput";
+import { applyFilter } from "shared/store/actions";
+import { SearchInput } from "shared/components/helpers";
 import MainNavMenu from "./MainNavMenu";
 
 const useStyles = makeStyles(theme => ({
