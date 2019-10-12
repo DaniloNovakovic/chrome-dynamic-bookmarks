@@ -8,7 +8,7 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import { Typography, Collapse, Box } from "@material-ui/core";
 import useStyles from "../helpers/TreeItemStyles";
-import { applyFilter } from "shared/store/actions/bookmarkNodesActions";
+import { applyFilter } from "shared/store/actions";
 import {
   breadcrumbIdsSelector,
   filterSelector

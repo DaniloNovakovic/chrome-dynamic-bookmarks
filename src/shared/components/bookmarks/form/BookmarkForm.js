@@ -2,29 +2,11 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Formik, Field, Form } from "formik";
 import { TextField } from "formik-material-ui";
-import { Button, Container, Icon } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
-import clsx from "clsx";
 import { withSnackbar } from "notistack";
 import BookmarkSchema from "./BookmarkSchema";
-
-const useStyles = makeStyles(theme => ({
-  button: {
-    margin: "2em 0"
-  },
-  leftIcon: {
-    marginRight: theme.spacing(1)
-  },
-  rightIcon: {
-    marginLeft: theme.spacing(1)
-  },
-  iconSmall: {
-    fontSize: 20
-  }
-}));
+import { SubmitButton } from "shared/components/helpers";
 
 export function BookmarkForm(props) {
-  const classes = useStyles();
   const { initialValues, handleSubmit, enqueueSnackbar } = props;
 
   return (
@@ -41,46 +23,33 @@ export function BookmarkForm(props) {
         });
       }}
       render={({ isSubmitting, submitForm }) => (
-        <Container>
-          <Form>
-            <Field
-              type="text"
-              name="title"
-              label="Title"
-              margin="normal"
-              fullWidth
-              component={TextField}
-            />
-            <Field
-              type="url"
-              name="url"
-              label="Url"
-              margin="normal"
-              fullWidth
-              component={TextField}
-            />
-            <Field
-              type="text"
-              name="regExp"
-              label="Regular Expression"
-              margin="normal"
-              fullWidth
-              component={TextField}
-            />
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={submitForm}
-              disabled={isSubmitting}
-              className={classes.button}
-            >
-              Submit
-              <Icon className={clsx(classes.rightIcon, classes.iconSmall)}>
-                send
-              </Icon>
-            </Button>
-          </Form>
-        </Container>
+        <Form>
+          <Field
+            type="text"
+            name="title"
+            label="Title"
+            margin="normal"
+            fullWidth
+            component={TextField}
+          />
+          <Field
+            type="url"
+            name="url"
+            label="Url"
+            margin="normal"
+            fullWidth
+            component={TextField}
+          />
+          <Field
+            type="text"
+            name="regExp"
+            label="Regular Expression"
+            margin="normal"
+            fullWidth
+            component={TextField}
+          />
+          <SubmitButton disabled={isSubmitting} onClick={submitForm} />
+        </Form>
       )}
     />
   );

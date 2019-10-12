@@ -10,7 +10,7 @@ import {
   Typography
 } from "@material-ui/core";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
-import { applyFilter } from "shared/store/actions/bookmarkNodesActions";
+import { applyFilter } from "shared/store/actions";
 import { FolderActionMenuContext } from "./FolderActionMenuContext";
 
 export function FolderListItem(props) {

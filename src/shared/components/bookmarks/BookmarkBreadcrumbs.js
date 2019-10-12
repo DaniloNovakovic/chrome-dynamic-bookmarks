@@ -3,7 +3,7 @@ import clsx from "clsx";
 import { connect } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import { Paper, Breadcrumbs, Link } from "@material-ui/core";
-import { applyFilter as applyFilterAction } from "shared/store/actions/bookmarkNodesActions";
+import { applyFilter as applyFilterAction } from "shared/store/actions";
 import { breadcrumbsSelector } from "shared/store/selectors/index";
 
 const useStyles = makeStyles(theme => ({

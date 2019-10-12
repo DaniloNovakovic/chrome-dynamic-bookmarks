@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { CircularProgress } from "@material-ui/core";
+import { CircularProgress, Container } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import BookmarkForm from "shared/components/bookmarks/form/BookmarkForm";
 import { sendMessage, getCurrentTab } from "shared/lib/browser";
@@ -30,7 +30,9 @@ export default function AddBookmarkForm() {
   const classes = useStyles();
 
   return initialValues ? (
-    <BookmarkForm initialValues={initialValues} handleSubmit={handleSubmit} />
+    <Container>
+      <BookmarkForm initialValues={initialValues} handleSubmit={handleSubmit} />
+    </Container>
   ) : (
     <CircularProgress className={classes.progress} />
   );
