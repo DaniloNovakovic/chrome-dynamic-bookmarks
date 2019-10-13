@@ -6,7 +6,8 @@ import SideNav from "./SideNav";
 import MainNav from "./MainNav";
 import {
   FileActionMenuProvider,
-  FolderActionMenuProvider
+  FolderActionMenuProvider,
+  DialogProvider
 } from "shared/components/bookmarks";
 
 const drawerWidth = 240;
@@ -51,22 +52,24 @@ export default function Manager() {
   return (
     <Box className={classes.root}>
       <CssBaseline />
-      <FolderActionMenuProvider>
-        <FileActionMenuProvider>
-          <MainNav
-            className={classes.mainNav}
-            handleDrawerToggle={handleDrawerToggle}
-          />
-          <SideNav
-            className={classes.sideNav}
-            drawerClassName={classes.drawerPaper}
-            direction={theme.direction}
-            mobileOpen={mobileOpen}
-            handleDrawerToggle={handleDrawerToggle}
-          />
-          <MainSection className={classes.mainSection} />
-        </FileActionMenuProvider>
-      </FolderActionMenuProvider>
+      <DialogProvider>
+        <FolderActionMenuProvider>
+          <FileActionMenuProvider>
+            <MainNav
+              className={classes.mainNav}
+              handleDrawerToggle={handleDrawerToggle}
+            />
+            <SideNav
+              className={classes.sideNav}
+              drawerClassName={classes.drawerPaper}
+              direction={theme.direction}
+              mobileOpen={mobileOpen}
+              handleDrawerToggle={handleDrawerToggle}
+            />
+            <MainSection className={classes.mainSection} />
+          </FileActionMenuProvider>
+        </FolderActionMenuProvider>
+      </DialogProvider>
     </Box>
   );
 }

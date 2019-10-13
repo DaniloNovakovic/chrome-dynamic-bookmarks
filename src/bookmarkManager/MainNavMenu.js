@@ -1,9 +1,12 @@
 import React from "react";
 import { IconButton, Menu, MenuItem, Divider } from "@material-ui/core";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
+import { DialogContext } from "shared/components/bookmarks";
+import { dialogIds } from "shared/constants";
 
 export default function MainNavMenu() {
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const { openDialog } = React.useContext(DialogContext);
 
   function handleClick(event) {
     setAnchorEl(event.currentTarget);
@@ -38,7 +41,13 @@ export default function MainNavMenu() {
         <MenuItem onClick={handleClose} dense>
           Add new bookmark
         </MenuItem>
-        <MenuItem onClick={handleClose} dense>
+        <MenuItem
+          dense
+          onClick={() => {
+            openDialog(dialogIds.addFolderDialogId);
+            handleClose();
+          }}
+        >
           Add new folder
         </MenuItem>
       </Menu>
