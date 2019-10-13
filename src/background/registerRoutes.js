@@ -1,4 +1,4 @@
-import requestTypes from "shared/constants/requestTypes.js";
+import requestTypes from "shared/constants/requestTypes";
 import { addBookmarkNodeHandler } from "./requestHandlers";
 
 export default function registerRoutes(router) {
