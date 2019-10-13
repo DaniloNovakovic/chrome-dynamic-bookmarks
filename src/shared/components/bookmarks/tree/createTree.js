@@ -1,7 +1,7 @@
 import React from "react";
 import { getSortedNodes, isFile } from "shared/lib/bookmarkNodes";
-import FolderTreeItem from "../FolderTreeItem";
-import FileTreeItem from "../FileTreeItem";
+import FolderTreeItem from "./FolderTreeItem";
+import FileTreeItem from "./FileTreeItem";
 
 const defaultOptions = {
   ignoreFiles: true

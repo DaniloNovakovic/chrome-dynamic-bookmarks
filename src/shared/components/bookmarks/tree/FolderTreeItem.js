@@ -7,7 +7,7 @@ import FolderOpenIcon from "@material-ui/icons/FolderOpen";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import { Typography, Collapse, Box } from "@material-ui/core";
-import useStyles from "../helpers/TreeItemStyles";
+import useStyles from "./TreeItemStyles";
 import { applyFilter } from "shared/store/actions";
 import {
   breadcrumbIdsSelector,

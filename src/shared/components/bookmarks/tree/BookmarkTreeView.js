@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import createTree from "./utils/createTree";
+import createTree from "./createTree";
 import { nodesSelector } from "shared/store/selectors/index";
 
 export function BookmarkTreeView({ className, nodes = {} }) {
