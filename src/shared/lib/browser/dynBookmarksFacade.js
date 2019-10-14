@@ -3,12 +3,18 @@ import { dbm as storage } from "./storage";
 import normalizeBookmarkTree from "./normalizeBookmarkTree";
 import { combineProps } from "shared/lib/objects";
 
-export function createTrackedBookmark({ title, url, regExp }, done) {
-  bookmarks.create({ title, url }, (errMsg, newBookmark) => {
+export function createBookmarkNode(node, done) {
+  bookmarks.create(node, (errMsg, createdNode) => {
     if (errMsg) {
       return done(errMsg);
     }
-    storage.create({ id: newBookmark.id, regExp, history: [] }, done);
+    if (node.regExp) {
+      storage.create(
+        { id: createdNode.id, regExp: node.regExp, history: [] },
+        done
+      );
+    }
+    done(null, createdNode);
   });
 }
 
