@@ -9,6 +9,7 @@ import {
   FolderActionMenuProvider,
   DialogProvider
 } from "shared/components/bookmarks";
+import { StatusSnackbar } from "shared/components/helpers";
 
 const drawerWidth = 240;
 
@@ -52,6 +53,7 @@ export default function Manager() {
   return (
     <Box className={classes.root}>
       <CssBaseline />
+      <StatusSnackbar />
       <DialogProvider>
         <FolderActionMenuProvider>
           <FileActionMenuProvider>

@@ -6,10 +6,29 @@ const bookmarks = browser.bookmarks;
 
 export default {
   create,
+  get,
   getTreeRoot,
   getChildren,
-  search
+  search,
+  remove,
+  removeTree
 };
+
+export function removeTree(id, done) {
+  bookmarks.removeTree(id, () => {
+    if (!checkAndHandleError(done)) {
+      done(null);
+    }
+  });
+}
+
+export function remove(id, done) {
+  bookmarks.remove(id, () => {
+    if (!checkAndHandleError(done)) {
+      done(null);
+    }
+  });
+}
 
 /**
  * Creates a bookmark or folder under the specified parentId.
@@ -21,6 +40,15 @@ export function create(bookmark, done) {
   bookmarks.create(bookmark, newBookmark => {
     if (!checkAndHandleError(done)) {
       done(null, newBookmark);
+    }
+  });
+}
+
+export function get(id, done) {
+  bookmarks.get(id, results => {
+    if (!checkAndHandleError(done)) {
+      const node = results[0];
+      done(null, node);
     }
   });
 }

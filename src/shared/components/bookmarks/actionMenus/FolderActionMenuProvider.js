@@ -4,9 +4,10 @@ import FolderActionMenu from "./FolderActionMenu";
 
 export default class FolderActionMenuProvider extends Component {
   state = {
+    nodeId: null,
     anchorEl: null,
-    setAnchorEl: el => {
-      this.setState({ anchorEl: el });
+    setAnchorEl: (el = null, nodeId = null) => {
+      this.setState({ anchorEl: el, nodeId });
     }
   };
   render() {

@@ -18,7 +18,7 @@ export function FolderListItem(props) {
   const { node = {}, applyFilter, iconSize = 24, selected, ...others } = props;
 
   function showActionMenu(event) {
-    setAnchorEl(event.currentTarget);
+    setAnchorEl(event.currentTarget, node.id);
   }
 
   return (

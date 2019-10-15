@@ -1,12 +1,21 @@
 import React from "react";
+import { connect } from "react-redux";
 import { Menu, MenuItem, Divider } from "@material-ui/core";
 import { FolderActionMenuContext } from "./FolderActionMenuContext";
+import { removeBookmarkNode } from "shared/store";
 
-export default function FolderActionMenu() {
-  const { anchorEl, setAnchorEl } = React.useContext(FolderActionMenuContext);
+export function FolderActionMenu(props) {
+  const { nodeId, anchorEl, setAnchorEl } = React.useContext(
+    FolderActionMenuContext
+  );
 
   function handleClose() {
     setAnchorEl(null);
+  }
+
+  function handleRemove() {
+    props.removeBookmarkNode(nodeId);
+    handleClose();
   }
 
   return (
@@ -20,7 +29,7 @@ export default function FolderActionMenu() {
       <MenuItem onClick={handleClose} dense>
         Rename
       </MenuItem>
-      <MenuItem onClick={handleClose} dense>
+      <MenuItem onClick={handleRemove} dense>
         Delete
       </MenuItem>
       <Divider />
@@ -46,3 +55,8 @@ export default function FolderActionMenu() {
     </Menu>
   );
 }
+
+export default connect(
+  null,
+  { removeBookmarkNode }
+)(FolderActionMenu);

@@ -18,6 +18,27 @@ export function createBookmarkNode(node, done) {
   });
 }
 
+export function removeBookmarkNode(id, done) {
+  bookmarks.get(id, (errMsg, node) => {
+    if (errMsg) {
+      return done(errMsg);
+    }
+    if (!node) {
+      return done(null);
+    }
+    if (!node.url) {
+      bookmarks.removeTree(id, done);
+    } else {
+      bookmarks.remove(id, errMsg => {
+        if (errMsg) {
+          return done(errMsg);
+        }
+        storage.findByIdAndRemove(id, done);
+      });
+    }
+  });
+}
+
 /**
  * Retrieves list of all bookmark nodes (bookmarks and folders) normalized in form `{<id>:{id,parentId,title, url?, children?: [<id>], regExp?}}`
  * @param {function} done - function called with `done(errMsg, bookmarkNodes: {<id>:bookmarkNode})`

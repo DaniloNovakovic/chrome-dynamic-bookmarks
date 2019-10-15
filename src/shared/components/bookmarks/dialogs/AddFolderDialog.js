@@ -1,15 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {
-  Dialog,
-  DialogTitle,
-  Container,
-  DialogContent
-} from "@material-ui/core";
+import { Dialog, DialogTitle, DialogContent } from "@material-ui/core";
 import { FolderForm } from "../form";
 import { sendMessage } from "shared/lib/browser";
-import { ADD_BM_NODE } from "shared/constants/requestTypes";
-import { responseTypes } from "shared/constants";
+import { responseTypes, requestTypes } from "shared/constants";
 
 export default function AddFolderDialog(props) {
   const { onClose, open } = props;
@@ -19,7 +13,7 @@ export default function AddFolderDialog(props) {
   }
 
   function handleSubmit(values, done) {
-    sendMessage(ADD_BM_NODE, values, response => {
+    sendMessage(requestTypes.ADD_BM_NODE, values, response => {
       done(response);
       if (response.type === responseTypes.SUCCESS) {
         handleClose();
