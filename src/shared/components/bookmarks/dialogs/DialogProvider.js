@@ -5,8 +5,8 @@ import DialogReducer from "./DialogReducer";
 export default class DialogProvider extends Component {
   state = {
     openedDialogId: null,
-    openDialog: id => {
-      this.setState({ openedDialogId: id });
+    openDialog: (id, args = {}) => {
+      this.setState({ openedDialogId: id, args: { ...args } });
     }
   };
   render() {

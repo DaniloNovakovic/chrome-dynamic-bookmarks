@@ -3,6 +3,32 @@ import { dbm as storage } from "./storage";
 import normalizeBookmarkTree from "./normalizeBookmarkTree";
 import { combineProps } from "shared/lib/objects";
 
+export function editBookmarkNode(node, done) {
+  bookmarks.update(node.id, node, (errMsg, updatedNode) => {
+    if (errMsg) {
+      return done(errMsg);
+    }
+    if (!updatedNode.url) {
+      return done(null, updatedNode);
+    }
+    if (updatedNode.regExp) {
+      storage.findByIdAndUpdate(node.id, node, (errMsg, updatedDynBookItem) => {
+        if (errMsg) {
+          return done(errMsg);
+        }
+        done(null, { ...updatedNode, ...updatedDynBookItem });
+      });
+    } else {
+      storage.findByIdAndRemove(node.id, errMsg => {
+        if (errMsg) {
+          return done(errMsg);
+        }
+        done(null, updatedNode);
+      });
+    }
+  });
+}
+
 export function createBookmarkNode(node, done) {
   bookmarks.create(node, (errMsg, createdNode) => {
     if (errMsg) {

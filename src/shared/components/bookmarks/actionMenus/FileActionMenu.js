@@ -3,11 +3,14 @@ import { connect } from "react-redux";
 import { Menu, MenuItem, Divider } from "@material-ui/core";
 import { FileActionMenuContext } from "./FileActionMenuContext";
 import { removeBookmarkNode } from "shared/store";
+import { DialogContext } from "shared/components/bookmarks";
+import { dialogIds } from "shared/constants";
 
 export function FileActionMenu(props) {
   const { nodeId, anchorEl, setAnchorEl } = React.useContext(
     FileActionMenuContext
   );
+  const { openDialog } = React.useContext(DialogContext);
 
   function handleClose() {
     setAnchorEl(null);
@@ -15,6 +18,11 @@ export function FileActionMenu(props) {
 
   function handleRemove() {
     props.removeBookmarkNode(nodeId);
+    handleClose();
+  }
+
+  function handleDialogOpen(dialogId, args = {}) {
+    openDialog(dialogId, args);
     handleClose();
   }
 
@@ -26,7 +34,12 @@ export function FileActionMenu(props) {
       onClose={handleClose}
       variant="menu"
     >
-      <MenuItem onClick={handleClose} dense>
+      <MenuItem
+        dense
+        onClick={() =>
+          handleDialogOpen(dialogIds.editBookmarkDialogId, { nodeId })
+        }
+      >
         Edit
       </MenuItem>
       <MenuItem onClick={handleRemove} dense>

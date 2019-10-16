@@ -1,7 +1,8 @@
 import requestTypes from "shared/constants/requestTypes";
 import {
   addBookmarkNodeHandler,
-  removeBookmarkNodeHandler
+  removeBookmarkNodeHandler,
+  editBookmarkNodeHandler
 } from "./requestHandlers";
 
 export default function registerRoutes(router) {
@@ -10,4 +11,5 @@ export default function registerRoutes(router) {
     requestTypes.REMOVE_BM_NODE,
     removeBookmarkNodeHandler
   );
+  router.registerHandler(requestTypes.EDIT_BM_NODE, editBookmarkNodeHandler);
 }

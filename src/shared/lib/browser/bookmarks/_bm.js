@@ -10,9 +10,18 @@ export default {
   getTreeRoot,
   getChildren,
   search,
+  update,
   remove,
   removeTree
 };
+
+export function update(id, { title, url }, done) {
+  bookmarks.update(id, { title, url }, updatedNode => {
+    if (!checkAndHandleError(done)) {
+      done(null, updatedNode);
+    }
+  });
+}
 
 export function removeTree(id, done) {
   bookmarks.removeTree(id, () => {

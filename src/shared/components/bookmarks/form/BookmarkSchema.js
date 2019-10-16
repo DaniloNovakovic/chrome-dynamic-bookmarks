@@ -8,16 +8,16 @@ export const BookmarkSchema = Yup.object().shape({
   url: Yup.string()
     .url("Invalid URL! (Must be in form https://...)")
     .required("Required!"),
-  regExp: Yup.string()
-    .required("Required!")
-    .test("is-regex", "Invalid regular expression", function(value) {
-      try {
-        new RegExp(value);
-        return true;
-      } catch {
-        return false;
-      }
-    })
+  regExp: Yup.string().test("is-regex", "Invalid regular expression", function(
+    value
+  ) {
+    try {
+      new RegExp(value);
+      return true;
+    } catch {
+      return false;
+    }
+  })
 });
 
 export default BookmarkSchema;

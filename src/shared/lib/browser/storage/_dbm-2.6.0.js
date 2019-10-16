@@ -60,9 +60,10 @@ export class Dbm260 {
     const key = _convertToDbmId(id);
     this.findById(key, (errMsg, item) => {
       if (errMsg) return done(errMsg);
+      if (!item) return done(null);
       item = {
         regExp: regExp || item.regExp,
-        history: history || item.history
+        history: history || item.history || []
       };
       this._setItem(key, item, done);
     });

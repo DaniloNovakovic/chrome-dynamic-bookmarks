@@ -8,6 +8,14 @@ import {
 
 export const nodesSelector = state => state.bookmarkNodes.data || {};
 
+const selectNodeId = (_, id) => id;
+
+export const makeUniqueNodeByIdSelector = () =>
+  createSelector(
+    [nodesSelector, selectNodeId],
+    (nodes, nodeId) => (nodeId in nodes && nodes[nodeId]) || {}
+  );
+
 export const nodesArraySelector = createSelector(
   nodesSelector,
   nodes =>
