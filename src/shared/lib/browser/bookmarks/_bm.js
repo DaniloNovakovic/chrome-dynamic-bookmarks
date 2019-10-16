@@ -33,11 +33,11 @@ export function remove(id, done) {
 /**
  * Creates a bookmark or folder under the specified parentId.
  * If url is `NULL` or missing, it will be a folder
- * @param {object} bookmark - `{parentId:string?, index:integer?, title:string?, url:string?}`
+ * @param {object} bookmark - `{title:string, url:string, parentId:string?, index:integer?}`
  * @param {function} done - callback function called with `done(errMsg, newBookmark)`
  */
-export function create(bookmark, done) {
-  bookmarks.create(bookmark, newBookmark => {
+export function create({ title, url, parentId = null, index = null }, done) {
+  bookmarks.create({ title, url, parentId, index }, newBookmark => {
     if (!checkAndHandleError(done)) {
       done(null, newBookmark);
     }

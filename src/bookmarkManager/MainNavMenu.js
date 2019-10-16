@@ -38,7 +38,13 @@ export default function MainNavMenu() {
           Sort by name
         </MenuItem>
         <Divider />
-        <MenuItem onClick={handleClose} dense>
+        <MenuItem
+          dense
+          onClick={() => {
+            openDialog(dialogIds.addBookmarkDialogId);
+            handleClose();
+          }}
+        >
           Add new bookmark
         </MenuItem>
         <MenuItem
