@@ -11,7 +11,7 @@ export function editBookmarkNode(node, done) {
     if (!updatedNode.url) {
       return done(null, updatedNode);
     }
-    if (updatedNode.regExp) {
+    if (node.regExp) {
       storage.findByIdAndUpdate(node.id, node, (errMsg, updatedDynBookItem) => {
         if (errMsg) {
           return done(errMsg);

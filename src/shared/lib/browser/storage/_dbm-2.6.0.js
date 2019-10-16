@@ -52,6 +52,7 @@ export class Dbm260 {
   };
 
   /**
+   * Attempts to update dynamic bookmark. If it does not exist a new bookmark will be created.
    * @param {string} id - id of dynamic bookmark
    * @param {object} options - `{regExp: String, history:[String]}`
    * @param {function} done - (optional) callback function called with `done(error, updatedDynBookItem)`
@@ -60,7 +61,9 @@ export class Dbm260 {
     const key = _convertToDbmId(id);
     this.findById(key, (errMsg, item) => {
       if (errMsg) return done(errMsg);
-      if (!item) return done(null);
+      if (!item) {
+        return this.create({ id, regExp, history }, done);
+      }
       item = {
         regExp: regExp || item.regExp,
         history: history || item.history || []
