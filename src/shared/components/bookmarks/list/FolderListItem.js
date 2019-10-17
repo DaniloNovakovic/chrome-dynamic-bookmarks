@@ -11,14 +11,18 @@ import {
 } from "@material-ui/core";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import { applyFilter } from "shared/store/actions";
-import { FolderActionMenuContext } from "../actionMenus";
+import { ActionMenuContext } from "../actionMenus";
+import { actionMenuIds } from "shared/constants";
 
 export function FolderListItem(props) {
-  const { setAnchorEl } = React.useContext(FolderActionMenuContext);
+  const { openActionMenu } = React.useContext(ActionMenuContext);
   const { node = {}, applyFilter, iconSize = 24, selected, ...others } = props;
 
   function showActionMenu(event) {
-    setAnchorEl(event.currentTarget, node.id);
+    openActionMenu(actionMenuIds.folderActionMenuId, {
+      anchorEl: event.currentTarget,
+      nodeId: node.id
+    });
   }
 
   return (

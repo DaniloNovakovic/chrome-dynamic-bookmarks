@@ -1,23 +1,20 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Menu, MenuItem, Divider } from "@material-ui/core";
-import { FileActionMenuContext } from "./FileActionMenuContext";
 import { removeBookmarkNode } from "shared/store";
 import { DialogContext } from "shared/components/bookmarks";
 import { dialogIds } from "shared/constants";
 
 export function FileActionMenu(props) {
-  const { nodeId, anchorEl, setAnchorEl } = React.useContext(
-    FileActionMenuContext
-  );
+  const { nodeId, open, onClose, onRemove, ...other } = props;
   const { openDialog } = React.useContext(DialogContext);
 
   function handleClose() {
-    setAnchorEl(null);
+    onClose();
   }
 
   function handleRemove() {
-    props.removeBookmarkNode(nodeId);
+    onRemove(nodeId);
     handleClose();
   }
 
@@ -29,10 +26,10 @@ export function FileActionMenu(props) {
   return (
     <Menu
       id={`bookmark-action-menu`}
-      anchorEl={anchorEl}
-      open={Boolean(anchorEl)}
+      keepMounted
+      open={open}
       onClose={handleClose}
-      variant="menu"
+      {...other}
     >
       <MenuItem
         dense
@@ -74,5 +71,5 @@ export function FileActionMenu(props) {
 
 export default connect(
   null,
-  { removeBookmarkNode }
+  { onRemove: removeBookmarkNode }
 )(FileActionMenu);

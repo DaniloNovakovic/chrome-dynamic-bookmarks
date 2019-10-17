@@ -5,9 +5,9 @@ import MainSection from "./MainSection";
 import SideNav from "./SideNav";
 import MainNav from "./MainNav";
 import {
-  FileActionMenuProvider,
   FolderActionMenuProvider,
-  DialogProvider
+  DialogProvider,
+  ActionMenuProvider
 } from "shared/components/bookmarks";
 import { StatusSnackbar } from "shared/components/helpers";
 
@@ -55,22 +55,20 @@ export default function Manager() {
       <CssBaseline />
       <StatusSnackbar />
       <DialogProvider>
-        <FolderActionMenuProvider>
-          <FileActionMenuProvider>
-            <MainNav
-              className={classes.mainNav}
-              handleDrawerToggle={handleDrawerToggle}
-            />
-            <SideNav
-              className={classes.sideNav}
-              drawerClassName={classes.drawerPaper}
-              direction={theme.direction}
-              mobileOpen={mobileOpen}
-              handleDrawerToggle={handleDrawerToggle}
-            />
-            <MainSection className={classes.mainSection} />
-          </FileActionMenuProvider>
-        </FolderActionMenuProvider>
+        <ActionMenuProvider>
+          <MainNav
+            className={classes.mainNav}
+            handleDrawerToggle={handleDrawerToggle}
+          />
+          <SideNav
+            className={classes.sideNav}
+            drawerClassName={classes.drawerPaper}
+            direction={theme.direction}
+            mobileOpen={mobileOpen}
+            handleDrawerToggle={handleDrawerToggle}
+          />
+          <MainSection className={classes.mainSection} />
+        </ActionMenuProvider>
       </DialogProvider>
     </Box>
   );

@@ -8,19 +8,33 @@ import {
   Typography
 } from "@material-ui/core";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
-import { FileActionMenuContext } from "../actionMenus";
+import { ActionMenuContext } from "../actionMenus";
 import BookmarkIcon from "../BookmarkIcon";
+import { actionMenuIds } from "shared/constants";
 
 export default function FileListItem(props) {
-  const { setAnchorEl } = React.useContext(FileActionMenuContext);
+  const { openActionMenu } = React.useContext(ActionMenuContext);
   const { node = {}, iconSize = 24, selected, ...others } = props;
 
   function showActionMenu(event) {
-    setAnchorEl(event.currentTarget, node.id);
+    openActionMenu(actionMenuIds.fileActionMenuId, {
+      anchorEl: event.currentTarget,
+      nodeId: node.id
+    });
+  }
+
+  function handleContextMenu(event) {
+    showActionMenu(event);
+    event.preventDefault();
   }
 
   return (
-    <ListItem button style={{ minHeight: "35px" }} {...others}>
+    <ListItem
+      button
+      style={{ minHeight: "35px" }}
+      onContextMenu={handleContextMenu}
+      {...others}
+    >
       <ListItemIcon style={{ minWidth: iconSize, margin: 2 }}>
         <BookmarkIcon url={node.url} size={iconSize} />
       </ListItemIcon>
