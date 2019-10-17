@@ -4,6 +4,7 @@ import AddFolderDialog from "./AddFolderDialog";
 import { dialogIds } from "shared/constants";
 import AddBookmarkDialog from "./AddBookmarkDialog";
 import EditBookmarkDialog from "./EditBookmarkDialog";
+import EditFolderDialog from "./EditFolderDialog";
 
 export default function DialogReducer() {
   const { openedDialogId, openDialog, args = {} } = React.useContext(
@@ -28,6 +29,11 @@ export default function DialogReducer() {
       />
       <EditBookmarkDialog
         open={dialogIds.editBookmarkDialogId === openedDialogId}
+        onClose={handleClose}
+        {...args}
+      />
+      <EditFolderDialog
+        open={dialogIds.editFolderDialogId === openedDialogId}
         onClose={handleClose}
         {...args}
       />

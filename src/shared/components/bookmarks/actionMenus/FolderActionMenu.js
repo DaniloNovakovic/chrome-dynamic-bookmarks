@@ -3,11 +3,14 @@ import { connect } from "react-redux";
 import { Menu, MenuItem, Divider } from "@material-ui/core";
 import { FolderActionMenuContext } from "./FolderActionMenuContext";
 import { removeBookmarkNode } from "shared/store";
+import { DialogContext } from "shared/components/bookmarks";
+import { dialogIds } from "shared/constants";
 
 export function FolderActionMenu(props) {
   const { nodeId, anchorEl, setAnchorEl } = React.useContext(
     FolderActionMenuContext
   );
+  const { openDialog } = React.useContext(DialogContext);
 
   function handleClose() {
     setAnchorEl(null);
@@ -15,6 +18,11 @@ export function FolderActionMenu(props) {
 
   function handleRemove() {
     props.removeBookmarkNode(nodeId);
+    handleClose();
+  }
+
+  function handleDialogOpen(dialogId, args = {}) {
+    openDialog(dialogId, args);
     handleClose();
   }
 
@@ -26,7 +34,12 @@ export function FolderActionMenu(props) {
       open={Boolean(anchorEl)}
       onClose={handleClose}
     >
-      <MenuItem onClick={handleClose} dense>
+      <MenuItem
+        dense
+        onClick={() =>
+          handleDialogOpen(dialogIds.editFolderDialogId, { nodeId })
+        }
+      >
         Rename
       </MenuItem>
       <MenuItem onClick={handleRemove} dense>

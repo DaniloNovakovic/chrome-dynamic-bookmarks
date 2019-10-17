@@ -2,12 +2,12 @@ import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { Dialog, DialogTitle, DialogContent } from "@material-ui/core";
-import { BookmarkForm } from "../form";
+import { FolderForm } from "../form";
 import { sendMessage } from "shared/lib/browser";
 import { responseTypes, requestTypes } from "shared/constants";
 import { makeUniqueNodeByIdSelector } from "shared/store";
 
-export function EditBookmarkDialog(props) {
+export function EditFolderDialog(props) {
   const { onClose, open, node = {} } = props;
 
   function handleClose() {
@@ -30,19 +30,19 @@ export function EditBookmarkDialog(props) {
   return (
     <Dialog
       onClose={handleClose}
-      aria-labelledby="edit-bookmark-dialog-title"
+      aria-labelledby="edit-folder-dialog-title"
       open={open}
       fullWidth={true}
     >
-      <DialogTitle id="edit-bookmark-dialog-title">Edit bookmark</DialogTitle>
+      <DialogTitle id="edit-folder-dialog-title">Edit folder</DialogTitle>
       <DialogContent dividers>
-        <BookmarkForm handleSubmit={handleSubmit} initialValues={node} />
+        <FolderForm handleSubmit={handleSubmit} initialValues={node} />
       </DialogContent>
     </Dialog>
   );
 }
 
-EditBookmarkDialog.propTypes = {
+EditFolderDialog.propTypes = {
   onClose: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
   nodeId: PropTypes.string
@@ -56,4 +56,4 @@ function makeMapState() {
   };
 }
 
-export default connect(makeMapState)(EditBookmarkDialog);
+export default connect(makeMapState)(EditFolderDialog);
