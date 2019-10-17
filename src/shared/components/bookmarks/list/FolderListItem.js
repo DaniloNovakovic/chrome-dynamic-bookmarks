@@ -25,10 +25,23 @@ export function FolderListItem(props) {
     });
   }
 
+  function handleContextMenu(event) {
+    openActionMenu(actionMenuIds.folderActionMenuId, {
+      anchorReference: "anchorPosition",
+      anchorPosition: {
+        top: event.pageY,
+        left: event.pageX
+      },
+      nodeId: node.id
+    });
+    event.preventDefault();
+  }
+
   return (
     <ListItem
       button
       onDoubleClick={() => applyFilter({ parentId: node.id })}
+      onContextMenu={handleContextMenu}
       style={{ minHeight: "35px" }}
       {...others}
     >

@@ -24,7 +24,14 @@ export default function FileListItem(props) {
   }
 
   function handleContextMenu(event) {
-    showActionMenu(event);
+    openActionMenu(actionMenuIds.fileActionMenuId, {
+      anchorReference: "anchorPosition",
+      anchorPosition: {
+        top: event.pageY,
+        left: event.pageX
+      },
+      nodeId: node.id
+    });
     event.preventDefault();
   }
 
