@@ -14,6 +14,32 @@ export function getBookmarkNodes() {
   };
 }
 
+export function addBookmarkNode(node) {
+  return createSendMessageDispatch(requestTypes.ADD_BM_NODE, node);
+}
+
+export function editBookmarkNode(node) {
+  return createSendMessageDispatch(requestTypes.EDIT_BM_NODE, node);
+}
+
+export function removeBookmarkNode(nodeId) {
+  return createSendMessageDispatch(requestTypes.REMOVE_BM_NODE, { id: nodeId });
+}
+
+/**
+ * Sends message and dispatches response such as `ALERT.SUCCESS` or `ALERT.ERROR`
+ * depending on if the operation was successful or not.
+ * @param {string} requestType - type of the request message
+ * @param {object} data - parameters that will be sent in message
+ */
+function createSendMessageDispatch(requestType, data) {
+  return dispatch => {
+    sendMessage(requestType, data, response => {
+      dispatch(mapResponseToAlertAction(response));
+    });
+  };
+}
+
 function mapResponseToAlertAction({ type, message }) {
   switch (type) {
     case responseTypes.SUCCESS:
@@ -23,16 +49,4 @@ function mapResponseToAlertAction({ type, message }) {
     default:
       return { type: actionTypes.ALERT_CLEAR };
   }
-}
-
-export function removeBookmarkNode(nodeId) {
-  return dispatch => {
-    sendMessage(requestTypes.REMOVE_BM_NODE, { id: nodeId }, response => {
-      dispatch(mapResponseToAlertAction(response));
-    });
-  };
-}
-
-export function applyFilter(filter = {}) {
-  return { type: actionTypes.APPLY_FILTER, filter };
 }

@@ -3,24 +3,18 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { Dialog, DialogTitle, DialogContent } from "@material-ui/core";
 import { FolderForm } from "../form";
-import { sendMessage } from "shared/lib/browser";
-import { responseTypes, requestTypes } from "shared/constants";
-import { filterSelector } from "shared/store";
+import { filterSelector, addBookmarkNode } from "shared/store";
 
-export function AddFolderDialog(props) {
-  const { onClose, open, parentId } = props;
+function AddFolderDialog(props) {
+  const { onClose, open, parentId, onSubmit } = props;
 
   function handleClose() {
     onClose();
   }
 
-  function handleSubmit(values, done) {
-    sendMessage(requestTypes.ADD_BM_NODE, { ...values, parentId }, response => {
-      done(response);
-      if (response.type === responseTypes.SUCCESS) {
-        handleClose();
-      }
-    });
+  function handleSubmit(values) {
+    onSubmit({ ...values, parentId });
+    handleClose();
   }
 
   return (
@@ -41,7 +35,7 @@ export function AddFolderDialog(props) {
 AddFolderDialog.propTypes = {
   onClose: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
-  parentId: PropTypes.string
+  onSubmit: PropTypes.func.isRequired
 };
 
 function mapStateToProps(state) {
@@ -51,4 +45,7 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(AddFolderDialog);
+export default connect(
+  mapStateToProps,
+  { onSubmit: addBookmarkNode }
+)(AddFolderDialog);

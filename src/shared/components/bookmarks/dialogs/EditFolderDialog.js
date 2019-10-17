@@ -3,28 +3,18 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { Dialog, DialogTitle, DialogContent } from "@material-ui/core";
 import { FolderForm } from "../form";
-import { sendMessage } from "shared/lib/browser";
-import { responseTypes, requestTypes } from "shared/constants";
-import { makeUniqueNodeByIdSelector } from "shared/store";
+import { makeUniqueNodeByIdSelector, editBookmarkNode } from "shared/store";
 
 export function EditFolderDialog(props) {
-  const { onClose, open, node = {} } = props;
+  const { onClose, open, node = {}, onSubmit } = props;
 
   function handleClose() {
     onClose();
   }
 
-  function handleSubmit(values, done) {
-    sendMessage(
-      requestTypes.EDIT_BM_NODE,
-      { id: node.id, ...values },
-      response => {
-        done(response);
-        if (response.type === responseTypes.SUCCESS) {
-          handleClose();
-        }
-      }
-    );
+  function handleSubmit(values) {
+    onSubmit({ id: node.id, ...values });
+    handleClose();
   }
 
   return (
@@ -56,4 +46,7 @@ function makeMapState() {
   };
 }
 
-export default connect(makeMapState)(EditFolderDialog);
+export default connect(
+  makeMapState,
+  { onSubmit: editBookmarkNode }
+)(EditFolderDialog);

@@ -3,28 +3,18 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { Dialog, DialogTitle, DialogContent } from "@material-ui/core";
 import { BookmarkForm } from "../form";
-import { sendMessage } from "shared/lib/browser";
-import { responseTypes, requestTypes } from "shared/constants";
-import { makeUniqueNodeByIdSelector } from "shared/store";
+import { makeUniqueNodeByIdSelector, editBookmarkNode } from "shared/store";
 
 export function EditBookmarkDialog(props) {
-  const { onClose, open, node = {} } = props;
+  const { onClose, open, node = {}, onSubmit } = props;
 
   function handleClose() {
     onClose();
   }
 
-  function handleSubmit(values, done) {
-    sendMessage(
-      requestTypes.EDIT_BM_NODE,
-      { id: node.id, ...values },
-      response => {
-        done(response);
-        if (response.type === responseTypes.SUCCESS) {
-          handleClose();
-        }
-      }
-    );
+  function handleSubmit(values) {
+    onSubmit({ id: node.id, ...values });
+    handleClose();
   }
 
   return (
@@ -45,7 +35,7 @@ export function EditBookmarkDialog(props) {
 EditBookmarkDialog.propTypes = {
   onClose: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
-  nodeId: PropTypes.string
+  onSubmit: PropTypes.func.isRequired
 };
 
 function makeMapState() {
@@ -56,4 +46,7 @@ function makeMapState() {
   };
 }
 
-export default connect(makeMapState)(EditBookmarkDialog);
+export default connect(
+  makeMapState,
+  { onSubmit: editBookmarkNode }
+)(EditBookmarkDialog);
