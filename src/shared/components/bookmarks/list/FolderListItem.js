@@ -48,7 +48,6 @@ export function FolderListItem(props) {
           aria-haspopup="true"
           onClick={showActionMenu}
           color="inherit"
-          size="small"
         >
           <MoreVertIcon fontSize="small" />
         </IconButton>

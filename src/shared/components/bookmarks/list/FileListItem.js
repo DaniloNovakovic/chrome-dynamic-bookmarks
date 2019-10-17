@@ -28,7 +28,7 @@ export default function FileListItem(props) {
         variant="body2"
         noWrap
         component="span"
-        color="textPrimary"
+        color={node.regExp ? "primary" : "textPrimary"}
         style={{ marginInlineStart: iconSize }}
       >
         {node.title}
@@ -53,7 +53,6 @@ export default function FileListItem(props) {
           aria-haspopup="true"
           onClick={showActionMenu}
           color="inherit"
-          size="small"
         >
           <MoreVertIcon fontSize="small" />
         </IconButton>
