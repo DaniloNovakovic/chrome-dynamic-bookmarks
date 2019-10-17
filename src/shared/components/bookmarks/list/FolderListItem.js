@@ -35,6 +35,7 @@ export function FolderListItem(props) {
       nodeId: node.id
     });
     event.preventDefault();
+    event.stopPropagation();
   }
 
   return (
@@ -64,6 +65,7 @@ export function FolderListItem(props) {
           aria-controls={`folder-action-menu`}
           aria-haspopup="true"
           onClick={showActionMenu}
+          onContextMenu={handleContextMenu}
           color="inherit"
         >
           <MoreVertIcon fontSize="small" />

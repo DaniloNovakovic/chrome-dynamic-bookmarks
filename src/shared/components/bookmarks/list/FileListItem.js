@@ -33,6 +33,7 @@ export default function FileListItem(props) {
       nodeId: node.id
     });
     event.preventDefault();
+    event.stopPropagation();
   }
 
   return (
@@ -73,6 +74,7 @@ export default function FileListItem(props) {
           aria-controls={`bookmark-action-menu`}
           aria-haspopup="true"
           onClick={showActionMenu}
+          onContextMenu={handleContextMenu}
           color="inherit"
         >
           <MoreVertIcon fontSize="small" />
