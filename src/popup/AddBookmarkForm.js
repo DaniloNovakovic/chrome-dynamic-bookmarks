@@ -5,6 +5,7 @@ import { BookmarkForm } from "shared/components/bookmarks";
 import { sendMessage, getCurrentTab } from "shared/lib/browser";
 import { ADD_BM_NODE } from "shared/constants/requestTypes";
 import { generateRegExp } from "shared/lib/regexp";
+import { withSnackbar } from "notistack";
 
 const useStyles = makeStyles(theme => ({
   progress: {
@@ -12,7 +13,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function AddBookmarkForm() {
+export function AddBookmarkForm({ enqueueSnackbar }) {
   const [initialValues, setInitialValues] = useState(null);
 
   useEffect(() => {
@@ -29,6 +30,16 @@ export default function AddBookmarkForm() {
 
   const classes = useStyles();
 
+  function handleSubmit(values, actions) {
+    sendMessage(ADD_BM_NODE, values, status => {
+      actions.setSubmitting(false);
+      actions.setStatus(status);
+      if (enqueueSnackbar) {
+        enqueueSnackbar(status.message, { variant: status.type });
+      }
+    });
+  }
+
   return initialValues ? (
     <Container>
       <BookmarkForm initialValues={initialValues} handleSubmit={handleSubmit} />
@@ -38,6 +49,4 @@ export default function AddBookmarkForm() {
   );
 }
 
-function handleSubmit(values, done) {
-  sendMessage(ADD_BM_NODE, values, done);
-}
+export default withSnackbar(AddBookmarkForm);
