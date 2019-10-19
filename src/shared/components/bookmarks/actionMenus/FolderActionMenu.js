@@ -6,7 +6,7 @@ import { DialogContext } from "shared/components/bookmarks";
 import { dialogIds } from "shared/constants";
 
 export function FolderActionMenu(props) {
-  const { nodeId, open, onClose, onRemove, ...other } = props;
+  const { nodeId, open, onClose, onRemove, readOnly, ...other } = props;
   const { openDialog } = React.useContext(DialogContext);
 
   function handleClose() {
@@ -33,33 +33,34 @@ export function FolderActionMenu(props) {
     >
       <MenuItem
         dense
+        disabled={readOnly}
         onClick={() =>
           handleDialogOpen(dialogIds.editFolderDialogId, { nodeId })
         }
       >
         Rename
       </MenuItem>
-      <MenuItem onClick={handleRemove} dense>
+      <MenuItem dense disabled={readOnly} onClick={handleRemove}>
         Delete
       </MenuItem>
       <Divider />
-      <MenuItem onClick={handleClose} dense>
+      <MenuItem dense disabled={readOnly} onClick={handleClose}>
         Cut
       </MenuItem>
-      <MenuItem onClick={handleClose} dense>
+      <MenuItem dense onClick={handleClose}>
         Copy
       </MenuItem>
-      <MenuItem onClick={handleClose} dense>
+      <MenuItem dense onClick={handleClose}>
         Paste
       </MenuItem>
       <Divider />
-      <MenuItem onClick={handleClose} dense>
+      <MenuItem dense onClick={handleClose}>
         Open all bookmarks
       </MenuItem>
-      <MenuItem onClick={handleClose} dense>
+      <MenuItem dense onClick={handleClose}>
         Open all in new window
       </MenuItem>
-      <MenuItem onClick={handleClose} dense>
+      <MenuItem dense onClick={handleClose}>
         Open all in incognito window
       </MenuItem>
     </Menu>

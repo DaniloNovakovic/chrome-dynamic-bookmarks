@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import FolderIcon from "@material-ui/icons/Folder";
@@ -11,15 +11,19 @@ import {
   filterSelector
 } from "shared/store/selectors/index";
 import TreeItem from "./TreeItem";
+import { ActionMenuContext } from "../actionMenus";
+import { actionMenuIds } from "shared/constants";
 
 export function FolderTreeItem({
   node,
   applyFilter,
-  selected = false,
+  selected,
+  readOnly,
   breadcrumbIds,
   children
 }) {
   const [expanded, setExpanded] = useState(false);
+  const { openActionMenu } = useContext(ActionMenuContext);
 
   useEffect(() => {
     if (_isAncestor(breadcrumbIds, node.id)) {
@@ -37,6 +41,20 @@ export function FolderTreeItem({
     }
   }
 
+  function handleContextMenu(event) {
+    openActionMenu(actionMenuIds.folderActionMenuId, {
+      anchorReference: "anchorPosition",
+      anchorPosition: {
+        top: event.pageY,
+        left: event.pageX
+      },
+      nodeId: node.id,
+      readOnly
+    });
+    event.preventDefault();
+    event.stopPropagation();
+  }
+
   return (
     <TreeItem
       selected={selected}
@@ -46,6 +64,7 @@ export function FolderTreeItem({
       labelText={node.title}
       toggleExpanded={toggleExpanded}
       onClick={handleClick}
+      onContextMenu={handleContextMenu}
       children={children}
     />
   );

@@ -6,7 +6,8 @@ import FileTreeItem from "./FileTreeItem";
 const defaultOptions = {
   includeFiles: false,
   fileTreeItemProps: {},
-  folderTreeItemProps: {}
+  folderTreeItemProps: {},
+  readOnlyIds: []
 };
 
 export default function createTree(
@@ -14,10 +15,23 @@ export default function createTree(
   rootId = "0",
   options = defaultOptions
 ) {
-  const { fileTreeItemProps = {}, folderTreeItemProps = {} } = options;
+  const {
+    fileTreeItemProps = {},
+    folderTreeItemProps = {},
+    readonlyIds = []
+  } = options;
+  const readOnly = readonlyIds.includes(rootId);
   const node = nodes[rootId];
+
   if (isFile(node)) {
-    return <FileTreeItem node={node} key={rootId} {...fileTreeItemProps} />;
+    return (
+      <FileTreeItem
+        node={node}
+        key={rootId}
+        readOnly={readOnly}
+        {...fileTreeItemProps}
+      />
+    );
   }
   const children = _getChildren(nodes, rootId, options);
   return (
@@ -25,6 +39,7 @@ export default function createTree(
       node={node}
       key={rootId}
       children={children}
+      readOnly={readOnly}
       {...folderTreeItemProps}
     />
   );
