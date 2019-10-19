@@ -1,13 +1,28 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Menu, MenuItem, Divider } from "@material-ui/core";
-import { removeBookmarkNode } from "shared/store";
+import {
+  removeBookmarkNode,
+  copyToClipboard,
+  cutToClipboard,
+  clipboardSelector
+} from "shared/store";
 import { DialogContext } from "shared/components/bookmarks";
 import { dialogIds } from "shared/constants";
 
 export function FolderActionMenu(props) {
-  const { nodeId, open, onClose, onRemove, readOnly, ...other } = props;
   const { openDialog } = React.useContext(DialogContext);
+  const {
+    nodeId,
+    readOnly,
+    open,
+    onClose,
+    onRemove,
+    onCopy,
+    onCut,
+    clipboard,
+    ...other
+  } = props;
 
   function handleClose() {
     onClose();
@@ -15,6 +30,15 @@ export function FolderActionMenu(props) {
 
   function handleRemove() {
     onRemove(nodeId);
+    handleClose();
+  }
+
+  function handleCopy() {
+    onCopy({ nodeId });
+    handleClose();
+  }
+  function handleCut() {
+    onCut({ nodeId });
     handleClose();
   }
 
@@ -44,13 +68,13 @@ export function FolderActionMenu(props) {
         Delete
       </MenuItem>
       <Divider />
-      <MenuItem dense disabled={readOnly} onClick={handleClose}>
+      <MenuItem dense disabled={readOnly} onClick={handleCut}>
         Cut
       </MenuItem>
-      <MenuItem dense onClick={handleClose}>
+      <MenuItem dense onClick={handleCopy}>
         Copy
       </MenuItem>
-      <MenuItem dense onClick={handleClose}>
+      <MenuItem dense disabled={!clipboard.type} onClick={handleClose}>
         Paste
       </MenuItem>
       <Divider />
@@ -67,7 +91,17 @@ export function FolderActionMenu(props) {
   );
 }
 
+function mapStateToProps(state) {
+  return {
+    clipboard: clipboardSelector(state)
+  };
+}
+
 export default connect(
-  null,
-  { onRemove: removeBookmarkNode }
+  mapStateToProps,
+  {
+    onRemove: removeBookmarkNode,
+    onCopy: copyToClipboard,
+    onCut: cutToClipboard
+  }
 )(FolderActionMenu);

@@ -6,6 +6,8 @@ import {
   getBreadcrumbIds
 } from "shared/lib/bookmarkNodes";
 
+export const clipboardSelector = state => state.clipboard;
+
 export const nodesSelector = state => state.bookmarkNodes.data || {};
 
 const selectNodeId = (_, id) => id;

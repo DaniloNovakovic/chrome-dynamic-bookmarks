@@ -1,13 +1,15 @@
 import { combineReducers } from "redux";
-import bookmarkNodes from "./bookmarkNodes";
-import filter from "./filter";
-import alert from "./alert";
 import actionTypes from "shared/constants/actionTypes";
+import alert from "./alert";
+import bookmarkNodes from "./bookmarkNodes";
+import clipboard from "./clipboard";
+import filter from "./filter";
 
 const appReducer = combineReducers({
+  alert,
   bookmarkNodes,
-  filter,
-  alert
+  clipboard,
+  filter
 });
 
 function rootReducer(state, action) {

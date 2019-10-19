@@ -5,6 +5,8 @@ export const SET_STATE = "SET_STATE";
 export const ALERT_SUCCESS = "ALERT_SUCCESS";
 export const ALERT_ERROR = "ALERT_ERROR";
 export const ALERT_CLEAR = "ALERT_CLEAR";
+export const COPY_TO_CLIPBOARD = "COPY_TO_CLIPBOARD";
+export const CUT_TO_CLIPBOARD = "CUT_TO_CLIPBOARD";
 
 export default {
   GET_BM_NODES_ERROR,
@@ -13,5 +15,7 @@ export default {
   SET_STATE,
   ALERT_SUCCESS,
   ALERT_ERROR,
-  ALERT_CLEAR
+  ALERT_CLEAR,
+  COPY_TO_CLIPBOARD,
+  CUT_TO_CLIPBOARD
 };

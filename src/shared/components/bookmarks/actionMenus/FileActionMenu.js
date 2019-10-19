@@ -1,12 +1,26 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Menu, MenuItem, Divider } from "@material-ui/core";
-import { removeBookmarkNode } from "shared/store";
+import {
+  removeBookmarkNode,
+  copyToClipboard,
+  cutToClipboard,
+  clipboardSelector
+} from "shared/store";
 import { DialogContext } from "shared/components/bookmarks";
 import { dialogIds } from "shared/constants";
 
 export function FileActionMenu(props) {
-  const { nodeId, open, onClose, onRemove, ...other } = props;
+  const {
+    nodeId,
+    clipboard,
+    open,
+    onClose,
+    onRemove,
+    onCopy,
+    onCut,
+    ...other
+  } = props;
   const { openDialog } = React.useContext(DialogContext);
 
   function handleClose() {
@@ -15,6 +29,15 @@ export function FileActionMenu(props) {
 
   function handleRemove() {
     onRemove(nodeId);
+    handleClose();
+  }
+
+  function handleCopy() {
+    onCopy({ nodeId });
+    handleClose();
+  }
+  function handleCut() {
+    onCut({ nodeId });
     handleClose();
   }
 
@@ -43,16 +66,16 @@ export function FileActionMenu(props) {
         Delete
       </MenuItem>
       <Divider />
-      <MenuItem onClick={handleClose} dense>
+      <MenuItem onClick={handleCut} dense>
         Cut
       </MenuItem>
-      <MenuItem onClick={handleClose} dense>
+      <MenuItem onClick={handleCopy} dense>
         Copy
       </MenuItem>
       <MenuItem onClick={handleClose} dense>
         Copy URL
       </MenuItem>
-      <MenuItem onClick={handleClose} dense>
+      <MenuItem onClick={handleClose} dense disabled={!clipboard.type}>
         Paste
       </MenuItem>
       <Divider />
@@ -69,7 +92,17 @@ export function FileActionMenu(props) {
   );
 }
 
+function mapStateToProps(state) {
+  return {
+    clipboard: clipboardSelector(state)
+  };
+}
+
 export default connect(
-  null,
-  { onRemove: removeBookmarkNode }
+  mapStateToProps,
+  {
+    onRemove: removeBookmarkNode,
+    onCopy: copyToClipboard,
+    onCut: cutToClipboard
+  }
 )(FileActionMenu);
