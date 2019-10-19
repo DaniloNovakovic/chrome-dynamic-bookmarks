@@ -1,18 +1,16 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import clsx from "clsx";
 import FolderIcon from "@material-ui/icons/Folder";
 import FolderOpenIcon from "@material-ui/icons/FolderOpen";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
-import { Typography, Collapse, Box } from "@material-ui/core";
-import useStyles from "./TreeItemStyles";
 import { applyFilter } from "shared/store/actions";
 import {
   breadcrumbIdsSelector,
   filterSelector
 } from "shared/store/selectors/index";
+import TreeItem from "./TreeItem";
 
 const defaultChildren = [];
 
@@ -24,18 +22,6 @@ export function FolderTreeItem({
   children = defaultChildren
 }) {
   const [expanded, setExpanded] = useState(false);
-  const labelElement = useRef(null);
-  const classes = useStyles();
-
-  useEffect(() => {
-    if (selected) {
-      labelElement.current.scrollIntoView({
-        behavior: "smooth",
-        block: "center",
-        inline: "nearest"
-      });
-    }
-  }, [selected]);
 
   useEffect(() => {
     if (initExpanded) {
@@ -46,38 +32,25 @@ export function FolderTreeItem({
   function toggleExpanded() {
     setExpanded(!expanded);
   }
+  function handleClick() {
+    if (!selected) {
+      applyFilter({ parentId: id });
+    }
+  }
 
-  const { id, title } = node || {};
-  const ExpandIcon = expanded ? ExpandMoreIcon : ChevronRightIcon;
-  const FolderItemIcon = expanded ? FolderOpenIcon : FolderIcon;
+  const { id, title: labelText } = node || {};
 
   return (
-    <Box>
-      <Box
-        ref={labelElement}
-        className={clsx(classes.labelRoot, { [classes.selected]: selected })}
-        onClick={() => !selected && applyFilter({ parentId: id })}
-        onDoubleClick={() => toggleExpanded()}
-      >
-        {children.length == 0 ? (
-          <ExpandIcon style={{ opacity: 0 }} />
-        ) : (
-          <ExpandIcon
-            onClick={event => {
-              event.stopPropagation();
-              toggleExpanded && toggleExpanded();
-            }}
-          />
-        )}
-        <FolderItemIcon className={classes.labelIcon} />
-        <Typography variant="body2" className={classes.labelText} noWrap>
-          {title}
-        </Typography>
-      </Box>
-      <Collapse className={classes.children} in={expanded}>
-        {children}
-      </Collapse>
-    </Box>
+    <TreeItem
+      labelText={labelText}
+      expandIcon={expanded ? ExpandMoreIcon : ChevronRightIcon}
+      labelIcon={expanded ? FolderOpenIcon : FolderIcon}
+      selected={selected}
+      expanded={expanded}
+      toggleExpanded={toggleExpanded}
+      onClick={handleClick}
+      children={children}
+    />
   );
 }
 
