@@ -1,17 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
 import InsertDriveFileIcon from "@material-ui/icons/InsertDriveFile";
-import { StyledTreeItem } from "shared/components/helpers";
+import TreeItem from "./TreeItem";
 
 export default function FileTreeItem({ node }) {
-  const { id, title = "" } = node || {};
-  return (
-    <StyledTreeItem
-      key={id}
-      labelText={title}
-      labelIcon={InsertDriveFileIcon}
-    />
-  );
+  const { title = "" } = node || {};
+  return <TreeItem labelText={title} labelIcon={InsertDriveFileIcon} />;
 }
 
 FileTreeItem.propTypes = {

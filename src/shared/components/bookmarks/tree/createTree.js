@@ -4,7 +4,7 @@ import FolderTreeItem from "./FolderTreeItem";
 import FileTreeItem from "./FileTreeItem";
 
 const defaultOptions = {
-  ignoreFiles: true,
+  includeFiles: false,
   fileTreeItemProps: {},
   folderTreeItemProps: {}
 };
@@ -44,7 +44,7 @@ function _getChildren(nodes, rootId, options = {}) {
 }
 
 function _applyFilter(nodes = [], options = {}) {
-  if (options.ignoreFiles) {
+  if (!options.includeFiles) {
     nodes = nodes.filter(child => !isFile(child));
   }
   return nodes;

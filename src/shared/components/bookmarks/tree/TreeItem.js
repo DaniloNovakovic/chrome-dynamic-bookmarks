@@ -1,17 +1,20 @@
 import React, { useRef, useEffect } from "react";
 import clsx from "clsx";
 import { Typography, Collapse, Box } from "@material-ui/core";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import useStyles from "./TreeItemStyles";
+
+const defaultChildren = [];
 
 export default function TreeItem({
   selected,
-  onClick,
-  toggleExpanded,
-  children,
-  expandIcon: ExpandIcon,
-  labelIcon: LabelIcon,
+  expanded,
   labelText,
-  expanded
+  labelIcon: LabelIcon,
+  expandIcon: ExpandIcon = ExpandMoreIcon,
+  toggleExpanded,
+  children = defaultChildren,
+  ...other
 }) {
   const classes = useStyles();
   const labelElement = useRef(null);
@@ -26,25 +29,27 @@ export default function TreeItem({
     }
   }, [selected]);
 
+  function handleToggleExpanded(event) {
+    if (toggleExpanded) {
+      toggleExpanded();
+      event.stopPropagation();
+    }
+  }
+
   return (
     <Box>
       <Box
         ref={labelElement}
         className={clsx(classes.labelRoot, { [classes.selected]: selected })}
-        onClick={onClick}
-        onDoubleClick={() => toggleExpanded()}
+        onDoubleClick={handleToggleExpanded}
+        {...other}
       >
         {children.length == 0 ? (
           <ExpandIcon style={{ opacity: 0 }} />
         ) : (
-          <ExpandIcon
-            onClick={event => {
-              event.stopPropagation();
-              toggleExpanded();
-            }}
-          />
+          <ExpandIcon onClick={handleToggleExpanded} />
         )}
-        <LabelIcon className={classes.labelIcon} />
+        {LabelIcon && <LabelIcon className={classes.labelIcon} />}
         <Typography variant="body2" className={classes.labelText} noWrap>
           {labelText}
         </Typography>
