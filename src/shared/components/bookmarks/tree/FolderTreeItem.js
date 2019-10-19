@@ -14,13 +14,14 @@ import {
   filterSelector
 } from "shared/store/selectors/index";
 
+const defaultChildren = [];
+
 export function FolderTreeItem({
-  children = [],
-  id,
-  title,
+  node,
   applyFilter,
   selected = false,
-  initExpanded = false
+  initExpanded = false,
+  children = defaultChildren
 }) {
   const [expanded, setExpanded] = useState(false);
   const labelElement = useRef(null);
@@ -46,6 +47,7 @@ export function FolderTreeItem({
     setExpanded(!expanded);
   }
 
+  const { id, title } = node || {};
   const ExpandIcon = expanded ? ExpandMoreIcon : ChevronRightIcon;
   const FolderItemIcon = expanded ? FolderOpenIcon : FolderIcon;
 
@@ -88,10 +90,10 @@ function _isAncestor(breadcrumbIds = [], id = "0") {
   return false;
 }
 
-function mapStateToProps(state, { id }) {
+function mapStateToProps(state, { node }) {
   return {
-    selected: filterSelector(state).parentId === id,
-    initExpanded: _isAncestor(breadcrumbIdsSelector(state), id)
+    selected: filterSelector(state).parentId === node.id,
+    initExpanded: _isAncestor(breadcrumbIdsSelector(state), node.id)
   };
 }
 
@@ -101,7 +103,9 @@ export default connect(
 )(FolderTreeItem);
 
 FolderTreeItem.propTypes = {
-  id: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
+  node: PropTypes.shape({
+    id: PropTypes.string,
+    title: PropTypes.string
+  }),
   children: PropTypes.arrayOf(PropTypes.element)
 };

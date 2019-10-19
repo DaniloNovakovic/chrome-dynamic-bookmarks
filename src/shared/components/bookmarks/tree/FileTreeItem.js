@@ -3,8 +3,8 @@ import PropTypes from "prop-types";
 import InsertDriveFileIcon from "@material-ui/icons/InsertDriveFile";
 import { StyledTreeItem } from "shared/components/helpers";
 
-export default function FileTreeItem(props) {
-  const { id, title = "" } = props;
+export default function FileTreeItem({ node }) {
+  const { id, title = "" } = node || {};
   return (
     <StyledTreeItem
       key={id}
@@ -15,6 +15,8 @@ export default function FileTreeItem(props) {
 }
 
 FileTreeItem.propTypes = {
-  id: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired
+  node: PropTypes.shape({
+    id: PropTypes.string,
+    title: PropTypes.string
+  })
 };
