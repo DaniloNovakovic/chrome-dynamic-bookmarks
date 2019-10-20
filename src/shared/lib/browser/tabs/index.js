@@ -3,6 +3,7 @@ import getCurrentBrowser from "../getCurrentBrowser";
 
 const browser = getCurrentBrowser();
 const tabs = browser.tabs;
+const windows = browser.windows;
 
 /**
  * Returns currently opened tab info
@@ -15,4 +16,16 @@ export function getCurrentTab(done) {
       done(null, currentTab);
     }
   });
+}
+
+export function openNewTab(url, done = null) {
+  tabs.create({ url }, done);
+}
+
+export function openNewWindow(url, done = null) {
+  windows.create({ url }, done);
+}
+
+export function openNewIncognitoWindow(url, done = null) {
+  windows.create({ url, incognito: true }, done);
 }

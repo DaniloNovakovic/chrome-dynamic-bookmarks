@@ -11,11 +11,17 @@ import {
 } from "shared/store";
 import { DialogContext } from "shared/components/bookmarks";
 import { dialogIds } from "shared/constants";
+import {
+  openNewTab,
+  openNewWindow,
+  openNewIncognitoWindow
+} from "shared/lib/browser";
 
 export function FileActionMenu(props) {
+  const { openDialog } = React.useContext(DialogContext);
   const {
+    node,
     nodeId,
-    parentId,
     clipboard,
     open,
     onClose,
@@ -25,7 +31,8 @@ export function FileActionMenu(props) {
     onPaste,
     ...other
   } = props;
-  const { openDialog } = React.useContext(DialogContext);
+
+  const { url, parentId } = node;
 
   function handleClose() {
     onClose();
@@ -37,12 +44,12 @@ export function FileActionMenu(props) {
   }
 
   function handleCopy() {
-    onCopy({ nodeId });
+    onCopy(node);
     handleClose();
   }
 
   function handleCut() {
-    onCut({ nodeId });
+    onCut(node);
     handleClose();
   }
 
@@ -52,11 +59,6 @@ export function FileActionMenu(props) {
       from: clipboard.data,
       to: { parentId }
     });
-    handleClose();
-  }
-
-  function handleDialogOpen(dialogId, args = {}) {
-    openDialog(dialogId, args);
     handleClose();
   }
 
@@ -70,9 +72,10 @@ export function FileActionMenu(props) {
     >
       <MenuItem
         dense
-        onClick={() =>
-          handleDialogOpen(dialogIds.editBookmarkDialogId, { nodeId })
-        }
+        onClick={() => {
+          openDialog(dialogIds.editBookmarkDialogId, { nodeId });
+          handleClose();
+        }}
       >
         Edit
       </MenuItem>
@@ -93,13 +96,31 @@ export function FileActionMenu(props) {
         Paste
       </MenuItem>
       <Divider />
-      <MenuItem onClick={handleClose} dense>
+      <MenuItem
+        onClick={() => {
+          openNewTab(url);
+          handleClose();
+        }}
+        dense
+      >
         Open in new tab
       </MenuItem>
-      <MenuItem onClick={handleClose} dense>
+      <MenuItem
+        onClick={() => {
+          openNewWindow(url);
+          handleClose();
+        }}
+        dense
+      >
         Open in new window
       </MenuItem>
-      <MenuItem onClick={handleClose} dense>
+      <MenuItem
+        onClick={() => {
+          openNewIncognitoWindow(url);
+          handleClose();
+        }}
+        dense
+      >
         Open in new incognito window
       </MenuItem>
     </Menu>
@@ -109,9 +130,8 @@ export function FileActionMenu(props) {
 function makeMapState() {
   const nodeByIdSelector = makeUniqueNodeByIdSelector();
   return (state, { nodeId = "" }) => {
-    const node = nodeByIdSelector(state, nodeId);
     return {
-      parentId: node.parentId,
+      node: nodeByIdSelector(state, nodeId),
       clipboard: clipboardSelector(state)
     };
   };
