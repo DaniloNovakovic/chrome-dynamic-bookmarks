@@ -5,7 +5,9 @@ import {
   removeBookmarkNode,
   copyToClipboard,
   cutToClipboard,
-  clipboardSelector
+  pasteToBookmarkNode,
+  clipboardSelector,
+  makeUniqueNodeByIdSelector
 } from "shared/store";
 import { DialogContext } from "shared/components/bookmarks";
 import { dialogIds } from "shared/constants";
@@ -13,12 +15,14 @@ import { dialogIds } from "shared/constants";
 export function FileActionMenu(props) {
   const {
     nodeId,
+    parentId,
     clipboard,
     open,
     onClose,
     onRemove,
     onCopy,
     onCut,
+    onPaste,
     ...other
   } = props;
   const { openDialog } = React.useContext(DialogContext);
@@ -36,8 +40,18 @@ export function FileActionMenu(props) {
     onCopy({ nodeId });
     handleClose();
   }
+
   function handleCut() {
     onCut({ nodeId });
+    handleClose();
+  }
+
+  function handlePaste() {
+    onPaste({
+      type: clipboard.type,
+      from: clipboard.data,
+      to: { parentId }
+    });
     handleClose();
   }
 
@@ -75,7 +89,7 @@ export function FileActionMenu(props) {
       <MenuItem onClick={handleClose} dense>
         Copy URL
       </MenuItem>
-      <MenuItem onClick={handleClose} dense disabled={!clipboard.type}>
+      <MenuItem onClick={handlePaste} dense disabled={!clipboard.type}>
         Paste
       </MenuItem>
       <Divider />
@@ -92,17 +106,23 @@ export function FileActionMenu(props) {
   );
 }
 
-function mapStateToProps(state) {
-  return {
-    clipboard: clipboardSelector(state)
+function makeMapState() {
+  const nodeByIdSelector = makeUniqueNodeByIdSelector();
+  return (state, { nodeId = "" }) => {
+    const node = nodeByIdSelector(state, nodeId);
+    return {
+      parentId: node.parentId,
+      clipboard: clipboardSelector(state)
+    };
   };
 }
 
 export default connect(
-  mapStateToProps,
+  makeMapState,
   {
     onRemove: removeBookmarkNode,
     onCopy: copyToClipboard,
-    onCut: cutToClipboard
+    onCut: cutToClipboard,
+    onPaste: pasteToBookmarkNode
   }
 )(FileActionMenu);

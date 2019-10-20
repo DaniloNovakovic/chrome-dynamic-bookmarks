@@ -1,9 +1,14 @@
+import responseTypes from "shared/constants/responseTypes";
+
 function log(response) {
-  console.log("response", response);
+  console.warn("response", response);
 }
 
 function defaultRequestHandler(request, sendResponse = log) {
-  sendResponse({ error: `Could not handle request of type ${request.type}` });
+  sendResponse({
+    type: responseTypes.ERROR,
+    message: `Could not handle request of type ${request.type}`
+  });
 }
 
 class Router {

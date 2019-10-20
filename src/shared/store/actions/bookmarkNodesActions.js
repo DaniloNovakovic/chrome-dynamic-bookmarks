@@ -1,6 +1,11 @@
 import { getBookmarkNodes as _getBookmarkNodes } from "shared/lib/browser/dynBookmarksFacade";
 import { sendMessage } from "shared/lib/browser";
-import { requestTypes, responseTypes, actionTypes } from "shared/constants";
+import {
+  requestTypes,
+  responseTypes,
+  actionTypes,
+  clipboardTypes
+} from "shared/constants";
 
 export function getBookmarkNodes() {
   return dispatch => {
@@ -24,6 +29,30 @@ export function editBookmarkNode(node) {
 
 export function removeBookmarkNode(nodeId) {
   return createSendMessageDispatch(requestTypes.REMOVE_BM_NODE, { id: nodeId });
+}
+
+export function moveBookmarkNode(nodeId, destination) {
+  return createSendMessageDispatch(requestTypes.MOVE_BM_NODE, {
+    id: nodeId,
+    destination
+  });
+}
+
+export function copyBookmarkNode(nodeId, destination) {
+  return createSendMessageDispatch(requestTypes.COPY_BM_NODE, {
+    id: nodeId,
+    destination
+  });
+}
+
+export function pasteToBookmarkNode({ type, from, to }) {
+  const fromId = from.nodeId || from.id;
+
+  if (type === clipboardTypes.COPIED) {
+    return copyBookmarkNode(fromId, to);
+  } else {
+    return moveBookmarkNode(fromId, to);
+  }
 }
 
 /**

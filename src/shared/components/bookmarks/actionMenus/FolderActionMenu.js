@@ -5,6 +5,7 @@ import {
   removeBookmarkNode,
   copyToClipboard,
   cutToClipboard,
+  pasteToBookmarkNode,
   clipboardSelector
 } from "shared/store";
 import { DialogContext } from "shared/components/bookmarks";
@@ -20,6 +21,7 @@ export function FolderActionMenu(props) {
     onRemove,
     onCopy,
     onCut,
+    onPaste,
     clipboard,
     ...other
   } = props;
@@ -39,6 +41,15 @@ export function FolderActionMenu(props) {
   }
   function handleCut() {
     onCut({ nodeId });
+    handleClose();
+  }
+
+  function handlePaste() {
+    onPaste({
+      type: clipboard.type,
+      from: clipboard.data,
+      to: { parentId: nodeId }
+    });
     handleClose();
   }
 
@@ -74,7 +85,7 @@ export function FolderActionMenu(props) {
       <MenuItem dense onClick={handleCopy}>
         Copy
       </MenuItem>
-      <MenuItem dense disabled={!clipboard.type} onClick={handleClose}>
+      <MenuItem dense disabled={!clipboard.type} onClick={handlePaste}>
         Paste
       </MenuItem>
       <Divider />
@@ -102,6 +113,7 @@ export default connect(
   {
     onRemove: removeBookmarkNode,
     onCopy: copyToClipboard,
-    onCut: cutToClipboard
+    onCut: cutToClipboard,
+    onPaste: pasteToBookmarkNode
   }
 )(FolderActionMenu);
