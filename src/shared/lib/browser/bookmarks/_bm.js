@@ -10,10 +10,19 @@ export default {
   getTreeRoot,
   getChildren,
   search,
+  move,
   update,
   remove,
   removeTree
 };
+
+export function move(id, { parentId, index }, done) {
+  bookmarks.move(id, { parentId, index }, result => {
+    if (!checkAndHandleError(done)) {
+      done(null, result);
+    }
+  });
+}
 
 export function update(id, { title, url }, done) {
   bookmarks.update(id, { title, url }, updatedNode => {
