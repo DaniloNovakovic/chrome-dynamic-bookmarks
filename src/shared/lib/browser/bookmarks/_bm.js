@@ -7,6 +7,7 @@ const bookmarks = browser.bookmarks;
 export default {
   create,
   get,
+  getSubTree,
   getTreeRoot,
   getChildren,
   search,
@@ -67,6 +68,19 @@ export function get(id, done) {
     if (!checkAndHandleError(done)) {
       const node = results[0];
       done(null, node);
+    }
+  });
+}
+
+/**
+ * Retrieves part of the Bookmarks hierarchy, starting at the specified node.
+ * @param {function} done - callback function called with `done(errMsg, subTreeRoot)`
+ */
+export function getSubTree(id, done) {
+  bookmarks.getSubTree(id, results => {
+    if (!checkAndHandleError(done)) {
+      const rootNode = results[0];
+      done(null, rootNode);
     }
   });
 }

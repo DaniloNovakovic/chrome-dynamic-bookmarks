@@ -34,10 +34,6 @@ export default function MainNavMenu() {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <MenuItem onClick={handleClose} dense>
-          Sort by name
-        </MenuItem>
-        <Divider />
         <MenuItem
           dense
           onClick={() => {
