@@ -1,16 +1,34 @@
 import events from "shared/constants/events";
 import { removeProp } from "shared/lib/objects";
+import { isFolder } from "shared/lib/bookmarkNodes";
+
+function getNode(state, nodeId, defaultValue = {}) {
+  return nodeId in state.data ? state.data[nodeId] : defaultValue;
+}
 
 function onNodeMoved(state, { data = {} }) {
   const nodeId = data.id;
-  if (!(nodeId in state.data)) {
-    return state;
+  const node = getNode(state, nodeId);
+  let parents = {};
+  if (node.parentId !== data.parentId) {
+    const oldParent = getNode(state, node.parentId);
+    const newParent = getNode(state, data.parentId);
+    parents = {
+      [oldParent.id]: {
+        ...oldParent,
+        children: oldParent.children.filter(childId => childId !== nodeId)
+      },
+      [newParent.id]: {
+        ...newParent,
+        children: [...newParent.children, nodeId]
+      }
+    };
   }
-  const node = state.data[nodeId];
   return {
     ...state,
     data: {
       ...state.data,
+      ...parents,
       [nodeId]: { ...node, parentId: data.parentId }
     }
   };
@@ -18,11 +36,11 @@ function onNodeMoved(state, { data = {} }) {
 
 function onNodeRemoved(state, { data = {} }) {
   const nodeId = data.id;
-  if (!(nodeId in state.data)) {
+  const node = getNode(state, nodeId, null);
+  if (!node) {
     return state;
   }
-  const node = state.data[nodeId];
-  const parentNode = state.data[node.parentId];
+  const parentNode = getNode(state, node.parentId);
   const newData = removeProp(state.data, nodeId);
   newData[parentNode.id] = {
     ...parentNode,
@@ -33,10 +51,7 @@ function onNodeRemoved(state, { data = {} }) {
 
 function onNodeChanged(state, { data = {} }) {
   const nodeId = data.id;
-  if (!(nodeId in state.data)) {
-    return state;
-  }
-  const node = state.data[nodeId];
+  const node = getNode(state, nodeId);
   return {
     ...state,
     data: {
@@ -54,11 +69,20 @@ function onNodeCreated(state, { data = {} }) {
   if (nodeId in state.data) {
     return onNodeChanged(state, { data });
   }
+  let newNode = { ...data };
+  if (isFolder(newNode) && !newNode.children) {
+    newNode.children = [];
+  }
+  const parent = getNode(state, data.parentId);
   return {
     ...state,
     data: {
       ...state.data,
-      [nodeId]: { ...data }
+      [parent.id]: {
+        ...parent,
+        children: [...parent.children, nodeId]
+      },
+      [nodeId]: newNode
     }
   };
 }
