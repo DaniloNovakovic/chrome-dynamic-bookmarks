@@ -11,6 +11,7 @@ import MoreVertIcon from "@material-ui/icons/MoreVert";
 import { ActionMenuContext } from "../actionMenus";
 import BookmarkIcon from "../BookmarkIcon";
 import { actionMenuIds } from "shared/constants";
+import { openNewTab } from "shared/lib/browser";
 
 export default function FileListItem(props) {
   const { openActionMenu } = React.useContext(ActionMenuContext);
@@ -36,11 +37,16 @@ export default function FileListItem(props) {
     event.stopPropagation();
   }
 
+  function handleDoubleClick() {
+    openNewTab(node.url);
+  }
+
   return (
     <ListItem
       button
       style={{ minHeight: "35px" }}
       onContextMenu={handleContextMenu}
+      onDoubleClick={handleDoubleClick}
       {...others}
     >
       <ListItemIcon style={{ minWidth: iconSize, margin: 2 }}>
