@@ -1,9 +1,13 @@
-const presets = ["@babel/preset-env", "@babel/preset-react"];
+const presets = [["@babel/preset-env", {
+       useBuiltIns: "usage",
+       corejs: 3,
+   }], "@babel/preset-react"];
 
 const plugins = [
   "react-hot-loader/babel",
   "@babel/plugin-syntax-dynamic-import",
   "@babel/plugin-proposal-class-properties",
+  "@babel/plugin-transform-async-to-generator",
   [
     "babel-plugin-import",
     {

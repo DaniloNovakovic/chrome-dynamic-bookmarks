@@ -1,3 +1,5 @@
+import "core-js/stable";
+import "regenerator-runtime/runtime";
 import addBookmarkListeners from "./addBookmarkListeners";
 import addConnectListeners from "./addConnectListeners";
 import addInstalledListeners from "./addInstalledListeners";

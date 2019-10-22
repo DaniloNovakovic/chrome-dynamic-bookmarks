@@ -2,6 +2,40 @@ import { bm as bookmarks } from "./bookmarks";
 import { dbm as storage } from "./storage";
 import normalizeBookmarkTree from "./normalizeBookmarkTree";
 import { combineProps } from "shared/lib/objects";
+import { isFolder } from "../bookmarkNodes";
+
+function copyBookmarkAsync(node) {
+  return bookmarks.createAsync(node);
+}
+
+async function copyFolderAsync(fromFolder) {
+  const createdFolder = await bookmarks.createAsync(fromFolder);
+  const createdChildren = [];
+  for (let fromChild of fromFolder.children) {
+    const promise = copyNodeAsync({ ...fromChild, parentId: createdFolder.id });
+    createdChildren.push(promise);
+  }
+  return Promise.all(createdChildren);
+}
+
+function copyNodeAsync(node) {
+  if (isFolder(node)) {
+    return copyFolderAsync(node);
+  } else {
+    return copyBookmarkAsync(node);
+  }
+}
+
+export function copyBookmarkNode(id, { parentId, index }, done) {
+  bookmarks.getSubTree(id, (errMsg, node) => {
+    if (errMsg) {
+      done(errMsg);
+    }
+    copyNodeAsync({ ...node, parentId, index })
+      .then(_ => done(null))
+      .catch(done);
+  });
+}
 
 export function editBookmarkNode(node, done) {
   bookmarks.update(node.id, node, (errMsg, updatedNode) => {

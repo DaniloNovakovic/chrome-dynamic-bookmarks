@@ -6,6 +6,7 @@ const bookmarks = browser.bookmarks;
 
 export default {
   create,
+  createAsync,
   get,
   getSubTree,
   getTreeRoot,
@@ -16,38 +17,6 @@ export default {
   remove,
   removeTree
 };
-
-export function move(id, { parentId, index }, done) {
-  bookmarks.move(id, { parentId, index }, result => {
-    if (!checkAndHandleError(done)) {
-      done(null, result);
-    }
-  });
-}
-
-export function update(id, { title, url }, done) {
-  bookmarks.update(id, { title, url }, updatedNode => {
-    if (!checkAndHandleError(done)) {
-      done(null, updatedNode);
-    }
-  });
-}
-
-export function removeTree(id, done) {
-  bookmarks.removeTree(id, () => {
-    if (!checkAndHandleError(done)) {
-      done(null);
-    }
-  });
-}
-
-export function remove(id, done) {
-  bookmarks.remove(id, () => {
-    if (!checkAndHandleError(done)) {
-      done(null);
-    }
-  });
-}
 
 /**
  * Creates a bookmark or folder under the specified parentId.
@@ -60,6 +29,20 @@ export function create({ title, url, parentId = null, index = null }, done) {
     if (!checkAndHandleError(done)) {
       done(null, newBookmark);
     }
+  });
+}
+
+/**
+ * Creates a bookmark or folder under the specified parentId.
+ * If url is `NULL` or missing, it will be a folder
+ * @returns {Promise} Promise object represents the newly created bookmark / folder
+ */
+export function createAsync(bookmarkNode) {
+  return new Promise(function(resolve, reject) {
+    create(bookmarkNode, function(err, data) {
+      if (err) reject(err);
+      else resolve(data);
+    });
   });
 }
 
@@ -124,6 +107,38 @@ export function search(query, done) {
       done([]);
     } else {
       done(results);
+    }
+  });
+}
+
+export function move(id, { parentId, index }, done) {
+  bookmarks.move(id, { parentId, index }, result => {
+    if (!checkAndHandleError(done)) {
+      done(null, result);
+    }
+  });
+}
+
+export function update(id, { title, url }, done) {
+  bookmarks.update(id, { title, url }, updatedNode => {
+    if (!checkAndHandleError(done)) {
+      done(null, updatedNode);
+    }
+  });
+}
+
+export function remove(id, done) {
+  bookmarks.remove(id, () => {
+    if (!checkAndHandleError(done)) {
+      done(null);
+    }
+  });
+}
+
+export function removeTree(id, done) {
+  bookmarks.removeTree(id, () => {
+    if (!checkAndHandleError(done)) {
+      done(null);
     }
   });
 }

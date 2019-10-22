@@ -10,5 +10,5 @@ export default function getCurrentBrowser() {
   if (browser) {
     return browser;
   }
-  throw "This exception does not support your browser";
+  throw "This extension does not support your browser";
 }
