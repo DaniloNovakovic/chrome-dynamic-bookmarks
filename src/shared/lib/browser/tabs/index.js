@@ -19,7 +19,11 @@ export function getCurrentTab(done) {
 }
 
 export function openNewTab(url, done = null) {
-  tabs.create({ url }, done);
+  if (Array.isArray(url)) {
+    url.forEach(currUrl => tabs.create({ url: currUrl }, done));
+  } else {
+    tabs.create({ url }, done);
+  }
 }
 
 export function openNewWindow(url, done = null) {

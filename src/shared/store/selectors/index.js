@@ -18,6 +18,22 @@ export const makeUniqueNodeByIdSelector = () =>
     (nodes, nodeId) => (nodeId in nodes && nodes[nodeId]) || {}
   );
 
+export const bookmarksByParentIdSelector = createSelector(
+  [nodesSelector, selectNodeId],
+  (nodes, parentId) => {
+    if (!(parentId in nodes)) {
+      return [];
+    }
+    const parent = nodes[parentId];
+    if (!parent.children) {
+      return [];
+    }
+    return parent.children
+      .map(childId => nodes[childId])
+      .filter(child => !!child.url);
+  }
+);
+
 export const nodesArraySelector = createSelector(
   nodesSelector,
   nodes =>

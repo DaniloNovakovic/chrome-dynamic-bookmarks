@@ -1,15 +1,32 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Menu, MenuItem, Divider } from "@material-ui/core";
+import { Menu, MenuItem, Divider, Typography } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
 import {
   removeBookmarkNode,
   copyToClipboard,
   cutToClipboard,
   pasteToBookmarkNode,
-  clipboardSelector
+  clipboardSelector,
+  bookmarksByParentIdSelector
 } from "shared/store";
 import { DialogContext } from "shared/components/bookmarks";
 import { dialogIds } from "shared/constants";
+import { createSelector } from "reselect";
+import {
+  openNewTab,
+  openNewWindow,
+  openNewIncognitoWindow
+} from "shared/lib/browser";
+
+const useStyles = makeStyles(theme => {
+  return {
+    menuItemFlex: {
+      display: "flex",
+      justifyContent: "space-between"
+    }
+  };
+});
 
 export function FolderActionMenu(props) {
   const { openDialog } = React.useContext(DialogContext);
@@ -17,6 +34,7 @@ export function FolderActionMenu(props) {
     nodeId,
     readOnly,
     open,
+    childUrls = [],
     onClose,
     onRemove,
     onCopy,
@@ -25,6 +43,7 @@ export function FolderActionMenu(props) {
     clipboard,
     ...other
   } = props;
+  const classes = useStyles();
 
   function handleClose() {
     onClose();
@@ -58,6 +77,8 @@ export function FolderActionMenu(props) {
     handleClose();
   }
 
+  const isChildUrlsEmpty = childUrls.length === 0;
+
   return (
     <Menu
       id={`folder-action-menu`}
@@ -89,27 +110,66 @@ export function FolderActionMenu(props) {
         Paste
       </MenuItem>
       <Divider />
-      <MenuItem dense onClick={handleClose}>
+      <MenuItem
+        dense
+        disabled={isChildUrlsEmpty}
+        className={classes.menuItemFlex}
+        onClick={() => {
+          openNewTab(childUrls);
+          handleClose();
+        }}
+      >
         Open all bookmarks
+        {!isChildUrlsEmpty && (
+          <Typography color="textSecondary" variant="body2">
+            {childUrls.length}
+          </Typography>
+        )}
       </MenuItem>
-      <MenuItem dense onClick={handleClose}>
+      <MenuItem
+        dense
+        disabled={isChildUrlsEmpty}
+        onClick={() => {
+          openNewWindow(childUrls);
+          handleClose();
+        }}
+      >
         Open all in new window
       </MenuItem>
-      <MenuItem dense onClick={handleClose}>
+      <MenuItem
+        dense
+        disabled={isChildUrlsEmpty}
+        onClick={() => {
+          openNewIncognitoWindow(childUrls);
+          handleClose();
+        }}
+      >
         Open all in incognito window
       </MenuItem>
     </Menu>
   );
 }
 
-function mapStateToProps(state) {
-  return {
-    clipboard: clipboardSelector(state)
+const makeUniqueChildUrlSelector = () =>
+  createSelector(
+    bookmarksByParentIdSelector,
+    (bookmarks = []) => {
+      return bookmarks.map(node => node.url);
+    }
+  );
+
+function makeMapState() {
+  const childUrlSelector = makeUniqueChildUrlSelector();
+  return (state, { nodeId = "" }) => {
+    return {
+      childUrls: childUrlSelector(state, nodeId),
+      clipboard: clipboardSelector(state)
+    };
   };
 }
 
 export default connect(
-  mapStateToProps,
+  makeMapState,
   {
     onRemove: removeBookmarkNode,
     onCopy: copyToClipboard,
