@@ -8,14 +8,20 @@ import {
   Typography
 } from "@material-ui/core";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
-import { ActionMenuContext } from "../actionMenus";
 import BookmarkIcon from "../BookmarkIcon";
 import { actionMenuIds } from "shared/constants";
 import { openNewTab } from "shared/lib/browser";
 
 export default function FileListItem(props) {
-  const { openActionMenu } = React.useContext(ActionMenuContext);
-  const { node = {}, iconSize = 24, selected, ...others } = props;
+  const {
+    node = {},
+    iconSize = 24,
+    selected,
+    onDragStart,
+    openActionMenu,
+    ...others
+  } = props;
+  const draggable = !!onDragStart;
 
   function showActionMenu(event) {
     openActionMenu(actionMenuIds.fileActionMenuId, {
@@ -42,12 +48,9 @@ export default function FileListItem(props) {
   }
 
   function handleDragStart(event) {
-    const dragImg = new Image(0, 0);
-    dragImg.src =
-      "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
-    event.dataTransfer.setDragImage(dragImg, 0, 0);
-    event.dataTransfer.setData("text/plain", node.id);
-    event.dataTransfer.effectAllowed = "move";
+    if (onDragStart) {
+      onDragStart(event, node.id);
+    }
   }
 
   return (
@@ -57,7 +60,7 @@ export default function FileListItem(props) {
       onContextMenu={handleContextMenu}
       onDoubleClick={handleDoubleClick}
       onDragStart={handleDragStart}
-      draggable
+      draggable={draggable}
       {...others}
     >
       <ListItemIcon style={{ minWidth: iconSize, margin: 2 }}>
