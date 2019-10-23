@@ -46,6 +46,10 @@ export function FolderListItem(props) {
   }
 
   function handleDragStart(event) {
+    const dragImg = new Image(0, 0);
+    dragImg.src =
+      "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
+    event.dataTransfer.setDragImage(dragImg, 0, 0);
     event.dataTransfer.setData("text/plain", node.id);
   }
 
