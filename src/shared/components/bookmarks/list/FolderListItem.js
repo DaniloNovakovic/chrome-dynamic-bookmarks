@@ -10,13 +10,20 @@ import {
   Typography
 } from "@material-ui/core";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
-import { applyFilter } from "shared/store/actions";
+import { applyFilter, moveBookmarkNode } from "shared/store/actions";
 import { ActionMenuContext } from "../actionMenus";
 import { actionMenuIds } from "shared/constants";
 
 export function FolderListItem(props) {
   const { openActionMenu } = React.useContext(ActionMenuContext);
-  const { node = {}, applyFilter, iconSize = 24, selected, ...others } = props;
+  const {
+    node = {},
+    applyFilter,
+    moveBookmarkNode,
+    iconSize = 24,
+    selected,
+    ...others
+  } = props;
 
   function showActionMenu(event) {
     openActionMenu(actionMenuIds.folderActionMenuId, {
@@ -38,12 +45,31 @@ export function FolderListItem(props) {
     event.stopPropagation();
   }
 
+  function handleDragStart(event) {
+    event.dataTransfer.setData("text/plain", node.id);
+  }
+
+  function handleDragOver(event) {
+    event.preventDefault();
+    event.dataTransfer.dropEffect = "move";
+  }
+
+  function handleDrop(event) {
+    const fromNodeId = event.dataTransfer.getData("text");
+    moveBookmarkNode(fromNodeId, { parentId: node.id });
+    event.preventDefault();
+  }
+
   return (
     <ListItem
       button
+      style={{ minHeight: "35px" }}
       onDoubleClick={() => applyFilter({ parentId: node.id })}
       onContextMenu={handleContextMenu}
-      style={{ minHeight: "35px" }}
+      onDragStart={handleDragStart}
+      onDragOver={handleDragOver}
+      onDrop={handleDrop}
+      draggable
       {...others}
     >
       <ListItemIcon style={{ minWidth: iconSize, padding: 1 }}>
@@ -77,7 +103,7 @@ export function FolderListItem(props) {
 
 export default connect(
   null,
-  { applyFilter }
+  { applyFilter, moveBookmarkNode }
 )(FolderListItem);
 
 FolderListItem.propTypes = {

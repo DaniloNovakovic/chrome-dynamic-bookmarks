@@ -41,12 +41,19 @@ export default function FileListItem(props) {
     openNewTab(node.url);
   }
 
+  function handleDragStart(event) {
+    event.dataTransfer.setData("text/plain", node.id);
+    event.dataTransfer.effectAllowed = "move";
+  }
+
   return (
     <ListItem
       button
       style={{ minHeight: "35px" }}
       onContextMenu={handleContextMenu}
       onDoubleClick={handleDoubleClick}
+      onDragStart={handleDragStart}
+      draggable
       {...others}
     >
       <ListItemIcon style={{ minWidth: iconSize, margin: 2 }}>
