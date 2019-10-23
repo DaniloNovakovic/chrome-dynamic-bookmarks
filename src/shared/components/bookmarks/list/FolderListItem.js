@@ -10,7 +10,12 @@ import {
   Typography
 } from "@material-ui/core";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
-import { applyFilter, moveBookmarkNode } from "shared/store/actions";
+import {
+  applyFilter,
+  moveBookmarkNode,
+  toggleSelected,
+  setSelected
+} from "shared/store/actions";
 import { actionMenuIds } from "shared/constants";
 import { allowDrop } from "shared/lib/dragAndDrop";
 
@@ -19,10 +24,13 @@ export function FolderListItem(props) {
     node = {},
     applyFilter,
     moveBookmarkNode,
+    setSelected,
+    toggleSelected,
     iconSize = 24,
     selected,
     onDragStart,
     openActionMenu,
+    onRightClick,
     ...others
   } = props;
   const draggable = !!onDragStart;
@@ -32,19 +40,11 @@ export function FolderListItem(props) {
       anchorEl: event.currentTarget,
       nodeId: node.id
     });
+    setSelected(node.id);
   }
 
   function handleContextMenu(event) {
-    openActionMenu(actionMenuIds.folderActionMenuId, {
-      anchorReference: "anchorPosition",
-      anchorPosition: {
-        top: event.pageY,
-        left: event.pageX
-      },
-      nodeId: node.id
-    });
-    event.preventDefault();
-    event.stopPropagation();
+    onRightClick(event, node.id, actionMenuIds.folderActionMenuId);
   }
 
   function handleDragStart(event) {
@@ -59,16 +59,27 @@ export function FolderListItem(props) {
     event.preventDefault();
   }
 
+  function handleClick(event) {
+    if (event.ctrlKey) {
+      toggleSelected(node.id);
+    } else {
+      setSelected(node.id);
+    }
+    return false;
+  }
+
   return (
     <ListItem
       button
       style={{ minHeight: "35px" }}
+      onClick={handleClick}
       onDoubleClick={() => applyFilter({ parentId: node.id })}
       onContextMenu={handleContextMenu}
       onDragStart={handleDragStart}
       onDragOver={allowDrop}
       onDrop={handleDrop}
       draggable={draggable}
+      selected={selected}
       {...others}
     >
       <ListItemIcon style={{ minWidth: iconSize, padding: 1 }}>
@@ -102,7 +113,7 @@ export function FolderListItem(props) {
 
 export default connect(
   null,
-  { applyFilter, moveBookmarkNode }
+  { applyFilter, moveBookmarkNode, toggleSelected, setSelected }
 )(FolderListItem);
 
 FolderListItem.propTypes = {

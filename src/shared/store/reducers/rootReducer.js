@@ -4,12 +4,14 @@ import alert from "./alert";
 import bookmarkNodes from "./bookmarkNodes";
 import clipboard from "./clipboard";
 import filter from "./filter";
+import selectedNodeIds from "./selectedNodeIds";
 
 const appReducer = combineReducers({
   alert,
   bookmarkNodes,
   clipboard,
-  filter
+  filter,
+  selectedNodeIds
 });
 
 function rootReducer(state, action) {

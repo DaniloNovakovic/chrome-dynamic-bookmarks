@@ -9,12 +9,21 @@ import { filteredNodesSelector } from "shared/store/selectors/index";
 import { setDragTextData } from "shared/lib/dragAndDrop";
 import { ActionMenuContext } from "../actionMenus";
 
-export function BookmarkList({ filteredNodes = [] }) {
+export function BookmarkList({ filteredNodes = [], selectedNodeIds = [] }) {
   const theme = useTheme();
   const { openActionMenu } = React.useContext(ActionMenuContext);
 
-  function handleActionMenu(actionMenuId, props) {
-    openActionMenu(actionMenuId, props);
+  function handleRightClick(event, nodeId, actionMenuId) {
+    openActionMenu(actionMenuId, {
+      anchorReference: "anchorPosition",
+      anchorPosition: {
+        top: event.pageY,
+        left: event.pageX
+      },
+      nodeId
+    });
+    event.preventDefault();
+    event.stopPropagation();
   }
 
   const items = filteredNodes.map(node => {
@@ -25,7 +34,9 @@ export function BookmarkList({ filteredNodes = [] }) {
         node={node}
         iconSize={theme.iconSize}
         onDragStart={setDragTextData}
-        openActionMenu={handleActionMenu}
+        openActionMenu={openActionMenu}
+        onRightClick={handleRightClick}
+        selected={selectedNodeIds.includes(node.id)}
       />
     );
   });
@@ -39,6 +50,7 @@ export function BookmarkList({ filteredNodes = [] }) {
 
 function mapStateToProps(state) {
   return {
+    selectedNodeIds: state.selectedNodeIds,
     filteredNodes: filteredNodesSelector(state)
   };
 }

@@ -1,4 +1,5 @@
 import React from "react";
+import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import {
   ListItem,
@@ -11,14 +12,18 @@ import MoreVertIcon from "@material-ui/icons/MoreVert";
 import BookmarkIcon from "../BookmarkIcon";
 import { actionMenuIds } from "shared/constants";
 import { openNewTab } from "shared/lib/browser";
+import { toggleSelected, setSelected } from "shared/store/actions";
 
-export default function FileListItem(props) {
+export function FileListItem(props) {
   const {
     node = {},
     iconSize = 24,
     selected,
     onDragStart,
     openActionMenu,
+    onRightClick,
+    toggleSelected,
+    setSelected,
     ...others
   } = props;
   const draggable = !!onDragStart;
@@ -31,16 +36,7 @@ export default function FileListItem(props) {
   }
 
   function handleContextMenu(event) {
-    openActionMenu(actionMenuIds.fileActionMenuId, {
-      anchorReference: "anchorPosition",
-      anchorPosition: {
-        top: event.pageY,
-        left: event.pageX
-      },
-      nodeId: node.id
-    });
-    event.preventDefault();
-    event.stopPropagation();
+    onRightClick(event, node.id, actionMenuIds.fileActionMenuId);
   }
 
   function handleDoubleClick() {
@@ -53,14 +49,25 @@ export default function FileListItem(props) {
     }
   }
 
+  function handleClick(event) {
+    if (event.ctrlKey) {
+      toggleSelected(node.id);
+    } else {
+      setSelected(node.id);
+    }
+    return false;
+  }
+
   return (
     <ListItem
       button
       style={{ minHeight: "35px" }}
       onContextMenu={handleContextMenu}
+      onClick={handleClick}
       onDoubleClick={handleDoubleClick}
       onDragStart={handleDragStart}
       draggable={draggable}
+      selected={selected}
       {...others}
     >
       <ListItemIcon style={{ minWidth: iconSize, margin: 2 }}>
@@ -79,7 +86,7 @@ export default function FileListItem(props) {
         variant="body2"
         noWrap
         component="span"
-        color="textSecondary"
+        color={node.regExp ? "secondary" : "textSecondary"}
         style={{
           marginInlineStart: "1em",
           ...(!selected && { display: "none" })
@@ -103,6 +110,11 @@ export default function FileListItem(props) {
     </ListItem>
   );
 }
+
+export default connect(
+  null,
+  { toggleSelected, setSelected }
+)(FileListItem);
 
 FileListItem.propTypes = {
   node: PropTypes.shape({
