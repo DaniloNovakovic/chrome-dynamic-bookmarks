@@ -1,54 +1,57 @@
 import React from "react";
 import { connect } from "react-redux";
-import { makeStyles } from "@material-ui/styles";
-import { AppBar, IconButton, Toolbar, Typography } from "@material-ui/core";
-import MenuIcon from "@material-ui/icons/Menu";
-import { applyFilter } from "shared/store/actions";
-import { SearchInput } from "shared/components/helpers";
-import MainNavMenu from "./MainNavMenu";
+import { AppBar } from "@material-ui/core";
+import {
+  applyFilter,
+  clearSelected,
+  removeBookmarkNode
+} from "shared/store/actions";
+import MainNavToolbar from "./MainNavToolbar";
+import { selectedNodeIdsSelector } from "shared/store";
+import MainNavToolbarSelected from "./MainNavToolbarSelected";
 
-const useStyles = makeStyles(theme => ({
-  menuButton: {
-    marginRight: theme.spacing(2),
-    [theme.breakpoints.up("sm")]: {
-      display: "none"
+export function MainNav({
+  className,
+  handleDrawerToggle,
+  applyFilter,
+  selectedNodeIds,
+  clearSelected,
+  removeBookmarkNode
+}) {
+  const numberOfSelected = selectedNodeIds.length;
+
+  function handleDelete() {
+    for (let nodeId of selectedNodeIds) {
+      removeBookmarkNode(nodeId);
     }
-  },
-  title: {
-    flexGrow: 1,
-    display: "none",
-    [theme.breakpoints.up("sm")]: {
-      display: "block"
-    }
+    clearSelected();
   }
-}));
-
-export function MainNav({ className, handleDrawerToggle, applyFilter }) {
-  const classes = useStyles();
 
   return (
     <AppBar position="fixed" className={className}>
-      <Toolbar>
-        <IconButton
-          color="inherit"
-          aria-label="open drawer"
-          edge="start"
-          onClick={handleDrawerToggle}
-          className={classes.menuButton}
-        >
-          <MenuIcon />
-        </IconButton>
-        <Typography className={classes.title} variant="h6" noWrap>
-          Dynamic Bookmarks
-        </Typography>
-        <SearchInput onChange={searchText => applyFilter({ searchText })} />
-        <MainNavMenu />
-      </Toolbar>
+      {numberOfSelected > 1 ? (
+        <MainNavToolbarSelected
+          numberOfSelected={numberOfSelected}
+          onCancel={clearSelected}
+          onDelete={handleDelete}
+        />
+      ) : (
+        <MainNavToolbar
+          handleDrawerToggle={handleDrawerToggle}
+          applyFilter={applyFilter}
+        />
+      )}
     </AppBar>
   );
 }
 
+function mapStateToProps(state) {
+  return {
+    selectedNodeIds: selectedNodeIdsSelector(state)
+  };
+}
+
 export default connect(
-  null,
-  { applyFilter }
+  mapStateToProps,
+  { applyFilter, clearSelected, removeBookmarkNode }
 )(MainNav);

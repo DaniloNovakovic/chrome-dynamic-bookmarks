@@ -5,7 +5,10 @@ import { useTheme } from "@material-ui/styles";
 import FolderListItem from "./FolderListItem";
 import FileListItem from "./FileListItem";
 import { isFolder } from "shared/lib/bookmarkNodes";
-import { filteredNodesSelector } from "shared/store/selectors/index";
+import {
+  filteredNodesSelector,
+  selectedNodeIdsSelector
+} from "shared/store/selectors/index";
 import { setDragTextData } from "shared/lib/dragAndDrop";
 import { ActionMenuContext } from "../actionMenus";
 
@@ -50,7 +53,7 @@ export function BookmarkList({ filteredNodes = [], selectedNodeIds = [] }) {
 
 function mapStateToProps(state) {
   return {
-    selectedNodeIds: state.selectedNodeIds,
+    selectedNodeIds: selectedNodeIdsSelector(state),
     filteredNodes: filteredNodesSelector(state)
   };
 }

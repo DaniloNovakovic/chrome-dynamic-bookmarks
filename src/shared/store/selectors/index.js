@@ -67,3 +67,5 @@ export const breadcrumbsSelector = createSelector(
   (nodes, breadcrumbIds) =>
     breadcrumbIds.map(id => nodes[id]).filter(node => node && !!node.title)
 );
+
+export const selectedNodeIdsSelector = state => state.selectedNodeIds;
