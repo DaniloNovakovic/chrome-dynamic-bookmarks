@@ -16,7 +16,8 @@ export function MainNav({
   applyFilter,
   selectedNodeIds,
   clearSelected,
-  removeBookmarkNode
+  removeBookmarkNode,
+  drawerWidth
 }) {
   const numberOfSelected = selectedNodeIds.length;
 
@@ -34,6 +35,7 @@ export function MainNav({
           numberOfSelected={numberOfSelected}
           onCancel={clearSelected}
           onDelete={handleDelete}
+          drawerWidth={drawerWidth}
         />
       ) : (
         <MainNavToolbar

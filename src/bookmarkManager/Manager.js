@@ -11,8 +11,6 @@ import {
 } from "shared/components/bookmarks";
 import { StatusSnackbar } from "shared/components/helpers";
 
-const drawerWidth = 240;
-
 const useStyles = makeStyles(theme => ({
   root: {
     display: "flex"
@@ -22,19 +20,19 @@ const useStyles = makeStyles(theme => ({
   },
   sideNav: {
     [theme.breakpoints.up("sm")]: {
-      width: drawerWidth,
+      width: ({ drawerWidth }) => drawerWidth,
       flexShrink: 0
     }
   },
   drawerPaper: {
-    width: drawerWidth
+    width: ({ drawerWidth }) => drawerWidth
   },
   mainSection: {
     flexGrow: 1,
     minHeight: "100vh",
     padding: theme.spacing(3, 4),
     [theme.breakpoints.up("sm")]: {
-      width: `calc(100% - ${drawerWidth}px)`
+      width: ({ drawerWidth }) => `calc(100% - ${drawerWidth}px)`
     },
     [theme.breakpoints.up("lg")]: {
       padding: theme.spacing(3, 8)
@@ -43,7 +41,8 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function Manager() {
-  const classes = useStyles();
+  const [drawerWidth] = React.useState(240);
+  const classes = useStyles({ drawerWidth });
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
@@ -59,6 +58,7 @@ export default function Manager() {
         <ActionMenuProvider>
           <MainNav
             className={classes.mainNav}
+            drawerWidth={drawerWidth}
             handleDrawerToggle={handleDrawerToggle}
           />
           <SideNav

@@ -5,6 +5,9 @@ import { Clear } from "@material-ui/icons";
 
 const useStyles = makeStyles(theme => ({
   menuButton: {
+    [theme.breakpoints.up("sm")]: {
+      marginLeft: ({ drawerWidth }) => drawerWidth
+    },
     marginRight: theme.spacing(2)
   },
   actionButton: {
@@ -18,9 +21,10 @@ const useStyles = makeStyles(theme => ({
 export default function MainNavToolbarSelected({
   numberOfSelected = 0,
   onCancel,
-  onDelete
+  onDelete,
+  drawerWidth
 }) {
-  const classes = useStyles();
+  const classes = useStyles({ drawerWidth });
 
   function handleCancel() {
     onCancel();
