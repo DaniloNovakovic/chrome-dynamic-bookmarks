@@ -4,6 +4,7 @@ import { actionMenuIds } from "shared/constants";
 import FileActionMenu from "./FileActionMenu";
 import FolderActionMenu from "./FolderActionMenu";
 import AddBookmarkNodeActionMenu from "./AddBookmarkNodeActionMenu";
+import SelectedNodesActionMenu from "./SelectedNodesActionMenu";
 
 export default function ActionMenuReducer() {
   const { openedActionMenuId, openActionMenu, args = {} } = React.useContext(
@@ -28,6 +29,11 @@ export default function ActionMenuReducer() {
       />
       <AddBookmarkNodeActionMenu
         open={actionMenuIds.addBookmarkNodeActionMenuId === openedActionMenuId}
+        onClose={handleClose}
+        {...args}
+      />
+      <SelectedNodesActionMenu
+        open={actionMenuIds.selectedNodesActionMenuId === openedActionMenuId}
         onClose={handleClose}
         {...args}
       />

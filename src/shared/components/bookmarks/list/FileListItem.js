@@ -1,5 +1,4 @@
 import React from "react";
-import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import {
   ListItem,
@@ -12,27 +11,21 @@ import MoreVertIcon from "@material-ui/icons/MoreVert";
 import BookmarkIcon from "../BookmarkIcon";
 import { actionMenuIds } from "shared/constants";
 import { openNewTab } from "shared/lib/browser";
-import { toggleSelected, setSelected } from "shared/store/actions";
 
-export function FileListItem(props) {
+export default function FileListItem(props) {
   const {
     node = {},
     iconSize = 24,
     selected,
     onDragStart,
-    openActionMenu,
+    onClick,
     onRightClick,
-    toggleSelected,
-    setSelected,
-    ...others
+    onActionMenuClick
   } = props;
   const draggable = !!onDragStart;
 
-  function showActionMenu(event) {
-    openActionMenu(actionMenuIds.fileActionMenuId, {
-      anchorEl: event.currentTarget,
-      nodeId: node.id
-    });
+  function handleActionMenuClick(event) {
+    onActionMenuClick(event, node.id, actionMenuIds.fileActionMenuId);
   }
 
   function handleContextMenu(event) {
@@ -50,12 +43,7 @@ export function FileListItem(props) {
   }
 
   function handleClick(event) {
-    if (event.ctrlKey) {
-      toggleSelected(node.id);
-    } else {
-      setSelected(node.id);
-    }
-    return false;
+    onClick(event, node.id);
   }
 
   return (
@@ -68,7 +56,6 @@ export function FileListItem(props) {
       onDragStart={handleDragStart}
       draggable={draggable}
       selected={selected}
-      {...others}
     >
       <ListItemIcon style={{ minWidth: iconSize, margin: 2 }}>
         <BookmarkIcon url={node.url} size={iconSize} />
@@ -100,7 +87,7 @@ export function FileListItem(props) {
           aria-label="more actions"
           aria-controls={`bookmark-action-menu`}
           aria-haspopup="true"
-          onClick={showActionMenu}
+          onClick={handleActionMenuClick}
           onContextMenu={handleContextMenu}
           color="inherit"
         >
@@ -110,11 +97,6 @@ export function FileListItem(props) {
     </ListItem>
   );
 }
-
-export default connect(
-  null,
-  { toggleSelected, setSelected }
-)(FileListItem);
 
 FileListItem.propTypes = {
   node: PropTypes.shape({

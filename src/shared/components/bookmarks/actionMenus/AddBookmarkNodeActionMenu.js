@@ -4,7 +4,7 @@ import { DialogContext } from "shared/components/bookmarks";
 import { dialogIds, actionMenuIds } from "shared/constants";
 
 export default function AddBookmarkNodeActionMenu(props) {
-  const { nodeId, open, onClose, onRemove, ...other } = props;
+  const { open, onClose, menuProps = {} } = props;
   const { openDialog } = React.useContext(DialogContext);
 
   function handleClose() {
@@ -22,7 +22,7 @@ export default function AddBookmarkNodeActionMenu(props) {
       keepMounted
       open={open}
       onClose={handleClose}
-      {...other}
+      {...menuProps}
     >
       <MenuItem
         dense

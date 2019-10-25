@@ -10,12 +10,7 @@ import {
   Typography
 } from "@material-ui/core";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
-import {
-  applyFilter,
-  moveBookmarkNode,
-  toggleSelected,
-  setSelected
-} from "shared/store/actions";
+import { applyFilter, moveBookmarkNode } from "shared/store/actions";
 import { actionMenuIds } from "shared/constants";
 import { allowDrop } from "shared/lib/dragAndDrop";
 
@@ -24,23 +19,17 @@ export function FolderListItem(props) {
     node = {},
     applyFilter,
     moveBookmarkNode,
-    setSelected,
-    toggleSelected,
     iconSize = 24,
     selected,
     onDragStart,
-    openActionMenu,
-    onRightClick,
-    ...others
+    onActionMenuClick,
+    onClick,
+    onRightClick
   } = props;
   const draggable = !!onDragStart;
 
-  function showActionMenu(event) {
-    openActionMenu(actionMenuIds.folderActionMenuId, {
-      anchorEl: event.currentTarget,
-      nodeId: node.id
-    });
-    setSelected(node.id);
+  function handleActionMenuClick(event) {
+    onActionMenuClick(event, node.id, actionMenuIds.folderActionMenuId);
   }
 
   function handleContextMenu(event) {
@@ -60,12 +49,11 @@ export function FolderListItem(props) {
   }
 
   function handleClick(event) {
-    if (event.ctrlKey) {
-      toggleSelected(node.id);
-    } else {
-      setSelected(node.id);
-    }
-    return false;
+    onClick(event, node.id);
+  }
+
+  function handleDoubleClick() {
+    applyFilter({ parentId: node.id });
   }
 
   return (
@@ -73,14 +61,13 @@ export function FolderListItem(props) {
       button
       style={{ minHeight: "35px" }}
       onClick={handleClick}
-      onDoubleClick={() => applyFilter({ parentId: node.id })}
+      onDoubleClick={handleDoubleClick}
       onContextMenu={handleContextMenu}
       onDragStart={handleDragStart}
       onDragOver={allowDrop}
       onDrop={handleDrop}
       draggable={draggable}
       selected={selected}
-      {...others}
     >
       <ListItemIcon style={{ minWidth: iconSize, padding: 1 }}>
         <Icon style={{ fontSize: iconSize + 3 }}>folder</Icon>
@@ -100,7 +87,7 @@ export function FolderListItem(props) {
           aria-label="more actions"
           aria-controls={`folder-action-menu`}
           aria-haspopup="true"
-          onClick={showActionMenu}
+          onClick={handleActionMenuClick}
           onContextMenu={handleContextMenu}
           color="inherit"
         >
@@ -113,7 +100,7 @@ export function FolderListItem(props) {
 
 export default connect(
   null,
-  { applyFilter, moveBookmarkNode, toggleSelected, setSelected }
+  { applyFilter, moveBookmarkNode }
 )(FolderListItem);
 
 FolderListItem.propTypes = {

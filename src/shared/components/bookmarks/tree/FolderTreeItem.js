@@ -44,10 +44,12 @@ export function FolderTreeItem({
 
   function handleContextMenu(event) {
     openActionMenu(actionMenuIds.folderActionMenuId, {
-      anchorReference: "anchorPosition",
-      anchorPosition: {
-        top: event.pageY,
-        left: event.pageX
+      menuProps: {
+        anchorReference: "anchorPosition",
+        anchorPosition: {
+          top: event.pageY,
+          left: event.pageX
+        }
       },
       nodeId: node.id,
       readOnly

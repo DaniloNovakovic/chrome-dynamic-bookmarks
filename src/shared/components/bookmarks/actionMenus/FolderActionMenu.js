@@ -41,7 +41,7 @@ export function FolderActionMenu(props) {
     onCut,
     onPaste,
     clipboard,
-    ...other
+    menuProps = {}
   } = props;
   const classes = useStyles();
 
@@ -85,7 +85,7 @@ export function FolderActionMenu(props) {
       keepMounted
       open={open}
       onClose={handleClose}
-      {...other}
+      {...menuProps}
     >
       <MenuItem
         dense

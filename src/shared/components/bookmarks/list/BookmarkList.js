@@ -11,20 +11,52 @@ import {
 } from "shared/store/selectors/index";
 import { setDragTextData } from "shared/lib/dragAndDrop";
 import { ActionMenuContext } from "../actionMenus";
+import { toggleSelected, setSelected } from "shared/store/actions";
+import { actionMenuIds } from "shared/constants";
 
-export function BookmarkList({ filteredNodes = [], selectedNodeIds = [] }) {
+export function BookmarkList(props) {
+  const {
+    filteredNodes = [],
+    selectedNodeIds = [],
+    toggleSelected,
+    setSelected
+  } = props;
   const theme = useTheme();
   const { openActionMenu } = React.useContext(ActionMenuContext);
 
-  function handleRightClick(event, nodeId, actionMenuId) {
+  function handleClick(event, nodeId) {
+    if (event.ctrlKey) {
+      toggleSelected(nodeId);
+    } else {
+      setSelected(nodeId);
+    }
+    event.preventDefault();
+  }
+
+  function handleActionMenuClick(event, nodeId, actionMenuId) {
     openActionMenu(actionMenuId, {
+      menuProps: { anchorEl: event.currentTarget },
+      nodeId: nodeId
+    });
+    setSelected(nodeId);
+    event.preventDefault();
+    event.stopPropagation();
+  }
+
+  function handleRightClick(event, nodeId, actionMenuId) {
+    const menuProps = {
       anchorReference: "anchorPosition",
       anchorPosition: {
         top: event.pageY,
         left: event.pageX
-      },
-      nodeId
-    });
+      }
+    };
+    if (selectedNodeIds.includes(nodeId)) {
+      openActionMenu(actionMenuIds.selectedNodesActionMenuId, { menuProps });
+    } else {
+      openActionMenu(actionMenuId, { menuProps, nodeId });
+      setSelected(nodeId);
+    }
     event.preventDefault();
     event.stopPropagation();
   }
@@ -37,7 +69,8 @@ export function BookmarkList({ filteredNodes = [], selectedNodeIds = [] }) {
         node={node}
         iconSize={theme.iconSize}
         onDragStart={setDragTextData}
-        openActionMenu={openActionMenu}
+        onClick={handleClick}
+        onActionMenuClick={handleActionMenuClick}
         onRightClick={handleRightClick}
         selected={selectedNodeIds.includes(node.id)}
       />
@@ -58,4 +91,7 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(BookmarkList);
+export default connect(
+  mapStateToProps,
+  { toggleSelected, setSelected }
+)(BookmarkList);

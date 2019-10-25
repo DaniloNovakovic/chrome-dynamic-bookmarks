@@ -29,7 +29,7 @@ export function FileActionMenu(props) {
     onCopy,
     onCut,
     onPaste,
-    ...other
+    menuProps = {}
   } = props;
 
   const { url, parentId } = node;
@@ -68,7 +68,7 @@ export function FileActionMenu(props) {
       keepMounted
       open={open}
       onClose={handleClose}
-      {...other}
+      {...menuProps}
     >
       <MenuItem
         dense

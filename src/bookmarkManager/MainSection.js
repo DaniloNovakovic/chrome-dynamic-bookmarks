@@ -18,10 +18,12 @@ export default function MainSection({ className }) {
 
   function handleContextMenu(event) {
     openActionMenu(actionMenuIds.addBookmarkNodeActionMenuId, {
-      anchorReference: "anchorPosition",
-      anchorPosition: {
-        top: event.pageY,
-        left: event.pageX
+      menuProps: {
+        anchorReference: "anchorPosition",
+        anchorPosition: {
+          top: event.pageY,
+          left: event.pageX
+        }
       }
     });
     event.preventDefault();

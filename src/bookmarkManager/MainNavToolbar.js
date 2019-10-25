@@ -21,11 +21,22 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function MainNavToolbar({ handleDrawerToggle, applyFilter }) {
+let oldParentId;
+
+export default function MainNavToolbar({
+  handleDrawerToggle,
+  filter,
+  applyFilter
+}) {
   const classes = useStyles();
 
   function handleSearchInputChange(searchText) {
-    applyFilter({ searchText });
+    if (!searchText) {
+      applyFilter({ parentId: oldParentId || filter.parentId });
+    } else {
+      oldParentId = filter.parentId;
+      applyFilter({ searchText });
+    }
   }
 
   return (
