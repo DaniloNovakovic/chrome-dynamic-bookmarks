@@ -51,7 +51,7 @@ export function BookmarkList(props) {
         left: event.pageX
       }
     };
-    if (selectedNodeIds.includes(nodeId)) {
+    if (selectedNodeIds.length > 1 && selectedNodeIds.includes(nodeId)) {
       openActionMenu(actionMenuIds.selectedNodesActionMenuId, { menuProps });
     } else {
       openActionMenu(actionMenuId, { menuProps, nodeId });
