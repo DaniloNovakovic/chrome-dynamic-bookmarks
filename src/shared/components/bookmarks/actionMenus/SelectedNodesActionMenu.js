@@ -18,7 +18,7 @@ export function SelectedNodesActionMenu(props) {
   }
 
   function handleDelete() {
-    for (let nodeId in selectedNodeIds) {
+    for (let nodeId of selectedNodeIds) {
       onRemove(nodeId);
     }
     handleClose();
