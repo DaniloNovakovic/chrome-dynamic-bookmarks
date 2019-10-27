@@ -2,7 +2,11 @@ import React from "react";
 import { connect } from "react-redux";
 import { Menu, MenuItem, Divider } from "@material-ui/core";
 import { actionMenuIds } from "shared/constants";
-import { selectedNodeIdsSelector, removeBookmarkNode } from "shared/store";
+import {
+  selectedNodeIdsSelector,
+  removeBookmarkNode,
+  copyToClipboard
+} from "shared/store";
 
 export function SelectedNodesActionMenu(props) {
   const {
@@ -10,6 +14,7 @@ export function SelectedNodesActionMenu(props) {
     open,
     onClose,
     onRemove,
+    onCopy,
     menuProps = {}
   } = props;
 
@@ -19,6 +24,11 @@ export function SelectedNodesActionMenu(props) {
 
   function handleDelete() {
     onRemove(selectedNodeIds);
+    handleClose();
+  }
+
+  function handleCopy() {
+    onCopy({ id: selectedNodeIds });
     handleClose();
   }
 
@@ -34,7 +44,7 @@ export function SelectedNodesActionMenu(props) {
         Delete
       </MenuItem>
       <Divider />
-      <MenuItem dense onClick={handleClose}>
+      <MenuItem dense onClick={handleCopy}>
         Copy
       </MenuItem>
       <MenuItem dense onClick={handleClose}>
@@ -62,5 +72,5 @@ function mapStateToProps(state) {
 
 export default connect(
   mapStateToProps,
-  { onRemove: removeBookmarkNode }
+  { onRemove: removeBookmarkNode, onCopy: copyToClipboard }
 )(SelectedNodesActionMenu);

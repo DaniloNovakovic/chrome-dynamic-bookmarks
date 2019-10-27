@@ -28,7 +28,6 @@ export function editBookmarkNode(node) {
 }
 
 /**
- * Removes bookmark node(s) with provided id
  * @param {String|Array<String>} id - single or list of ids for bookmark nodes to delete
  */
 export function removeBookmarkNode(id) {
@@ -42,9 +41,13 @@ export function moveBookmarkNode(nodeId, destination) {
   });
 }
 
-export function copyBookmarkNode(nodeId, destination) {
+/**
+ * @param {String|Array<String>} id - single id or list of ids for bookmark nodes to copy
+ * @param {{parentId:String, index:Number}} destination
+ */
+export function copyBookmarkNode(id, destination) {
   return createSendMessageDispatch(requestTypes.COPY_BM_NODE, {
-    id: nodeId,
+    id,
     destination
   });
 }
