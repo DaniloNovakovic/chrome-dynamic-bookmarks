@@ -23,9 +23,7 @@ export function MainNav({
   const numberOfSelected = selectedNodeIds.length;
 
   function handleDelete() {
-    for (let nodeId of selectedNodeIds) {
-      removeBookmarkNode(nodeId);
-    }
+    removeBookmarkNode(selectedNodeIds);
     clearSelected();
   }
   const multipleSelected = numberOfSelected > 1;

@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Menu, MenuItem } from "@material-ui/core";
+import { Menu, MenuItem, Divider } from "@material-ui/core";
 import { actionMenuIds } from "shared/constants";
 import { selectedNodeIdsSelector, removeBookmarkNode } from "shared/store";
 
@@ -18,9 +18,7 @@ export function SelectedNodesActionMenu(props) {
   }
 
   function handleDelete() {
-    for (let nodeId of selectedNodeIds) {
-      onRemove(nodeId);
-    }
+    onRemove(selectedNodeIds);
     handleClose();
   }
 
@@ -34,6 +32,23 @@ export function SelectedNodesActionMenu(props) {
     >
       <MenuItem dense onClick={handleDelete}>
         Delete
+      </MenuItem>
+      <Divider />
+      <MenuItem dense onClick={handleClose}>
+        Copy
+      </MenuItem>
+      <MenuItem dense onClick={handleClose}>
+        Cut
+      </MenuItem>
+      <Divider />
+      <MenuItem dense onClick={handleClose}>
+        Open all bookmarks
+      </MenuItem>
+      <MenuItem dense onClick={handleClose}>
+        Open all in new window
+      </MenuItem>
+      <MenuItem dense onClick={handleClose}>
+        Open all in incognito window
       </MenuItem>
     </Menu>
   );

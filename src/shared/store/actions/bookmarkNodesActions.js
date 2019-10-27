@@ -27,8 +27,12 @@ export function editBookmarkNode(node) {
   return createSendMessageDispatch(requestTypes.EDIT_BM_NODE, node);
 }
 
-export function removeBookmarkNode(nodeId) {
-  return createSendMessageDispatch(requestTypes.REMOVE_BM_NODE, { id: nodeId });
+/**
+ * Removes bookmark node(s) with provided id
+ * @param {String|Array<String>} id - single or list of ids for bookmark nodes to delete
+ */
+export function removeBookmarkNode(id) {
+  return createSendMessageDispatch(requestTypes.REMOVE_BM_NODE, { id });
 }
 
 export function moveBookmarkNode(nodeId, destination) {
