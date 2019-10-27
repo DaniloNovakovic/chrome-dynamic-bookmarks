@@ -34,9 +34,13 @@ export function removeBookmarkNode(id) {
   return createSendMessageDispatch(requestTypes.REMOVE_BM_NODE, { id });
 }
 
-export function moveBookmarkNode(nodeId, destination) {
+/**
+ * @param {String|Array<String>} id - single id or list of ids for bookmark nodes to move
+ * @param {{parentId:String, index:Number}} destination
+ */
+export function moveBookmarkNode(id, destination) {
   return createSendMessageDispatch(requestTypes.MOVE_BM_NODE, {
-    id: nodeId,
+    id,
     destination
   });
 }

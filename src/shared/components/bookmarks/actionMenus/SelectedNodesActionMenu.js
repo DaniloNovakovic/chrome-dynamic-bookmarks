@@ -5,7 +5,8 @@ import { actionMenuIds } from "shared/constants";
 import {
   selectedNodeIdsSelector,
   removeBookmarkNode,
-  copyToClipboard
+  copyToClipboard,
+  cutToClipboard
 } from "shared/store";
 
 export function SelectedNodesActionMenu(props) {
@@ -15,6 +16,7 @@ export function SelectedNodesActionMenu(props) {
     onClose,
     onRemove,
     onCopy,
+    onCut,
     menuProps = {}
   } = props;
 
@@ -32,6 +34,11 @@ export function SelectedNodesActionMenu(props) {
     handleClose();
   }
 
+  function handleCut() {
+    onCut({ id: selectedNodeIds });
+    handleClose();
+  }
+
   return (
     <Menu
       id={actionMenuIds.selectedNodesActionMenuId}
@@ -44,11 +51,11 @@ export function SelectedNodesActionMenu(props) {
         Delete
       </MenuItem>
       <Divider />
+      <MenuItem dense onClick={handleCut}>
+        Cut
+      </MenuItem>
       <MenuItem dense onClick={handleCopy}>
         Copy
-      </MenuItem>
-      <MenuItem dense onClick={handleClose}>
-        Cut
       </MenuItem>
       <Divider />
       <MenuItem dense onClick={handleClose}>
@@ -72,5 +79,9 @@ function mapStateToProps(state) {
 
 export default connect(
   mapStateToProps,
-  { onRemove: removeBookmarkNode, onCopy: copyToClipboard }
+  {
+    onRemove: removeBookmarkNode,
+    onCopy: copyToClipboard,
+    onCut: cutToClipboard
+  }
 )(SelectedNodesActionMenu);

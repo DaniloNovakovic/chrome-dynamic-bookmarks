@@ -19,15 +19,15 @@ function copyBookmarkNodesAsync(ids = [], destination) {
 }
 
 export default function copyBookmarkNodeHandler({ data }, sendResponse) {
-  let { id, destination = {} } = data || {};
-  if (!Array.isArray(id)) {
-    id = [id];
+  let { id: ids, destination = {} } = data || {};
+  if (!Array.isArray(ids)) {
+    ids = [ids];
   }
-  copyBookmarkNodesAsync(id, destination)
+  copyBookmarkNodesAsync(ids, destination)
     .then(() =>
       sendResponse({
         type: responseTypes.SUCCESS,
-        message: `${id.length} item(s) copied`
+        message: `${ids.length} item(s) copied`
       })
     )
     .catch(errMsg =>
