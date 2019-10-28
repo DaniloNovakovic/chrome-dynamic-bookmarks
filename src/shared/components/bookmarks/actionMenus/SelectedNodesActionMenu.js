@@ -4,14 +4,17 @@ import { Menu, MenuItem, Divider } from "@material-ui/core";
 import { actionMenuIds } from "shared/constants";
 import {
   selectedNodeIdsSelector,
+  selectedBookmarksUrlSelector,
   removeBookmarkNode,
   copyToClipboard,
   cutToClipboard
 } from "shared/store";
+import OpenLinksActionMenuItems from "./OpenLinksActionMenuItems";
 
 export function SelectedNodesActionMenu(props) {
   const {
     selectedNodeIds = [],
+    selectedBookmarkUrls = [],
     open,
     onClose,
     onRemove,
@@ -58,22 +61,15 @@ export function SelectedNodesActionMenu(props) {
         Copy
       </MenuItem>
       <Divider />
-      <MenuItem dense onClick={handleClose}>
-        Open all bookmarks
-      </MenuItem>
-      <MenuItem dense onClick={handleClose}>
-        Open all in new window
-      </MenuItem>
-      <MenuItem dense onClick={handleClose}>
-        Open all in incognito window
-      </MenuItem>
+      <OpenLinksActionMenuItems links={selectedBookmarkUrls} />
     </Menu>
   );
 }
 
 function mapStateToProps(state) {
   return {
-    selectedNodeIds: selectedNodeIdsSelector(state)
+    selectedNodeIds: selectedNodeIdsSelector(state),
+    selectedBookmarkUrls: selectedBookmarksUrlSelector(state)
   };
 }
 

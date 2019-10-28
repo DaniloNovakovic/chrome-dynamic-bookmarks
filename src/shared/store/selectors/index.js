@@ -3,7 +3,8 @@ import {
   isRoot,
   getSortedNodes,
   getFilteredNodes,
-  getBreadcrumbIds
+  getBreadcrumbIds,
+  isFile
 } from "shared/lib/bookmarkNodes";
 
 export const clipboardSelector = state => state.clipboard;
@@ -69,3 +70,15 @@ export const breadcrumbsSelector = createSelector(
 );
 
 export const selectedNodeIdsSelector = state => state.selectedNodeIds;
+
+export const selectedNodesSelector = createSelector(
+  nodesSelector,
+  selectedNodeIdsSelector,
+  (nodes, selectedNodeIds) => selectedNodeIds.map(id => nodes[id])
+);
+
+export const selectedBookmarksUrlSelector = createSelector(
+  selectedNodesSelector,
+  selectedNodes =>
+    selectedNodes.filter(node => isFile(node)).map(node => node.url)
+);
