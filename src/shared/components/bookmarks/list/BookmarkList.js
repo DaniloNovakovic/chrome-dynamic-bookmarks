@@ -10,7 +10,11 @@ import {
   selectedNodeIdsSelector
 } from "shared/store/selectors/index";
 import { setDragTextData } from "shared/lib/dragAndDrop";
-import { ActionMenuContext } from "../actionMenus";
+import {
+  ActionMenuContext,
+  getAnchorElement,
+  getAnchorPosition
+} from "../actionMenus";
 import { toggleSelected, setSelected } from "shared/store/actions";
 import { actionMenuIds } from "shared/constants";
 
@@ -35,7 +39,7 @@ export function BookmarkList(props) {
 
   function handleActionMenuClick(event, nodeId, actionMenuId) {
     openActionMenu(actionMenuId, {
-      menuProps: { anchorEl: event.currentTarget },
+      menuProps: getAnchorElement(event),
       nodeId: nodeId
     });
     setSelected(nodeId);
@@ -44,13 +48,7 @@ export function BookmarkList(props) {
   }
 
   function handleRightClick(event, nodeId, actionMenuId) {
-    const menuProps = {
-      anchorReference: "anchorPosition",
-      anchorPosition: {
-        top: event.pageY,
-        left: event.pageX
-      }
-    };
+    const menuProps = getAnchorPosition(event);
     if (selectedNodeIds.length > 1 && selectedNodeIds.includes(nodeId)) {
       openActionMenu(actionMenuIds.selectedNodesActionMenuId, { menuProps });
     } else {

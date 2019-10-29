@@ -5,11 +5,11 @@ import MainSection from "./MainSection";
 import SideNav from "./SideNav";
 import MainNav from "./MainNav";
 import {
-  FolderActionMenuProvider,
   DialogProvider,
   ActionMenuProvider
 } from "shared/components/bookmarks";
 import { StatusSnackbar } from "shared/components/helpers";
+import SelectedNodesKeyHandler from "shared/components/bookmarks/SelectedNodesKeyHandler";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -51,11 +51,12 @@ export default function Manager() {
   }
 
   return (
-    <Box className={classes.root}>
-      <CssBaseline />
-      <StatusSnackbar />
-      <DialogProvider>
-        <ActionMenuProvider>
+    <DialogProvider>
+      <ActionMenuProvider>
+        <CssBaseline />
+        <StatusSnackbar />
+        <SelectedNodesKeyHandler />
+        <Box className={classes.root}>
           <MainNav
             className={classes.mainNav}
             drawerWidth={drawerWidth}
@@ -69,8 +70,8 @@ export default function Manager() {
             handleDrawerToggle={handleDrawerToggle}
           />
           <MainSection className={classes.mainSection} />
-        </ActionMenuProvider>
-      </DialogProvider>
-    </Box>
+        </Box>
+      </ActionMenuProvider>
+    </DialogProvider>
   );
 }

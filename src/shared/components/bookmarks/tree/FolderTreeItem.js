@@ -11,7 +11,7 @@ import {
   filterSelector
 } from "shared/store/selectors/index";
 import TreeItem from "./TreeItem";
-import { ActionMenuContext } from "../actionMenus";
+import { ActionMenuContext, getAnchorPosition } from "../actionMenus";
 import { actionMenuIds } from "shared/constants";
 
 export function FolderTreeItem({
@@ -44,13 +44,7 @@ export function FolderTreeItem({
 
   function handleContextMenu(event) {
     openActionMenu(actionMenuIds.folderActionMenuId, {
-      menuProps: {
-        anchorReference: "anchorPosition",
-        anchorPosition: {
-          top: event.pageY,
-          left: event.pageX
-        }
-      },
+      menuProps: getAnchorPosition(event),
       nodeId: node.id,
       readOnly
     });

@@ -69,16 +69,16 @@ export const breadcrumbsSelector = createSelector(
     breadcrumbIds.map(id => nodes[id]).filter(node => node && !!node.title)
 );
 
-export const selectedNodeIdsSelector = state => state.selectedNodeIds;
+export const selectedNodeIdsSelector = state => state.selectedNodeIds || [];
 
 export const selectedNodesSelector = createSelector(
   nodesSelector,
   selectedNodeIdsSelector,
-  (nodes, selectedNodeIds) => selectedNodeIds.map(id => nodes[id])
+  (nodes = {}, selectedNodeIds = []) => selectedNodeIds.map(id => nodes[id])
 );
 
 export const selectedBookmarksUrlSelector = createSelector(
   selectedNodesSelector,
-  selectedNodes =>
+  (selectedNodes = []) =>
     selectedNodes.filter(node => isFile(node)).map(node => node.url)
 );
