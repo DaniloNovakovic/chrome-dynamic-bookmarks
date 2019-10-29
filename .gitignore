@@ -5,3 +5,5 @@ build
 secrets.*.js
 *.log
 *.pem
+.vscode
+.vs
