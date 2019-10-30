@@ -5,7 +5,7 @@ import FolderIcon from "@material-ui/icons/Folder";
 import FolderOpenIcon from "@material-ui/icons/FolderOpen";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
-import { applyFilter, moveBookmarkNode } from "shared/store/actions";
+import { openFolder, moveBookmarkNode } from "shared/store/actions";
 import {
   breadcrumbIdsSelector,
   filterSelector
@@ -16,7 +16,7 @@ import { actionMenuIds } from "shared/constants";
 
 export function FolderTreeItem({
   node,
-  applyFilter,
+  openFolder,
   moveBookmarkNode,
   selected,
   readOnly,
@@ -38,7 +38,7 @@ export function FolderTreeItem({
 
   function handleClick() {
     if (!selected) {
-      applyFilter({ parentId: node.id });
+      openFolder(node.id);
     }
   }
 
@@ -98,7 +98,7 @@ function mapStateToProps(state, { node }) {
 
 export default connect(
   mapStateToProps,
-  { applyFilter, moveBookmarkNode }
+  { openFolder, moveBookmarkNode }
 )(FolderTreeItem);
 
 FolderTreeItem.propTypes = {

@@ -10,14 +10,14 @@ import {
   Typography
 } from "@material-ui/core";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
-import { applyFilter, moveBookmarkNode } from "shared/store/actions";
+import { openFolder, moveBookmarkNode } from "shared/store/actions";
 import { actionMenuIds } from "shared/constants";
 import { allowDrop } from "shared/lib/dragAndDrop";
 
 export function FolderListItem(props) {
   const {
     node = {},
-    applyFilter,
+    openFolder,
     moveBookmarkNode,
     iconSize = 24,
     selected,
@@ -53,7 +53,7 @@ export function FolderListItem(props) {
   }
 
   function handleDoubleClick() {
-    applyFilter({ parentId: node.id });
+    openFolder(node.id);
   }
 
   return (
@@ -100,7 +100,7 @@ export function FolderListItem(props) {
 
 export default connect(
   null,
-  { applyFilter, moveBookmarkNode }
+  { openFolder, moveBookmarkNode }
 )(FolderListItem);
 
 FolderListItem.propTypes = {

@@ -32,6 +32,9 @@ function SelectedNodesKeyHandler(props) {
     clipboard = {}
   } = props;
 
+  const firstSelectedNode =
+    findById(filteredNodes, firstOrDefault(selectedNodeIds)) || {};
+
   const copySelected = useCallback(
     () => props.copyToClipboard({ id: selectedNodeIds }),
     [selectedNodeIds]
@@ -47,19 +50,13 @@ function SelectedNodesKeyHandler(props) {
     [selectedNodeIds]
   );
 
-  const pasteClipboard = () => {
+  const pasteClipboard = useCallback(() => {
     let toParentId = parentId;
-
     if (selectedNodeIds.length === 1) {
-      const selectedNodeId = selectedNodeIds[0];
-      const selectedNode = filteredNodes.find(
-        node => node.id == selectedNodeId
-      );
-      if (isFolder(selectedNode)) {
-        toParentId = selectedNodeId;
+      if (isFolder(firstSelectedNode)) {
+        toParentId = firstSelectedNode.id;
       }
     }
-
     if (toParentId) {
       props.pasteToBookmarkNode({
         type: clipboard.type,
@@ -67,7 +64,7 @@ function SelectedNodesKeyHandler(props) {
         to: { parentId: toParentId }
       });
     }
-  };
+  }, [parentId, selectedNodeIds, firstSelectedNode, clipboard]);
 
   const clearSelected = useCallback(() => props.clearSelected(), []);
 
@@ -92,6 +89,14 @@ function SelectedNodesKeyHandler(props) {
   return (
     <GlobalHotKeys keyMap={keyMap} handlers={handlers} allowChanges={true} />
   );
+}
+
+function firstOrDefault(arr = [], defaultVal = "") {
+  return arr.length === 0 ? defaultVal : arr[0];
+}
+
+function findById(filteredNodes, selectedNodeId) {
+  return filteredNodes.find(node => node.id == selectedNodeId);
 }
 
 function mapStateToProps(state) {
