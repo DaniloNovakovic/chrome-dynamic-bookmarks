@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { Menu, MenuItem } from "@material-ui/core";
 import { DialogContext } from "shared/components/bookmarks";
 import { dialogIds, actionMenuIds } from "shared/constants";
@@ -7,14 +7,17 @@ export default function AddBookmarkNodeActionMenu(props) {
   const { open, onClose, menuProps = {} } = props;
   const { openDialog } = React.useContext(DialogContext);
 
-  function handleClose() {
+  const handleClose = useCallback(() => {
     onClose();
-  }
+  }, [onClose]);
 
-  function handleDialogOpen(dialogId, args = {}) {
-    openDialog(dialogId, args);
-    handleClose();
-  }
+  const handleDialogOpen = useCallback(
+    (dialogId, args = {}) => {
+      openDialog(dialogId, args);
+      handleClose();
+    },
+    [openDialog, handleClose]
+  );
 
   return (
     <Menu
@@ -26,17 +29,19 @@ export default function AddBookmarkNodeActionMenu(props) {
     >
       <MenuItem
         dense
-        onClick={() => {
-          handleDialogOpen(dialogIds.addBookmarkDialogId);
-        }}
+        onClick={useCallback(
+          () => handleDialogOpen(dialogIds.addBookmarkDialogId),
+          [handleDialogOpen]
+        )}
       >
         Add new bookmark
       </MenuItem>
       <MenuItem
         dense
-        onClick={() => {
-          handleDialogOpen(dialogIds.addFolderDialogId);
-        }}
+        onClick={useCallback(
+          () => handleDialogOpen(dialogIds.addFolderDialogId),
+          [handleDialogOpen]
+        )}
       >
         Add new folder
       </MenuItem>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { connect } from "react-redux";
 import { List } from "@material-ui/core";
 import { useTheme } from "@material-ui/styles";
@@ -28,36 +28,45 @@ export function BookmarkList(props) {
   const theme = useTheme();
   const { openActionMenu } = React.useContext(ActionMenuContext);
 
-  function handleClick(event, nodeId) {
-    if (event.ctrlKey) {
-      toggleSelected(nodeId);
-    } else {
-      setSelected(nodeId);
-    }
-    event.preventDefault();
-  }
+  const handleClick = useCallback(
+    (event, nodeId) => {
+      if (event.ctrlKey) {
+        toggleSelected(nodeId);
+      } else {
+        setSelected(nodeId);
+      }
+      event.preventDefault();
+    },
+    [toggleSelected, setSelected]
+  );
 
-  function handleActionMenuClick(event, nodeId, actionMenuId) {
-    openActionMenu(actionMenuId, {
-      menuProps: getAnchorElement(event),
-      nodeId: nodeId
-    });
-    setSelected(nodeId);
-    event.preventDefault();
-    event.stopPropagation();
-  }
-
-  function handleRightClick(event, nodeId, actionMenuId) {
-    const menuProps = getAnchorPosition(event);
-    if (selectedNodeIds.length > 1 && selectedNodeIds.includes(nodeId)) {
-      openActionMenu(actionMenuIds.selectedNodesActionMenuId, { menuProps });
-    } else {
-      openActionMenu(actionMenuId, { menuProps, nodeId });
+  const handleActionMenuClick = useCallback(
+    (event, nodeId, actionMenuId) => {
+      openActionMenu(actionMenuId, {
+        menuProps: getAnchorElement(event),
+        nodeId: nodeId
+      });
       setSelected(nodeId);
-    }
-    event.preventDefault();
-    event.stopPropagation();
-  }
+      event.preventDefault();
+      event.stopPropagation();
+    },
+    [openActionMenu, setSelected]
+  );
+
+  const handleRightClick = useCallback(
+    (event, nodeId, actionMenuId) => {
+      const menuProps = getAnchorPosition(event);
+      if (selectedNodeIds.length > 1 && selectedNodeIds.includes(nodeId)) {
+        openActionMenu(actionMenuIds.selectedNodesActionMenuId, { menuProps });
+      } else {
+        openActionMenu(actionMenuId, { menuProps, nodeId });
+        setSelected(nodeId);
+      }
+      event.preventDefault();
+      event.stopPropagation();
+    },
+    [selectedNodeIds, openActionMenu, setSelected]
+  );
 
   const items = filteredNodes.map(node => {
     const ListItem = isFolder(node) ? FolderListItem : FileListItem;

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useCallback } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import FolderIcon from "@material-ui/icons/Folder";
@@ -25,43 +25,50 @@ export function FolderTreeItem({
 }) {
   const [expanded, setExpanded] = useState(false);
   const { openActionMenu } = useContext(ActionMenuContext);
+  const nodeId = node.id;
 
   useEffect(() => {
-    if (_isAncestor(breadcrumbIds, node.id)) {
+    if (_isAncestor(breadcrumbIds, nodeId)) {
       setExpanded(true);
     }
-  }, [breadcrumbIds]);
+  }, [breadcrumbIds, nodeId]);
 
-  function toggleExpanded() {
+  const toggleExpanded = useCallback(() => {
     setExpanded(!expanded);
-  }
+  }, [expanded, setExpanded]);
 
-  function handleClick() {
+  const handleClick = useCallback(() => {
     if (!selected) {
-      openFolder(node.id);
+      openFolder(nodeId);
     }
-  }
+  }, [selected, openFolder, nodeId]);
 
-  function handleContextMenu(event) {
-    openActionMenu(actionMenuIds.folderActionMenuId, {
-      menuProps: getAnchorPosition(event),
-      nodeId: node.id,
-      readOnly
-    });
-    event.preventDefault();
-    event.stopPropagation();
-  }
+  const handleContextMenu = useCallback(
+    event => {
+      openActionMenu(actionMenuIds.folderActionMenuId, {
+        menuProps: getAnchorPosition(event),
+        nodeId: nodeId,
+        readOnly
+      });
+      event.preventDefault();
+      event.stopPropagation();
+    },
+    [openActionMenu, nodeId, readOnly]
+  );
 
-  function handleDragOver(event) {
+  const handleDragOver = useCallback(event => {
     event.preventDefault();
     event.dataTransfer.dropEffect = "move";
-  }
+  }, []);
 
-  function handleDrop(event) {
-    const fromNodeId = event.dataTransfer.getData("text");
-    moveBookmarkNode(fromNodeId, { parentId: node.id });
-    event.preventDefault();
-  }
+  const handleDrop = useCallback(
+    event => {
+      const fromNodeId = event.dataTransfer.getData("text");
+      moveBookmarkNode(fromNodeId, { parentId: nodeId });
+      event.preventDefault();
+    },
+    [moveBookmarkNode, nodeId]
+  );
 
   return (
     <TreeItem

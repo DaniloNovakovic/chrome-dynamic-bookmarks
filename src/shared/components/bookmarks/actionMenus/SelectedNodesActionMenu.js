@@ -61,7 +61,10 @@ export function SelectedNodesActionMenu(props) {
         Copy
       </MenuItem>
       <Divider />
-      <OpenLinksActionMenuItems links={selectedBookmarkUrls} />
+      <OpenLinksActionMenuItems
+        links={selectedBookmarkUrls}
+        onClose={handleClose}
+      />
     </Menu>
   );
 }
