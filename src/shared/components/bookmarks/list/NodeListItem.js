@@ -1,32 +1,28 @@
 import React, { useCallback } from "react";
 import { connect } from "react-redux";
-import { List } from "@material-ui/core";
-import { useTheme } from "@material-ui/styles";
 import FolderListItem from "./FolderListItem";
 import FileListItem from "./FileListItem";
 import { isFolder } from "shared/lib/bookmarkNodes";
 import {
-  filteredNodesSelector,
-  selectedNodeIdsSelector
+  selectedByNodeIdSelector,
+  selectedNodeIdsSelector,
+  makeUniqueNodeByIdSelector
 } from "shared/store/selectors/index";
 import { setDragTextData } from "shared/lib/dragAndDrop";
-import {
-  ActionMenuContext,
-  getAnchorElement,
-  getAnchorPosition
-} from "../actionMenus";
+import { getAnchorElement, getAnchorPosition } from "../actionMenus";
 import { toggleSelected, setSelected } from "shared/store/actions";
 import { actionMenuIds } from "shared/constants";
 
-export function BookmarkList(props) {
+function NodeListItem(props) {
   const {
-    filteredNodes = [],
-    selectedNodeIds = [],
+    node = {},
+    selected,
+    multipleSelected,
     toggleSelected,
-    setSelected
+    setSelected,
+    iconSize = 16,
+    openActionMenu
   } = props;
-  const theme = useTheme();
-  const { openActionMenu } = React.useContext(ActionMenuContext);
 
   const handleClick = useCallback(
     (event, nodeId) => {
@@ -56,7 +52,7 @@ export function BookmarkList(props) {
   const handleRightClick = useCallback(
     (event, nodeId, actionMenuId) => {
       const menuProps = getAnchorPosition(event);
-      if (selectedNodeIds.length > 1 && selectedNodeIds.includes(nodeId)) {
+      if (multipleSelected && selected) {
         openActionMenu(actionMenuIds.selectedNodesActionMenuId, { menuProps });
       } else {
         openActionMenu(actionMenuId, { menuProps, nodeId });
@@ -65,40 +61,37 @@ export function BookmarkList(props) {
       event.preventDefault();
       event.stopPropagation();
     },
-    [selectedNodeIds, openActionMenu, setSelected]
+    [selected, multipleSelected, openActionMenu, setSelected]
   );
 
-  const items = filteredNodes.map(node => {
-    const ListItem = isFolder(node) ? FolderListItem : FileListItem;
-    return (
-      <ListItem
-        key={node.id}
-        node={node}
-        iconSize={theme.iconSize}
-        onDragStart={setDragTextData}
-        onClick={handleClick}
-        onActionMenuClick={handleActionMenuClick}
-        onRightClick={handleRightClick}
-        selected={selectedNodeIds.includes(node.id)}
-      />
-    );
-  });
-
+  const ListItem = isFolder(node) ? FolderListItem : FileListItem;
   return (
-    <List aria-label="main bookmark list" dense>
-      {items}
-    </List>
+    <ListItem
+      key={node.id}
+      node={node}
+      iconSize={iconSize}
+      onDragStart={setDragTextData}
+      onClick={handleClick}
+      onActionMenuClick={handleActionMenuClick}
+      onRightClick={handleRightClick}
+      selected={selected}
+    />
   );
 }
 
-function mapStateToProps(state) {
-  return {
-    selectedNodeIds: selectedNodeIdsSelector(state),
-    filteredNodes: filteredNodesSelector(state)
+function mapStateToProps() {
+  const nodeByIdSelector = makeUniqueNodeByIdSelector();
+  return (state, ownProps) => {
+    const nodeId = ownProps.nodeId || ownProps.id;
+    const selectedById = selectedByNodeIdSelector(state);
+    const selected = nodeId in selectedById;
+    const multipleSelected = selectedNodeIdsSelector(state).length > 1;
+    const node = nodeByIdSelector(state, nodeId);
+    return { node, selected, multipleSelected };
   };
 }
 
 export default connect(
   mapStateToProps,
   { toggleSelected, setSelected }
-)(BookmarkList);
+)(NodeListItem);

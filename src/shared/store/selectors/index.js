@@ -6,6 +6,7 @@ import {
   getBreadcrumbIds,
   isFile
 } from "shared/lib/bookmarkNodes";
+import { mapArrayToObject } from "shared/lib/objects";
 
 export const clipboardSelector = state => state.clipboard;
 
@@ -56,6 +57,11 @@ export const filteredNodesSelector = createSelector(
   (nodes, filter) => getFilteredNodes(nodes, filter)
 );
 
+export const filteredNodeIdsSelector = createSelector(
+  filteredNodesSelector,
+  (filteredNodes = []) => filteredNodes.map(node => node.id)
+);
+
 export const breadcrumbIdsSelector = createSelector(
   nodesSelector,
   state => state.filter.parentId,
@@ -70,6 +76,11 @@ export const breadcrumbsSelector = createSelector(
 );
 
 export const selectedNodeIdsSelector = state => state.selectedNodeIds || [];
+
+export const selectedByNodeIdSelector = createSelector(
+  selectedNodeIdsSelector,
+  (selectedNodeIds = []) => mapArrayToObject(selectedNodeIds, _ => true)
+);
 
 export const selectedNodesSelector = createSelector(
   nodesSelector,
