@@ -75,7 +75,10 @@ export const breadcrumbsSelector = createSelector(
     breadcrumbIds.map(id => nodes[id]).filter(node => node && !!node.title)
 );
 
-export const selectedNodeIdsSelector = state => state.selectedNodeIds || [];
+export const selectedNodeIdsSelector = state =>
+  state.selectedNodeIds.data || [];
+
+export const selectedPivotSelector = state => state.selectNodeIds.pivot;
 
 export const selectedByNodeIdSelector = createSelector(
   selectedNodeIdsSelector,

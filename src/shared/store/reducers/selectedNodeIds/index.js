@@ -2,39 +2,58 @@ import createReducer from "../helpers/createReducer";
 import ActionHandlerFactory from "../helpers/actionHandlerFactory";
 import actionTypes from "shared/constants/actionTypes";
 
-const initialState = [];
+const initialState = { data: [], pivot: null };
 
-function setSelectedHandler(_, { data }) {
+function setSelectedHandler(state, { data }) {
   if (!data) {
-    return [];
+    return { ...state, data: [] };
   }
   if (Array.isArray(data)) {
-    return data;
+    return { ...state, data };
   }
-  return [data];
+  return { ...state, data: [data] };
 }
 
 function appendSelectedHandler(state, { data }) {
   if (Array.isArray(data)) {
-    return [...state, ...data];
+    return { ...state, data: [...state.data, ...data] };
   }
-  return [...state, data];
+  return { ...state, data: [...state.data, data] };
 }
 
 function removeSelectedHandler(state, { data }) {
-  return state.filter(val => val != data);
+  return { ...state, data: state.data.filter(val => val != data) };
 }
 
 function clearSelectedHandler() {
-  return [];
+  return { data: [] };
 }
 
 function toggleSelectedHandler(state, { data }) {
-  if (state.includes(data)) {
+  if (state.data.includes(data)) {
     return removeSelectedHandler(state, { data });
   } else {
     return appendSelectedHandler(state, { data });
   }
+}
+
+function setSelectedPivotHandler(_, { pivot }) {
+  const data = pivot ? [pivot] : [];
+  return { pivot, data };
+}
+
+function selectRangeByPivotHandler(state, { from, data = [] }) {
+  const pivot = state.pivot;
+  if (pivot === from || !pivot) {
+    return { pivot: from, data: [from] };
+  }
+  const fromIndex = data.indexOf(from) || 0;
+  const pivotIndex = data.indexOf(pivot) || fromIndex;
+  const newData =
+    fromIndex < pivotIndex
+      ? data.slice(fromIndex, pivotIndex + 1)
+      : data.slice(pivotIndex, fromIndex + 1);
+  return { ...state, data: newData };
 }
 
 const factory = new ActionHandlerFactory();
@@ -43,5 +62,7 @@ factory.register(actionTypes.APPEND_SELECTED, appendSelectedHandler);
 factory.register(actionTypes.REMOVE_SELECTED, removeSelectedHandler);
 factory.register(actionTypes.CLEAR_SELECTED, clearSelectedHandler);
 factory.register(actionTypes.TOGGLE_SELECTED, toggleSelectedHandler);
+factory.register(actionTypes.SET_SELECTED_PIVOT, setSelectedPivotHandler);
+factory.register(actionTypes.SELECT_RANGE_BY_PIVOT, selectRangeByPivotHandler);
 
 export default createReducer(factory, initialState);

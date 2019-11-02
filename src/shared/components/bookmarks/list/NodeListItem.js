@@ -6,11 +6,16 @@ import { isFolder } from "shared/lib/bookmarkNodes";
 import {
   selectedByNodeIdSelector,
   selectedNodeIdsSelector,
-  makeUniqueNodeByIdSelector
+  makeUniqueNodeByIdSelector,
+  filteredNodeIdsSelector
 } from "shared/store/selectors/index";
 import { setDragTextData } from "shared/lib/dragAndDrop";
 import { getAnchorElement, getAnchorPosition } from "../actionMenus";
-import { toggleSelected, setSelected } from "shared/store/actions";
+import {
+  toggleSelected,
+  setSelectedPivot,
+  selectRangeByPivot
+} from "shared/store/actions";
 import { actionMenuIds } from "shared/constants";
 
 function NodeListItem(props) {
@@ -19,7 +24,9 @@ function NodeListItem(props) {
     selected,
     multipleSelected,
     toggleSelected,
-    setSelected,
+    filteredNodeIds = [],
+    setSelectedPivot,
+    selectRangeByPivot,
     iconSize = 16,
     openActionMenu
   } = props;
@@ -28,12 +35,14 @@ function NodeListItem(props) {
     (event, nodeId) => {
       if (event.ctrlKey) {
         toggleSelected(nodeId);
+      } else if (event.shiftKey) {
+        selectRangeByPivot(nodeId, filteredNodeIds);
       } else {
-        setSelected(nodeId);
+        setSelectedPivot(nodeId);
       }
       event.preventDefault();
     },
-    [toggleSelected, setSelected]
+    [filteredNodeIds, toggleSelected, setSelectedPivot, selectRangeByPivot]
   );
 
   const handleActionMenuClick = useCallback(
@@ -42,11 +51,11 @@ function NodeListItem(props) {
         menuProps: getAnchorElement(event),
         nodeId: nodeId
       });
-      setSelected(nodeId);
+      setSelectedPivot(nodeId);
       event.preventDefault();
       event.stopPropagation();
     },
-    [openActionMenu, setSelected]
+    [openActionMenu, setSelectedPivot]
   );
 
   const handleRightClick = useCallback(
@@ -56,12 +65,12 @@ function NodeListItem(props) {
         openActionMenu(actionMenuIds.selectedNodesActionMenuId, { menuProps });
       } else {
         openActionMenu(actionMenuId, { menuProps, nodeId });
-        setSelected(nodeId);
+        setSelectedPivot(nodeId);
       }
       event.preventDefault();
       event.stopPropagation();
     },
-    [selected, multipleSelected, openActionMenu, setSelected]
+    [selected, multipleSelected, openActionMenu, setSelectedPivot]
   );
 
   const ListItem = isFolder(node) ? FolderListItem : FileListItem;
@@ -87,11 +96,12 @@ function mapStateToProps() {
     const selected = nodeId in selectedById;
     const multipleSelected = selectedNodeIdsSelector(state).length > 1;
     const node = nodeByIdSelector(state, nodeId);
-    return { node, selected, multipleSelected };
+    const filteredNodeIds = filteredNodeIdsSelector(state);
+    return { node, selected, multipleSelected, filteredNodeIds };
   };
 }
 
 export default connect(
   mapStateToProps,
-  { toggleSelected, setSelected }
+  { toggleSelected, setSelectedPivot, selectRangeByPivot }
 )(NodeListItem);
