@@ -1,6 +1,7 @@
 import createReducer from "../helpers/createReducer";
 import ActionHandlerFactory from "../helpers/actionHandlerFactory";
 import actionTypes from "shared/constants/actionTypes";
+import { indexOfOrDefault, sliceRange } from "shared/lib/array";
 
 const initialState = { data: [], pivot: null };
 
@@ -47,12 +48,9 @@ function selectRangeByPivotHandler(state, { from, data = [] }) {
   if (pivot === from || !pivot) {
     return { pivot: from, data: [from] };
   }
-  const fromIndex = data.indexOf(from) || 0;
-  const pivotIndex = data.indexOf(pivot) || fromIndex;
-  const newData =
-    fromIndex < pivotIndex
-      ? data.slice(fromIndex, pivotIndex + 1)
-      : data.slice(pivotIndex, fromIndex + 1);
+  const fromIndex = indexOfOrDefault(data, from, 0);
+  const pivotIndex = indexOfOrDefault(data, pivot, fromIndex);
+  const newData = sliceRange(data, fromIndex, pivotIndex);
   return { ...state, data: newData };
 }
 
