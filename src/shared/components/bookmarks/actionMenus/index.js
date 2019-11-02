@@ -5,3 +5,4 @@ export {
 } from "./AddBookmarkNodeActionMenu";
 export { default as FileActionMenu } from "./FileActionMenu";
 export { default as FolderActionMenu } from "./FolderActionMenu";
+export * from "./actionMenuPropsHelpers";

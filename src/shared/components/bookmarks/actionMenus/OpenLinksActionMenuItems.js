@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { MenuItem, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import {
@@ -18,18 +18,31 @@ const useStyles = makeStyles(() => {
 
 export default function OpenLinksActionMenuItems(props) {
   const classes = useStyles();
-  const { links = [] } = props;
+  const { links = [], onClose: handleClose } = props;
   const areLinksEmpty = links.length === 0;
+
+  const handleOpenAll = useCallback(() => {
+    openNewTab(links);
+    handleClose();
+  }, [links, handleClose]);
+
+  const handleOpenAllNewWindow = useCallback(() => {
+    openNewWindow(links);
+    handleClose();
+  }, [links, handleClose]);
+
+  const handleOpenAllNewIncognitoWindow = useCallback(() => {
+    openNewIncognitoWindow(links);
+    handleClose();
+  }, [links, handleClose]);
+
   return (
     <>
       <MenuItem
         dense
         disabled={areLinksEmpty}
         className={classes.menuItemFlex}
-        onClick={() => {
-          openNewTab(links);
-          handleClose();
-        }}
+        onClick={handleOpenAll}
       >
         Open all bookmarks
         {!areLinksEmpty && (
@@ -38,23 +51,13 @@ export default function OpenLinksActionMenuItems(props) {
           </Typography>
         )}
       </MenuItem>
-      <MenuItem
-        dense
-        disabled={areLinksEmpty}
-        onClick={() => {
-          openNewWindow(links);
-          handleClose();
-        }}
-      >
+      <MenuItem dense disabled={areLinksEmpty} onClick={handleOpenAllNewWindow}>
         Open all in new window
       </MenuItem>
       <MenuItem
         dense
         disabled={areLinksEmpty}
-        onClick={() => {
-          openNewIncognitoWindow(links);
-          handleClose();
-        }}
+        onClick={handleOpenAllNewIncognitoWindow}
       >
         Open all in incognito window
       </MenuItem>

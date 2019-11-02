@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useCallback } from "react";
 import clsx from "clsx";
 import { Typography, Collapse, Box } from "@material-ui/core";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
@@ -29,12 +29,15 @@ export default function TreeItem({
     }
   }, [selected]);
 
-  function handleToggleExpanded(event) {
-    if (toggleExpanded) {
-      toggleExpanded();
-      event.stopPropagation();
-    }
-  }
+  const handleToggleExpanded = useCallback(
+    event => {
+      if (toggleExpanded) {
+        toggleExpanded();
+        event.stopPropagation();
+      }
+    },
+    [toggleExpanded]
+  );
 
   return (
     <Box>

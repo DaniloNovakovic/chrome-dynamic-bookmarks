@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import {
@@ -10,51 +10,60 @@ import {
   Typography
 } from "@material-ui/core";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
-import { applyFilter, moveBookmarkNode } from "shared/store/actions";
+import { openFolder, moveBookmarkNode } from "shared/store/actions";
 import { actionMenuIds } from "shared/constants";
 import { allowDrop } from "shared/lib/dragAndDrop";
+
+function _emptyFunc() {}
 
 export function FolderListItem(props) {
   const {
     node = {},
-    applyFilter,
-    moveBookmarkNode,
     iconSize = 24,
     selected,
-    onDragStart,
-    onActionMenuClick,
-    onClick,
-    onRightClick
+    openFolder = _emptyFunc,
+    moveBookmarkNode = _emptyFunc,
+    onDragStart = _emptyFunc,
+    onActionMenuClick = _emptyFunc,
+    onClick = _emptyFunc,
+    onRightClick = _emptyFunc
   } = props;
   const draggable = !!onDragStart;
+  const nodeId = node.id;
 
-  function handleActionMenuClick(event) {
-    onActionMenuClick(event, node.id, actionMenuIds.folderActionMenuId);
-  }
+  const handleActionMenuClick = useCallback(
+    event => onActionMenuClick(event, nodeId, actionMenuIds.folderActionMenuId),
+    [onActionMenuClick, nodeId]
+  );
 
-  function handleContextMenu(event) {
-    onRightClick(event, node.id, actionMenuIds.folderActionMenuId);
-  }
+  const handleContextMenu = useCallback(
+    event => onRightClick(event, nodeId, actionMenuIds.folderActionMenuId),
+    [onRightClick, nodeId]
+  );
 
-  function handleDragStart(event) {
-    if (onDragStart) {
-      onDragStart(event, node.id);
-    }
-  }
+  const handleDragStart = useCallback(event => onDragStart(event, nodeId), [
+    onDragStart,
+    nodeId
+  ]);
 
-  function handleDrop(event) {
-    const fromNodeId = event.dataTransfer.getData("text");
-    moveBookmarkNode(fromNodeId, { parentId: node.id });
-    event.preventDefault();
-  }
+  const handleDrop = useCallback(
+    event => {
+      const fromNodeId = event.dataTransfer.getData("text");
+      moveBookmarkNode(fromNodeId, { parentId: nodeId });
+      event.preventDefault();
+    },
+    [moveBookmarkNode, nodeId]
+  );
 
-  function handleClick(event) {
-    onClick(event, node.id);
-  }
+  const handleClick = useCallback(event => onClick(event, nodeId), [
+    onClick,
+    nodeId
+  ]);
 
-  function handleDoubleClick() {
-    applyFilter({ parentId: node.id });
-  }
+  const handleDoubleClick = useCallback(() => openFolder(nodeId), [
+    openFolder,
+    nodeId
+  ]);
 
   return (
     <ListItem
@@ -100,7 +109,7 @@ export function FolderListItem(props) {
 
 export default connect(
   null,
-  { applyFilter, moveBookmarkNode }
+  { openFolder, moveBookmarkNode }
 )(FolderListItem);
 
 FolderListItem.propTypes = {

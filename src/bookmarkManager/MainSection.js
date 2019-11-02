@@ -4,7 +4,8 @@ import { Paper, Container } from "@material-ui/core";
 import {
   BookmarkList,
   BookmarkBreadcrumbs,
-  ActionMenuContext
+  ActionMenuContext,
+  getAnchorPosition
 } from "shared/components/bookmarks";
 import { actionMenuIds } from "shared/constants";
 
@@ -18,13 +19,7 @@ export default function MainSection({ className }) {
 
   function handleContextMenu(event) {
     openActionMenu(actionMenuIds.addBookmarkNodeActionMenuId, {
-      menuProps: {
-        anchorReference: "anchorPosition",
-        anchorPosition: {
-          top: event.pageY,
-          left: event.pageX
-        }
-      }
+      menuProps: getAnchorPosition(event)
     });
     event.preventDefault();
     event.stopPropagation();

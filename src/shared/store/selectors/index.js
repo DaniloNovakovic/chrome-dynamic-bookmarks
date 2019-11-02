@@ -6,6 +6,7 @@ import {
   getBreadcrumbIds,
   isFile
 } from "shared/lib/bookmarkNodes";
+import { mapArrayToObject } from "shared/lib/objects";
 
 export const clipboardSelector = state => state.clipboard;
 
@@ -56,6 +57,11 @@ export const filteredNodesSelector = createSelector(
   (nodes, filter) => getFilteredNodes(nodes, filter)
 );
 
+export const filteredNodeIdsSelector = createSelector(
+  filteredNodesSelector,
+  (filteredNodes = []) => filteredNodes.map(node => node.id)
+);
+
 export const breadcrumbIdsSelector = createSelector(
   nodesSelector,
   state => state.filter.parentId,
@@ -69,16 +75,24 @@ export const breadcrumbsSelector = createSelector(
     breadcrumbIds.map(id => nodes[id]).filter(node => node && !!node.title)
 );
 
-export const selectedNodeIdsSelector = state => state.selectedNodeIds;
+export const selectedNodeIdsSelector = state =>
+  state.selectedNodeIds.data || [];
+
+export const selectedPivotSelector = state => state.selectNodeIds.pivot;
+
+export const selectedByNodeIdSelector = createSelector(
+  selectedNodeIdsSelector,
+  (selectedNodeIds = []) => mapArrayToObject(selectedNodeIds, _ => true)
+);
 
 export const selectedNodesSelector = createSelector(
   nodesSelector,
   selectedNodeIdsSelector,
-  (nodes, selectedNodeIds) => selectedNodeIds.map(id => nodes[id])
+  (nodes = {}, selectedNodeIds = []) => selectedNodeIds.map(id => nodes[id])
 );
 
 export const selectedBookmarksUrlSelector = createSelector(
   selectedNodesSelector,
-  selectedNodes =>
+  (selectedNodes = []) =>
     selectedNodes.filter(node => isFile(node)).map(node => node.url)
 );

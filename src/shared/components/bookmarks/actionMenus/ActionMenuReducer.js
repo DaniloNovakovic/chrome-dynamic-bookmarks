@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import ActionMenuContext from "./ActionMenuContext";
 import { actionMenuIds } from "shared/constants";
 import FileActionMenu from "./FileActionMenu";
@@ -11,9 +11,7 @@ export default function ActionMenuReducer() {
     ActionMenuContext
   );
 
-  function handleClose() {
-    openActionMenu(null);
-  }
+  const handleClose = useCallback(() => openActionMenu(null), [openActionMenu]);
 
   return (
     <>

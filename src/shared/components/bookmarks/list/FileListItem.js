@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import PropTypes from "prop-types";
 import {
   ListItem,
@@ -12,39 +12,45 @@ import BookmarkIcon from "../BookmarkIcon";
 import { actionMenuIds } from "shared/constants";
 import { openNewTab } from "shared/lib/browser";
 
+function _emptyFunc() {}
+
 export default function FileListItem(props) {
   const {
     node = {},
     iconSize = 24,
     selected,
-    onDragStart,
-    onClick,
-    onRightClick,
-    onActionMenuClick
+    onDragStart = _emptyFunc,
+    onClick = _emptyFunc,
+    onRightClick = _emptyFunc,
+    onActionMenuClick = _emptyFunc
   } = props;
   const draggable = !!onDragStart;
+  const nodeId = node.id;
 
-  function handleActionMenuClick(event) {
-    onActionMenuClick(event, node.id, actionMenuIds.fileActionMenuId);
-  }
+  const handleActionMenuClick = useCallback(
+    event => onActionMenuClick(event, nodeId, actionMenuIds.fileActionMenuId),
+    [nodeId, onActionMenuClick]
+  );
 
-  function handleContextMenu(event) {
-    onRightClick(event, node.id, actionMenuIds.fileActionMenuId);
-  }
+  const handleContextMenu = useCallback(
+    event => onRightClick(event, nodeId, actionMenuIds.fileActionMenuId),
+    [nodeId, onRightClick]
+  );
 
-  function handleDoubleClick() {
-    openNewTab(node.url);
-  }
+  const handleDoubleClick = useCallback(() => openNewTab(node.url), [
+    node.url,
+    openNewTab
+  ]);
 
-  function handleDragStart(event) {
-    if (onDragStart) {
-      onDragStart(event, node.id);
-    }
-  }
+  const handleDragStart = useCallback(event => onDragStart(event, nodeId), [
+    onDragStart,
+    nodeId
+  ]);
 
-  function handleClick(event) {
-    onClick(event, node.id);
-  }
+  const handleClick = useCallback(event => onClick(event, nodeId), [
+    onClick,
+    nodeId
+  ]);
 
   return (
     <ListItem

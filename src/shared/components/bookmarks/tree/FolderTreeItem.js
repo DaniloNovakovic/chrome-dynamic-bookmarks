@@ -1,22 +1,22 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useCallback } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import FolderIcon from "@material-ui/icons/Folder";
 import FolderOpenIcon from "@material-ui/icons/FolderOpen";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
-import { applyFilter, moveBookmarkNode } from "shared/store/actions";
+import { openFolder, moveBookmarkNode } from "shared/store/actions";
 import {
   breadcrumbIdsSelector,
   filterSelector
 } from "shared/store/selectors/index";
 import TreeItem from "./TreeItem";
-import { ActionMenuContext } from "../actionMenus";
+import { ActionMenuContext, getAnchorPosition } from "../actionMenus";
 import { actionMenuIds } from "shared/constants";
 
 export function FolderTreeItem({
   node,
-  applyFilter,
+  openFolder,
   moveBookmarkNode,
   selected,
   readOnly,
@@ -25,49 +25,50 @@ export function FolderTreeItem({
 }) {
   const [expanded, setExpanded] = useState(false);
   const { openActionMenu } = useContext(ActionMenuContext);
+  const nodeId = node.id;
 
   useEffect(() => {
-    if (_isAncestor(breadcrumbIds, node.id)) {
+    if (_isAncestor(breadcrumbIds, nodeId)) {
       setExpanded(true);
     }
-  }, [breadcrumbIds]);
+  }, [breadcrumbIds, nodeId]);
 
-  function toggleExpanded() {
+  const toggleExpanded = useCallback(() => {
     setExpanded(!expanded);
-  }
+  }, [expanded, setExpanded]);
 
-  function handleClick() {
+  const handleClick = useCallback(() => {
     if (!selected) {
-      applyFilter({ parentId: node.id });
+      openFolder(nodeId);
     }
-  }
+  }, [selected, openFolder, nodeId]);
 
-  function handleContextMenu(event) {
-    openActionMenu(actionMenuIds.folderActionMenuId, {
-      menuProps: {
-        anchorReference: "anchorPosition",
-        anchorPosition: {
-          top: event.pageY,
-          left: event.pageX
-        }
-      },
-      nodeId: node.id,
-      readOnly
-    });
-    event.preventDefault();
-    event.stopPropagation();
-  }
+  const handleContextMenu = useCallback(
+    event => {
+      openActionMenu(actionMenuIds.folderActionMenuId, {
+        menuProps: getAnchorPosition(event),
+        nodeId: nodeId,
+        readOnly
+      });
+      event.preventDefault();
+      event.stopPropagation();
+    },
+    [openActionMenu, nodeId, readOnly]
+  );
 
-  function handleDragOver(event) {
+  const handleDragOver = useCallback(event => {
     event.preventDefault();
     event.dataTransfer.dropEffect = "move";
-  }
+  }, []);
 
-  function handleDrop(event) {
-    const fromNodeId = event.dataTransfer.getData("text");
-    moveBookmarkNode(fromNodeId, { parentId: node.id });
-    event.preventDefault();
-  }
+  const handleDrop = useCallback(
+    event => {
+      const fromNodeId = event.dataTransfer.getData("text");
+      moveBookmarkNode(fromNodeId, { parentId: nodeId });
+      event.preventDefault();
+    },
+    [moveBookmarkNode, nodeId]
+  );
 
   return (
     <TreeItem
@@ -104,7 +105,7 @@ function mapStateToProps(state, { node }) {
 
 export default connect(
   mapStateToProps,
-  { applyFilter, moveBookmarkNode }
+  { openFolder, moveBookmarkNode }
 )(FolderTreeItem);
 
 FolderTreeItem.propTypes = {

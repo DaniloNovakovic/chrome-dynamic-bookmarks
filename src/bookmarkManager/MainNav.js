@@ -9,6 +9,7 @@ import {
 import MainNavToolbar from "./MainNavToolbar";
 import { selectedNodeIdsSelector, filterSelector } from "shared/store";
 import MainNavToolbarSelected from "./MainNavToolbarSelected";
+import { IgnoreKeys } from "react-hotkeys";
 
 export function MainNav({
   className,
@@ -29,23 +30,25 @@ export function MainNav({
   const multipleSelected = numberOfSelected > 1;
 
   return (
-    <AppBar position="fixed" className={className}>
-      <Box hidden={!multipleSelected}>
-        <MainNavToolbarSelected
-          numberOfSelected={numberOfSelected}
-          onCancel={clearSelected}
-          onDelete={handleDelete}
-          drawerWidth={drawerWidth}
-        />
-      </Box>
-      <Box hidden={multipleSelected}>
-        <MainNavToolbar
-          handleDrawerToggle={handleDrawerToggle}
-          filter={filter}
-          applyFilter={applyFilter}
-        />
-      </Box>
-    </AppBar>
+    <IgnoreKeys>
+      <AppBar position="fixed" className={className}>
+        <Box hidden={!multipleSelected}>
+          <MainNavToolbarSelected
+            numberOfSelected={numberOfSelected}
+            onCancel={clearSelected}
+            onDelete={handleDelete}
+            drawerWidth={drawerWidth}
+          />
+        </Box>
+        <Box hidden={multipleSelected}>
+          <MainNavToolbar
+            handleDrawerToggle={handleDrawerToggle}
+            filter={filter}
+            applyFilter={applyFilter}
+          />
+        </Box>
+      </AppBar>
+    </IgnoreKeys>
   );
 }
 

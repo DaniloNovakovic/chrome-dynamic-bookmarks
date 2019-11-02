@@ -93,7 +93,7 @@ export function FolderActionMenu(props) {
         Paste
       </MenuItem>
       <Divider />
-      <OpenLinksActionMenuItems links={childUrls} />
+      <OpenLinksActionMenuItems links={childUrls} onClose={handleClose} />
     </Menu>
   );
 }

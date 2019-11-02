@@ -7,6 +7,21 @@ export function setSelected(data = []) {
   };
 }
 
+export function setSelectedPivot(pivot) {
+  return {
+    type: actionTypes.SET_SELECTED_PIVOT,
+    pivot
+  };
+}
+
+export function selectRangeByPivot(from, data = []) {
+  return {
+    type: actionTypes.SELECT_RANGE_BY_PIVOT,
+    data,
+    from
+  };
+}
+
 export function clearSelected() {
   return { type: actionTypes.CLEAR_SELECTED };
 }
