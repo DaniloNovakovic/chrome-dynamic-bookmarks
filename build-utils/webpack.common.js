@@ -73,7 +73,7 @@ const options = {
     new CopyWebpackPlugin([
       {
         from: path.join(commonPaths.publicPath, "manifest.json"),
-        transform: function(content, path) {
+        transform: function(content) {
           // generates the manifest file using the package.json informations
           const contentJson = JSON.parse(content.toString());
           const newManifest = {
@@ -104,7 +104,7 @@ const options = {
     new HtmlWebpackPlugin({
       template: path.join(commonPaths.publicPath, "background.html"),
       filename: "background.html",
-      chunks: ["background"]
+      excludeChunks: ["bookmarkManager", "options", "popup"]
     }),
     new HtmlWebpackPlugin({
       template: path.join(commonPaths.publicPath, "bookmarkManager.html"),

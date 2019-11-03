@@ -89,9 +89,6 @@ export function FileActionMenu(props) {
       <MenuItem onClick={handleCopy} dense>
         Copy
       </MenuItem>
-      <MenuItem onClick={handleClose} dense>
-        Copy URL
-      </MenuItem>
       <MenuItem onClick={handlePaste} dense disabled={!clipboard.type}>
         Paste
       </MenuItem>

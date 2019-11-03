@@ -1,11 +1,11 @@
 import { createMuiTheme } from "@material-ui/core/styles";
+import _ from "lodash";
 
 const commonTheme = {
   iconSize: 16
 };
 
 const lightTheme = {
-  ...commonTheme,
   palette: {
     type: "light",
     primary: { main: "#3f51b5" },
@@ -16,7 +16,6 @@ const lightTheme = {
 };
 
 const darkTheme = {
-  ...commonTheme,
   palette: {
     type: "dark",
     primary: { main: "#90CAF9" },
@@ -37,9 +36,9 @@ const darkTheme = {
 export function getTheme(type = "dark") {
   switch (type) {
     case "dark":
-      return darkTheme;
+      return _.merge(darkTheme, commonTheme);
     default:
-      return lightTheme;
+      return _.merge(lightTheme, commonTheme);
   }
 }
 
