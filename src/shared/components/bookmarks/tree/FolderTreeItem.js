@@ -8,7 +8,8 @@ import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import { openFolder, moveBookmarkNode } from "shared/store/actions";
 import {
   breadcrumbIdsSelector,
-  filterSelector
+  filterSelector,
+  trackedByIdSelector
 } from "shared/store/selectors/index";
 import TreeItem from "./TreeItem";
 import { ActionMenuContext, getAnchorPosition } from "../actionMenus";
@@ -19,6 +20,7 @@ export function FolderTreeItem({
   openFolder,
   moveBookmarkNode,
   selected,
+  tracked,
   readOnly,
   breadcrumbIds,
   children
@@ -72,6 +74,7 @@ export function FolderTreeItem({
 
   return (
     <TreeItem
+      tracked={tracked}
       selected={selected}
       expanded={expanded}
       expandIcon={expanded ? ExpandMoreIcon : ChevronRightIcon}
@@ -99,7 +102,8 @@ function _isAncestor(breadcrumbIds = [], id = "0") {
 function mapStateToProps(state, { node }) {
   return {
     selected: filterSelector(state).parentId === node.id,
-    breadcrumbIds: breadcrumbIdsSelector(state)
+    breadcrumbIds: breadcrumbIdsSelector(state),
+    tracked: node.id in trackedByIdSelector(state)
   };
 }
 

@@ -7,6 +7,7 @@ import {
   isFile
 } from "shared/lib/bookmarkNodes";
 import { mapArrayToObject } from "shared/lib/objects";
+import getTrackedByIdNodes from "shared/lib/bookmarkNodes/getTrackedByIdNodes";
 
 export const clipboardSelector = state => state.clipboard;
 
@@ -19,6 +20,11 @@ export const makeUniqueNodeByIdSelector = () =>
     [nodesSelector, selectNodeId],
     (nodes, nodeId) => (nodeId in nodes && nodes[nodeId]) || {}
   );
+
+export const trackedByIdSelector = createSelector(
+  nodesSelector,
+  nodes => getTrackedByIdNodes(nodes)
+);
 
 export const bookmarksByParentIdSelector = createSelector(
   [nodesSelector, selectNodeId],

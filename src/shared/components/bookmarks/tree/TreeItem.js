@@ -8,6 +8,7 @@ const defaultChildren = [];
 
 export default function TreeItem({
   selected,
+  tracked,
   expanded,
   labelText,
   labelIcon: LabelIcon,
@@ -52,7 +53,12 @@ export default function TreeItem({
         ) : (
           <ExpandIcon onClick={handleToggleExpanded} />
         )}
-        {LabelIcon && <LabelIcon className={classes.labelIcon} />}
+        {LabelIcon && (
+          <LabelIcon
+            className={classes.labelIcon}
+            color={tracked ? "primary" : "inherit"}
+          />
+        )}
         <Typography variant="body2" className={classes.labelText} noWrap>
           {labelText}
         </Typography>
