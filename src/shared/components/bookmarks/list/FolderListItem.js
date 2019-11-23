@@ -10,9 +10,13 @@ import {
   Typography
 } from "@material-ui/core";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
-import { openFolder, moveBookmarkNode } from "shared/store/actions";
 import { actionMenuIds } from "shared/constants";
 import { allowDrop } from "shared/lib/dragAndDrop";
+import {
+  trackedByIdSelector,
+  openFolder,
+  moveBookmarkNode
+} from "shared/store";
 
 function _emptyFunc() {}
 
@@ -21,6 +25,7 @@ export function FolderListItem(props) {
     node = {},
     iconSize = 24,
     selected,
+    tracked,
     openFolder = _emptyFunc,
     moveBookmarkNode = _emptyFunc,
     onDragStart = _emptyFunc,
@@ -79,13 +84,17 @@ export function FolderListItem(props) {
       selected={selected}
     >
       <ListItemIcon style={{ minWidth: iconSize, padding: 1 }}>
-        <Icon style={{ fontSize: iconSize + 3 }}>folder</Icon>
+        <Icon
+          style={{ fontSize: iconSize + 3 }}
+          color={tracked ? "primary" : "inherit"}
+        >
+          folder
+        </Icon>
       </ListItemIcon>
       <Typography
         variant="body2"
         noWrap
         component="span"
-        color="textPrimary"
         style={{ marginInlineStart: iconSize }}
       >
         {node.title}
@@ -107,8 +116,14 @@ export function FolderListItem(props) {
   );
 }
 
+function mapStateToProps(state, { node }) {
+  return {
+    tracked: node.id in trackedByIdSelector(state)
+  };
+}
+
 export default connect(
-  null,
+  mapStateToProps,
   { openFolder, moveBookmarkNode }
 )(FolderListItem);
 

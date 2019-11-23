@@ -5,6 +5,9 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const options = {
   mode: "production",
   optimization: {
+    splitChunks: {
+      chunks: "all"
+    },
     minimizer: [
       new TerserPlugin({
         cache: true,
