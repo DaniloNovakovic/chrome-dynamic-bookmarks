@@ -10,7 +10,7 @@ export default function getFilteredNodes(nodes = [], { parentId, searchText }) {
   });
 }
 
-function _isIncludedInTitleOrUrl(node, searchText) {
+function _isIncludedInTitleOrUrl(node, searchText = "") {
   const searchTextLower = searchText.toLowerCase();
   if (node.title && node.title.toLowerCase().includes(searchTextLower)) {
     return true;
