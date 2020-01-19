@@ -29,7 +29,7 @@ function _filterBySearchText(nodes = [], searchText = "") {
   }
   return nodes.filter(node => {
     const searchTextLower = searchText.toLowerCase();
-    if (node.title.toLowerCase().includes(searchTextLower)) {
+    if (node.title && node.title.toLowerCase().includes(searchTextLower)) {
       return true;
     }
     if (node.url) {
