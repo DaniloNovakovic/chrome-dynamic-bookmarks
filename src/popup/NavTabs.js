@@ -6,7 +6,7 @@ import { LinkTab } from "shared/components/helpers";
 function a11yProps(index) {
   return {
     id: `nav-tab-${index}`,
-    "aria-controls": `nav-tabpanel-${index}`
+    "aria-controls": `nav-tabpanel-${index}`,
   };
 }
 
@@ -14,7 +14,8 @@ export default function NavTabs(props) {
   return (
     <AppBar position="static">
       <Tabs
-        variant="fullWidth"
+        variant="scrollable"
+        scrollButtons="on"
         value={props.value}
         onChange={props.onChange}
         aria-label="Navigation Tabs"
@@ -35,5 +36,5 @@ export default function NavTabs(props) {
 
 NavTabs.propTypes = {
   value: PropTypes.number.isRequired,
-  onChange: PropTypes.func.isRequired
+  onChange: PropTypes.func.isRequired,
 };

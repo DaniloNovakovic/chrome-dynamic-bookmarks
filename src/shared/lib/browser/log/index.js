@@ -3,8 +3,15 @@ import getCurrentBrowser from "../getCurrentBrowser";
 const browser = getCurrentBrowser();
 const runtime = browser.runtime;
 
-export function logInfo(msg) {
-  console.log(msg);
+export function logInfo(msg, ...optionalParams) {
+  if (!msg) {
+    return;
+  }
+  if (!optionalParams) {
+    console.log(msg);
+  } else {
+    console.log(msg, ...optionalParams);
+  }
 }
 
 export function logError(errMsg) {
@@ -33,5 +40,5 @@ export function checkAndHandleError(onErrorFound = logError) {
 export default {
   logError,
   logWarn,
-  checkAndHandleError
+  checkAndHandleError,
 };
