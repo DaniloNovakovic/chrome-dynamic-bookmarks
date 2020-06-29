@@ -6,7 +6,7 @@ const browser = getCurrentBrowser();
 
 /**
  * @callback onResponseFunction
- * @param {{type: string, message: string}} response
+ * @param {{type: string, message: string, data?: any} response
  */
 
 /**

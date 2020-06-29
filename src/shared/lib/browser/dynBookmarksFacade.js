@@ -32,7 +32,7 @@ export function copyBookmarkNode(id, { parentId, index }, done) {
       done(errMsg);
     }
     copyNodeAsync({ ...node, parentId, index })
-      .then(_ => done(null))
+      .then(() => done(null))
       .catch(done);
   });
 }
@@ -53,11 +53,11 @@ export function editBookmarkNode(node, done) {
         done(null, { ...updatedNode, ...updatedDynBookItem });
       });
     } else {
-      storage.findByIdAndRemove(node.id, errMsg => {
+      storage.findByIdAndRemove(node.id, (errMsg) => {
         if (errMsg) {
           return done(errMsg);
         }
-        done(null, updatedNode);
+        done(null, { ...updatedNode, regExp: "" });
       });
     }
   });
@@ -89,7 +89,7 @@ export function removeBookmarkNode(id, done) {
     if (!node.url) {
       bookmarks.removeTree(id, done);
     } else {
-      bookmarks.remove(id, errMsg => {
+      bookmarks.remove(id, (errMsg) => {
         if (errMsg) {
           return done(errMsg);
         }
