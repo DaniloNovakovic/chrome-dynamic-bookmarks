@@ -21,7 +21,14 @@ export function getBookmarkNodes() {
 }
 
 export function addBookmarkNode(node) {
-  return createSendMessageDispatch(requestTypes.ADD_BM_NODE, node);
+  return (dispatch) => {
+    sendMessage(requestTypes.ADD_BM_NODE, node, (response) => {
+      if (response.data) {
+        dispatch({ type: eventTypes.BM_NODE_CREATED, data: response.data });
+      }
+      dispatch(mapResponseToAlertAction(response));
+    });
+  };
 }
 
 export function editBookmarkNode(node) {

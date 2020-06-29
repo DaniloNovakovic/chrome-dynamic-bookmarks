@@ -68,13 +68,16 @@ export function createBookmarkNode(node, done) {
     if (errMsg) {
       return done(errMsg);
     }
-    if (node.regExp) {
-      storage.create(
-        { id: createdNode.id, regExp: node.regExp, history: [] },
-        done
-      );
+    if (!node.regExp) {
+      done(null, createdNode);
     }
-    done(null, createdNode);
+    storage.create(
+      { id: createdNode.id, regExp: node.regExp, history: [] },
+      (errMsg, item) => {
+        if (errMsg) return done(errMsg);
+        done(null, { ...createdNode, ...item });
+      }
+    );
   });
 }
 
