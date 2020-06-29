@@ -29,8 +29,9 @@ export function editBookmarkNode(node) {
     sendMessage(requestTypes.EDIT_BM_NODE, node, (response) => {
       if (response.data) {
         dispatch({ type: eventTypes.BM_NODE_CHANGED, data: response.data });
+      } else {
+        dispatch(mapResponseToAlertAction(response));
       }
-      dispatch(mapResponseToAlertAction(response));
     });
   };
 }
