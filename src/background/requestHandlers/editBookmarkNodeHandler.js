@@ -9,7 +9,7 @@ export default function editBookmarkNodeHandler({ data }, sendResponse) {
       sendResponse({
         type: responseTypes.SUCCESS,
         message: `Successfully updated bookmark node ${updatedNode.id}`,
-        data: updatedNode
+        data: updatedNode,
       });
     }
   });

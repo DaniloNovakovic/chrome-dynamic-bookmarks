@@ -4,11 +4,12 @@ import {
   requestTypes,
   responseTypes,
   actionTypes,
-  clipboardTypes
+  clipboardTypes,
+  eventTypes,
 } from "shared/constants";
 
 export function getBookmarkNodes() {
-  return dispatch => {
+  return (dispatch) => {
     _getBookmarkNodes((errMsg, bookmarkNodes) => {
       if (errMsg) {
         dispatch({ type: actionTypes.GET_BM_NODES_ERROR, errMsg });
@@ -20,11 +21,26 @@ export function getBookmarkNodes() {
 }
 
 export function addBookmarkNode(node) {
-  return createSendMessageDispatch(requestTypes.ADD_BM_NODE, node);
+  return (dispatch) => {
+    sendMessage(requestTypes.ADD_BM_NODE, node, (response) => {
+      if (response.data) {
+        dispatch({ type: eventTypes.BM_NODE_CREATED, data: response.data });
+      }
+      dispatch(mapResponseToAlertAction(response));
+    });
+  };
 }
 
 export function editBookmarkNode(node) {
-  return createSendMessageDispatch(requestTypes.EDIT_BM_NODE, node);
+  return (dispatch) => {
+    sendMessage(requestTypes.EDIT_BM_NODE, node, (response) => {
+      if (response.data) {
+        dispatch({ type: eventTypes.BM_NODE_CHANGED, data: response.data });
+      } else {
+        dispatch(mapResponseToAlertAction(response));
+      }
+    });
+  };
 }
 
 /**
@@ -41,7 +57,7 @@ export function removeBookmarkNode(id) {
 export function moveBookmarkNode(id, destination) {
   return createSendMessageDispatch(requestTypes.MOVE_BM_NODE, {
     id,
-    destination
+    destination,
   });
 }
 
@@ -52,7 +68,7 @@ export function moveBookmarkNode(id, destination) {
 export function copyBookmarkNode(id, destination) {
   return createSendMessageDispatch(requestTypes.COPY_BM_NODE, {
     id,
-    destination
+    destination,
   });
 }
 
@@ -73,8 +89,8 @@ export function pasteToBookmarkNode({ type, from, to }) {
  * @param {object} data - parameters that will be sent in message
  */
 function createSendMessageDispatch(requestType, data) {
-  return dispatch => {
-    sendMessage(requestType, data, response => {
+  return (dispatch) => {
+    sendMessage(requestType, data, (response) => {
       dispatch(mapResponseToAlertAction(response));
     });
   };
