@@ -8,8 +8,8 @@ export default function addBookmarkNodeHandler({ data }, sendResponse) {
     } else {
       sendResponse({
         type: responseTypes.SUCCESS,
-        message: `Successfully created bookmark node ${createdNode.id}`,
-        data: createdNode
+        message: `Successfully created bookmark '${createdNode.title}'`,
+        data: createdNode,
       });
     }
   });
