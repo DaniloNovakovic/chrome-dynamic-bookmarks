@@ -1,6 +1,7 @@
 module.exports = {
   env: {
     browser: true,
+    node: true,
     commonjs: true,
     es6: true,
   },
@@ -9,6 +10,7 @@ module.exports = {
     Atomics: "readonly",
     SharedArrayBuffer: "readonly",
   },
+  parser: "@babel/eslint-parser",
   parserOptions: {
     ecmaFeatures: {
       experimentalObjectRestSpread: true,
