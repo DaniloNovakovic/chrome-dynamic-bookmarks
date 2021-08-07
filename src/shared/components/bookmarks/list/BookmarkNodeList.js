@@ -11,7 +11,7 @@ export function BookmarkNodeList(props) {
   const { openActionMenu } = React.useContext(ActionMenuContext);
   const theme = useTheme();
 
-  const items = filteredNodeIds.map(nodeId => {
+  const items = filteredNodeIds.map((nodeId) => {
     return (
       <NodeListItem
         key={nodeId}
@@ -31,7 +31,7 @@ export function BookmarkNodeList(props) {
 
 function mapStateToProps(state) {
   return {
-    filteredNodeIds: filteredNodeIdsSelector(state)
+    filteredNodeIds: filteredNodeIdsSelector(state),
   };
 }
 

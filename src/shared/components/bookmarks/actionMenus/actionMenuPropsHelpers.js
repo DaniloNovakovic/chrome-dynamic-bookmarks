@@ -3,8 +3,8 @@ export function getAnchorPosition(event) {
     anchorReference: "anchorPosition",
     anchorPosition: {
       top: event.clientY,
-      left: event.clientX
-    }
+      left: event.clientX,
+    },
   };
 }
 

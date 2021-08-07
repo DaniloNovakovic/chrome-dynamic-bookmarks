@@ -7,7 +7,7 @@ import {
   cutToClipboard,
   pasteToBookmarkNode,
   clipboardSelector,
-  bookmarksByParentIdSelector
+  bookmarksByParentIdSelector,
 } from "shared/store";
 import { DialogContext } from "shared/components/bookmarks";
 import { dialogIds } from "shared/constants";
@@ -27,7 +27,7 @@ export function FolderActionMenu(props) {
     onCut,
     onPaste,
     clipboard,
-    menuProps = {}
+    menuProps = {},
   } = props;
 
   function handleClose() {
@@ -52,7 +52,7 @@ export function FolderActionMenu(props) {
     onPaste({
       type: clipboard.type,
       from: clipboard.data,
-      to: { parentId: nodeId }
+      to: { parentId: nodeId },
     });
     handleClose();
   }
@@ -99,29 +99,23 @@ export function FolderActionMenu(props) {
 }
 
 const makeUniqueChildUrlSelector = () =>
-  createSelector(
-    bookmarksByParentIdSelector,
-    (bookmarks = []) => {
-      return bookmarks.map(node => node.url);
-    }
-  );
+  createSelector(bookmarksByParentIdSelector, (bookmarks = []) => {
+    return bookmarks.map((node) => node.url);
+  });
 
 function makeMapState() {
   const childUrlSelector = makeUniqueChildUrlSelector();
   return (state, { nodeId = "" }) => {
     return {
       childUrls: childUrlSelector(state, nodeId),
-      clipboard: clipboardSelector(state)
+      clipboard: clipboardSelector(state),
     };
   };
 }
 
-export default connect(
-  makeMapState,
-  {
-    onRemove: removeBookmarkNode,
-    onCopy: copyToClipboard,
-    onCut: cutToClipboard,
-    onPaste: pasteToBookmarkNode
-  }
-)(FolderActionMenu);
+export default connect(makeMapState, {
+  onRemove: removeBookmarkNode,
+  onCopy: copyToClipboard,
+  onCut: cutToClipboard,
+  onPaste: pasteToBookmarkNode,
+})(FolderActionMenu);

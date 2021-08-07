@@ -11,7 +11,7 @@ import {
   clearSelected,
   setSelected,
   filterSelector,
-  clipboardSelector
+  clipboardSelector,
 } from "shared/store";
 import { isFolder } from "shared/lib/bookmarkNodes";
 
@@ -21,7 +21,7 @@ const keyMap = {
   DELETE: "del",
   PASTE: "ctrl+v",
   ESCAPE: ["esc", "escape"],
-  SELECT_ALL: "ctrl+a"
+  SELECT_ALL: "ctrl+a",
 };
 
 function SelectedNodesKeyHandler(props) {
@@ -29,7 +29,7 @@ function SelectedNodesKeyHandler(props) {
     selectedNodeIds = [],
     filteredNodes = [],
     parentId,
-    clipboard = {}
+    clipboard = {},
   } = props;
 
   const firstSelectedNode =
@@ -61,7 +61,7 @@ function SelectedNodesKeyHandler(props) {
       props.pasteToBookmarkNode({
         type: clipboard.type,
         from: clipboard.data,
-        to: { parentId: toParentId }
+        to: { parentId: toParentId },
       });
     }
   }, [parentId, selectedNodeIds, firstSelectedNode, clipboard]);
@@ -69,8 +69,8 @@ function SelectedNodesKeyHandler(props) {
   const clearSelected = useCallback(() => props.clearSelected(), []);
 
   const selectAll = useCallback(
-    event => {
-      const filteredNodeIds = filteredNodes.map(node => node.id);
+    (event) => {
+      const filteredNodeIds = filteredNodes.map((node) => node.id);
       props.setSelected(filteredNodeIds);
       event.preventDefault();
     },
@@ -83,7 +83,7 @@ function SelectedNodesKeyHandler(props) {
     DELETE: removeSelected,
     PASTE: pasteClipboard,
     ESCAPE: clearSelected,
-    SELECT_ALL: selectAll
+    SELECT_ALL: selectAll,
   };
 
   return (
@@ -96,7 +96,7 @@ function firstOrDefault(arr = [], defaultVal = "") {
 }
 
 function findById(filteredNodes, selectedNodeId) {
-  return filteredNodes.find(node => node.id == selectedNodeId);
+  return filteredNodes.find((node) => node.id == selectedNodeId);
 }
 
 function mapStateToProps(state) {
@@ -105,18 +105,15 @@ function mapStateToProps(state) {
     parentId: filter.parentId,
     clipboard: clipboardSelector(state),
     selectedNodeIds: selectedNodeIdsSelector(state),
-    filteredNodes: filteredNodesSelector(state)
+    filteredNodes: filteredNodesSelector(state),
   };
 }
 
-export default connect(
-  mapStateToProps,
-  {
-    copyToClipboard,
-    cutToClipboard,
-    removeBookmarkNode,
-    pasteToBookmarkNode,
-    clearSelected,
-    setSelected
-  }
-)(SelectedNodesKeyHandler);
+export default connect(mapStateToProps, {
+  copyToClipboard,
+  cutToClipboard,
+  removeBookmarkNode,
+  pasteToBookmarkNode,
+  clearSelected,
+  setSelected,
+})(SelectedNodesKeyHandler);

@@ -2,8 +2,8 @@ import responseTypes from "shared/constants/responseTypes";
 import { removeBookmarkNode } from "shared/lib/browser";
 
 function removeBookmarkNodeAsync(id) {
-  return new Promise(function(resolve, reject) {
-    removeBookmarkNode(id, function(err, data) {
+  return new Promise(function (resolve, reject) {
+    removeBookmarkNode(id, function (err, data) {
       if (err) reject(err);
       else resolve(data);
     });
@@ -27,13 +27,13 @@ export default function removeBookmarkNodesHandler({ data }, sendResponse) {
     .then(() =>
       sendResponse({
         type: responseTypes.SUCCESS,
-        message: `${ids.length} item(s) deleted`
+        message: `${ids.length} item(s) deleted`,
       })
     )
-    .catch(errMsg =>
+    .catch((errMsg) =>
       sendResponse({
         type: responseTypes.ERROR,
-        message: errMsg
+        message: errMsg,
       })
     );
 }

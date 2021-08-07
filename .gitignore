@@ -7,3 +7,8 @@ secrets.*.js
 *.pem
 .vscode
 .vs
+.eslintcache
+.DS_Store
+/jest/reports
+.yarnrc
+.yarn

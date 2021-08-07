@@ -7,7 +7,7 @@ export default function SideNav({
   drawerClassName,
   direction,
   mobileOpen,
-  handleDrawerToggle
+  handleDrawerToggle,
 }) {
   return (
     <nav className={className}>
@@ -18,10 +18,10 @@ export default function SideNav({
           open={mobileOpen}
           onClose={handleDrawerToggle}
           classes={{
-            paper: drawerClassName
+            paper: drawerClassName,
           }}
           ModalProps={{
-            keepMounted: true // Better open performance on mobile.
+            keepMounted: true, // Better open performance on mobile.
           }}
         >
           <SideNavContent />
@@ -30,7 +30,7 @@ export default function SideNav({
       <Hidden xsDown implementation="css">
         <Drawer
           classes={{
-            paper: drawerClassName
+            paper: drawerClassName,
           }}
           variant="permanent"
           open

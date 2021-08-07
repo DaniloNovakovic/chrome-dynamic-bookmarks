@@ -10,7 +10,7 @@ export function getFavicon2Src({ size, scaleFactor, pageUrl }) {
     size,
     scale_factor: _formatScaleFactor(scaleFactor),
     page_url: _formatPageUrl(pageUrl),
-    allow_google_server_fallback: 0
+    allow_google_server_fallback: 0,
   });
 
   return `chrome://favicon2/?${queryString}`;

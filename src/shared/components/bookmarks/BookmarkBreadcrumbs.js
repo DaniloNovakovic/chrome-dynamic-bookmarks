@@ -6,14 +6,14 @@ import { Paper, Breadcrumbs, Link } from "@material-ui/core";
 import { applyFilter as applyFilterAction } from "shared/store/actions";
 import { breadcrumbsSelector } from "shared/store/selectors/index";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     justifyContent: "center",
-    flexWrap: "wrap"
+    flexWrap: "wrap",
   },
   paper: {
-    padding: theme.spacing(1, 2)
-  }
+    padding: theme.spacing(1, 2),
+  },
 }));
 
 export function BookmarkBreadcrumbs(props) {
@@ -26,7 +26,7 @@ export function BookmarkBreadcrumbs(props) {
         color={index == breadcrumbs.length - 1 ? "textPrimary" : "inherit"}
         key={node.id}
         href="#"
-        onClick={event => {
+        onClick={(event) => {
           event.preventDefault();
           applyFilter && applyFilter({ parentId: node.id });
         }}
@@ -56,11 +56,10 @@ export function BookmarkBreadcrumbs(props) {
 
 function mapStateToProps(state) {
   return {
-    breadcrumbs: breadcrumbsSelector(state)
+    breadcrumbs: breadcrumbsSelector(state),
   };
 }
 
-export default connect(
-  mapStateToProps,
-  { applyFilter: applyFilterAction }
-)(BookmarkBreadcrumbs);
+export default connect(mapStateToProps, { applyFilter: applyFilterAction })(
+  BookmarkBreadcrumbs
+);

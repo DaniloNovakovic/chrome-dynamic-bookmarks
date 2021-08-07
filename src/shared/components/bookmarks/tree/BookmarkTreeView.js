@@ -7,7 +7,7 @@ const readonlyIds = ["0", "1", "2"];
 
 export function BookmarkTreeView({ className, nodes = {} }) {
   const rootNode = nodes["0"] || { children: [] };
-  const treeItems = rootNode.children.map(childId =>
+  const treeItems = rootNode.children.map((childId) =>
     createTree(nodes, childId, { readonlyIds })
   );
   return <div className={className}>{treeItems}</div>;
@@ -15,7 +15,7 @@ export function BookmarkTreeView({ className, nodes = {} }) {
 
 function mapStateToProps(state) {
   return {
-    nodes: nodesSelector(state)
+    nodes: nodesSelector(state),
   };
 }
 

@@ -7,7 +7,7 @@ import {
   ListItemSecondaryAction,
   Icon,
   IconButton,
-  Typography
+  Typography,
 } from "@material-ui/core";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import { actionMenuIds } from "shared/constants";
@@ -15,7 +15,7 @@ import { allowDrop } from "shared/lib/dragAndDrop";
 import {
   trackedByIdSelector,
   openFolder,
-  moveBookmarkNode
+  moveBookmarkNode,
 } from "shared/store";
 
 function _emptyFunc() {}
@@ -31,28 +31,29 @@ export function FolderListItem(props) {
     onDragStart = _emptyFunc,
     onActionMenuClick = _emptyFunc,
     onClick = _emptyFunc,
-    onRightClick = _emptyFunc
+    onRightClick = _emptyFunc,
   } = props;
   const draggable = !!onDragStart;
   const nodeId = node.id;
 
   const handleActionMenuClick = useCallback(
-    event => onActionMenuClick(event, nodeId, actionMenuIds.folderActionMenuId),
+    (event) =>
+      onActionMenuClick(event, nodeId, actionMenuIds.folderActionMenuId),
     [onActionMenuClick, nodeId]
   );
 
   const handleContextMenu = useCallback(
-    event => onRightClick(event, nodeId, actionMenuIds.folderActionMenuId),
+    (event) => onRightClick(event, nodeId, actionMenuIds.folderActionMenuId),
     [onRightClick, nodeId]
   );
 
-  const handleDragStart = useCallback(event => onDragStart(event, nodeId), [
-    onDragStart,
-    nodeId
-  ]);
+  const handleDragStart = useCallback(
+    (event) => onDragStart(event, nodeId),
+    [onDragStart, nodeId]
+  );
 
   const handleDrop = useCallback(
-    event => {
+    (event) => {
       const fromNodeId = event.dataTransfer.getData("text");
       moveBookmarkNode(fromNodeId, { parentId: nodeId });
       event.preventDefault();
@@ -60,15 +61,15 @@ export function FolderListItem(props) {
     [moveBookmarkNode, nodeId]
   );
 
-  const handleClick = useCallback(event => onClick(event, nodeId), [
-    onClick,
-    nodeId
-  ]);
+  const handleClick = useCallback(
+    (event) => onClick(event, nodeId),
+    [onClick, nodeId]
+  );
 
-  const handleDoubleClick = useCallback(() => openFolder(nodeId), [
-    openFolder,
-    nodeId
-  ]);
+  const handleDoubleClick = useCallback(
+    () => openFolder(nodeId),
+    [openFolder, nodeId]
+  );
 
   return (
     <ListItem
@@ -118,17 +119,16 @@ export function FolderListItem(props) {
 
 function mapStateToProps(state, { node }) {
   return {
-    tracked: node.id in trackedByIdSelector(state)
+    tracked: node.id in trackedByIdSelector(state),
   };
 }
 
-export default connect(
-  mapStateToProps,
-  { openFolder, moveBookmarkNode }
-)(FolderListItem);
+export default connect(mapStateToProps, { openFolder, moveBookmarkNode })(
+  FolderListItem
+);
 
 FolderListItem.propTypes = {
   node: PropTypes.shape({
-    title: PropTypes.string
-  }).isRequired
+    title: PropTypes.string,
+  }).isRequired,
 };

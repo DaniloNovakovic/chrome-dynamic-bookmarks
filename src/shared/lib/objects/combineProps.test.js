@@ -9,7 +9,7 @@ describe("combineProps", () => {
     expect(combinedProps).toEqual({
       A: { propA: "A1", propA2: "A2" },
       B: { propB: "B" },
-      C: { propC: "C" }
+      C: { propC: "C" },
     });
   });
 });

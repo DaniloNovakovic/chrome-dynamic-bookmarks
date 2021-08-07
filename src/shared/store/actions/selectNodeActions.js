@@ -3,14 +3,14 @@ import { actionTypes } from "shared/constants";
 export function setSelected(data = []) {
   return {
     type: actionTypes.SET_SELECTED,
-    data
+    data,
   };
 }
 
 export function setSelectedPivot(pivot) {
   return {
     type: actionTypes.SET_SELECTED_PIVOT,
-    pivot
+    pivot,
   };
 }
 
@@ -18,7 +18,7 @@ export function selectRangeByPivot(from, data = []) {
   return {
     type: actionTypes.SELECT_RANGE_BY_PIVOT,
     data,
-    from
+    from,
   };
 }
 

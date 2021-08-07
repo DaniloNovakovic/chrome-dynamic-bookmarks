@@ -1,10 +1,10 @@
 import { makeStyles } from "@material-ui/core/styles";
 
-export default makeStyles(theme => {
+export default makeStyles((theme) => {
   const iconColor = theme.treeViewIconColor || "currentColor";
   return {
     children: {
-      paddingLeft: theme.spacing(1)
+      paddingLeft: theme.spacing(1),
     },
     labelRoot: {
       display: "flex",
@@ -13,21 +13,21 @@ export default makeStyles(theme => {
       userSelect: "none",
       "&:hover": {
         backgroundColor: theme.palette.action.hover,
-        cursor: "pointer"
+        cursor: "pointer",
       },
       "&$selected, &$selected:hover": {
-        backgroundColor: theme.palette.action.selected
-      }
+        backgroundColor: theme.palette.action.selected,
+      },
     },
     labelIcon: {
       marginRight: theme.spacing(1),
-      fill: iconColor
+      fill: iconColor,
     },
     labelText: {
       fontWeight: "inherit",
-      flexGrow: 1
+      flexGrow: 1,
     },
     /* Pseudo-class applied to the root element if `selected={true}`. */
-    selected: {}
+    selected: {},
   };
 });

@@ -7,10 +7,10 @@ import { ADD_BM_NODE } from "shared/constants/requestTypes";
 import { generateRegExp } from "shared/lib/regexp";
 import { withSnackbar } from "notistack";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   progress: {
-    margin: theme.spacing(2)
-  }
+    margin: theme.spacing(2),
+  },
 }));
 
 export function AddBookmarkForm({ enqueueSnackbar }) {
@@ -31,7 +31,7 @@ export function AddBookmarkForm({ enqueueSnackbar }) {
   const classes = useStyles();
 
   function handleSubmit(values, actions) {
-    sendMessage(ADD_BM_NODE, values, status => {
+    sendMessage(ADD_BM_NODE, values, (status) => {
       actions.setSubmitting(false);
       actions.setStatus(status);
       if (enqueueSnackbar) {

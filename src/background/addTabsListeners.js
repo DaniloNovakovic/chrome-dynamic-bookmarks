@@ -3,7 +3,7 @@ import { getCurrentBrowser, logWarn, logInfo, dbm } from "shared/lib/browser";
 const browser = getCurrentBrowser();
 
 export default function addTabsListeners() {
-  browser.tabs.onUpdated.addListener(function(_tabId, changeInfo) {
+  browser.tabs.onUpdated.addListener(function (_tabId, changeInfo) {
     if (!changeInfo.url) return;
     const newUrl = changeInfo.url;
 

@@ -4,14 +4,14 @@ function successHandler(_, action) {
   return {
     data: action.bookmarkNodes,
     isFaulted: false,
-    errMsg: ""
+    errMsg: "",
   };
 }
 function errorHandler(state, action) {
   return {
     data: state.data,
     isFaulted: true,
-    errMsg: action.errMsg
+    errMsg: action.errMsg,
   };
 }
 

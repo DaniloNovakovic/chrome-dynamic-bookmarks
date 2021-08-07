@@ -2,25 +2,25 @@ import filterNodes from "./filterNodes";
 
 describe("filterNodes", () => {
   const nodes = {
-    "0": {
+    0: {
       id: "0",
       parentId: null,
       title: "root",
-      children: ["1"]
+      children: ["1"],
     },
-    "1": {
+    1: {
       id: "1",
       parentId: "0",
       title: "child",
-      children: ["2"]
+      children: ["2"],
     },
-    "2": {
+    2: {
       id: "2",
       parentId: "1",
       title: "grandchild",
       url: "https://mysite.com",
-      regExp: /https/
-    }
+      regExp: /https/,
+    },
   };
   it("filters nodes by parentId", () => {
     const expected = [nodes["1"]];

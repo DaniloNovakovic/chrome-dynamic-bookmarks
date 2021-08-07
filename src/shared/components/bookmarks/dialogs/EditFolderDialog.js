@@ -35,7 +35,7 @@ export function EditFolderDialog(props) {
 EditFolderDialog.propTypes = {
   onClose: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
-  nodeId: PropTypes.string
+  nodeId: PropTypes.string,
 };
 
 function makeMapState() {
@@ -46,7 +46,6 @@ function makeMapState() {
   };
 }
 
-export default connect(
-  makeMapState,
-  { onSubmit: editBookmarkNode }
-)(EditFolderDialog);
+export default connect(makeMapState, { onSubmit: editBookmarkNode })(
+  EditFolderDialog
+);

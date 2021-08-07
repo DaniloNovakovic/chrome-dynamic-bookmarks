@@ -6,38 +6,38 @@ import SideNav from "./SideNav";
 import MainNav from "./MainNav";
 import {
   DialogProvider,
-  ActionMenuProvider
+  ActionMenuProvider,
 } from "shared/components/bookmarks";
 import { StatusSnackbar } from "shared/components/helpers";
 import SelectedNodesKeyHandler from "shared/components/bookmarks/SelectedNodesKeyHandler";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
-    display: "flex"
+    display: "flex",
   },
   mainNav: {
-    zIndex: theme.zIndex.drawer + 1
+    zIndex: theme.zIndex.drawer + 1,
   },
   sideNav: {
     [theme.breakpoints.up("sm")]: {
       width: ({ drawerWidth }) => drawerWidth,
-      flexShrink: 0
-    }
+      flexShrink: 0,
+    },
   },
   drawerPaper: {
-    width: ({ drawerWidth }) => drawerWidth
+    width: ({ drawerWidth }) => drawerWidth,
   },
   mainSection: {
     flexGrow: 1,
     minHeight: "100vh",
     padding: theme.spacing(3, 4),
     [theme.breakpoints.up("sm")]: {
-      width: ({ drawerWidth }) => `calc(100% - ${drawerWidth}px)`
+      width: ({ drawerWidth }) => `calc(100% - ${drawerWidth}px)`,
     },
     [theme.breakpoints.up("lg")]: {
-      padding: theme.spacing(3, 8)
-    }
-  }
+      padding: theme.spacing(3, 8),
+    },
+  },
 }));
 
 export default function Manager() {

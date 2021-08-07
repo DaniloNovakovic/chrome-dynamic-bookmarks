@@ -5,12 +5,12 @@ import {
   BookmarkList,
   BookmarkBreadcrumbs,
   ActionMenuContext,
-  getAnchorPosition
+  getAnchorPosition,
 } from "shared/components/bookmarks";
 import { actionMenuIds } from "shared/constants";
 
-const useStyles = makeStyles(theme => ({
-  toolbar: theme.mixins.toolbar
+const useStyles = makeStyles((theme) => ({
+  toolbar: theme.mixins.toolbar,
 }));
 
 export default function MainSection({ className }) {
@@ -19,7 +19,7 @@ export default function MainSection({ className }) {
 
   function handleContextMenu(event) {
     openActionMenu(actionMenuIds.addBookmarkNodeActionMenuId, {
-      menuProps: getAnchorPosition(event)
+      menuProps: getAnchorPosition(event),
     });
     event.preventDefault();
     event.stopPropagation();

@@ -7,9 +7,11 @@ import EditBookmarkDialog from "./EditBookmarkDialog";
 import EditFolderDialog from "./EditFolderDialog";
 
 export default function DialogReducer() {
-  const { openedDialogId, openDialog, args = {} } = React.useContext(
-    DialogContext
-  );
+  const {
+    openedDialogId,
+    openDialog,
+    args = {},
+  } = React.useContext(DialogContext);
 
   function handleClose() {
     openDialog(null);

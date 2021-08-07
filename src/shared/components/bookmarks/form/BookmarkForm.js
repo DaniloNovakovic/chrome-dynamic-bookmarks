@@ -50,7 +50,7 @@ BookmarkForm.propTypes = {
   initialValues: PropTypes.shape({
     title: PropTypes.string,
     url: PropTypes.string,
-    regExp: PropTypes.string
+    regExp: PropTypes.string,
   }),
-  handleSubmit: PropTypes.func.isRequired
+  handleSubmit: PropTypes.func.isRequired,
 };

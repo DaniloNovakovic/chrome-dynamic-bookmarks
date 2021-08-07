@@ -7,5 +7,5 @@ export default {
   fileActionMenuId,
   folderActionMenuId,
   addBookmarkNodeActionMenuId,
-  selectedNodesActionMenuId
+  selectedNodesActionMenuId,
 };

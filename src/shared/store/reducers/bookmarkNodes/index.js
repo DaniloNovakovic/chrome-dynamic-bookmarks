@@ -6,7 +6,7 @@ import registerEventHandlers from "./registerEventHandlers";
 const initialState = {
   data: {},
   isFaulted: false,
-  errMsg: ""
+  errMsg: "",
 };
 
 const factory = new ActionHandlerFactory();

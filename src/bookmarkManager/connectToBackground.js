@@ -23,7 +23,7 @@ export default function connectToBackground(onMessage = log) {
     port.postMessage(res);
   }
 
-  port.onMessage.addListener(msg => {
+  port.onMessage.addListener((msg) => {
     onMessage(msg, sendResponse);
   });
 }

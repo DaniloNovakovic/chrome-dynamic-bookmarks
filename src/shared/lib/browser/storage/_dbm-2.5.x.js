@@ -10,7 +10,7 @@ export const dynBookmarksPropName = "dynBookmarks";
  * @param {function} done - callback function called with `done(error, dynBook)`
  */
 export function findAll(done = logError) {
-  browser.storage.sync.get([dynBookmarksPropName], result => {
+  browser.storage.sync.get([dynBookmarksPropName], (result) => {
     if (browser.runtime.lastError) {
       done(browser.runtime.lastError.message);
     } else {
@@ -49,9 +49,9 @@ export function findByIdAndUpdate(id, options, done = logError) {
     } else {
       dynBook[id] = {
         regExp: options.regExp || dynBook[id].regExp,
-        history: options.history || dynBook[id].history
+        history: options.history || dynBook[id].history,
       };
-      overwrite(dynBook, err => {
+      overwrite(dynBook, (err) => {
         if (typeof done == "function") {
           if (err) done(err);
           else done(null, dynBook[id]);
@@ -92,7 +92,7 @@ export function create(props, done = logError) {
     props.id,
     {
       regExp: props.regExp,
-      history: props.history || []
+      history: props.history || [],
     },
     done
   );

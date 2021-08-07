@@ -11,12 +11,12 @@ export default function addBookmarkListeners(callback = () => {}) {
   browser.bookmarks.onMoved.addListener((id, { parentId, oldParentId }) => {
     callback({
       type: events.BM_NODE_MOVED,
-      data: { id, parentId, oldParentId }
+      data: { id, parentId, oldParentId },
     });
   });
 
-  browser.bookmarks.onRemoved.addListener(id => {
-    dbm.findByIdAndRemove(id, err => {
+  browser.bookmarks.onRemoved.addListener((id) => {
+    dbm.findByIdAndRemove(id, (err) => {
       if (err) {
         logWarn(err);
       } else {
@@ -37,7 +37,7 @@ export default function addBookmarkListeners(callback = () => {}) {
           if (errMsg) return logWarn(errMsg);
           callback({
             type: BM_NODE_CHANGED,
-            data: { id, title, url, ...updatedItem }
+            data: { id, title, url, ...updatedItem },
           });
         });
       });

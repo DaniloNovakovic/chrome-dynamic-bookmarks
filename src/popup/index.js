@@ -16,9 +16,9 @@ const App = () => {
         dense
         anchorOrigin={{
           vertical: "bottom",
-          horizontal: "right"
+          horizontal: "right",
         }}
-        action={key => <SnackbarCloseButton id={key} />}
+        action={(key) => <SnackbarCloseButton id={key} />}
       >
         <Popup />
       </SnackbarProvider>

@@ -4,14 +4,14 @@ import {
   getSortedNodes,
   getFilteredNodes,
   getBreadcrumbIds,
-  isFile
+  isFile,
 } from "shared/lib/bookmarkNodes";
 import { mapArrayToObject } from "shared/lib/objects";
 import getTrackedByIdNodes from "shared/lib/bookmarkNodes/getTrackedByIdNodes";
 
-export const clipboardSelector = state => state.clipboard;
+export const clipboardSelector = (state) => state.clipboard;
 
-export const nodesSelector = state => state.bookmarkNodes.data || {};
+export const nodesSelector = (state) => state.bookmarkNodes.data || {};
 
 const selectNodeId = (_, id) => id;
 
@@ -21,9 +21,8 @@ export const makeUniqueNodeByIdSelector = () =>
     (nodes, nodeId) => (nodeId in nodes && nodes[nodeId]) || {}
   );
 
-export const trackedByIdSelector = createSelector(
-  nodesSelector,
-  nodes => getTrackedByIdNodes(nodes)
+export const trackedByIdSelector = createSelector(nodesSelector, (nodes) =>
+  getTrackedByIdNodes(nodes)
 );
 
 export const bookmarksByParentIdSelector = createSelector(
@@ -37,25 +36,22 @@ export const bookmarksByParentIdSelector = createSelector(
       return [];
     }
     return parent.children
-      .map(childId => nodes[childId])
-      .filter(child => !!child.url);
+      .map((childId) => nodes[childId])
+      .filter((child) => !!child.url);
   }
 );
 
-export const nodesArraySelector = createSelector(
-  nodesSelector,
-  nodes =>
-    Object.keys(nodes)
-      .map(id => nodes[id])
-      .filter(node => !isRoot(node))
+export const nodesArraySelector = createSelector(nodesSelector, (nodes) =>
+  Object.keys(nodes)
+    .map((id) => nodes[id])
+    .filter((node) => !isRoot(node))
 );
 
-export const sortedNodesSelector = createSelector(
-  nodesArraySelector,
-  nodes => getSortedNodes(nodes)
+export const sortedNodesSelector = createSelector(nodesArraySelector, (nodes) =>
+  getSortedNodes(nodes)
 );
 
-export const filterSelector = state => state.filter;
+export const filterSelector = (state) => state.filter;
 
 export const filteredNodesSelector = createSelector(
   sortedNodesSelector,
@@ -65,12 +61,12 @@ export const filteredNodesSelector = createSelector(
 
 export const filteredNodeIdsSelector = createSelector(
   filteredNodesSelector,
-  (filteredNodes = []) => filteredNodes.map(node => node.id)
+  (filteredNodes = []) => filteredNodes.map((node) => node.id)
 );
 
 export const breadcrumbIdsSelector = createSelector(
   nodesSelector,
-  state => state.filter.parentId,
+  (state) => state.filter.parentId,
   (nodes, parentId) => getBreadcrumbIds(nodes, parentId)
 );
 
@@ -78,27 +74,27 @@ export const breadcrumbsSelector = createSelector(
   nodesSelector,
   breadcrumbIdsSelector,
   (nodes, breadcrumbIds) =>
-    breadcrumbIds.map(id => nodes[id]).filter(node => node && !!node.title)
+    breadcrumbIds.map((id) => nodes[id]).filter((node) => node && !!node.title)
 );
 
-export const selectedNodeIdsSelector = state =>
+export const selectedNodeIdsSelector = (state) =>
   state.selectedNodeIds.data || [];
 
-export const selectedPivotSelector = state => state.selectNodeIds.pivot;
+export const selectedPivotSelector = (state) => state.selectNodeIds.pivot;
 
 export const selectedByNodeIdSelector = createSelector(
   selectedNodeIdsSelector,
-  (selectedNodeIds = []) => mapArrayToObject(selectedNodeIds, _id => true)
+  (selectedNodeIds = []) => mapArrayToObject(selectedNodeIds, (_id) => true)
 );
 
 export const selectedNodesSelector = createSelector(
   nodesSelector,
   selectedNodeIdsSelector,
-  (nodes = {}, selectedNodeIds = []) => selectedNodeIds.map(id => nodes[id])
+  (nodes = {}, selectedNodeIds = []) => selectedNodeIds.map((id) => nodes[id])
 );
 
 export const selectedBookmarksUrlSelector = createSelector(
   selectedNodesSelector,
   (selectedNodes = []) =>
-    selectedNodes.filter(node => isFile(node)).map(node => node.url)
+    selectedNodes.filter((node) => isFile(node)).map((node) => node.url)
 );

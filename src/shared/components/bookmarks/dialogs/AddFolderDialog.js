@@ -35,17 +35,16 @@ function AddFolderDialog(props) {
 AddFolderDialog.propTypes = {
   onClose: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
-  onSubmit: PropTypes.func.isRequired
+  onSubmit: PropTypes.func.isRequired,
 };
 
 function mapStateToProps(state) {
   const filter = filterSelector(state) || {};
   return {
-    parentId: filter.parentId
+    parentId: filter.parentId,
   };
 }
 
-export default connect(
-  mapStateToProps,
-  { onSubmit: addBookmarkNode }
-)(AddFolderDialog);
+export default connect(mapStateToProps, { onSubmit: addBookmarkNode })(
+  AddFolderDialog
+);

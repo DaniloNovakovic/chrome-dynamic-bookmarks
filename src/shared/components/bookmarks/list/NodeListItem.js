@@ -7,14 +7,14 @@ import {
   selectedByNodeIdSelector,
   selectedNodeIdsSelector,
   makeUniqueNodeByIdSelector,
-  filteredNodeIdsSelector
+  filteredNodeIdsSelector,
 } from "shared/store/selectors/index";
 import { setDragTextData } from "shared/lib/dragAndDrop";
 import { getAnchorElement, getAnchorPosition } from "../actionMenus";
 import {
   toggleSelected,
   setSelectedPivot,
-  selectRangeByPivot
+  selectRangeByPivot,
 } from "shared/store/actions";
 import { actionMenuIds } from "shared/constants";
 
@@ -28,7 +28,7 @@ function NodeListItem(props) {
     setSelectedPivot,
     selectRangeByPivot,
     iconSize = 16,
-    openActionMenu
+    openActionMenu,
   } = props;
 
   const handleClick = useCallback(
@@ -49,7 +49,7 @@ function NodeListItem(props) {
     (event, nodeId, actionMenuId) => {
       openActionMenu(actionMenuId, {
         menuProps: getAnchorElement(event),
-        nodeId: nodeId
+        nodeId: nodeId,
       });
       setSelectedPivot(nodeId);
       event.preventDefault();
@@ -101,7 +101,8 @@ function mapStateToProps() {
   };
 }
 
-export default connect(
-  mapStateToProps,
-  { toggleSelected, setSelectedPivot, selectRangeByPivot }
-)(NodeListItem);
+export default connect(mapStateToProps, {
+  toggleSelected,
+  setSelectedPivot,
+  selectRangeByPivot,
+})(NodeListItem);

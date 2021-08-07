@@ -7,7 +7,7 @@ import {
   selectedBookmarksUrlSelector,
   removeBookmarkNode,
   copyToClipboard,
-  cutToClipboard
+  cutToClipboard,
 } from "shared/store";
 import OpenLinksActionMenuItems from "./OpenLinksActionMenuItems";
 
@@ -20,7 +20,7 @@ export function SelectedNodesActionMenu(props) {
     onRemove,
     onCopy,
     onCut,
-    menuProps = {}
+    menuProps = {},
   } = props;
 
   function handleClose() {
@@ -72,15 +72,12 @@ export function SelectedNodesActionMenu(props) {
 function mapStateToProps(state) {
   return {
     selectedNodeIds: selectedNodeIdsSelector(state),
-    selectedBookmarkUrls: selectedBookmarksUrlSelector(state)
+    selectedBookmarkUrls: selectedBookmarksUrlSelector(state),
   };
 }
 
-export default connect(
-  mapStateToProps,
-  {
-    onRemove: removeBookmarkNode,
-    onCopy: copyToClipboard,
-    onCut: cutToClipboard
-  }
-)(SelectedNodesActionMenu);
+export default connect(mapStateToProps, {
+  onRemove: removeBookmarkNode,
+  onCopy: copyToClipboard,
+  onCut: cutToClipboard,
+})(SelectedNodesActionMenu);

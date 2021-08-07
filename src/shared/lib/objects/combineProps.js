@@ -5,7 +5,7 @@ export function combineProps(lhs = {}, rhs = {}) {
   return {
     ...lhs,
     ...rhs,
-    ..._combineCommonProps(lhs, rhs)
+    ..._combineCommonProps(lhs, rhs),
   };
 }
 
@@ -20,7 +20,7 @@ function _combineCommonProps(lhs, rhs) {
     }
     retVal[key] = {
       ...lhs[key],
-      ...rhs[key]
+      ...rhs[key],
     };
   }
   return retVal;

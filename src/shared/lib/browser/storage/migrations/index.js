@@ -8,7 +8,7 @@ export function migrateStorage() {
   logInfo("Running migrations...");
   try {
     let migrator_260 = new Migrator260();
-    migrator_260.up(err => {
+    migrator_260.up((err) => {
       if (err) {
         logError(err);
       } else {

@@ -4,7 +4,7 @@ import {
   removeBookmarkNodeHandler,
   editBookmarkNodeHandler,
   copyBookmarkNodeHandler,
-  moveBookmarkNodeHandler
+  moveBookmarkNodeHandler,
 } from "./requestHandlers";
 
 export default function registerRoutes(router) {

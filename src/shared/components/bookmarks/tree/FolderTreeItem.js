@@ -9,7 +9,7 @@ import { openFolder, moveBookmarkNode } from "shared/store/actions";
 import {
   breadcrumbIdsSelector,
   filterSelector,
-  trackedByIdSelector
+  trackedByIdSelector,
 } from "shared/store/selectors/index";
 import TreeItem from "./TreeItem";
 import { ActionMenuContext, getAnchorPosition } from "../actionMenus";
@@ -23,7 +23,7 @@ export function FolderTreeItem({
   tracked,
   readOnly,
   breadcrumbIds,
-  children
+  children,
 }) {
   const [expanded, setExpanded] = useState(false);
   const { openActionMenu } = useContext(ActionMenuContext);
@@ -46,11 +46,11 @@ export function FolderTreeItem({
   }, [selected, openFolder, nodeId]);
 
   const handleContextMenu = useCallback(
-    event => {
+    (event) => {
       openActionMenu(actionMenuIds.folderActionMenuId, {
         menuProps: getAnchorPosition(event),
         nodeId: nodeId,
-        readOnly
+        readOnly,
       });
       event.preventDefault();
       event.stopPropagation();
@@ -58,13 +58,13 @@ export function FolderTreeItem({
     [openActionMenu, nodeId, readOnly]
   );
 
-  const handleDragOver = useCallback(event => {
+  const handleDragOver = useCallback((event) => {
     event.preventDefault();
     event.dataTransfer.dropEffect = "move";
   }, []);
 
   const handleDrop = useCallback(
-    event => {
+    (event) => {
       const fromNodeId = event.dataTransfer.getData("text");
       moveBookmarkNode(fromNodeId, { parentId: nodeId });
       event.preventDefault();
@@ -103,18 +103,17 @@ function mapStateToProps(state, { node }) {
   return {
     selected: filterSelector(state).parentId === node.id,
     breadcrumbIds: breadcrumbIdsSelector(state),
-    tracked: node.id in trackedByIdSelector(state)
+    tracked: node.id in trackedByIdSelector(state),
   };
 }
 
-export default connect(
-  mapStateToProps,
-  { openFolder, moveBookmarkNode }
-)(FolderTreeItem);
+export default connect(mapStateToProps, { openFolder, moveBookmarkNode })(
+  FolderTreeItem
+);
 
 FolderTreeItem.propTypes = {
   node: PropTypes.shape({
     id: PropTypes.string,
-    title: PropTypes.string
-  })
+    title: PropTypes.string,
+  }),
 };

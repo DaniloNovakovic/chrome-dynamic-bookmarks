@@ -3,5 +3,5 @@ export const ERROR = "error";
 
 export default {
   SUCCESS,
-  ERROR
+  ERROR,
 };

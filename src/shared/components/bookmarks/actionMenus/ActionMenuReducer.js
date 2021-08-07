@@ -7,9 +7,11 @@ import AddBookmarkNodeActionMenu from "./AddBookmarkNodeActionMenu";
 import SelectedNodesActionMenu from "./SelectedNodesActionMenu";
 
 export default function ActionMenuReducer() {
-  const { openedActionMenuId, openActionMenu, args = {} } = React.useContext(
-    ActionMenuContext
-  );
+  const {
+    openedActionMenuId,
+    openActionMenu,
+    args = {},
+  } = React.useContext(ActionMenuContext);
 
   const handleClose = useCallback(() => openActionMenu(null), [openActionMenu]);
 
