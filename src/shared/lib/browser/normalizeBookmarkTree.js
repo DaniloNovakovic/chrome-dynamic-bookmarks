@@ -21,7 +21,7 @@ export default function normalizeBookmarkTree(treeRoot) {
     }
     normalized[node.id] = {
       ...node,
-      children: childIds
+      children: childIds,
     };
   })(treeRoot);
 

@@ -35,7 +35,7 @@ export function EditBookmarkDialog(props) {
 EditBookmarkDialog.propTypes = {
   onClose: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
-  onSubmit: PropTypes.func.isRequired
+  onSubmit: PropTypes.func.isRequired,
 };
 
 function makeMapState() {
@@ -46,7 +46,6 @@ function makeMapState() {
   };
 }
 
-export default connect(
-  makeMapState,
-  { onSubmit: editBookmarkNode }
-)(EditBookmarkDialog);
+export default connect(makeMapState, { onSubmit: editBookmarkNode })(
+  EditBookmarkDialog
+);

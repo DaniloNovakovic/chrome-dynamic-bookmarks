@@ -7,7 +7,9 @@ export default function getTrackedByIdNodes(nodes = {}, rootId = "0") {
   }
 
   function _mapIdsToNodes(ids = []) {
-    return ids.filter(nodeId => nodeId in nodes).map(nodeId => nodes[nodeId]);
+    return ids
+      .filter((nodeId) => nodeId in nodes)
+      .map((nodeId) => nodes[nodeId]);
   }
 
   (function traverseTree(node) {

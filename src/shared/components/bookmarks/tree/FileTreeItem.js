@@ -11,6 +11,6 @@ export default function FileTreeItem({ node }) {
 FileTreeItem.propTypes = {
   node: PropTypes.shape({
     id: PropTypes.string,
-    title: PropTypes.string
-  })
+    title: PropTypes.string,
+  }),
 };

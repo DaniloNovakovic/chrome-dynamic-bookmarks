@@ -7,7 +7,7 @@ const defaultOptions = {
   includeFiles: false,
   fileTreeItemProps: {},
   folderTreeItemProps: {},
-  readOnlyIds: []
+  readOnlyIds: [],
 };
 
 export default function createTree(
@@ -18,7 +18,7 @@ export default function createTree(
   const {
     fileTreeItemProps = {},
     folderTreeItemProps = {},
-    readonlyIds = []
+    readonlyIds = [],
   } = options;
   const readOnly = readonlyIds.includes(rootId);
   const node = nodes[rootId];
@@ -52,15 +52,15 @@ export default function createTree(
  * @param {object} options - options / filter upon which it is decided which child nodes should be returned
  */
 function _getChildren(nodes, rootId, options = {}) {
-  let children = nodes[rootId].children.map(childId => nodes[childId]);
+  let children = nodes[rootId].children.map((childId) => nodes[childId]);
   let sorted = getSortedNodes(children);
   let filtered = _applyFilter(sorted, options);
-  return filtered.map(child => createTree(nodes, child.id));
+  return filtered.map((child) => createTree(nodes, child.id));
 }
 
 function _applyFilter(nodes = [], options = {}) {
   if (!options.includeFiles) {
-    nodes = nodes.filter(child => !isFile(child));
+    nodes = nodes.filter((child) => !isFile(child));
   }
   return nodes;
 }

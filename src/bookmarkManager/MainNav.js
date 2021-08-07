@@ -4,7 +4,7 @@ import { AppBar, Box } from "@material-ui/core";
 import {
   applyFilter,
   clearSelected,
-  removeBookmarkNode
+  removeBookmarkNode,
 } from "shared/store/actions";
 import MainNavToolbar from "./MainNavToolbar";
 import { selectedNodeIdsSelector, filterSelector } from "shared/store";
@@ -19,7 +19,7 @@ export function MainNav({
   selectedNodeIds,
   clearSelected,
   removeBookmarkNode,
-  drawerWidth
+  drawerWidth,
 }) {
   const numberOfSelected = selectedNodeIds.length;
 
@@ -55,11 +55,12 @@ export function MainNav({
 function mapStateToProps(state) {
   return {
     filter: filterSelector(state),
-    selectedNodeIds: selectedNodeIdsSelector(state)
+    selectedNodeIds: selectedNodeIdsSelector(state),
   };
 }
 
-export default connect(
-  mapStateToProps,
-  { applyFilter, clearSelected, removeBookmarkNode }
-)(MainNav);
+export default connect(mapStateToProps, {
+  applyFilter,
+  clearSelected,
+  removeBookmarkNode,
+})(MainNav);

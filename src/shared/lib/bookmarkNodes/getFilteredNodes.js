@@ -1,5 +1,5 @@
 export default function getFilteredNodes(nodes = [], { parentId, searchText }) {
-  return nodes.filter(node => {
+  return nodes.filter((node) => {
     if (parentId && node.parentId !== parentId) {
       return false;
     }

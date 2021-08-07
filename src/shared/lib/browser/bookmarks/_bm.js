@@ -15,7 +15,7 @@ export default {
   move,
   update,
   remove,
-  removeTree
+  removeTree,
 };
 
 /**
@@ -25,7 +25,7 @@ export default {
  * @param {function} done - callback function called with `done(errMsg, newBookmark)`
  */
 export function create({ title, url, parentId = null, index = null }, done) {
-  bookmarks.create({ title, url, parentId, index }, newBookmark => {
+  bookmarks.create({ title, url, parentId, index }, (newBookmark) => {
     if (!checkAndHandleError(done)) {
       done(null, newBookmark);
     }
@@ -38,8 +38,8 @@ export function create({ title, url, parentId = null, index = null }, done) {
  * @returns {Promise} Promise object represents the newly created bookmark / folder
  */
 export function createAsync(bookmarkNode) {
-  return new Promise(function(resolve, reject) {
-    create(bookmarkNode, function(err, data) {
+  return new Promise(function (resolve, reject) {
+    create(bookmarkNode, function (err, data) {
       if (err) reject(err);
       else resolve(data);
     });
@@ -47,7 +47,7 @@ export function createAsync(bookmarkNode) {
 }
 
 export function get(id, done) {
-  bookmarks.get(id, results => {
+  bookmarks.get(id, (results) => {
     if (!checkAndHandleError(done)) {
       const node = results[0];
       done(null, node);
@@ -60,7 +60,7 @@ export function get(id, done) {
  * @param {function} done - callback function called with `done(errMsg, subTreeRoot)`
  */
 export function getSubTree(id, done) {
-  bookmarks.getSubTree(id, results => {
+  bookmarks.getSubTree(id, (results) => {
     if (!checkAndHandleError(done)) {
       const rootNode = results[0];
       done(null, rootNode);
@@ -73,7 +73,7 @@ export function getSubTree(id, done) {
  * @param {function} done - callback function called with `done(errMsg, treeRoot)`
  */
 export function getTreeRoot(done) {
-  bookmarks.getTree(results => {
+  bookmarks.getTree((results) => {
     if (!checkAndHandleError(done)) {
       const rootNode = results[0];
       done(null, rootNode);
@@ -87,7 +87,7 @@ export function getTreeRoot(done) {
  * @param {function} done - callback called with `done([bookmarks])`
  */
 export function getChildren(id, done) {
-  bookmarks.getChildren(id, results => {
+  bookmarks.getChildren(id, (results) => {
     if (checkAndHandleError()) {
       done([]);
     } else {
@@ -102,7 +102,7 @@ export function getChildren(id, done) {
  * @param {callback} done - callback function called with `done([bookmarks])`
  */
 export function search(query, done) {
-  bookmarks.search(query || {}, results => {
+  bookmarks.search(query || {}, (results) => {
     if (checkAndHandleError()) {
       done([]);
     } else {
@@ -112,7 +112,7 @@ export function search(query, done) {
 }
 
 export function move(id, { parentId, index }, done) {
-  bookmarks.move(id, { parentId, index }, result => {
+  bookmarks.move(id, { parentId, index }, (result) => {
     if (!checkAndHandleError(done)) {
       done(null, result);
     }
@@ -120,7 +120,7 @@ export function move(id, { parentId, index }, done) {
 }
 
 export function update(id, { title, url }, done) {
-  bookmarks.update(id, { title, url }, updatedNode => {
+  bookmarks.update(id, { title, url }, (updatedNode) => {
     if (!checkAndHandleError(done)) {
       done(null, updatedNode);
     }

@@ -7,14 +7,14 @@ import {
   cutToClipboard,
   pasteToBookmarkNode,
   clipboardSelector,
-  makeUniqueNodeByIdSelector
+  makeUniqueNodeByIdSelector,
 } from "shared/store";
 import { DialogContext } from "shared/components/bookmarks";
 import { dialogIds } from "shared/constants";
 import {
   openNewTab,
   openNewWindow,
-  openNewIncognitoWindow
+  openNewIncognitoWindow,
 } from "shared/lib/browser";
 
 export function FileActionMenu(props) {
@@ -29,7 +29,7 @@ export function FileActionMenu(props) {
     onCopy,
     onCut,
     onPaste,
-    menuProps = {}
+    menuProps = {},
   } = props;
 
   const { url, parentId } = node;
@@ -57,7 +57,7 @@ export function FileActionMenu(props) {
     onPaste({
       type: clipboard.type,
       from: clipboard.data,
-      to: { parentId }
+      to: { parentId },
     });
     handleClose();
   }
@@ -129,17 +129,14 @@ function makeMapState() {
   return (state, { nodeId = "" }) => {
     return {
       node: nodeByIdSelector(state, nodeId),
-      clipboard: clipboardSelector(state)
+      clipboard: clipboardSelector(state),
     };
   };
 }
 
-export default connect(
-  makeMapState,
-  {
-    onRemove: removeBookmarkNode,
-    onCopy: copyToClipboard,
-    onCut: cutToClipboard,
-    onPaste: pasteToBookmarkNode
-  }
-)(FileActionMenu);
+export default connect(makeMapState, {
+  onRemove: removeBookmarkNode,
+  onCopy: copyToClipboard,
+  onCut: cutToClipboard,
+  onPaste: pasteToBookmarkNode,
+})(FileActionMenu);

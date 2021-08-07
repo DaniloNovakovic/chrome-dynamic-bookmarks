@@ -4,7 +4,7 @@ import { actionTypes } from "shared/constants";
 
 const initialState = {
   type: null,
-  message: null
+  message: null,
 };
 
 function handleSuccess(_, { message }) {

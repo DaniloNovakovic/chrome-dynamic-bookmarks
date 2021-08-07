@@ -7,5 +7,5 @@ export default {
   BM_NODE_CHANGED,
   BM_NODE_CREATED,
   BM_NODE_MOVED,
-  BM_NODE_REMOVED
+  BM_NODE_REMOVED,
 };

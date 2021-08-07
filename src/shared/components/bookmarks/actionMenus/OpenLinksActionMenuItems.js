@@ -4,15 +4,15 @@ import { makeStyles } from "@material-ui/core/styles";
 import {
   openNewTab,
   openNewWindow,
-  openNewIncognitoWindow
+  openNewIncognitoWindow,
 } from "shared/lib/browser";
 
 const useStyles = makeStyles(() => {
   return {
     menuItemFlex: {
       display: "flex",
-      justifyContent: "space-between"
-    }
+      justifyContent: "space-between",
+    },
   };
 });
 

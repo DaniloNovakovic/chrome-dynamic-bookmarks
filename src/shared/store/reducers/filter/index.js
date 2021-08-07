@@ -4,14 +4,14 @@ import actionTypes from "shared/constants/actionTypes";
 
 const initialState = {
   searchText: "",
-  parentId: ""
+  parentId: "",
 };
 
 function applyFilterHandler(_, { filter }) {
   const { searchText, parentId } = filter || {};
   return {
     searchText: searchText,
-    parentId: parentId || (!searchText && "1")
+    parentId: parentId || (!searchText && "1"),
   };
 }
 

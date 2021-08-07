@@ -13,10 +13,10 @@ export class Dbm260 {
   /**`
    * @param {function} done - callback function called with `done(error, dynBook)`
    */
-  findAll = done => {
+  findAll = (done) => {
     this._getAllIds((errMsg, ids = []) => {
       if (errMsg) return done(errMsg);
-      this.storage.get(ids, result => {
+      this.storage.get(ids, (result) => {
         if (!checkAndHandleError(done)) {
           const dynBook = _cloneWithMappedKeys(result, _convertToBookmarkId);
           done(null, dynBook);
@@ -31,7 +31,7 @@ export class Dbm260 {
    */
   findById = (id, done) => {
     const key = _convertToDbmId(id);
-    this.storage.get([key], result => {
+    this.storage.get([key], (result) => {
       if (!checkAndHandleError(done)) {
         done(null, result[key]);
       }
@@ -66,7 +66,7 @@ export class Dbm260 {
       }
       item = {
         regExp: regExp || item.regExp,
-        history: history || item.history || []
+        history: history || item.history || [],
       };
       this._setItem(key, item, done);
     });
@@ -81,7 +81,7 @@ export class Dbm260 {
     const key = _convertToDbmId(id);
     this._setItem(key, { regExp, history }, (errMsg, createdItem) => {
       if (errMsg) return done(errMsg);
-      this._addKeyToDbmIds(key, errMsg => {
+      this._addKeyToDbmIds(key, (errMsg) => {
         done(errMsg, createdItem);
       });
     });
@@ -108,7 +108,7 @@ export class Dbm260 {
    * @param {function} done - callback function called with `done(errMsg: string, ids: string[])`
    */
   _getAllIds(done) {
-    this.storage.get([dbmIdsPropName], result => {
+    this.storage.get([dbmIdsPropName], (result) => {
       if (!checkAndHandleError(done)) {
         const ids = result[dbmIdsPropName] || [];
         done(null, ids);
@@ -116,7 +116,7 @@ export class Dbm260 {
     });
   }
   _getIdsToRemove(dbmIds = [], newDynBookMapped = {}) {
-    const idsToRemove = dbmIds.filter(key => !(key in newDynBookMapped));
+    const idsToRemove = dbmIds.filter((key) => !(key in newDynBookMapped));
     return idsToRemove;
   }
 
@@ -154,7 +154,7 @@ export class Dbm260 {
   _removeKeyFromDbmIds(key, done) {
     this._getAllIds((errMsg, ids = []) => {
       if (errMsg) return done(errMsg);
-      const newIds = ids.filter(el => el !== key);
+      const newIds = ids.filter((el) => el !== key);
       this._setItem(dbmIdsPropName, newIds, done);
     });
   }

@@ -25,13 +25,13 @@ export default function TreeItem({
       labelElement.current.scrollIntoView({
         behavior: "smooth",
         block: "center",
-        inline: "nearest"
+        inline: "nearest",
       });
     }
   }, [selected]);
 
   const handleToggleExpanded = useCallback(
-    event => {
+    (event) => {
       if (toggleExpanded) {
         toggleExpanded();
         event.stopPropagation();

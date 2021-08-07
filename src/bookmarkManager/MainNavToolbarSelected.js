@@ -3,26 +3,26 @@ import { makeStyles } from "@material-ui/styles";
 import { IconButton, Toolbar, Typography, Button } from "@material-ui/core";
 import { Clear } from "@material-ui/icons";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   menuButton: {
     [theme.breakpoints.up("sm")]: {
-      marginLeft: ({ drawerWidth }) => drawerWidth
+      marginLeft: ({ drawerWidth }) => drawerWidth,
     },
-    marginRight: theme.spacing(2)
+    marginRight: theme.spacing(2),
   },
   actionButton: {
-    marginLeft: theme.spacing(1)
+    marginLeft: theme.spacing(1),
   },
   title: {
-    flexGrow: 1
-  }
+    flexGrow: 1,
+  },
 }));
 
 export default function MainNavToolbarSelected({
   numberOfSelected = 0,
   onCancel,
   onDelete,
-  drawerWidth
+  drawerWidth,
 }) {
   const classes = useStyles({ drawerWidth });
 

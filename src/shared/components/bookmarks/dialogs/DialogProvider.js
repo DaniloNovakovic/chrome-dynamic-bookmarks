@@ -7,7 +7,7 @@ export default class DialogProvider extends Component {
     openedDialogId: null,
     openDialog: (id, args = {}) => {
       this.setState({ openedDialogId: id, args: { ...args } });
-    }
+    },
   };
   render() {
     return (

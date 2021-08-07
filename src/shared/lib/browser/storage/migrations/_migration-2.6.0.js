@@ -21,7 +21,7 @@ export class Migrator260 {
     });
   }
   _moveToNewStorage(dynBook, done) {
-    dbm260.overwrite(dynBook, errMsg => {
+    dbm260.overwrite(dynBook, (errMsg) => {
       if (errMsg) {
         return done(errMsg);
       }
@@ -32,7 +32,7 @@ export class Migrator260 {
 
   _removeOldStorage(done) {
     logInfo("Removing old storage...");
-    dbm25x.clearAll(errMsg => {
+    dbm25x.clearAll((errMsg) => {
       if (errMsg) {
         return done(errMsg);
       }

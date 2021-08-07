@@ -7,14 +7,14 @@ const initialState = {};
 function handleCopy(_, { data }) {
   return {
     type: clipboardTypes.COPIED,
-    data
+    data,
   };
 }
 
 function handleCut(_, { data }) {
   return {
     type: clipboardTypes.CUT,
-    data
+    data,
   };
 }
 

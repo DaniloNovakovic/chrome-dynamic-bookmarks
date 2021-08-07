@@ -6,7 +6,7 @@ describe("onNodeChanged", () => {
   beforeEach(() => {
     initialState = {
       data: {
-        "21": {
+        21: {
           dateAdded: 1567119984768,
           id: "21",
           index: 6,
@@ -37,7 +37,7 @@ describe("onNodeChanged", () => {
 
     const expectedState = {
       data: {
-        "21": {
+        21: {
           dateAdded: 1567119984768,
           id: "21",
           index: 6,
@@ -67,7 +67,7 @@ describe("onNodeChanged", () => {
 
     const expectedState = {
       data: {
-        "21": {
+        21: {
           dateAdded: 1567119984768,
           id: "21",
           index: 6,

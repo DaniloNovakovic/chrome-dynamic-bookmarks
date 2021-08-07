@@ -5,20 +5,20 @@ import MenuIcon from "@material-ui/icons/Menu";
 import { SearchInput } from "shared/components/helpers";
 import MainNavMenu from "./MainNavMenu";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   menuButton: {
     marginRight: theme.spacing(2),
     [theme.breakpoints.up("sm")]: {
-      display: "none"
-    }
+      display: "none",
+    },
   },
   title: {
     flexGrow: 1,
     display: "none",
     [theme.breakpoints.up("sm")]: {
-      display: "block"
-    }
-  }
+      display: "block",
+    },
+  },
 }));
 
 let oldParentId;
@@ -26,7 +26,7 @@ let oldParentId;
 export default function MainNavToolbar({
   handleDrawerToggle,
   filter,
-  applyFilter
+  applyFilter,
 }) {
   const classes = useStyles();
 

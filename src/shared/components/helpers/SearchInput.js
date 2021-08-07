@@ -5,20 +5,20 @@ import { fade, makeStyles } from "@material-ui/core/styles";
 import SearchIcon from "@material-ui/icons/Search";
 import { useDebounce } from "shared/lib/hooks";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   search: {
     position: "relative",
     borderRadius: theme.shape.borderRadius,
     backgroundColor: fade(theme.palette.common.white, 0.15),
     "&:hover": {
-      backgroundColor: fade(theme.palette.common.white, 0.25)
+      backgroundColor: fade(theme.palette.common.white, 0.25),
     },
     marginLeft: 0,
     width: "100%",
     [theme.breakpoints.up("sm")]: {
       marginLeft: theme.spacing(1),
-      width: "auto"
-    }
+      width: "auto",
+    },
   },
   searchIcon: {
     width: theme.spacing(7),
@@ -27,10 +27,10 @@ const useStyles = makeStyles(theme => ({
     pointerEvents: "none",
     display: "flex",
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
   },
   inputRoot: {
-    color: "inherit"
+    color: "inherit",
   },
   inputInput: {
     padding: theme.spacing(1, 1, 1, 7),
@@ -39,10 +39,10 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.up("sm")]: {
       width: 200,
       "&:focus": {
-        width: 350
-      }
-    }
-  }
+        width: 350,
+      },
+    },
+  },
 }));
 
 export default function SearchInput(props) {
@@ -66,15 +66,15 @@ export default function SearchInput(props) {
         placeholder="Search…"
         classes={{
           root: classes.inputRoot,
-          input: classes.inputInput
+          input: classes.inputInput,
         }}
         inputProps={{ "aria-label": "search" }}
-        onChange={event => setSearchTerm(event.target.value)}
+        onChange={(event) => setSearchTerm(event.target.value)}
       />
     </div>
   );
 }
 
 SearchInput.propTypes = {
-  onChange: PropTypes.func.isRequired
+  onChange: PropTypes.func.isRequired,
 };

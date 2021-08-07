@@ -9,5 +9,5 @@ export default {
   COPY_BM_NODE,
   EDIT_BM_NODE,
   MOVE_BM_NODE,
-  REMOVE_BM_NODE
+  REMOVE_BM_NODE,
 };

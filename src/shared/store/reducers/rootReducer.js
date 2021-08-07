@@ -11,7 +11,7 @@ const appReducer = combineReducers({
   bookmarkNodes,
   clipboard,
   filter,
-  selectedNodeIds
+  selectedNodeIds,
 });
 
 function rootReducer(state, action) {

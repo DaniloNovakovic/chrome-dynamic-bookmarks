@@ -12,7 +12,7 @@ export default function BookmarkIcon({ url, size = 24 }) {
         backgroundRepeat: "no-repeat",
         height: `${size}px`,
         width: `${size}px`,
-        backgroundImage: `-webkit-image-set(url(${faviconSrc}) 1x, url(${faviconSrc2}) 2x, url(${DefaultIcon}) 1x)`
+        backgroundImage: `-webkit-image-set(url(${faviconSrc}) 1x, url(${faviconSrc2}) 2x, url(${DefaultIcon}) 1x)`,
       }}
     />
   );

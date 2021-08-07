@@ -7,7 +7,7 @@ function log(response) {
 function defaultRequestHandler(request, sendResponse = log) {
   sendResponse({
     type: responseTypes.ERROR,
-    message: `Could not handle request of type ${request.type}`
+    message: `Could not handle request of type ${request.type}`,
   });
 }
 

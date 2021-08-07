@@ -10,35 +10,35 @@ describe("normalizeBookmarkTree", () => {
           children: [],
           id: "1",
           parentId: "0",
-          title: "Folder"
+          title: "Folder",
         },
         {
           id: "2",
           parentId: "0",
           url: "https://mysite.com",
-          title: "Bookmark"
-        }
-      ]
+          title: "Bookmark",
+        },
+      ],
     };
 
     const expected = {
-      "0": {
+      0: {
         id: "0",
         title: "",
-        children: ["1", "2"]
+        children: ["1", "2"],
       },
-      "1": {
+      1: {
         id: "1",
         parentId: "0",
         title: "Folder",
-        children: []
+        children: [],
       },
-      "2": {
+      2: {
         id: "2",
         parentId: "0",
         title: "Bookmark",
-        url: "https://mysite.com"
-      }
+        url: "https://mysite.com",
+      },
     };
 
     const actual = normalizeBookmarkTree(treeRoot);

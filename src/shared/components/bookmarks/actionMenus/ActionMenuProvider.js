@@ -6,7 +6,7 @@ export default class ActionMenuProvider extends Component {
   state = {
     openActionMenu: (id, args = {}) => {
       this.setState({ openedActionMenuId: id, args: { ...args } });
-    }
+    },
   };
   render() {
     return (

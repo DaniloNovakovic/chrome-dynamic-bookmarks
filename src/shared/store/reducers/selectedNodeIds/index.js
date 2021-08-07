@@ -23,7 +23,7 @@ function appendSelectedHandler(state, { data }) {
 }
 
 function removeSelectedHandler(state, { data }) {
-  return { ...state, data: state.data.filter(val => val != data) };
+  return { ...state, data: state.data.filter((val) => val != data) };
 }
 
 function clearSelectedHandler() {

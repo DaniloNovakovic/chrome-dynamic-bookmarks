@@ -9,7 +9,7 @@ const FolderSchema = Yup.object().shape({
   title: Yup.string()
     .min(2, "Minimum of 2 characters is required!")
     .max(100, "Maximum allowed characters is 100!")
-    .required("Required!")
+    .required("Required!"),
 });
 
 export default function FolderForm(props) {
@@ -38,7 +38,7 @@ export default function FolderForm(props) {
 
 FolderForm.propTypes = {
   initialValues: PropTypes.shape({
-    title: PropTypes.string
+    title: PropTypes.string,
   }),
-  handleSubmit: PropTypes.func.isRequired
+  handleSubmit: PropTypes.func.isRequired,
 };

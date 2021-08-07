@@ -1,12 +1,12 @@
-const defaultHandler = state => {
+const defaultHandler = (state) => {
   return state;
 };
 
 const defaultConfig = {
-  defaultHandler
+  defaultHandler,
 };
 
-const formatKey = key => {
+const formatKey = (key) => {
   return key.toString().toUpperCase();
 };
 

@@ -7,5 +7,5 @@ export default {
   addBookmarkDialogId,
   addFolderDialogId,
   editBookmarkDialogId,
-  editFolderDialogId
+  editFolderDialogId,
 };
