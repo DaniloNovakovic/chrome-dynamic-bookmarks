@@ -10,7 +10,9 @@
     "build": "cross-env NODE_ENV=production webpack -p --env.env=prod",
     "analyze-build": "cross-env NODE_ENV=production webpack -p --env.env=prod --env.addons=bundleanalyzer",
     "clean": "rimraf build",
-    "test": "jest"
+    "rest": "rimraf node_modules",
+    "test": "jest",
+    "lint": "eslint ."
   },
   "dependencies": {
     "@material-ui/core": "^4.10.2",
@@ -59,6 +61,7 @@
     "jest": "^24.9.0",
     "mini-css-extract-plugin": "^0.8.2",
     "optimize-css-assets-webpack-plugin": "^5.0.3",
+    "prettier": "2.3.2",
     "prop-types": "^15.7.2",
     "react-hot-loader": "^4.12.21",
     "rimraf": "^3.0.2",

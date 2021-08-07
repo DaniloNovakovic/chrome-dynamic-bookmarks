@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 ///<reference path="./chrome.intellisense.js"/>
 
 /**

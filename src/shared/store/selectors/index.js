@@ -88,7 +88,7 @@ export const selectedPivotSelector = state => state.selectNodeIds.pivot;
 
 export const selectedByNodeIdSelector = createSelector(
   selectedNodeIdsSelector,
-  (selectedNodeIds = []) => mapArrayToObject(selectedNodeIds, _ => true)
+  (selectedNodeIds = []) => mapArrayToObject(selectedNodeIds, _id => true)
 );
 
 export const selectedNodesSelector = createSelector(

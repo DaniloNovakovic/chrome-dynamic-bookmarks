@@ -4,5 +4,5 @@
  * @param {string} regExpString - string to escape
  */
 export default function escapeRegExp(regExpString) {
-  return regExpString.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&");
+  return regExpString.replace(/[-/\\^$*+?.()|[\]{}]/g, "\\$&");
 }

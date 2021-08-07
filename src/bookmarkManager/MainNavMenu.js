@@ -1,5 +1,5 @@
 import React from "react";
-import { IconButton, Menu, MenuItem, Divider } from "@material-ui/core";
+import { IconButton, Menu, MenuItem } from "@material-ui/core";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import { DialogContext } from "shared/components/bookmarks";
 import { dialogIds } from "shared/constants";
