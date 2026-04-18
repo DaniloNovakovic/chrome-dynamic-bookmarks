@@ -11,7 +11,6 @@ const presets = [
 ];
 
 const plugins = [
-  "react-hot-loader/babel",
   "@babel/plugin-syntax-dynamic-import",
   "@babel/plugin-transform-async-to-generator",
   ["@babel/plugin-proposal-private-methods", { loose: true }],

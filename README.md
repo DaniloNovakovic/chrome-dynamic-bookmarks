@@ -42,12 +42,19 @@ Google Chrome extension which dynamically updates bookmarks based on the specifi
 1. [Download](https://github.com/DaniloNovakovic/chrome-dynamic-bookmarks/archive/master.zip) or clone current repository
 1. Navigate to the downloaded folder and run `yarn install` in the console (ex. cmd/terminal/PowerShell). This repo expects **Yarn 1.22.22** (see `packageManager` in [`package.json`](package.json); [Corepack](https://nodejs.org/api/corepack.html) can enforce it).
    (Note: you will need to have [node.js](https://nodejs.org/en/) installed on your computer)
-1. Once dependencies are installed, run `yarn build` to create a production build (or `yarn dev` for a development build)
+1. Once dependencies are installed, run `yarn build` to create a production build
+1. For development, run `yarn dev` to keep rebuilding the unpacked extension into `build/` as source files change
 1. On your browser search page type in (navigate to) `chrome://extensions/`
 1. In the now opened `chrome://extensions/` page turn on the developer mode
 1. Expand the Developer dropdown menu (if needed) and press `Load unpacked` button
 1. Navigate to the downloaded/cloned local folder of this repository, select `build` folder and click Ok
 1. Assuming there are no errors, the extension should load into your browser
+
+### Build notes
+
+- The extension now builds with Vite and writes the unpacked output to `build/`.
+- HTML source templates stay in `public/` and are transformed into `build/popup.html`, `build/bookmarkManager.html`, and `build/options.html` during the build.
+- The manifest is generated from `public/manifest.json` with `version` and `description` injected from `package.json`.
 
 ## Introduction
 
@@ -216,6 +223,14 @@ My recommendations are [The Coding Train](https://www.youtube.com/watch?v=7DG3kC
 
 If you have questions that aren't answered in [FAQ](#faq) you can contact me at [Linkedin](https://www.linkedin.com/in/danilo-novakovi%C4%87-821934167/) or by (preferably) posting an issue on GitHub.
 The same goes for if you have an additional idea on how to improve this extension.
+
+## Modernization roadmap
+
+The bundler migration is intentionally separated from runtime library upgrades. Recommended follow-up batches are:
+
+1. Upgrade React 16 to a newer supported React release while keeping app behavior unchanged.
+1. Migrate Material-UI v4 to MUI v5+ after React is stable.
+1. Refresh Formik, Yup, Redux-related packages, and Storybook in smaller follow-up passes.
 
 ---
 
