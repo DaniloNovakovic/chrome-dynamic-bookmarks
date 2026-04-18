@@ -40,9 +40,9 @@ Google Chrome extension which dynamically updates bookmarks based on the specifi
 ### To install locally (for developers)
 
 1. [Download](https://github.com/DaniloNovakovic/chrome-dynamic-bookmarks/archive/master.zip) or clone current repository
-1. Navigate to the downloaded folder and run `npm init` in console (ex. cmd/terminal/PowerShell)
+1. Navigate to the downloaded folder and run `yarn install` in the console (ex. cmd/terminal/PowerShell). This repo expects **Yarn 1.22.22** (see `packageManager` in [`package.json`](package.json); [Corepack](https://nodejs.org/api/corepack.html) can enforce it).
    (Note: you will need to have [node.js](https://nodejs.org/en/) installed on your computer)
-1. Once node_modules is installed run `npm run build` to create production build (or `npm run dev` for development one)
+1. Once dependencies are installed, run `yarn build` to create a production build (or `yarn dev` for a development build)
 1. On your browser search page type in (navigate to) `chrome://extensions/`
 1. In the now opened `chrome://extensions/` page turn on the developer mode
 1. Expand the Developer dropdown menu (if needed) and press `Load unpacked` button
