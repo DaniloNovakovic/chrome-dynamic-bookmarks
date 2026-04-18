@@ -7,12 +7,12 @@
     "format:prettier"
   ],
   "scripts": {
-    "start": "webpack-dev-server --open --env.env=dev",
-    "watch": "webpack --watch --env.env=dev",
-    "dev": "webpack --env.env=dev",
-    "dev:analyze": "webpack --env.env=dev --env.addons=bundleanalyzer",
-    "build": "cross-env NODE_ENV=production webpack -p --env.env=prod",
-    "build:analyze": "cross-env NODE_ENV=production webpack -p --env.env=prod --env.addons=bundleanalyzer",
+    "start": "cross-env NODE_OPTIONS=--openssl-legacy-provider webpack-dev-server --open --env.env=dev",
+    "watch": "cross-env NODE_OPTIONS=--openssl-legacy-provider webpack --watch --env.env=dev",
+    "dev": "cross-env NODE_OPTIONS=--openssl-legacy-provider webpack --env.env=dev",
+    "dev:analyze": "cross-env NODE_OPTIONS=--openssl-legacy-provider webpack --env.env=dev --env.addons=bundleanalyzer",
+    "build": "cross-env NODE_ENV=production NODE_OPTIONS=--openssl-legacy-provider webpack -p --env.env=prod",
+    "build:analyze": "cross-env NODE_ENV=production NODE_OPTIONS=--openssl-legacy-provider webpack -p --env.env=prod --env.addons=bundleanalyzer",
     "clean": "rimraf build",
     "check:types": "tsc",
     "reset": "rimraf node_modules",
