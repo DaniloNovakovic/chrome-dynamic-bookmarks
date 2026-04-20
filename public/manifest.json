@@ -5,7 +5,8 @@
   "version": "x.x.x",
   "permissions": ["tabs", "bookmarks", "storage", "favicon"],
   "background": {
-    "service_worker": "background.bundle.js"
+    "service_worker": "background.bundle.js",
+    "type": "module"
   },
   "action": {
     "default_popup": "popup.html",
