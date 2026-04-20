@@ -56,6 +56,33 @@ Google Chrome extension which dynamically updates bookmarks based on the specifi
 - HTML source templates stay in `public/` and are transformed into `build/popup.html`, `build/bookmarkManager.html`, and `build/options.html` during the build.
 - The manifest is generated from `public/manifest.json` with `version` and `description` injected from `package.json`.
 
+### Manual isolated extension testing
+
+For smoke testing changes in a clean Chrome profile, use:
+
+- `yarn test:manual` - launches Chrome with only this unpacked extension loaded from `build/` (run `yarn build` first).
+- `yarn test:manual:watch` - runs `yarn dev` and waits for `build/manifest.json`, then opens isolated Chrome for click-through testing.
+
+Notes:
+
+- The launcher uses a temporary profile under `.tmp/` so your regular Chrome profile stays untouched.
+- If Chrome is installed in a non-standard location, set `CHROME_PATH` before running the command.
+
+### Automated E2E tests (Playwright)
+
+The E2E suite validates core extension behavior with Chromium + unpacked extension loading.
+
+- Install browser once: `yarn test:e2e:install`
+- Run tests headless: `yarn test:e2e`
+- Run tests headed: `yarn test:e2e:headed`
+
+Implementation details:
+
+- Tests live under `e2e/`.
+- `e2e/global-setup.js` builds the extension before tests (set `SKIP_EXTENSION_BUILD=1` to reuse an existing build).
+- The suite currently runs serially to reduce MV3/service-worker flakiness.
+- Playwright artifacts are gitignored: `test-results/`, `playwright-report/`, and `blob-report/`.
+
 ## Introduction
 
 Let's start by clicking on the extension icon on the top right. <br>

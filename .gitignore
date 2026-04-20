@@ -12,3 +12,7 @@ secrets.*.js
 /jest/reports
 .yarnrc
 .yarn
+.tmp
+test-results/
+playwright-report/
+blob-report/
