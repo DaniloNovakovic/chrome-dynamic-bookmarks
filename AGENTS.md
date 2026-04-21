@@ -9,7 +9,7 @@ Chrome **Manifest V3** extension: when a tab’s URL matches a bookmark’s stor
 ## Stack and layout
 
 - **UI**: React 16, Redux, Material-UI v4, Formik/Yup.
-- **Build**: Webpack 4; multiple entries in [build-utils/webpack.common.js](build-utils/webpack.common.js): `popup` (TSX), `bookmarkManager`, `options`, `background` (service worker), plus `vendor`.
+- **Build**: Vite; entry bundles are configured in [vite.config.ts](vite.config.ts) for `popup` (TSX), `bookmarkManager`, `options`, and `background` (service worker). HTML source templates stay in [public/](public/) and are injected into `build/` during the Vite build.
 - **Imports**: path alias `@/` → `src/` ([tsconfig.json](tsconfig.json)); TypeScript is **gradual** (`strict` is off); many files are still `.js`/`.jsx` — match local style.
 - **Browser API**: prefer `getCurrentBrowser()` from `src/shared/lib/browser/getCurrentBrowser.ts` instead of hard-coding `chrome` where the codebase already does.
 
@@ -19,15 +19,15 @@ Use **Yarn 1.22.22** (`packageManager` in [package.json](package.json)). [`.gith
 
 ## Commands
 
-| Task | Command |
-|------|---------|
-| Dev bundle | `yarn dev` |
-| Watch dev | `yarn watch` |
-| Production bundle | `yarn build` |
-| Lint | `yarn lint` |
-| Typecheck | `yarn check:types` |
-| Tests | `yarn test` |
-| Storybook | `yarn storybook` |
+| Task              | Command            |
+| ----------------- | ------------------ |
+| Dev bundle        | `yarn dev`         |
+| Watch dev         | `yarn watch`       |
+| Production bundle | `yarn build`       |
+| Lint              | `yarn lint`        |
+| Typecheck         | `yarn check:types` |
+| Tests             | `yarn test`        |
+| Storybook         | `yarn storybook`   |
 
 Run **`yarn lint`**, **`yarn check:types`**, and **`yarn test`** before opening a PR (matches CI).
 
@@ -37,21 +37,21 @@ After `yarn build` or `yarn dev`, output is under **`build/`**. In Chrome: `chro
 
 ## Where to change behavior
 
-| Area | Location |
-|------|----------|
-| Tab URL → update matching bookmarks | [src/background/addTabsListeners.js](src/background/addTabsListeners.js) (`dbm.findAll`, `RegExp`, `bookmarks.update`) |
-| Runtime messages (CRUD, etc.) | [src/background/addMessageListeners.js](src/background/addMessageListeners.js) → [createRouter.js](src/background/createRouter.js) → [registerRoutes.js](src/background/registerRoutes.js) → [src/background/requestHandlers/](src/background/requestHandlers/) |
-| Client → background calls | [src/shared/lib/browser/messages/sendMessage.ts](src/shared/lib/browser/messages/sendMessage.ts) — payload shape `{ type, data }`; listener returns **`true`** for async `sendResponse` |
-| Bookmark + storage orchestration | [src/shared/lib/browser/dynBookmarksFacade.ts](src/shared/lib/browser/dynBookmarksFacade.ts) |
-| Storage keys / migrations | [src/shared/lib/browser/storage/](src/shared/lib/browser/storage/) |
-| Redux + shared UI | [src/shared/](src/shared/) |
-| Entry-specific UI | `src/popup/`, `src/bookmarkManager/`, `src/options/` |
+| Area                                | Location                                                                                                                                                                                                                                                        |
+| ----------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Tab URL → update matching bookmarks | [src/background/addTabsListeners.js](src/background/addTabsListeners.js) (`dbm.findAll`, `RegExp`, `bookmarks.update`)                                                                                                                                          |
+| Runtime messages (CRUD, etc.)       | [src/background/addMessageListeners.js](src/background/addMessageListeners.js) → [createRouter.js](src/background/createRouter.js) → [registerRoutes.js](src/background/registerRoutes.js) → [src/background/requestHandlers/](src/background/requestHandlers/) |
+| Client → background calls           | [src/shared/lib/browser/messages/sendMessage.ts](src/shared/lib/browser/messages/sendMessage.ts) — payload shape `{ type, data }`; listener returns **`true`** for async `sendResponse`                                                                         |
+| Bookmark + storage orchestration    | [src/shared/lib/browser/dynBookmarksFacade.ts](src/shared/lib/browser/dynBookmarksFacade.ts)                                                                                                                                                                    |
+| Storage keys / migrations           | [src/shared/lib/browser/storage/](src/shared/lib/browser/storage/)                                                                                                                                                                                              |
+| Redux + shared UI                   | [src/shared/](src/shared/)                                                                                                                                                                                                                                      |
+| Entry-specific UI                   | `src/popup/`, `src/bookmarkManager/`, `src/options/`                                                                                                                                                                                                            |
 
 Request `type` strings are defined in [src/shared/constants/requestTypes.ts](src/shared/constants/requestTypes.ts).
 
 ## Manifest and CSP
 
-[public/manifest.json](public/manifest.json) is copied into `build/` with version/description from `package.json`. It includes **localhost** in CSP for dev tooling; be careful when changing ports or tightening CSP for release.
+[public/manifest.json](public/manifest.json) is used as the source manifest and transformed into `build/manifest.json` with version/description from `package.json`. It includes **localhost** in CSP for dev tooling; be careful when changing ports or tightening CSP for release.
 
 ## Tests
 
