@@ -70,7 +70,7 @@ export function createBookmarkNode(node, done) {
       return done(errMsg);
     }
     if (!node.regExp) {
-      done(null, createdNode);
+      return done(null, createdNode);
     }
     storage.create(
       { id: createdNode.id, regExp: node.regExp, history: [] },
