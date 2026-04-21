@@ -58,20 +58,19 @@ Google Chrome extension which dynamically updates bookmarks based on the specifi
 
 ### Manual isolated extension testing
 
-For smoke testing changes in a clean Chrome profile, use:
+For smoke testing changes in a clean Chromium profile, use:
 
-- `yarn test:manual` - launches Chrome with only this unpacked extension loaded from `build/` (run `yarn build` first).
-- `yarn test:manual:chromium` - forces a Chromium-compatible binary (recommended if regular Chrome does not show the extension).
-- `yarn test:manual:watch` - runs `yarn dev` and waits for `build/manifest.json`, then opens isolated Chrome for click-through testing.
+- `yarn test:manual` - launches Chromium with only this unpacked extension loaded from `build/` (run `yarn build` first).
+- `yarn test:manual:watch` - runs `yarn dev` and waits for `build/manifest.json`, then opens isolated Chromium for click-through testing.
 
 Notes:
 
-- The launcher uses a temporary profile under `.tmp/` so your regular Chrome profile stays untouched.
-- If Chrome is installed in a non-standard location, set `CHROME_PATH` before running the command.
-- The script prefers Chromium-compatible binaries for extension side-loading. To force selection:
-  - `EXT_BROWSER=chromium yarn test:manual`
-  - `EXT_BROWSER=chrome yarn test:manual`
-- If forcing Chromium fails, run `yarn test:e2e:install` once to download Playwright Chromium, then retry.
+- The launcher uses a temporary profile under `.tmp/` so your regular browser profile stays untouched.
+- Chromium resolution order is:
+  - `CHROMIUM_PATH` (explicit override)
+  - Playwright-managed Chromium (install once with `yarn test:e2e:install`)
+  - `chromium` or `chromium-browser` from your `PATH`
+- If no Chromium executable is found, run `yarn test:e2e:install` once and retry.
 
 ### Automated E2E tests (Playwright)
 

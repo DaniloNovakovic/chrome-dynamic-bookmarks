@@ -14,7 +14,6 @@
     "build": "vite build --mode production",
     "build:analyze": "vite build --mode production --debug",
     "test:manual": "node scripts/launch-chrome-extension.js",
-    "test:manual:chromium": "EXT_BROWSER=chromium node scripts/launch-chrome-extension.js",
     "test:manual:wait": "node scripts/launch-chrome-extension.js --wait-for-build",
     "test:manual:watch": "run-p dev test:manual:wait",
     "clean": "rimraf build",
