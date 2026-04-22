@@ -87,4 +87,40 @@ describe("migrateStorageToLocal", () => {
       done();
     });
   });
+
+  it("propagates errors from initial local findAll", (done) => {
+    mockLocalFindAllImpl = (cb: any) => cb("local-read-failed", null);
+    mockSyncFindAllImpl = jest.fn();
+
+    migrateStorageToLocal((err: any) => {
+      expect(err).toBe("local-read-failed");
+      expect(mockSyncFindAllImpl).not.toHaveBeenCalled();
+      done();
+    });
+  });
+
+  it("propagates errors from sync findAll", (done) => {
+    mockLocalFindAllImpl = (cb: any) => cb(null, {});
+    mockSyncFindAllImpl = (cb: any) => cb("sync-read-failed", null);
+    mockLocalOverwriteImpl = jest.fn();
+
+    migrateStorageToLocal((err: any) => {
+      expect(err).toBe("sync-read-failed");
+      expect(mockLocalOverwriteImpl).not.toHaveBeenCalled();
+      done();
+    });
+  });
+
+  it("propagates sync overwrite errors after local migration succeeds", (done) => {
+    const syncData = { "4": { regExp: "y", history: [] } };
+    mockLocalFindAllImpl = (cb: any) => cb(null, {});
+    mockSyncFindAllImpl = (cb: any) => cb(null, syncData);
+    mockLocalOverwriteImpl = (_items: any, cb: any) => cb(null);
+    mockSyncOverwriteImpl = (_items: any, cb: any) => cb("sync-clear-failed");
+
+    migrateStorageToLocal((err: any) => {
+      expect(err).toBe("sync-clear-failed");
+      done();
+    });
+  });
 });

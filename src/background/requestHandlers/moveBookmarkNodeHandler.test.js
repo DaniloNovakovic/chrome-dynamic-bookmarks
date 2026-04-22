@@ -8,6 +8,10 @@ jest.mock("@/shared/lib/browser/bookmarks", () => ({
 
 import moveBookmarkNodeHandler from "./moveBookmarkNodeHandler";
 
+function flushAsync() {
+  return new Promise((resolve) => setImmediate(resolve));
+}
+
 describe("moveBookmarkNodeHandler", () => {
   beforeEach(() => {
     mockMove.mockReset();
@@ -44,7 +48,7 @@ describe("moveBookmarkNodeHandler", () => {
       sendResponse
     );
 
-    await new Promise((resolve) => setTimeout(resolve, 0));
+    await flushAsync();
     expect(mockMove).toHaveBeenCalledTimes(2);
     expect(sendResponse).toHaveBeenCalledWith({
       type: "success",
@@ -61,10 +65,65 @@ describe("moveBookmarkNodeHandler", () => {
       sendResponse
     );
 
-    await new Promise((resolve) => setTimeout(resolve, 0));
+    await flushAsync();
     expect(sendResponse).toHaveBeenCalledWith({
       type: "error",
       message: "failed",
     });
+  });
+
+  it("returns error when data is missing", async () => {
+    const sendResponse = jest.fn();
+    moveBookmarkNodeHandler({ data: undefined }, sendResponse);
+    await flushAsync();
+    expect(sendResponse).toHaveBeenCalledWith({
+      type: "error",
+      message: "Missing request data",
+    });
+    expect(mockMove).not.toHaveBeenCalled();
+  });
+
+  it("returns error when destination is missing", async () => {
+    const sendResponse = jest.fn();
+    moveBookmarkNodeHandler({ data: { id: "1" } }, sendResponse);
+    await flushAsync();
+    expect(sendResponse).toHaveBeenCalledWith({
+      type: "error",
+      message: "Missing destination",
+    });
+    expect(mockMove).not.toHaveBeenCalled();
+  });
+
+  it("returns error when destination.parentId is missing", async () => {
+    const sendResponse = jest.fn();
+    moveBookmarkNodeHandler(
+      { data: { id: "1", destination: { index: 0 } } },
+      sendResponse
+    );
+    await flushAsync();
+    expect(sendResponse).toHaveBeenCalledWith({
+      type: "error",
+      message: "Missing destination.parentId",
+    });
+    expect(mockMove).not.toHaveBeenCalled();
+  });
+
+  it("returns error when no valid bookmark ids", async () => {
+    const sendResponse = jest.fn();
+    moveBookmarkNodeHandler(
+      {
+        data: {
+          id: "",
+          destination: { parentId: "1", index: 0 },
+        },
+      },
+      sendResponse
+    );
+    await flushAsync();
+    expect(sendResponse).toHaveBeenCalledWith({
+      type: "error",
+      message: "No bookmark id provided",
+    });
+    expect(mockMove).not.toHaveBeenCalled();
   });
 });

@@ -2,6 +2,13 @@ import responseTypes from "@/shared/constants/responseTypes";
 import { editBookmarkNode } from "@/shared/lib/browser";
 
 export default function editBookmarkNodeHandler({ data }, sendResponse) {
+  if (!data || typeof data !== "object") {
+    return sendResponse({
+      type: responseTypes.ERROR,
+      message: "Missing request data",
+    });
+  }
+
   editBookmarkNode(data, (errMsg, updatedNode) => {
     if (errMsg) {
       sendResponse({ type: responseTypes.ERROR, message: errMsg });

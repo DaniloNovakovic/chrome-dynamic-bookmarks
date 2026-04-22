@@ -30,7 +30,7 @@ function copyNodeAsync(node) {
 export function copyBookmarkNode(id, { parentId, index }, done) {
   bookmarks.getSubTree(id, (errMsg, node) => {
     if (errMsg) {
-      done(errMsg);
+      return done(errMsg);
     }
     copyNodeAsync({ ...node, parentId, index })
       .then(() => done(null))
@@ -87,6 +87,35 @@ export function createBookmarkNode(node, done) {
   });
 }
 
+function collectBookmarkIdsFromSubTree(
+  node: chrome.bookmarks.BookmarkTreeNode,
+  out: string[]
+) {
+  if (node.url) {
+    out.push(node.id);
+  }
+  const children = node.children || [];
+  for (const child of children) {
+    collectBookmarkIdsFromSubTree(child, out);
+  }
+}
+
+function removeTrackedMetadataForIds(
+  ids: string[],
+  index: number,
+  done: (e?: string | null) => void
+) {
+  if (index >= ids.length) {
+    return done(null);
+  }
+  storage.findByIdAndRemove(ids[index], (errMsg) => {
+    if (errMsg) {
+      return done(errMsg);
+    }
+    removeTrackedMetadataForIds(ids, index + 1, done);
+  });
+}
+
 export function removeBookmarkNode(id, done) {
   bookmarks.get(id, (errMsg, node) => {
     if (errMsg) {
@@ -96,7 +125,21 @@ export function removeBookmarkNode(id, done) {
       return done(null);
     }
     if (!node.url) {
-      bookmarks.removeTree(id, done);
+      bookmarks.getSubTree(id, (subErr, rootNode) => {
+        if (subErr) {
+          return done(subErr);
+        }
+        const bookmarkIds: string[] = [];
+        if (rootNode) {
+          collectBookmarkIdsFromSubTree(rootNode, bookmarkIds);
+        }
+        bookmarks.removeTree(id, (removeErr) => {
+          if (removeErr) {
+            return done(removeErr);
+          }
+          removeTrackedMetadataForIds(bookmarkIds, 0, done);
+        });
+      });
     } else {
       bookmarks.remove(id, (errMsg) => {
         if (errMsg) {
