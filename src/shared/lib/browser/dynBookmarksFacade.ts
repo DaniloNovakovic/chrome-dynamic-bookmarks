@@ -39,7 +39,20 @@ export function copyBookmarkNode(id, { parentId, index }, done) {
 }
 
 export function editBookmarkNode(node, done) {
-  const { id, regExp, history, ...bookmarkChanges } = node;
+  const { id, regExp, history, title, url } = node as {
+    id: string;
+    regExp?: string;
+    history?: string[];
+    title?: string;
+    url?: string;
+  };
+  const bookmarkChanges: { title?: string; url?: string } = {};
+  if (title !== undefined) {
+    bookmarkChanges.title = title;
+  }
+  if (url !== undefined) {
+    bookmarkChanges.url = url;
+  }
   bookmarks.update(id, bookmarkChanges, (errMsg, updatedNode) => {
     if (errMsg) {
       return done(errMsg);

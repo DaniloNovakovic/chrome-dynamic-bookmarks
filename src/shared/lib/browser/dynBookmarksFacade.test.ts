@@ -111,8 +111,10 @@ describe("dynBookmarksFacade", () => {
   it("editBookmarkNode passes only bookmark fields to bookmarks.update", () => {
     const done = jest.fn();
     mockUpdate.mockImplementation((_id, changes, cb) => {
-      expect(changes).not.toHaveProperty("regExp");
-      expect(changes).not.toHaveProperty("history");
+      expect(changes).toEqual({
+        title: "T",
+        url: "https://example.com/u",
+      });
       cb(null, { id: "bm2", title: "T", url: "https://example.com/u" });
     });
     mockFindByIdAndUpdate.mockImplementation((_id, payload, cb) =>
