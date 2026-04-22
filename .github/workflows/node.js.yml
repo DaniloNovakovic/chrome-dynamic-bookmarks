@@ -25,7 +25,7 @@ jobs:
         run: corepack enable && corepack prepare yarn@1.22.22 --activate
       - run: yarn install --frozen-lockfile
       - run: yarn build
-      - run: yarn test
+      - run: yarn test --coverage --runInBand
   e2e:
     name: E2E (manual)
     if: github.event_name == 'workflow_dispatch' && inputs.run_e2e == true
@@ -42,3 +42,35 @@ jobs:
       - run: yarn build
       - run: npx playwright install --with-deps chromium
       - run: yarn test:e2e
+  e2e-on-risky-paths:
+    name: E2E (path gated)
+    if: github.event_name == 'pull_request' || github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v3
+        id: changes
+        with:
+          filters: |
+            e2e:
+              - 'src/background/**'
+              - 'src/shared/lib/browser/**'
+              - 'src/shared/store/**'
+              - 'src/popup/**'
+              - 'src/bookmarkManager/**'
+      - uses: actions/setup-node@v4
+        if: steps.changes.outputs.e2e == 'true'
+        with:
+          node-version: "20"
+          cache: yarn
+      - name: Enable Yarn (packageManager in package.json)
+        if: steps.changes.outputs.e2e == 'true'
+        run: corepack enable && corepack prepare yarn@1.22.22 --activate
+      - run: yarn install --frozen-lockfile
+        if: steps.changes.outputs.e2e == 'true'
+      - run: yarn build
+        if: steps.changes.outputs.e2e == 'true'
+      - run: npx playwright install --with-deps chromium
+        if: steps.changes.outputs.e2e == 'true'
+      - run: yarn test:e2e
+        if: steps.changes.outputs.e2e == 'true'

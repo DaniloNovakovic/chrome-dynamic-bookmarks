@@ -2,15 +2,24 @@ const mockCreateBookmarkNode = jest.fn();
 const mockEditBookmarkNode = jest.fn();
 const mockRemoveBookmarkNode = jest.fn();
 const mockCopyBookmarkNode = jest.fn();
-const mockMoveBookmarkNode = jest.fn();
+const mockBmMove = jest.fn();
 
 jest.mock("@/shared/lib/browser", () => ({
   createBookmarkNode: (...args) => mockCreateBookmarkNode(...args),
   editBookmarkNode: (...args) => mockEditBookmarkNode(...args),
   removeBookmarkNode: (...args) => mockRemoveBookmarkNode(...args),
   copyBookmarkNode: (...args) => mockCopyBookmarkNode(...args),
-  moveBookmarkNode: (...args) => mockMoveBookmarkNode(...args),
 }));
+
+jest.mock("@/shared/lib/browser/bookmarks", () => ({
+  bm: {
+    move: (...args) => mockBmMove(...args),
+  },
+}));
+
+function flushAsync() {
+  return new Promise((resolve) => setImmediate(resolve));
+}
 
 import createRouter from "./createRouter";
 import registerRoutes from "./registerRoutes";
@@ -21,7 +30,7 @@ describe("registerRoutes integration", () => {
     mockEditBookmarkNode.mockReset();
     mockRemoveBookmarkNode.mockReset();
     mockCopyBookmarkNode.mockReset();
-    mockMoveBookmarkNode.mockReset();
+    mockBmMove.mockReset();
   });
 
   it("handles ADD_BM_NODE requests", () => {
@@ -104,10 +113,64 @@ describe("registerRoutes integration", () => {
       sendResponse
     );
 
-    await new Promise((resolve) => setTimeout(resolve, 0));
+    await flushAsync();
     expect(sendResponse).toHaveBeenCalledWith({
       type: "success",
       message: "1 item(s) deleted",
+    });
+  });
+
+  it("handles COPY_BM_NODE requests", async () => {
+    const router = createRouter();
+    registerRoutes(router);
+    const sendResponse = jest.fn();
+
+    mockCopyBookmarkNode.mockImplementation((_id, _destination, done) =>
+      done(null, { ok: true })
+    );
+
+    router.handleRequest(
+      {
+        type: "COPY_BM_NODE",
+        data: {
+          id: "40",
+          destination: { parentId: "p", index: 0 },
+        },
+      },
+      sendResponse
+    );
+
+    await flushAsync();
+    expect(sendResponse).toHaveBeenCalledWith({
+      type: "success",
+      message: "1 item(s) copied",
+    });
+  });
+
+  it("handles MOVE_BM_NODE requests", async () => {
+    const router = createRouter();
+    registerRoutes(router);
+    const sendResponse = jest.fn();
+
+    mockBmMove.mockImplementation((_id, _destination, done) =>
+      done(null, { ok: true })
+    );
+
+    router.handleRequest(
+      {
+        type: "MOVE_BM_NODE",
+        data: {
+          id: "50",
+          destination: { parentId: "p2", index: 0 },
+        },
+      },
+      sendResponse
+    );
+
+    await flushAsync();
+    expect(sendResponse).toHaveBeenCalledWith({
+      type: "success",
+      message: "1 item(s) moved",
     });
   });
 });

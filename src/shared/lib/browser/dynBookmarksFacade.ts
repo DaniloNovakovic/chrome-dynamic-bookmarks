@@ -30,7 +30,7 @@ function copyNodeAsync(node) {
 export function copyBookmarkNode(id, { parentId, index }, done) {
   bookmarks.getSubTree(id, (errMsg, node) => {
     if (errMsg) {
-      done(errMsg);
+      return done(errMsg);
     }
     copyNodeAsync({ ...node, parentId, index })
       .then(() => done(null))
@@ -39,22 +39,40 @@ export function copyBookmarkNode(id, { parentId, index }, done) {
 }
 
 export function editBookmarkNode(node, done) {
-  bookmarks.update(node.id, node, (errMsg, updatedNode) => {
+  const { id, regExp, history, title, url } = node as {
+    id: string;
+    regExp?: string;
+    history?: string[];
+    title?: string;
+    url?: string;
+  };
+  const bookmarkChanges: { title?: string; url?: string } = {};
+  if (title !== undefined) {
+    bookmarkChanges.title = title;
+  }
+  if (url !== undefined) {
+    bookmarkChanges.url = url;
+  }
+  bookmarks.update(id, bookmarkChanges, (errMsg, updatedNode) => {
     if (errMsg) {
       return done(errMsg);
     }
     if (!updatedNode.url) {
       return done(null, updatedNode);
     }
-    if (node.regExp) {
-      storage.findByIdAndUpdate(node.id, node, (errMsg, updatedDynBookItem) => {
-        if (errMsg) {
-          return done(errMsg);
+    if (regExp) {
+      storage.findByIdAndUpdate(
+        id,
+        { regExp, history },
+        (errMsg, updatedDynBookItem) => {
+          if (errMsg) {
+            return done(errMsg);
+          }
+          done(null, { ...updatedNode, ...updatedDynBookItem });
         }
-        done(null, { ...updatedNode, ...updatedDynBookItem });
-      });
+      );
     } else {
-      storage.findByIdAndRemove(node.id, (errMsg) => {
+      storage.findByIdAndRemove(id, (errMsg) => {
         if (errMsg) {
           return done(errMsg);
         }
@@ -82,6 +100,35 @@ export function createBookmarkNode(node, done) {
   });
 }
 
+function collectBookmarkIdsFromSubTree(
+  node: chrome.bookmarks.BookmarkTreeNode,
+  out: string[]
+) {
+  if (node.url) {
+    out.push(node.id);
+  }
+  const children = node.children || [];
+  for (const child of children) {
+    collectBookmarkIdsFromSubTree(child, out);
+  }
+}
+
+function removeTrackedMetadataForIds(
+  ids: string[],
+  index: number,
+  done: (e?: string | null) => void
+) {
+  if (index >= ids.length) {
+    return done(null);
+  }
+  storage.findByIdAndRemove(ids[index], (errMsg) => {
+    if (errMsg) {
+      return done(errMsg);
+    }
+    removeTrackedMetadataForIds(ids, index + 1, done);
+  });
+}
+
 export function removeBookmarkNode(id, done) {
   bookmarks.get(id, (errMsg, node) => {
     if (errMsg) {
@@ -91,7 +138,21 @@ export function removeBookmarkNode(id, done) {
       return done(null);
     }
     if (!node.url) {
-      bookmarks.removeTree(id, done);
+      bookmarks.getSubTree(id, (subErr, rootNode) => {
+        if (subErr) {
+          return done(subErr);
+        }
+        const bookmarkIds: string[] = [];
+        if (rootNode) {
+          collectBookmarkIdsFromSubTree(rootNode, bookmarkIds);
+        }
+        bookmarks.removeTree(id, (removeErr) => {
+          if (removeErr) {
+            return done(removeErr);
+          }
+          removeTrackedMetadataForIds(bookmarkIds, 0, done);
+        });
+      });
     } else {
       bookmarks.remove(id, (errMsg) => {
         if (errMsg) {

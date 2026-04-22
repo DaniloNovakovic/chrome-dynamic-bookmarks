@@ -40,7 +40,20 @@ module.exports = {
   // ],
 
   // An object that configures minimum threshold enforcement for coverage results
-  // coverageThreshold: null,
+  coverageThreshold: {
+    "./src/background/requestHandlers/": {
+      branches: 15,
+      functions: 30,
+      lines: 30,
+      statements: 30,
+    },
+    "./src/shared/lib/browser/": {
+      branches: 15,
+      functions: 25,
+      lines: 25,
+      statements: 25,
+    },
+  },
 
   // A path to a custom dependency extractor
   // dependencyExtractor: null,

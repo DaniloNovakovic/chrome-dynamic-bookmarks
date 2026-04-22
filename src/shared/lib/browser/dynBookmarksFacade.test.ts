@@ -1,37 +1,60 @@
 const mockCreate = jest.fn();
 const mockUpdate = jest.fn();
 const mockRemove = jest.fn();
+const mockGetSubTree = jest.fn();
+const mockGetTreeRoot = jest.fn();
+const mockGet = jest.fn();
+const mockCreateAsync = jest.fn();
+const mockRemoveTree = jest.fn();
 const mockFindByIdAndRemove = jest.fn();
 const mockFindByIdAndUpdate = jest.fn();
 const mockStorageCreate = jest.fn();
+const mockFindAll = jest.fn();
 
 jest.mock("./bookmarks", () => ({
   bm: {
-    create: (...args) => mockCreate(...args),
-    update: (...args) => mockUpdate(...args),
-    remove: (...args) => mockRemove(...args),
+    create: (...args: any[]) => mockCreate(...args),
+    update: (...args: any[]) => mockUpdate(...args),
+    remove: (...args: any[]) => mockRemove(...args),
+    getSubTree: (...args: any[]) => mockGetSubTree(...args),
+    getTreeRoot: (...args: any[]) => mockGetTreeRoot(...args),
+    get: (...args: any[]) => mockGet(...args),
+    createAsync: (...args: any[]) => mockCreateAsync(...args),
+    removeTree: (...args: any[]) => mockRemoveTree(...args),
   },
 }));
 
 jest.mock("./storage", () => ({
   dbm: {
-    create: (...args) => mockStorageCreate(...args),
-    findByIdAndRemove: (...args) => mockFindByIdAndRemove(...args),
-    findByIdAndUpdate: (...args) => mockFindByIdAndUpdate(...args),
-    findAll: jest.fn(),
+    create: (...args: any[]) => mockStorageCreate(...args),
+    findByIdAndRemove: (...args: any[]) => mockFindByIdAndRemove(...args),
+    findByIdAndUpdate: (...args: any[]) => mockFindByIdAndUpdate(...args),
+    findAll: (...args: any[]) => mockFindAll(...args),
   },
 }));
 
-import { createBookmarkNode, editBookmarkNode } from "./dynBookmarksFacade";
+import {
+  copyBookmarkNode,
+  createBookmarkNode,
+  editBookmarkNode,
+  getBookmarkNodes,
+  removeBookmarkNode,
+} from "./dynBookmarksFacade";
 
 describe("dynBookmarksFacade", () => {
   beforeEach(() => {
     mockCreate.mockReset();
     mockUpdate.mockReset();
     mockRemove.mockReset();
+    mockGetSubTree.mockReset();
+    mockGetTreeRoot.mockReset();
+    mockGet.mockReset();
+    mockCreateAsync.mockReset();
+    mockRemoveTree.mockReset();
     mockFindByIdAndRemove.mockReset();
     mockFindByIdAndUpdate.mockReset();
     mockStorageCreate.mockReset();
+    mockFindAll.mockReset();
   });
 
   it("createBookmarkNode does not create tracked storage when regExp is empty", () => {
@@ -82,6 +105,176 @@ describe("dynBookmarksFacade", () => {
       title: "Tracked",
       url: "https://example.com/new",
       regExp: "",
+    });
+  });
+
+  it("editBookmarkNode passes only bookmark fields to bookmarks.update", () => {
+    const done = jest.fn();
+    mockUpdate.mockImplementation((_id, changes, cb) => {
+      expect(changes).toEqual({
+        title: "T",
+        url: "https://example.com/u",
+      });
+      cb(null, { id: "bm2", title: "T", url: "https://example.com/u" });
+    });
+    mockFindByIdAndUpdate.mockImplementation((_id, payload, cb) =>
+      cb(null, { regExp: "ex", history: [] })
+    );
+
+    editBookmarkNode(
+      {
+        id: "bm2",
+        title: "T",
+        url: "https://example.com/u",
+        regExp: "ex",
+        history: ["old"],
+      },
+      done
+    );
+
+    expect(mockUpdate).toHaveBeenCalledWith(
+      "bm2",
+      {
+        title: "T",
+        url: "https://example.com/u",
+      },
+      expect.any(Function)
+    );
+    expect(mockFindByIdAndUpdate).toHaveBeenCalledWith(
+      "bm2",
+      { regExp: "ex", history: ["old"] },
+      expect.any(Function)
+    );
+    expect(done).toHaveBeenCalledWith(
+      null,
+      expect.objectContaining({
+        id: "bm2",
+        regExp: "ex",
+      })
+    );
+  });
+
+  it("getBookmarkNodes returns combined tree and tracked data", (doneCb) => {
+    const treeRoot = {
+      id: "root",
+      title: "",
+      children: [
+        {
+          id: "b1",
+          parentId: "root",
+          title: "One",
+          url: "https://example.com/one",
+        },
+      ],
+    };
+    mockGetTreeRoot.mockImplementation((_cb: any) => _cb(null, treeRoot));
+    mockFindAll.mockImplementation((_cb: any) =>
+      _cb(null, { b1: { regExp: "ex", history: [] } })
+    );
+
+    getBookmarkNodes((err, nodes) => {
+      expect(err).toBeNull();
+      expect(nodes?.b1).toMatchObject({
+        id: "b1",
+        url: "https://example.com/one",
+        regExp: "ex",
+      });
+      doneCb();
+    });
+  });
+
+  it("getBookmarkNodes propagates getTreeRoot errors", (doneCb) => {
+    mockGetTreeRoot.mockImplementation((_cb: any) => _cb("tree-fail", null));
+
+    getBookmarkNodes((err) => {
+      expect(err).toBe("tree-fail");
+      doneCb();
+    });
+  });
+
+  it("getBookmarkNodes propagates storage.findAll errors", (doneCb) => {
+    const treeRoot = {
+      id: "root",
+      title: "",
+      children: [],
+    };
+    mockGetTreeRoot.mockImplementation((_cb: any) => _cb(null, treeRoot));
+    mockFindAll.mockImplementation((_cb: any) => _cb("storage-fail", null));
+
+    getBookmarkNodes((err) => {
+      expect(err).toBe("storage-fail");
+      doneCb();
+    });
+  });
+
+  it("copyBookmarkNode copies a bookmark subtree", (doneCb) => {
+    mockGetSubTree.mockImplementation((_id: any, cb: any) =>
+      cb(null, {
+        id: "src",
+        title: "Src",
+        url: "https://example.com/s",
+      })
+    );
+    mockCreateAsync.mockResolvedValue({
+      id: "new",
+      url: "https://example.com/s",
+    });
+
+    copyBookmarkNode("src", { parentId: "p", index: 0 }, (err) => {
+      expect(err).toBeNull();
+      expect(mockCreateAsync).toHaveBeenCalledWith(
+        expect.objectContaining({
+          id: "src",
+          parentId: "p",
+          index: 0,
+        })
+      );
+      doneCb();
+    });
+  });
+
+  it("copyBookmarkNode propagates getSubTree errors", (doneCb) => {
+    mockGetSubTree.mockImplementation((_id: any, cb: any) =>
+      cb("no-node", null)
+    );
+
+    copyBookmarkNode("missing", { parentId: "p", index: 0 }, (err) => {
+      expect(err).toBe("no-node");
+      doneCb();
+    });
+  });
+
+  it("removeBookmarkNode for folder removes tree then clears tracked metadata for descendant bookmarks", (doneCb) => {
+    mockGet.mockImplementation((_id: any, cb: any) =>
+      cb(null, { id: "folder1", title: "F", children: [] })
+    );
+    mockGetSubTree.mockImplementation((_id: any, cb: any) =>
+      cb(null, {
+        id: "folder1",
+        title: "F",
+        children: [
+          {
+            id: "child1",
+            title: "C",
+            url: "https://example.com/c",
+          },
+        ],
+      })
+    );
+    mockRemoveTree.mockImplementation((_id: any, cb: any) => cb(null));
+    mockFindByIdAndRemove.mockImplementation((_id: any, cb: any) => cb(null));
+
+    removeBookmarkNode("folder1", (err) => {
+      expect(err).toBeNull();
+      expect(mockRemoveTree).toHaveBeenCalledWith(
+        "folder1",
+        expect.any(Function)
+      );
+      expect(mockFindByIdAndRemove).toHaveBeenCalledWith(
+        "child1",
+        expect.any(Function)
+      );
+      doneCb();
     });
   });
 });

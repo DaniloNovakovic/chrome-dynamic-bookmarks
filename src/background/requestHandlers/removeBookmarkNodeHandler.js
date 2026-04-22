@@ -19,9 +19,23 @@ function removeBookmarkNodesAsync(ids = []) {
 }
 
 export default function removeBookmarkNodesHandler({ data }, sendResponse) {
+  if (!data || typeof data !== "object") {
+    return sendResponse({
+      type: responseTypes.ERROR,
+      message: "Missing request data",
+    });
+  }
+
   let { id: ids } = data;
   if (!Array.isArray(ids)) {
     ids = [ids];
+  }
+  ids = ids.filter((id) => id != null && id !== "");
+  if (ids.length === 0) {
+    return sendResponse({
+      type: responseTypes.ERROR,
+      message: "No bookmark id provided",
+    });
   }
   removeBookmarkNodesAsync(ids)
     .then(() =>

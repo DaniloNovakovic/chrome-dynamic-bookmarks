@@ -19,10 +19,36 @@ function copyBookmarkNodesAsync(ids = [], destination) {
 }
 
 export default function copyBookmarkNodeHandler({ data }, sendResponse) {
-  let { id: ids, destination = {} } = data || {};
+  if (!data || typeof data !== "object") {
+    return sendResponse({
+      type: responseTypes.ERROR,
+      message: "Missing request data",
+    });
+  }
+
+  let { id: ids, destination = {} } = data;
   if (!Array.isArray(ids)) {
     ids = [ids];
   }
+  ids = ids.filter((id) => id != null && id !== "");
+  if (ids.length === 0) {
+    return sendResponse({
+      type: responseTypes.ERROR,
+      message: "No bookmark id provided",
+    });
+  }
+
+  if (
+    destination.parentId === undefined ||
+    destination.parentId === null ||
+    destination.parentId === ""
+  ) {
+    return sendResponse({
+      type: responseTypes.ERROR,
+      message: "Missing destination.parentId",
+    });
+  }
+
   copyBookmarkNodesAsync(ids, destination)
     .then(() =>
       sendResponse({

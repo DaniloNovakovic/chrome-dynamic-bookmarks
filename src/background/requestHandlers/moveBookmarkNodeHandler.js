@@ -23,10 +23,42 @@ function moveBookmarkNodesAsync(ids = [], destination) {
 }
 
 export default function moveBookmarkNodeHandler({ data }, sendResponse) {
+  if (!data || typeof data !== "object") {
+    return sendResponse({
+      type: responseTypes.ERROR,
+      message: "Missing request data",
+    });
+  }
+
   let { id: ids, destination } = data;
+
+  if (!destination || typeof destination !== "object") {
+    return sendResponse({
+      type: responseTypes.ERROR,
+      message: "Missing destination",
+    });
+  }
+
+  if (
+    destination.parentId === undefined ||
+    destination.parentId === null ||
+    destination.parentId === ""
+  ) {
+    return sendResponse({
+      type: responseTypes.ERROR,
+      message: "Missing destination.parentId",
+    });
+  }
 
   if (!Array.isArray(ids)) {
     ids = [ids];
+  }
+  ids = ids.filter((id) => id != null && id !== "");
+  if (ids.length === 0) {
+    return sendResponse({
+      type: responseTypes.ERROR,
+      message: "No bookmark id provided",
+    });
   }
 
   if (ids.find((nodeId) => isSameNode(nodeId, destination))) {
