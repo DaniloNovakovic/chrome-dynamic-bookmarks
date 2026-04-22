@@ -4,7 +4,9 @@ let mockLocalFindAllImpl: any;
 let mockSyncFindAllImpl: any;
 let mockLocalOverwriteImpl: any;
 let mockSyncOverwriteImpl: any;
-const mockChrome = (globalThis as any).chrome;
+const mockChrome = (globalThis as any).chrome || {
+  storage: { local: {}, sync: {} },
+};
 
 jest.mock("../../log", () => ({
   logError: jest.fn(),
