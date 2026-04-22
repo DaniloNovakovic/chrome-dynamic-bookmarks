@@ -16,3 +16,4 @@ secrets.*.js
 test-results/
 playwright-report/
 blob-report/
+coverage/

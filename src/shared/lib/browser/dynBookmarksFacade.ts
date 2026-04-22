@@ -39,22 +39,27 @@ export function copyBookmarkNode(id, { parentId, index }, done) {
 }
 
 export function editBookmarkNode(node, done) {
-  bookmarks.update(node.id, node, (errMsg, updatedNode) => {
+  const { id, regExp, history, ...bookmarkChanges } = node;
+  bookmarks.update(id, bookmarkChanges, (errMsg, updatedNode) => {
     if (errMsg) {
       return done(errMsg);
     }
     if (!updatedNode.url) {
       return done(null, updatedNode);
     }
-    if (node.regExp) {
-      storage.findByIdAndUpdate(node.id, node, (errMsg, updatedDynBookItem) => {
-        if (errMsg) {
-          return done(errMsg);
+    if (regExp) {
+      storage.findByIdAndUpdate(
+        id,
+        { regExp, history },
+        (errMsg, updatedDynBookItem) => {
+          if (errMsg) {
+            return done(errMsg);
+          }
+          done(null, { ...updatedNode, ...updatedDynBookItem });
         }
-        done(null, { ...updatedNode, ...updatedDynBookItem });
-      });
+      );
     } else {
-      storage.findByIdAndRemove(node.id, (errMsg) => {
+      storage.findByIdAndRemove(id, (errMsg) => {
         if (errMsg) {
           return done(errMsg);
         }
