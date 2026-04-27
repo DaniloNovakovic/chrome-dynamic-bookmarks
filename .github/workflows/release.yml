@@ -8,6 +8,8 @@ on:
 jobs:
   release:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
         with:
@@ -45,6 +47,18 @@ jobs:
         if: steps.tag_check.outputs.exists == 'false'
         run: yarn install --frozen-lockfile
 
+      - name: Lint
+        if: steps.tag_check.outputs.exists == 'false'
+        run: yarn lint
+
+      - name: Type check
+        if: steps.tag_check.outputs.exists == 'false'
+        run: yarn check:types
+
+      - name: Test
+        if: steps.tag_check.outputs.exists == 'false'
+        run: yarn test
+
       - name: Build
         if: steps.tag_check.outputs.exists == 'false'
         run: yarn build
@@ -56,16 +70,6 @@ jobs:
           zip -r ../extension-v${{ steps.package_version.outputs.version }}.zip .
           cd ..
 
-      - name: Create GitHub Release
-        if: steps.tag_check.outputs.exists == 'false'
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: v${{ steps.package_version.outputs.version }}
-          files: extension-v${{ steps.package_version.outputs.version }}.zip
-          generate_release_notes: true
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Upload to Chrome Web Store
         if: steps.tag_check.outputs.exists == 'false'
         uses: mnao305/chrome-extension-upload@v5.0.0
@@ -76,3 +80,13 @@ jobs:
           client-secret: ${{ secrets.CLIENT_SECRET }}
           refresh-token: ${{ secrets.REFRESH_TOKEN }}
           publish: true
+
+      - name: Create GitHub Release
+        if: steps.tag_check.outputs.exists == 'false'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.package_version.outputs.version }}
+          files: extension-v${{ steps.package_version.outputs.version }}.zip
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
