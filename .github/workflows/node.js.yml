@@ -6,10 +6,14 @@ on:
     branches: [master, dev]
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   build:
     name: Build & Checks
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -28,6 +32,7 @@ jobs:
     name: E2E
     if: github.event_name == 'pull_request' || github.event_name == 'push'
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
       - uses: dorny/paths-filter@v3
@@ -35,11 +40,19 @@ jobs:
         with:
           filters: |
             e2e:
+              - 'e2e/**'
+              - 'playwright.config.js'
+              - 'package.json'
+              - 'yarn.lock'
+              - 'vite.config.ts'
+              - 'manifest.config.ts'
+              - 'public/**'
               - 'src/background/**'
               - 'src/shared/lib/browser/**'
               - 'src/shared/store/**'
               - 'src/popup/**'
               - 'src/bookmarkManager/**'
+              - 'src/options/**'
       - uses: actions/setup-node@v4
         if: steps.changes.outputs.e2e == 'true'
         with:
