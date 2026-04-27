@@ -24,6 +24,8 @@ jobs:
       - name: Enable Yarn (packageManager in package.json)
         run: corepack enable && corepack prepare yarn@1.22.22 --activate
       - run: yarn install --frozen-lockfile
+      - run: yarn lint
+      - run: yarn check:types
       - run: yarn build
       - run: yarn test --coverage --runInBand
   e2e:
