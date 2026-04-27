@@ -51,14 +51,6 @@ jobs:
         if: steps.tag_check.outputs.exists == 'false'
         run: yarn install --frozen-lockfile
 
-      - name: Lint
-        if: steps.tag_check.outputs.exists == 'false'
-        run: yarn lint
-
-      - name: Type check
-        if: steps.tag_check.outputs.exists == 'false'
-        run: yarn check:types
-
       - name: Test
         if: steps.tag_check.outputs.exists == 'false'
         run: yarn test

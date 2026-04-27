@@ -154,7 +154,7 @@ describe("dynBookmarksFacade", () => {
     );
   });
 
-  it("getBookmarkNodes returns combined tree and tracked data", (doneCb) => {
+  it("getBookmarkNodes returns combined tree and tracked data", () => {
     const treeRoot = {
       id: "root",
       title: "",
@@ -172,27 +172,39 @@ describe("dynBookmarksFacade", () => {
       _cb(null, { b1: { regExp: "ex", history: [] } })
     );
 
-    getBookmarkNodes((err, nodes) => {
-      expect(err).toBeNull();
-      expect(nodes?.b1).toMatchObject({
-        id: "b1",
-        url: "https://example.com/one",
-        regExp: "ex",
+    return new Promise<void>((resolve, reject) => {
+      getBookmarkNodes((err, nodes) => {
+        try {
+          expect(err).toBeNull();
+          expect(nodes?.b1).toMatchObject({
+            id: "b1",
+            url: "https://example.com/one",
+            regExp: "ex",
+          });
+          resolve();
+        } catch (e) {
+          reject(e);
+        }
       });
-      doneCb();
     });
   });
 
-  it("getBookmarkNodes propagates getTreeRoot errors", (doneCb) => {
+  it("getBookmarkNodes propagates getTreeRoot errors", () => {
     mockGetTreeRoot.mockImplementation((_cb: any) => _cb("tree-fail", null));
 
-    getBookmarkNodes((err) => {
-      expect(err).toBe("tree-fail");
-      doneCb();
+    return new Promise<void>((resolve, reject) => {
+      getBookmarkNodes((err) => {
+        try {
+          expect(err).toBe("tree-fail");
+          resolve();
+        } catch (e) {
+          reject(e);
+        }
+      });
     });
   });
 
-  it("getBookmarkNodes propagates storage.findAll errors", (doneCb) => {
+  it("getBookmarkNodes propagates storage.findAll errors", () => {
     const treeRoot = {
       id: "root",
       title: "",
@@ -201,13 +213,19 @@ describe("dynBookmarksFacade", () => {
     mockGetTreeRoot.mockImplementation((_cb: any) => _cb(null, treeRoot));
     mockFindAll.mockImplementation((_cb: any) => _cb("storage-fail", null));
 
-    getBookmarkNodes((err) => {
-      expect(err).toBe("storage-fail");
-      doneCb();
+    return new Promise<void>((resolve, reject) => {
+      getBookmarkNodes((err) => {
+        try {
+          expect(err).toBe("storage-fail");
+          resolve();
+        } catch (e) {
+          reject(e);
+        }
+      });
     });
   });
 
-  it("copyBookmarkNode copies a bookmark subtree", (doneCb) => {
+  it("copyBookmarkNode copies a bookmark subtree", () => {
     mockGetSubTree.mockImplementation((_id: any, cb: any) =>
       cb(null, {
         id: "src",
@@ -220,31 +238,43 @@ describe("dynBookmarksFacade", () => {
       url: "https://example.com/s",
     });
 
-    copyBookmarkNode("src", { parentId: "p", index: 0 }, (err) => {
-      expect(err).toBeNull();
-      expect(mockCreateAsync).toHaveBeenCalledWith(
-        expect.objectContaining({
-          id: "src",
-          parentId: "p",
-          index: 0,
-        })
-      );
-      doneCb();
+    return new Promise<void>((resolve, reject) => {
+      copyBookmarkNode("src", { parentId: "p", index: 0 }, (err) => {
+        try {
+          expect(err).toBeNull();
+          expect(mockCreateAsync).toHaveBeenCalledWith(
+            expect.objectContaining({
+              id: "src",
+              parentId: "p",
+              index: 0,
+            })
+          );
+          resolve();
+        } catch (e) {
+          reject(e);
+        }
+      });
     });
   });
 
-  it("copyBookmarkNode propagates getSubTree errors", (doneCb) => {
+  it("copyBookmarkNode propagates getSubTree errors", () => {
     mockGetSubTree.mockImplementation((_id: any, cb: any) =>
       cb("no-node", null)
     );
 
-    copyBookmarkNode("missing", { parentId: "p", index: 0 }, (err) => {
-      expect(err).toBe("no-node");
-      doneCb();
+    return new Promise<void>((resolve, reject) => {
+      copyBookmarkNode("missing", { parentId: "p", index: 0 }, (err) => {
+        try {
+          expect(err).toBe("no-node");
+          resolve();
+        } catch (e) {
+          reject(e);
+        }
+      });
     });
   });
 
-  it("removeBookmarkNode for folder removes tree then clears tracked metadata for descendant bookmarks", (doneCb) => {
+  it("removeBookmarkNode for folder removes tree then clears tracked metadata for descendant bookmarks", () => {
     mockGet.mockImplementation((_id: any, cb: any) =>
       cb(null, { id: "folder1", title: "F", children: [] })
     );
@@ -264,17 +294,23 @@ describe("dynBookmarksFacade", () => {
     mockRemoveTree.mockImplementation((_id: any, cb: any) => cb(null));
     mockFindByIdAndRemove.mockImplementation((_id: any, cb: any) => cb(null));
 
-    removeBookmarkNode("folder1", (err) => {
-      expect(err).toBeNull();
-      expect(mockRemoveTree).toHaveBeenCalledWith(
-        "folder1",
-        expect.any(Function)
-      );
-      expect(mockFindByIdAndRemove).toHaveBeenCalledWith(
-        "child1",
-        expect.any(Function)
-      );
-      doneCb();
+    return new Promise<void>((resolve, reject) => {
+      removeBookmarkNode("folder1", (err) => {
+        try {
+          expect(err).toBeNull();
+          expect(mockRemoveTree).toHaveBeenCalledWith(
+            "folder1",
+            expect.any(Function)
+          );
+          expect(mockFindByIdAndRemove).toHaveBeenCalledWith(
+            "child1",
+            expect.any(Function)
+          );
+          resolve();
+        } catch (e) {
+          reject(e);
+        }
+      });
     });
   });
 });
