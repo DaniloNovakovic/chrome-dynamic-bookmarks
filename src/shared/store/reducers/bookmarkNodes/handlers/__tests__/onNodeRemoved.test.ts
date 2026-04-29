@@ -1,4 +1,4 @@
-import { onNodeRemoved } from "./onNodeRemoved";
+import { onNodeRemoved } from "../onNodeRemoved";
 
 describe("onNodeRemoved", () => {
   it("removes node and detaches it from parent children", () => {

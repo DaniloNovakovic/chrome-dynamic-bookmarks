@@ -1,4 +1,4 @@
-import getBreadcrumbIds from "./getBreadcrumbIds";
+import getBreadcrumbIds from "../getBreadcrumbIds";
 
 describe("getBreadcrumbs", () => {
   const nodes = {

@@ -1,4 +1,4 @@
-import { onNodeMoved } from "./onNodeMoved";
+import { onNodeMoved } from "../onNodeMoved";
 
 describe("onNodeMoved", () => {
   it("moves node between parents and updates parent lists", () => {

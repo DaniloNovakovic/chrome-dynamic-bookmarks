@@ -4,7 +4,7 @@ import {
   MakeOptional,
 } from "@/shared/types";
 
-import { onNodeChanged } from "./onNodeChanged";
+import { onNodeChanged } from "../onNodeChanged";
 
 describe("onNodeChanged", () => {
   let initialState: BookmarkNodesState = { data: {} };

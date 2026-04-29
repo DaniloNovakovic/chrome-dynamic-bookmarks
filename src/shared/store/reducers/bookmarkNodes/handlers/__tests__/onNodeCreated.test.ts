@@ -1,4 +1,4 @@
-import { onNodeCreated } from "./onNodeCreated";
+import { onNodeCreated } from "../onNodeCreated";
 
 describe("onNodeCreated", () => {
   const baseState = {

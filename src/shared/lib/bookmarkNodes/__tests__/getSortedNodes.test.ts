@@ -1,6 +1,6 @@
 import { NormalizedDynamicBookmark } from "@/shared/types";
 
-import getSortedNodes from "./getSortedNodes";
+import getSortedNodes from "../getSortedNodes";
 
 describe("getSortedNodes", () => {
   it("sorts bookmark nodes", () => {

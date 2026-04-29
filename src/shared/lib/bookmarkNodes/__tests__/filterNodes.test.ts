@@ -1,4 +1,4 @@
-import filterNodes from "./filterNodes";
+import filterNodes from "../filterNodes";
 
 describe("filterNodes", () => {
   const nodes = {
