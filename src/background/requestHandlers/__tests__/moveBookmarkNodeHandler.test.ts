@@ -6,7 +6,7 @@ jest.mock("@/shared/lib/browser/bookmarks", () => ({
   },
 }));
 
-import moveBookmarkNodeHandler from "./moveBookmarkNodeHandler";
+import moveBookmarkNodeHandler from "../moveBookmarkNodeHandler";
 
 function flushAsync() {
   return new Promise((resolve) => setImmediate(resolve));

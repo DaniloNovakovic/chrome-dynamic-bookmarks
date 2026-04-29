@@ -4,7 +4,7 @@ jest.mock("@/shared/lib/browser", () => ({
   editBookmarkNode: (...args: unknown[]) => mockEditBookmarkNode(...args),
 }));
 
-import editBookmarkNodeHandler from "./editBookmarkNodeHandler";
+import editBookmarkNodeHandler from "../editBookmarkNodeHandler";
 
 describe("editBookmarkNodeHandler", () => {
   beforeEach(() => {

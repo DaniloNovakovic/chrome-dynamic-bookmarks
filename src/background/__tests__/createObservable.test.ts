@@ -1,4 +1,4 @@
-import createObservable from "./createObservable";
+import createObservable from "../createObservable";
 
 describe("observable", () => {
   describe("notify", () => {

@@ -1,4 +1,4 @@
-import createRouter, { RequestMessage, SendResponse } from "./createRouter";
+import createRouter, { RequestMessage, SendResponse } from "../createRouter";
 
 describe("createRouter", () => {
   it("uses default error handler for unknown request types", () => {

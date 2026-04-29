@@ -4,7 +4,7 @@ jest.mock("@/shared/lib/browser", () => ({
   removeBookmarkNode: (...args: unknown[]) => mockRemoveBookmarkNode(...args),
 }));
 
-import removeBookmarkNodesHandler from "./removeBookmarkNodeHandler";
+import removeBookmarkNodesHandler from "../removeBookmarkNodeHandler";
 
 function flushAsync() {
   return new Promise((resolve) => setImmediate(resolve));

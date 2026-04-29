@@ -4,7 +4,7 @@ jest.mock("@/shared/lib/browser", () => ({
   copyBookmarkNode: (...args: unknown[]) => mockCopyBookmarkNode(...args),
 }));
 
-import copyBookmarkNodeHandler from "./copyBookmarkNodeHandler";
+import copyBookmarkNodeHandler from "../copyBookmarkNodeHandler";
 
 function flushAsync() {
   return new Promise((resolve) => setImmediate(resolve));

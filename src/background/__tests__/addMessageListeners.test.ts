@@ -1,4 +1,4 @@
-import type { RequestMessage } from "./createRouter";
+import type { RequestMessage } from "../createRouter";
 
 describe("addMessageListeners", () => {
   const mockAddListener = jest.fn();
@@ -18,12 +18,12 @@ describe("addMessageListeners", () => {
     }),
   }));
 
-  jest.mock("./createRouter", () => ({
+  jest.mock("../createRouter", () => ({
     __esModule: true,
     default: () => mockCreateRouter(),
   }));
 
-  jest.mock("./registerRoutes", () => ({
+  jest.mock("../registerRoutes", () => ({
     __esModule: true,
     default: (router: unknown) => mockRegisterRoutes(router),
   }));
@@ -36,8 +36,8 @@ describe("addMessageListeners", () => {
   });
 
   it("registers routes and forwards runtime messages to router", () => {
-    const addMessageListeners = require("./addMessageListeners")
-      .default as typeof import("./addMessageListeners").default;
+    const addMessageListeners = require("../addMessageListeners")
+      .default as typeof import("../addMessageListeners").default;
     addMessageListeners();
 
     expect(mockCreateRouter).toHaveBeenCalledTimes(1);

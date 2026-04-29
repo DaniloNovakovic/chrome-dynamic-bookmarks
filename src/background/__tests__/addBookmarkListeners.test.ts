@@ -1,4 +1,4 @@
-import type addBookmarkListenersDefault from "./addBookmarkListeners";
+import type addBookmarkListenersDefault from "../addBookmarkListeners";
 
 const mockOnCreated = jest.fn();
 const mockOnMoved = jest.fn();
@@ -40,7 +40,7 @@ describe("addBookmarkListeners", () => {
 
   it("emits create and move events", () => {
     const callback = jest.fn();
-    const addBookmarkListeners = require("./addBookmarkListeners")
+    const addBookmarkListeners = require("../addBookmarkListeners")
       .default as typeof addBookmarkListenersDefault;
     addBookmarkListeners(callback);
 
@@ -59,7 +59,7 @@ describe("addBookmarkListeners", () => {
 
   it("removes tracked metadata and emits remove event", () => {
     const callback = jest.fn();
-    const addBookmarkListeners = require("./addBookmarkListeners")
+    const addBookmarkListeners = require("../addBookmarkListeners")
       .default as typeof addBookmarkListenersDefault;
     addBookmarkListeners(callback);
     mockFindByIdAndRemove.mockImplementation((_id, done) => done(null));
@@ -78,7 +78,7 @@ describe("addBookmarkListeners", () => {
 
   it("logs warning and skips remove event when metadata removal fails", () => {
     const callback = jest.fn();
-    const addBookmarkListeners = require("./addBookmarkListeners")
+    const addBookmarkListeners = require("../addBookmarkListeners")
       .default as typeof addBookmarkListenersDefault;
     addBookmarkListeners(callback);
     mockFindByIdAndRemove.mockImplementation((_id, done) => done("boom"));
@@ -91,7 +91,7 @@ describe("addBookmarkListeners", () => {
 
   it("updates tracked bookmark history on url changes", () => {
     const callback = jest.fn();
-    const addBookmarkListeners = require("./addBookmarkListeners")
+    const addBookmarkListeners = require("../addBookmarkListeners")
       .default as typeof addBookmarkListenersDefault;
     addBookmarkListeners(callback);
     mockFindById.mockImplementation((_id, done) =>
@@ -125,7 +125,7 @@ describe("addBookmarkListeners", () => {
 
   it("emits change directly when bookmark is not tracked", () => {
     const callback = jest.fn();
-    const addBookmarkListeners = require("./addBookmarkListeners")
+    const addBookmarkListeners = require("../addBookmarkListeners")
       .default as typeof addBookmarkListenersDefault;
     addBookmarkListeners(callback);
     mockFindById.mockImplementation((_id, done) => done(null, undefined));

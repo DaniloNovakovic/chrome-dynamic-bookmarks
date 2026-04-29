@@ -21,8 +21,8 @@ function flushAsync() {
   return new Promise((resolve) => setImmediate(resolve));
 }
 
-import createRouter from "./createRouter";
-import registerRoutes from "./registerRoutes";
+import createRouter from "../createRouter";
+import registerRoutes from "../registerRoutes";
 
 describe("registerRoutes integration", () => {
   beforeEach(() => {

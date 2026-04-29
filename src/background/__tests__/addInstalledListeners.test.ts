@@ -1,4 +1,4 @@
-import type addInstalledListenersDefault from "./addInstalledListeners";
+import type addInstalledListenersDefault from "../addInstalledListeners";
 
 const mockAddListener = jest.fn();
 const mockMigrateStorage = jest.fn();
@@ -21,7 +21,7 @@ describe("addInstalledListeners", () => {
   });
 
   it("runs migration on extension update", () => {
-    const addInstalledListeners = require("./addInstalledListeners")
+    const addInstalledListeners = require("../addInstalledListeners")
       .default as typeof addInstalledListenersDefault;
     addInstalledListeners();
 
@@ -32,7 +32,7 @@ describe("addInstalledListeners", () => {
   });
 
   it("skips migration for non-update install reasons", () => {
-    const addInstalledListeners = require("./addInstalledListeners")
+    const addInstalledListeners = require("../addInstalledListeners")
       .default as typeof addInstalledListenersDefault;
     addInstalledListeners();
 

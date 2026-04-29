@@ -29,8 +29,8 @@ describe("addTabsListeners integration", () => {
       logWarn: mockWarn,
     }));
 
-    const addTabsListeners = require("./addTabsListeners")
-      .default as typeof import("./addTabsListeners").default;
+    const addTabsListeners = require("../addTabsListeners")
+      .default as typeof import("../addTabsListeners").default;
     addTabsListeners();
 
     return {
