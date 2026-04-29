@@ -1,7 +1,7 @@
 const mockCreateBookmarkNode = jest.fn();
 
 jest.mock("@/shared/lib/browser", () => ({
-  createBookmarkNode: (...args) => mockCreateBookmarkNode(...args),
+  createBookmarkNode: (...args: unknown[]) => mockCreateBookmarkNode(...args),
 }));
 
 import addBookmarkNodeHandler from "./addBookmarkNodeHandler";

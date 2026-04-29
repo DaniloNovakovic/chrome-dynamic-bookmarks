@@ -1,7 +1,7 @@
 const mockCopyBookmarkNode = jest.fn();
 
 jest.mock("@/shared/lib/browser", () => ({
-  copyBookmarkNode: (...args) => mockCopyBookmarkNode(...args),
+  copyBookmarkNode: (...args: unknown[]) => mockCopyBookmarkNode(...args),
 }));
 
 import copyBookmarkNodeHandler from "./copyBookmarkNodeHandler";

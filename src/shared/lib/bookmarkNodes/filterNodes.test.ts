@@ -6,12 +6,14 @@ describe("filterNodes", () => {
       id: "0",
       parentId: null,
       title: "root",
+      syncing: false,
       children: ["1"],
     },
     1: {
       id: "1",
       parentId: "0",
       title: "child",
+      syncing: false,
       children: ["2"],
     },
     2: {
@@ -19,6 +21,7 @@ describe("filterNodes", () => {
       parentId: "1",
       title: "grandchild",
       url: "https://mysite.com",
+      syncing: false,
       regExp: /https/,
     },
   };

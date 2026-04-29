@@ -2,7 +2,7 @@ const mockMove = jest.fn();
 
 jest.mock("@/shared/lib/browser/bookmarks", () => ({
   bm: {
-    move: (...args) => mockMove(...args),
+    move: (...args: unknown[]) => mockMove(...args),
   },
 }));
 

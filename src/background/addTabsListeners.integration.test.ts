@@ -1,12 +1,16 @@
+import type { DynamicBookmarkStorageItem } from "@/shared/types";
+
 describe("addTabsListeners integration", () => {
-  function setup(dynBookmarks) {
+  function setup(dynBookmarks: Record<string, DynamicBookmarkStorageItem>) {
     const mockAddListener = jest.fn();
-    const mockUpdate = jest.fn((_id, _changes, cb) => cb && cb());
+    const mockUpdate = jest.fn((_id, _changes, cb?: () => void) => cb && cb());
     const mockWarn = jest.fn();
 
     jest.doMock("@/shared/lib/browser", () => ({
       dbm: {
-        findAll: (cb) => cb(null, dynBookmarks),
+        findAll: (
+          cb: (err: string | null, items: typeof dynBookmarks) => void
+        ) => cb(null, dynBookmarks),
       },
       getCurrentBrowser: () => ({
         tabs: {
@@ -25,7 +29,8 @@ describe("addTabsListeners integration", () => {
       logWarn: mockWarn,
     }));
 
-    const addTabsListeners = require("./addTabsListeners").default;
+    const addTabsListeners = require("./addTabsListeners")
+      .default as typeof import("./addTabsListeners").default;
     addTabsListeners();
 
     return {

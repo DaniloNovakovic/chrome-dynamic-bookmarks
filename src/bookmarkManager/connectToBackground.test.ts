@@ -1,8 +1,10 @@
+import type connectToBackgroundDefault from "./connectToBackground";
+
 describe("connectToBackground", () => {
-  let mockPostMessage;
-  let mockAddListener;
-  let mockConnect;
-  let connectToBackground;
+  let mockPostMessage: jest.Mock;
+  let mockAddListener: jest.Mock;
+  let mockConnect: jest.Mock;
+  let connectToBackground: typeof connectToBackgroundDefault;
 
   beforeEach(() => {
     jest.resetModules();

@@ -5,15 +5,15 @@ const mockCopyBookmarkNode = jest.fn();
 const mockBmMove = jest.fn();
 
 jest.mock("@/shared/lib/browser", () => ({
-  createBookmarkNode: (...args) => mockCreateBookmarkNode(...args),
-  editBookmarkNode: (...args) => mockEditBookmarkNode(...args),
-  removeBookmarkNode: (...args) => mockRemoveBookmarkNode(...args),
-  copyBookmarkNode: (...args) => mockCopyBookmarkNode(...args),
+  createBookmarkNode: (...args: unknown[]) => mockCreateBookmarkNode(...args),
+  editBookmarkNode: (...args: unknown[]) => mockEditBookmarkNode(...args),
+  removeBookmarkNode: (...args: unknown[]) => mockRemoveBookmarkNode(...args),
+  copyBookmarkNode: (...args: unknown[]) => mockCopyBookmarkNode(...args),
 }));
 
 jest.mock("@/shared/lib/browser/bookmarks", () => ({
   bm: {
-    move: (...args) => mockBmMove(...args),
+    move: (...args: unknown[]) => mockBmMove(...args),
   },
 }));
 

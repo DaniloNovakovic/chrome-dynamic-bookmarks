@@ -20,6 +20,7 @@ describe("onNodeChanged", () => {
           title: "BM_TEST",
           regExp: "test",
           url: "https://www.test.com",
+          syncing: false,
         },
       },
       isFaulted: false,
@@ -38,6 +39,7 @@ describe("onNodeChanged", () => {
         title: newTitle,
         regExp: newRegExp,
         url: newUrl,
+        syncing: false,
       },
     };
 
@@ -51,6 +53,7 @@ describe("onNodeChanged", () => {
           title: newTitle,
           regExp: newRegExp,
           url: newUrl,
+          syncing: false,
         },
       },
       isFaulted: false,
@@ -69,6 +72,7 @@ describe("onNodeChanged", () => {
         id: "21",
         regExp: newRegExp,
         title: "BM_TEST",
+        syncing: false,
       },
     };
 
@@ -82,6 +86,7 @@ describe("onNodeChanged", () => {
           title: "BM_TEST",
           regExp: newRegExp,
           url: "https://www.test.com",
+          syncing: false,
         },
       },
       isFaulted: false,

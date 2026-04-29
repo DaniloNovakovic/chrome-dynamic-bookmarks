@@ -1,7 +1,7 @@
 const mockRemoveBookmarkNode = jest.fn();
 
 jest.mock("@/shared/lib/browser", () => ({
-  removeBookmarkNode: (...args) => mockRemoveBookmarkNode(...args),
+  removeBookmarkNode: (...args: unknown[]) => mockRemoveBookmarkNode(...args),
 }));
 
 import removeBookmarkNodesHandler from "./removeBookmarkNodeHandler";

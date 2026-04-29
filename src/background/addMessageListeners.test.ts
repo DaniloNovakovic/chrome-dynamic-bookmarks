@@ -1,3 +1,5 @@
+import type { RequestMessage } from "./createRouter";
+
 describe("addMessageListeners", () => {
   const mockAddListener = jest.fn();
   const mockHandleRequest = jest.fn();
@@ -18,12 +20,12 @@ describe("addMessageListeners", () => {
 
   jest.mock("./createRouter", () => ({
     __esModule: true,
-    default: (...args) => mockCreateRouter(...args),
+    default: () => mockCreateRouter(),
   }));
 
   jest.mock("./registerRoutes", () => ({
     __esModule: true,
-    default: (...args) => mockRegisterRoutes(...args),
+    default: (router: unknown) => mockRegisterRoutes(router),
   }));
 
   beforeEach(() => {
@@ -34,7 +36,8 @@ describe("addMessageListeners", () => {
   });
 
   it("registers routes and forwards runtime messages to router", () => {
-    const addMessageListeners = require("./addMessageListeners").default;
+    const addMessageListeners = require("./addMessageListeners")
+      .default as typeof import("./addMessageListeners").default;
     addMessageListeners();
 
     expect(mockCreateRouter).toHaveBeenCalledTimes(1);
@@ -47,7 +50,10 @@ describe("addMessageListeners", () => {
 
     const messageHandler = mockAddListener.mock.calls[0][0];
     const sendResponse = jest.fn();
-    const request = { type: "ADD_BM_NODE", data: { id: "1" } };
+    const request: RequestMessage<{ id: string }> = {
+      type: "ADD_BM_NODE",
+      data: { id: "1" },
+    };
     const retVal = messageHandler(request, { id: "sender" }, sendResponse);
 
     expect(mockHandleRequest).toHaveBeenCalledWith(request, sendResponse);

@@ -1,3 +1,5 @@
+import type addInstalledListenersDefault from "./addInstalledListeners";
+
 const mockAddListener = jest.fn();
 const mockMigrateStorage = jest.fn();
 
@@ -9,7 +11,7 @@ jest.mock("@/shared/lib/browser", () => ({
       },
     },
   }),
-  migrateStorage: (...args) => mockMigrateStorage(...args),
+  migrateStorage: (...args: unknown[]) => mockMigrateStorage(...args),
 }));
 
 describe("addInstalledListeners", () => {
@@ -19,7 +21,8 @@ describe("addInstalledListeners", () => {
   });
 
   it("runs migration on extension update", () => {
-    const addInstalledListeners = require("./addInstalledListeners").default;
+    const addInstalledListeners = require("./addInstalledListeners")
+      .default as typeof addInstalledListenersDefault;
     addInstalledListeners();
 
     const installedHandler = mockAddListener.mock.calls[0][0];
@@ -29,7 +32,8 @@ describe("addInstalledListeners", () => {
   });
 
   it("skips migration for non-update install reasons", () => {
-    const addInstalledListeners = require("./addInstalledListeners").default;
+    const addInstalledListeners = require("./addInstalledListeners")
+      .default as typeof addInstalledListenersDefault;
     addInstalledListeners();
 
     const installedHandler = mockAddListener.mock.calls[0][0];
