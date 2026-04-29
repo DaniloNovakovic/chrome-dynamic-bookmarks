@@ -4,7 +4,7 @@ import path from "path";
 import react from "@vitejs/plugin-react";
 import type { OutputAsset, OutputBundle, OutputChunk } from "rollup";
 import type { Plugin } from "vite";
-import { defineConfig, transformWithEsbuild } from "vite";
+import { defineConfig } from "vite";
 
 import { createManifest } from "./manifest.config";
 
@@ -33,9 +33,9 @@ const htmlTemplates = {
 } as const;
 const entryPoints = {
   popup: path.resolve(projectRoot, "src/popup/index.tsx"),
-  bookmarkManager: path.resolve(projectRoot, "src/bookmarkManager/index.js"),
-  options: path.resolve(projectRoot, "src/options/index.js"),
-  background: path.resolve(projectRoot, "src/background/index.js"),
+  bookmarkManager: path.resolve(projectRoot, "src/bookmarkManager/index.tsx"),
+  options: path.resolve(projectRoot, "src/options/index.ts"),
+  background: path.resolve(projectRoot, "src/background/index.ts"),
 };
 
 /** Read a UTF-8 file from the extension public/ folder. */
@@ -164,29 +164,6 @@ const chromeExtensionPlugin = (): Plugin => ({
   },
 });
 
-/**
- * Compatibility shim for this codebase: many React components live in *.js files but contain JSX.
- *
- * Vite/esbuild won’t parse JSX in .js by default, so we pre-transform eligible files under src/ that
- * end with .js using esbuild’s JSX transform in “classic” mode (matches the React 16 runtime used here).
- */
-const transformJsxInJsPlugin = (): Plugin => ({
-  name: "transform-jsx-in-js",
-  enforce: "pre",
-  async transform(code, id) {
-    if (!id.includes("/src/") || !id.endsWith(".js")) {
-      return null;
-    }
-
-    return transformWithEsbuild(code, id, {
-      loader: "jsx",
-      jsx: "transform",
-      jsxFactory: "React.createElement",
-      jsxFragment: "React.Fragment",
-    });
-  },
-});
-
 export default defineConfig({
   /**
    * Disable Vite’s default `public/` copying behavior.
@@ -196,7 +173,6 @@ export default defineConfig({
    */
   publicDir: false,
   plugins: [
-    transformJsxInJsPlugin(),
     react({
       jsxRuntime: "classic",
     }),

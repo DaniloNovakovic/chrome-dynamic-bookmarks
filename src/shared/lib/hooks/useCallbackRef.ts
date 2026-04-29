@@ -1,9 +1,9 @@
 import { DependencyList, useCallback, useEffect, useRef } from "react";
 
-const useCallbackRef = <T extends (...args: never[]) => unknown>(
-  callback: T,
+const useCallbackRef = <TArgs extends unknown[], TReturn>(
+  callback: (...args: TArgs) => TReturn,
   deps: DependencyList = []
-): T => {
+): ((...args: TArgs) => TReturn | undefined) => {
   const callbackRef = useRef(callback);
 
   useEffect(() => {
@@ -17,7 +17,7 @@ const useCallbackRef = <T extends (...args: never[]) => unknown>(
   return useCallback(
     ((...args) => {
       return callbackRef.current?.(...args);
-    }) as T,
+    }) as (...args: TArgs) => TReturn | undefined,
     deps
   );
 };

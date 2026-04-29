@@ -1,0 +1,34 @@
+import { dbm, getCurrentBrowser, logInfo, logWarn } from "@/shared/lib/browser";
+
+const browser = getCurrentBrowser();
+
+export default function addTabsListeners() {
+  browser.tabs.onUpdated.addListener(function (_tabId, changeInfo) {
+    if (!changeInfo.url) return;
+    const newUrl = changeInfo.url;
+
+    dbm.findAll((err, dynBook) => {
+      if (err) logWarn(err);
+      for (const id in dynBook) {
+        let matcher: RegExp;
+        const { regExp } = dynBook[id];
+        try {
+          matcher = new RegExp(regExp);
+        } catch {
+          logWarn(
+            `regExp: ${regExp} from dynBookmarks.id of ${id} is invalid...`
+          );
+          continue;
+        }
+        if (matcher.test(newUrl)) {
+          logInfo(`Updating bookmark with id of ${id} to url: ${newUrl}`);
+          browser.bookmarks.update(id, { url: newUrl }, () => {
+            if (browser.runtime.lastError) {
+              logWarn(browser.runtime.lastError.message);
+            }
+          });
+        }
+      }
+    });
+  });
+}

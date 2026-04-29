@@ -78,7 +78,7 @@ export class DynamicBookmarksManager {
     { regExp, history }: DynamicBookmarkStorageItem,
     done: (
       error: string | null,
-      updatedItem?: { id: string } & DynamicBookmarkStorageItem
+      updatedItem?: DynamicBookmarkStorageItem
     ) => void
   ) => {
     const key = _convertToDbmId(id);
