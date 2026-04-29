@@ -10,7 +10,7 @@ Chrome **Manifest V3** extension: when a tab’s URL matches a bookmark’s stor
 
 - **UI**: React 16, Redux, Material-UI v4, Formik/Yup.
 - **Build**: Vite; entry bundles are configured in [vite.config.ts](vite.config.ts) for `popup` (TSX), `bookmarkManager`, `options`, and `background` (service worker). HTML source templates stay in [public/](public/) and are injected into `build/` during the Vite build.
-- **Imports**: path alias `@/` → `src/` ([tsconfig.json](tsconfig.json)); TypeScript is **gradual** (`strict` is off); many files are still `.js`/`.jsx` — match local style.
+- **Imports**: path alias `@/` → `src/` ([tsconfig.json](tsconfig.json)); production `src/` code is TypeScript (`.ts`/`.tsx`). Tests and repo tooling may still be JavaScript — match local style.
 - **Browser API**: prefer `getCurrentBrowser()` from `src/shared/lib/browser/getCurrentBrowser.ts` instead of hard-coding `chrome` where the codebase already does.
 
 ## Package manager and CI
@@ -39,8 +39,8 @@ After `yarn build` or `yarn dev`, output is under **`build/`**. In Chrome: `chro
 
 | Area                                | Location                                                                                                                                                                                                                                                        |
 | ----------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Tab URL → update matching bookmarks | [src/background/addTabsListeners.js](src/background/addTabsListeners.js) (`dbm.findAll`, `RegExp`, `bookmarks.update`)                                                                                                                                          |
-| Runtime messages (CRUD, etc.)       | [src/background/addMessageListeners.js](src/background/addMessageListeners.js) → [createRouter.js](src/background/createRouter.js) → [registerRoutes.js](src/background/registerRoutes.js) → [src/background/requestHandlers/](src/background/requestHandlers/) |
+| Tab URL → update matching bookmarks | [src/background/addTabsListeners.ts](src/background/addTabsListeners.ts) (`dbm.findAll`, `RegExp`, `bookmarks.update`)                                                                                                                                          |
+| Runtime messages (CRUD, etc.)       | [src/background/addMessageListeners.ts](src/background/addMessageListeners.ts) → [createRouter.ts](src/background/createRouter.ts) → [registerRoutes.ts](src/background/registerRoutes.ts) → [src/background/requestHandlers/](src/background/requestHandlers/) |
 | Client → background calls           | [src/shared/lib/browser/messages/sendMessage.ts](src/shared/lib/browser/messages/sendMessage.ts) — payload shape `{ type, data }`; listener returns **`true`** for async `sendResponse`                                                                         |
 | Bookmark + storage orchestration    | [src/shared/lib/browser/dynBookmarksFacade.ts](src/shared/lib/browser/dynBookmarksFacade.ts)                                                                                                                                                                    |
 | Storage keys / migrations           | [src/shared/lib/browser/storage/](src/shared/lib/browser/storage/)                                                                                                                                                                                              |

@@ -2,16 +2,14 @@ import { useEffect, useRef } from "react";
 
 import useCallbackRef from "./useCallbackRef";
 
-type Callback = (...args: never[]) => unknown;
-
-export type DebouncedCallback<T extends Callback> = (
-  ...args: Parameters<T>
+export type DebouncedCallback<TArgs extends unknown[]> = (
+  ...args: TArgs
 ) => void;
 
-const useDebouncedCallback = <T extends Callback>(
-  callback?: T,
+const useDebouncedCallback = <TArgs extends unknown[]>(
+  callback?: (...args: TArgs) => unknown,
   delayMs = 500
-): DebouncedCallback<T> => {
+): DebouncedCallback<TArgs> => {
   const timeoutRef = useRef<number>();
 
   useEffect(() => {
@@ -21,7 +19,7 @@ const useDebouncedCallback = <T extends Callback>(
     };
   }, []);
 
-  return useCallbackRef((...args) => {
+  return useCallbackRef((...args: TArgs) => {
     const later = (): void => {
       clearTimeout(timeoutRef.current);
 
