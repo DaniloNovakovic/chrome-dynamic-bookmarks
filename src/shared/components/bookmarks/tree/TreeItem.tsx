@@ -28,6 +28,7 @@ export default function TreeItem({
   expandIcon: ExpandIcon = ExpandMoreIcon,
   toggleExpanded,
   children = defaultChildren,
+  className,
   ...other
 }: TreeItemProps) {
   const classes = useStyles();
@@ -57,11 +58,13 @@ export default function TreeItem({
     <Box>
       <div
         ref={labelElement}
-        className={clsx(classes.labelRoot, { [classes.selected]: selected })}
+        className={clsx(classes.labelRoot, className, {
+          [classes.selected]: selected,
+        })}
         onDoubleClick={handleToggleExpanded}
         {...other}
       >
-        {React.Children.count(children) == 0 ? (
+        {React.Children.count(children) === 0 ? (
           <ExpandIcon style={{ opacity: 0 }} />
         ) : (
           <ExpandIcon onClick={handleToggleExpanded} />

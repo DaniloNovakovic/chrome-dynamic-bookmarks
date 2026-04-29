@@ -1,6 +1,7 @@
 import React from "react";
 
 import { getSortedNodes, isFile } from "@/shared/lib/bookmarkNodes";
+import { NormalizedDynamicBookmark } from "@/shared/types";
 
 import FileTreeItem from "./FileTreeItem";
 import FolderTreeItem from "./FolderTreeItem";
@@ -20,7 +21,7 @@ const defaultOptions: TreeOptions = {
 };
 
 export default function createTree(
-  nodes = {},
+  nodes: Record<string, NormalizedDynamicBookmark> = {},
   rootId = "0",
   options: TreeOptions = defaultOptions
 ) {
@@ -60,7 +61,11 @@ export default function createTree(
  * @param {string} rootId - id of node whose children will be returned
  * @param {object} options - options / filter upon which it is decided which child nodes should be returned
  */
-function _getChildren(nodes, rootId, options: TreeOptions = {}) {
+function _getChildren(
+  nodes: Record<string, NormalizedDynamicBookmark>,
+  rootId: string,
+  options: TreeOptions = {}
+) {
   const children = nodes[rootId].children.map((childId) => nodes[childId]);
   const sorted = getSortedNodes(children);
   const filtered = _applyFilter(sorted, options);

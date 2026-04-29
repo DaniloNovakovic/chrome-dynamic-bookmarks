@@ -10,7 +10,7 @@ type BookmarkEvent = {
 };
 
 export default function addBookmarkListeners(
-  callback: (event: BookmarkEvent) => void = () => {}
+  callback: (event: BookmarkEvent) => void = (_event: BookmarkEvent) => {}
 ) {
   browser.bookmarks.onCreated.addListener((id, node) => {
     callback({ type: events.BM_NODE_CREATED, data: { ...node, id } });
