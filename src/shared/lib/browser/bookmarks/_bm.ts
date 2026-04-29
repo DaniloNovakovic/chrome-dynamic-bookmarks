@@ -6,17 +6,35 @@ import getCurrentBrowser from "../getCurrentBrowser";
 const browser = getCurrentBrowser();
 const bookmarks = browser.bookmarks;
 
+type BookmarkCreateArg = {
+  title: string;
+  url?: string;
+  parentId?: string;
+  index?: number;
+};
+
+type BookmarkSearchQuery = {
+  query?: string;
+  title?: string;
+  url?: string;
+};
+
+type BookmarkDestinationArg = {
+  parentId?: string;
+  index?: number;
+};
+
+type BookmarkChangesArg = {
+  title?: string;
+  url?: string;
+};
+
 /**
  * Creates a bookmark or folder under the specified parentId.
  * If url is missing it will be a folder
  */
 export function create(
-  {
-    title,
-    url,
-    parentId = undefined,
-    index = undefined,
-  }: chrome.bookmarks.BookmarkCreateArg,
+  { title, url, parentId = undefined, index = undefined }: BookmarkCreateArg,
   done: (errMsg: string, newBookmark?: BrowserBookmark) => void
 ) {
   bookmarks.create({ title, url, parentId, index }, (newBookmark) => {
@@ -31,7 +49,7 @@ export function create(
  * If url is `NULL` or missing, it will be a folder
  * @returns Promise object represents the newly created bookmark / folder
  */
-export function createAsync(bookmarkNode: chrome.bookmarks.BookmarkCreateArg) {
+export function createAsync(bookmarkNode: BookmarkCreateArg) {
   return new Promise<BrowserBookmark>(function (resolve, reject) {
     create(bookmarkNode, function (err, data) {
       if (err) reject(err);
@@ -103,7 +121,7 @@ export function getChildren(
  * @param done - callback function called with `done([bookmarks])`
  */
 export function search(
-  query: string | chrome.bookmarks.BookmarkSearchQuery,
+  query: string | BookmarkSearchQuery,
   done: (results?: BrowserBookmark[]) => void
 ) {
   bookmarks.search(query || ({} as unknown), (results) => {
@@ -117,7 +135,7 @@ export function search(
 
 export function move(
   id: string,
-  { parentId, index }: chrome.bookmarks.BookmarkDestinationArg,
+  { parentId, index }: BookmarkDestinationArg,
   done: (errMsg: string, node?: BrowserBookmark) => void
 ) {
   bookmarks.move(id, { parentId, index }, (result) => {
@@ -129,7 +147,7 @@ export function move(
 
 export function update(
   id: string,
-  changes: chrome.bookmarks.BookmarkChangesArg,
+  changes: BookmarkChangesArg,
   done: (errMsg: string, node?: BrowserBookmark) => void
 ) {
   bookmarks.update(id, changes, (updatedNode) => {

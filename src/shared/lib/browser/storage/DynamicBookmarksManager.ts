@@ -12,12 +12,9 @@ const browser = getCurrentBrowser();
 export const dbmIdsPropName = "dbm_ids";
 
 export class DynamicBookmarksManager {
-  private storage: typeof chrome.storage.local;
+  private storage: chrome.storage.StorageArea;
 
-  constructor(
-    storage: typeof chrome.storage.local | typeof chrome.storage.sync = browser
-      .storage.local
-  ) {
+  constructor(storage: chrome.storage.StorageArea = browser.storage.local) {
     this.storage = storage;
   }
 
@@ -137,7 +134,7 @@ export class DynamicBookmarksManager {
   private _getAllIds(done: (error: string | null, ids?: string[]) => void) {
     this.storage.get([dbmIdsPropName], (result) => {
       if (!checkAndHandleError(done)) {
-        const ids = result[dbmIdsPropName] || [];
+        const ids = (result[dbmIdsPropName] as string[] | undefined) || [];
         done(null, ids);
       }
     });
@@ -183,7 +180,7 @@ export class DynamicBookmarksManager {
     });
   }
   private _removeKeyFromDbmIds(key: string, done: typeof logError) {
-    this._getAllIds((errMsg, ids) => {
+    this._getAllIds((errMsg, ids = []) => {
       if (errMsg) return done(errMsg);
       const newIds = ids.filter((el) => el !== key);
       this._setItem(dbmIdsPropName, newIds, done);

@@ -3348,10 +3348,10 @@
     "@types/filesystem" "*"
     "@types/har-format" "*"
 
-"@types/chrome@^0.0.158":
-  version "0.0.158"
-  resolved "https://registry.yarnpkg.com/@types/chrome/-/chrome-0.0.158.tgz#020edeee31ed9decf127fea1972a63ff08fcf2c6"
-  integrity sha512-sjBs9E/XDlYyLf3YkPYIN6sFZ/d9LbwMSK+BYphenFdkk39M5P8xcRfykk54RgZr8/QMex1yKlX5EB52TaqhsQ==
+"@types/chrome@^0.1.40":
+  version "0.1.40"
+  resolved "https://registry.yarnpkg.com/@types/chrome/-/chrome-0.1.40.tgz#9d863d37e53d560d8d08a09e29862f8e2d421cdb"
+  integrity sha512-UnfyRAe8ORu9HSuTH0EqyOEUin3JrWW9Nl/gDXezNfTUrfIoxw+WRZgKOxGz0t5BnjbfXBnS2eCYfW2PxH1wcA==
   dependencies:
     "@types/filesystem" "*"
     "@types/har-format" "*"
