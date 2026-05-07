@@ -1,17 +1,12 @@
 import js from "@eslint/js";
 import prettier from "eslint-config-prettier";
 import importPlugin from "eslint-plugin-import";
-import jestPlugin from "eslint-plugin-jest";
 import jsxA11yPlugin from "eslint-plugin-jsx-a11y";
 import reactPlugin from "eslint-plugin-react";
 import reactHooksPlugin from "eslint-plugin-react-hooks";
 import simpleImportSortPlugin from "eslint-plugin-simple-import-sort";
 import globals from "globals";
 import tseslint from "typescript-eslint";
-
-const jestRecommended =
-  jestPlugin.configs["flat/recommended"]?.rules ??
-  jestPlugin.configs.recommended.rules;
 
 export default tseslint.config(
   {
@@ -46,7 +41,6 @@ export default tseslint.config(
     },
     plugins: {
       import: importPlugin,
-      jest: jestPlugin,
       "jsx-a11y": jsxA11yPlugin,
       react: reactPlugin,
       "react-hooks": reactHooksPlugin,
@@ -58,7 +52,6 @@ export default tseslint.config(
       },
     },
     rules: {
-      ...jestRecommended,
       ...jsxA11yPlugin.configs.recommended.rules,
       "react/jsx-uses-react": "off",
       "react/jsx-uses-vars": "error",

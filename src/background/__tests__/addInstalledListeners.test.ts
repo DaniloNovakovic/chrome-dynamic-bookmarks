@@ -1,9 +1,13 @@
-import type addInstalledListenersDefault from "../addInstalledListeners";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
-const mockAddListener = jest.fn();
-const mockMigrateStorage = jest.fn();
+import addInstalledListeners from "../addInstalledListeners";
 
-jest.mock("@/shared/lib/browser", () => ({
+const { mockAddListener, mockMigrateStorage } = vi.hoisted(() => ({
+  mockAddListener: vi.fn(),
+  mockMigrateStorage: vi.fn(),
+}));
+
+vi.mock("@/shared/lib/browser", () => ({
   getCurrentBrowser: () => ({
     runtime: {
       onInstalled: {
@@ -21,8 +25,6 @@ describe("addInstalledListeners", () => {
   });
 
   it("runs migration on extension update", () => {
-    const addInstalledListeners = require("../addInstalledListeners")
-      .default as typeof addInstalledListenersDefault;
     addInstalledListeners();
 
     const installedHandler = mockAddListener.mock.calls[0][0];
@@ -32,8 +34,6 @@ describe("addInstalledListeners", () => {
   });
 
   it("skips migration for non-update install reasons", () => {
-    const addInstalledListeners = require("../addInstalledListeners")
-      .default as typeof addInstalledListenersDefault;
     addInstalledListeners();
 
     const installedHandler = mockAddListener.mock.calls[0][0];

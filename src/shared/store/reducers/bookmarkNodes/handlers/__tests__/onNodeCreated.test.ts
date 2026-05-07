@@ -1,3 +1,5 @@
+import { describe, expect, it } from "vitest";
+
 import { onNodeCreated } from "../onNodeCreated";
 
 describe("onNodeCreated", () => {

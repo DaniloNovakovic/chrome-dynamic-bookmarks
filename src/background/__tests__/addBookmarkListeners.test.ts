@@ -1,15 +1,28 @@
-import type addBookmarkListenersDefault from "../addBookmarkListeners";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
-const mockOnCreated = jest.fn();
-const mockOnMoved = jest.fn();
-const mockOnRemoved = jest.fn();
-const mockOnChanged = jest.fn();
-const mockFindByIdAndRemove = jest.fn();
-const mockFindById = jest.fn();
-const mockFindByIdAndUpdate = jest.fn();
-const mockWarn = jest.fn();
+import addBookmarkListeners from "../addBookmarkListeners";
 
-jest.mock("@/shared/lib/browser", () => ({
+const {
+  mockOnCreated,
+  mockOnMoved,
+  mockOnRemoved,
+  mockOnChanged,
+  mockFindByIdAndRemove,
+  mockFindById,
+  mockFindByIdAndUpdate,
+  mockWarn,
+} = vi.hoisted(() => ({
+  mockOnCreated: vi.fn(),
+  mockOnMoved: vi.fn(),
+  mockOnRemoved: vi.fn(),
+  mockOnChanged: vi.fn(),
+  mockFindByIdAndRemove: vi.fn(),
+  mockFindById: vi.fn(),
+  mockFindByIdAndUpdate: vi.fn(),
+  mockWarn: vi.fn(),
+}));
+
+vi.mock("@/shared/lib/browser", () => ({
   dbm: {
     findByIdAndRemove: (...args: unknown[]) => mockFindByIdAndRemove(...args),
     findById: (...args: unknown[]) => mockFindById(...args),
@@ -39,9 +52,7 @@ describe("addBookmarkListeners", () => {
   });
 
   it("emits create and move events", () => {
-    const callback = jest.fn();
-    const addBookmarkListeners = require("../addBookmarkListeners")
-      .default as typeof addBookmarkListenersDefault;
+    const callback = vi.fn();
     addBookmarkListeners(callback);
 
     mockOnCreated.mock.calls[0][0]("1", { title: "Node", parentId: "0" });
@@ -58,9 +69,7 @@ describe("addBookmarkListeners", () => {
   });
 
   it("removes tracked metadata and emits remove event", () => {
-    const callback = jest.fn();
-    const addBookmarkListeners = require("../addBookmarkListeners")
-      .default as typeof addBookmarkListenersDefault;
+    const callback = vi.fn();
     addBookmarkListeners(callback);
     mockFindByIdAndRemove.mockImplementation((_id, done) => done(null));
 
@@ -77,9 +86,7 @@ describe("addBookmarkListeners", () => {
   });
 
   it("logs warning and skips remove event when metadata removal fails", () => {
-    const callback = jest.fn();
-    const addBookmarkListeners = require("../addBookmarkListeners")
-      .default as typeof addBookmarkListenersDefault;
+    const callback = vi.fn();
     addBookmarkListeners(callback);
     mockFindByIdAndRemove.mockImplementation((_id, done) => done("boom"));
 
@@ -90,9 +97,7 @@ describe("addBookmarkListeners", () => {
   });
 
   it("updates tracked bookmark history on url changes", () => {
-    const callback = jest.fn();
-    const addBookmarkListeners = require("../addBookmarkListeners")
-      .default as typeof addBookmarkListenersDefault;
+    const callback = vi.fn();
     addBookmarkListeners(callback);
     mockFindById.mockImplementation((_id, done) =>
       done(null, { regExp: "example", history: ["older"] }),
@@ -124,9 +129,7 @@ describe("addBookmarkListeners", () => {
   });
 
   it("emits change directly when bookmark is not tracked", () => {
-    const callback = jest.fn();
-    const addBookmarkListeners = require("../addBookmarkListeners")
-      .default as typeof addBookmarkListenersDefault;
+    const callback = vi.fn();
     addBookmarkListeners(callback);
     mockFindById.mockImplementation((_id, done) => done(null, undefined));
 

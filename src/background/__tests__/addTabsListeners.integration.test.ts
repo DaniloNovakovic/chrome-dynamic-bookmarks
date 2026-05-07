@@ -1,12 +1,16 @@
+import { beforeEach, describe, expect, it, vi } from "vitest";
+
 import type { DynamicBookmarkStorageItem } from "@/shared/types";
 
 describe("addTabsListeners integration", () => {
-  function setup(dynBookmarks: Record<string, DynamicBookmarkStorageItem>) {
-    const mockAddListener = jest.fn();
-    const mockUpdate = jest.fn((_id, _changes, cb?: () => void) => cb && cb());
-    const mockWarn = jest.fn();
+  async function setup(
+    dynBookmarks: Record<string, DynamicBookmarkStorageItem>,
+  ) {
+    const mockAddListener = vi.fn();
+    const mockUpdate = vi.fn((_id, _changes, cb?: () => void) => cb && cb());
+    const mockWarn = vi.fn();
 
-    jest.doMock("@/shared/lib/browser", () => ({
+    vi.doMock("@/shared/lib/browser", () => ({
       dbm: {
         findAll: (
           cb: (err: string | null, items: typeof dynBookmarks) => void,
@@ -25,12 +29,11 @@ describe("addTabsListeners integration", () => {
           lastError: null,
         },
       }),
-      logInfo: jest.fn(),
+      logInfo: vi.fn(),
       logWarn: mockWarn,
     }));
 
-    const addTabsListeners = require("../addTabsListeners")
-      .default as typeof import("../addTabsListeners").default;
+    const addTabsListeners = (await import("../addTabsListeners")).default;
     addTabsListeners();
 
     return {
@@ -41,11 +44,11 @@ describe("addTabsListeners integration", () => {
   }
 
   beforeEach(() => {
-    jest.resetModules();
+    vi.resetModules();
   });
 
-  it("updates bookmark when URL matches tracked regex", () => {
-    const { handler, mockUpdate } = setup({
+  it("updates bookmark when URL matches tracked regex", async () => {
+    const { handler, mockUpdate } = await setup({
       "tracked-id": { regExp: "example\\.com/path" },
     });
 
@@ -58,8 +61,8 @@ describe("addTabsListeners integration", () => {
     );
   });
 
-  it("does not update bookmark when URL does not match", () => {
-    const { handler, mockUpdate } = setup({
+  it("does not update bookmark when URL does not match", async () => {
+    const { handler, mockUpdate } = await setup({
       "tracked-id": { regExp: "example\\.org/path" },
     });
 
@@ -68,8 +71,8 @@ describe("addTabsListeners integration", () => {
     expect(mockUpdate).not.toHaveBeenCalled();
   });
 
-  it("skips invalid regex entries while updating valid ones", () => {
-    const { handler, mockUpdate, mockWarn } = setup({
+  it("skips invalid regex entries while updating valid ones", async () => {
+    const { handler, mockUpdate, mockWarn } = await setup({
       broken: { regExp: "[" },
       valid: { regExp: "example\\.com/path" },
     });

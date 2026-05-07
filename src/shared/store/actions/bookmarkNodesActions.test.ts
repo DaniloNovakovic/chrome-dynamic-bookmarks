@@ -1,3 +1,5 @@
+import { beforeEach, describe, expect, it, vi } from "vitest";
+
 import {
   actionTypes,
   eventTypes,
@@ -5,14 +7,14 @@ import {
   responseTypes,
 } from "@/shared/constants";
 
-const mockSendMessage = jest.fn();
-const mockGetBookmarkNodes = jest.fn();
+const mockSendMessage = vi.fn();
+const mockGetBookmarkNodes = vi.fn();
 
-jest.mock("@/shared/lib/browser", () => ({
+vi.mock("@/shared/lib/browser", () => ({
   sendMessage: (...args: any[]) => mockSendMessage(...args),
 }));
 
-jest.mock("@/shared/lib/browser/dynBookmarksFacade", () => ({
+vi.mock("@/shared/lib/browser/dynBookmarksFacade", () => ({
   getBookmarkNodes: (...args: any[]) => mockGetBookmarkNodes(...args),
 }));
 
@@ -30,7 +32,7 @@ describe("bookmarkNodesActions", () => {
   });
 
   it("dispatches success action for getBookmarkNodes", () => {
-    const dispatch = jest.fn();
+    const dispatch = vi.fn();
     mockGetBookmarkNodes.mockImplementation((done: any) =>
       done(null, { "1": { id: "1" } }),
     );
@@ -44,7 +46,7 @@ describe("bookmarkNodesActions", () => {
   });
 
   it("dispatches create event and alert for addBookmarkNode", () => {
-    const dispatch = jest.fn();
+    const dispatch = vi.fn();
     mockSendMessage.mockImplementation((_type: any, _data: any, done: any) =>
       done({
         type: responseTypes.SUCCESS,
@@ -71,7 +73,7 @@ describe("bookmarkNodesActions", () => {
   });
 
   it("dispatches node changed event for editBookmarkNode data response", () => {
-    const dispatch = jest.fn();
+    const dispatch = vi.fn();
     mockSendMessage.mockImplementation((_type: any, _data: any, done: any) =>
       done({
         type: responseTypes.SUCCESS,
@@ -89,7 +91,7 @@ describe("bookmarkNodesActions", () => {
   });
 
   it("dispatches alert error for moveBookmarkNode failures", () => {
-    const dispatch = jest.fn();
+    const dispatch = vi.fn();
     mockSendMessage.mockImplementation((_type: any, _data: any, done: any) =>
       done({
         type: responseTypes.ERROR,

@@ -1,3 +1,4 @@
+import { describe, expect, it, vi } from "vitest";
 type StorageShape = {
   values: Record<string, any>;
   get: (keys: string[], cb: (result: Record<string, any>) => void) => void;
@@ -29,10 +30,10 @@ function createStorage(initial: Record<string, any> = {}): StorageShape {
   };
 }
 
-jest.mock("@/shared/lib/browser/log", () => ({
+vi.mock("@/shared/lib/browser/log", () => ({
   checkAndHandleError: () => false,
-  logError: jest.fn(),
-  logInfo: jest.fn(),
+  logError: vi.fn(),
+  logInfo: vi.fn(),
 }));
 
 import {

@@ -1,8 +1,10 @@
+import { beforeEach, describe, expect, it, vi } from "vitest";
+
 import { ActionHandlerFactory } from "./actionHandlerFactory";
 
 describe("ActionHandlerFactory", () => {
   let factory: ActionHandlerFactory;
-  const mockReducer = jest.fn();
+  const mockReducer = vi.fn();
 
   beforeEach(() => {
     factory = new ActionHandlerFactory();

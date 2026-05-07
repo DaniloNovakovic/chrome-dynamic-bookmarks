@@ -1,3 +1,5 @@
+import { describe, expect, it } from "vitest";
+
 import { NormalizedDynamicBookmark } from "@/shared/types";
 
 import getTrackedByIdNodes from "../getTrackedByIdNodes";

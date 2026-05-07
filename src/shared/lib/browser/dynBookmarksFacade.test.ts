@@ -1,17 +1,18 @@
-const mockCreate = jest.fn();
-const mockUpdate = jest.fn();
-const mockRemove = jest.fn();
-const mockGetSubTree = jest.fn();
-const mockGetTreeRoot = jest.fn();
-const mockGet = jest.fn();
-const mockCreateAsync = jest.fn();
-const mockRemoveTree = jest.fn();
-const mockFindByIdAndRemove = jest.fn();
-const mockFindByIdAndUpdate = jest.fn();
-const mockStorageCreate = jest.fn();
-const mockFindAll = jest.fn();
+import { beforeEach, describe, expect, it, vi } from "vitest";
+const mockCreate = vi.fn();
+const mockUpdate = vi.fn();
+const mockRemove = vi.fn();
+const mockGetSubTree = vi.fn();
+const mockGetTreeRoot = vi.fn();
+const mockGet = vi.fn();
+const mockCreateAsync = vi.fn();
+const mockRemoveTree = vi.fn();
+const mockFindByIdAndRemove = vi.fn();
+const mockFindByIdAndUpdate = vi.fn();
+const mockStorageCreate = vi.fn();
+const mockFindAll = vi.fn();
 
-jest.mock("./bookmarks", () => ({
+vi.mock("./bookmarks", () => ({
   bm: {
     create: (...args: any[]) => mockCreate(...args),
     update: (...args: any[]) => mockUpdate(...args),
@@ -24,7 +25,7 @@ jest.mock("./bookmarks", () => ({
   },
 }));
 
-jest.mock("./storage", () => ({
+vi.mock("./storage", () => ({
   dbm: {
     create: (...args: any[]) => mockStorageCreate(...args),
     findByIdAndRemove: (...args: any[]) => mockFindByIdAndRemove(...args),
@@ -58,7 +59,7 @@ describe("dynBookmarksFacade", () => {
   });
 
   it("createBookmarkNode does not create tracked storage when regExp is empty", () => {
-    const done = jest.fn();
+    const done = vi.fn();
 
     mockCreate.mockImplementation((_node, cb) => {
       cb(null, { id: "123", title: "No RegExp", url: "https://example.com" });
@@ -79,7 +80,7 @@ describe("dynBookmarksFacade", () => {
   });
 
   it("editBookmarkNode untracks bookmark when regExp becomes empty", () => {
-    const done = jest.fn();
+    const done = vi.fn();
 
     mockUpdate.mockImplementation((_id, _node, cb) => {
       cb(null, { id: "bm1", title: "Tracked", url: "https://example.com/new" });
@@ -109,7 +110,7 @@ describe("dynBookmarksFacade", () => {
   });
 
   it("editBookmarkNode passes only bookmark fields to bookmarks.update", () => {
-    const done = jest.fn();
+    const done = vi.fn();
     mockUpdate.mockImplementation((_id, changes, cb) => {
       expect(changes).toEqual({
         title: "T",

@@ -1,6 +1,7 @@
-const mockEditBookmarkNode = jest.fn();
+import { beforeEach, describe, expect, it, vi } from "vitest";
+const mockEditBookmarkNode = vi.fn();
 
-jest.mock("@/shared/lib/browser", () => ({
+vi.mock("@/shared/lib/browser", () => ({
   editBookmarkNode: (...args: unknown[]) => mockEditBookmarkNode(...args),
 }));
 
@@ -12,7 +13,7 @@ describe("editBookmarkNodeHandler", () => {
   });
 
   it("returns error when data is missing", () => {
-    const sendResponse = jest.fn();
+    const sendResponse = vi.fn();
     editBookmarkNodeHandler({ data: undefined }, sendResponse);
     expect(sendResponse).toHaveBeenCalledWith({
       type: "error",
@@ -22,7 +23,7 @@ describe("editBookmarkNodeHandler", () => {
   });
 
   it("returns success when editBookmarkNode succeeds", () => {
-    const sendResponse = jest.fn();
+    const sendResponse = vi.fn();
     mockEditBookmarkNode.mockImplementation((_data, cb) =>
       cb(null, { id: "2", title: "E", url: "https://e.com" }),
     );
@@ -40,7 +41,7 @@ describe("editBookmarkNodeHandler", () => {
   });
 
   it("returns error when editBookmarkNode fails", () => {
-    const sendResponse = jest.fn();
+    const sendResponse = vi.fn();
     mockEditBookmarkNode.mockImplementation((_data, cb) => cb("edit failed"));
 
     editBookmarkNodeHandler({ data: { id: "2", title: "E" } }, sendResponse);

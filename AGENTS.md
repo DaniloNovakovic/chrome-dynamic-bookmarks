@@ -8,7 +8,7 @@ Chrome **Manifest V3** extension: when a tab’s URL matches a bookmark’s stor
 
 ## Stack and layout
 
-- **UI**: React 16, Redux, Material-UI v4, Formik/Yup.
+- **UI**: React 19, Redux, MUI, Emotion, Formik/Yup.
 - **Build**: Vite; entry bundles are configured in [vite.config.ts](vite.config.ts) for `popup` (TSX), `bookmarkManager`, `options`, and `background` (service worker). HTML source templates stay in [public/](public/) and are injected into `build/` during the Vite build.
 - **Imports**: path alias `@/` → `src/` ([tsconfig.json](tsconfig.json)); production `src/` code is TypeScript (`.ts`/`.tsx`). Tests and repo tooling may still be JavaScript — match local style.
 - **Browser API**: prefer `getCurrentBrowser()` from `src/shared/lib/browser/getCurrentBrowser.ts` instead of hard-coding `chrome` where the codebase already does.
@@ -55,4 +55,4 @@ Request `type` strings are defined in [src/shared/constants/requestTypes.ts](src
 
 ## Tests
 
-Jest + [jest.setup.js](jest.setup.js) (local Chrome API mock). Most tests live next to pure helpers under `src/shared/lib/**` and some store helpers; background and UI have little automated coverage.
+Vitest + [vitest.setup.ts](vitest.setup.ts) (local Chrome API mock). Most tests live next to pure helpers under `src/shared/lib/**` and some store helpers; background and UI have little automated coverage.

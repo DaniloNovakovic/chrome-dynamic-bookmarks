@@ -1,7 +1,8 @@
-const mockSendMessage = jest.fn();
-const mockLogInfo = jest.fn();
+import { beforeEach, describe, expect, it, vi } from "vitest";
+const mockSendMessage = vi.fn();
+const mockLogInfo = vi.fn();
 
-jest.mock("../getCurrentBrowser", () => ({
+vi.mock("../getCurrentBrowser", () => ({
   __esModule: true,
   default: () => ({
     runtime: {
@@ -10,7 +11,7 @@ jest.mock("../getCurrentBrowser", () => ({
   }),
 }));
 
-jest.mock("../log", () => ({
+vi.mock("../log", () => ({
   logInfo: (...args: any[]) => mockLogInfo(...args),
 }));
 
@@ -23,7 +24,7 @@ describe("sendMessage", () => {
   });
 
   it("sends request and passes successful response through", () => {
-    const onResponse = jest.fn();
+    const onResponse = vi.fn();
     mockSendMessage.mockImplementation((_req, done) =>
       done({ type: "success", message: "done" }),
     );
@@ -41,7 +42,7 @@ describe("sendMessage", () => {
   });
 
   it("normalizes empty response into error with fallback message", () => {
-    const onResponse = jest.fn();
+    const onResponse = vi.fn();
     mockSendMessage.mockImplementation((_req, done) => done({}));
 
     sendMessage("TYPE_B", { b: 2 }, onResponse);

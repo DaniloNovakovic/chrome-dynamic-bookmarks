@@ -28,6 +28,9 @@ const config: StorybookConfig = {
         plugins,
       },
       {
+        build: {
+          chunkSizeWarningLimit: 800,
+        },
         resolve: {
           alias: {
             "@": path.resolve(storybookDir, "../src"),
