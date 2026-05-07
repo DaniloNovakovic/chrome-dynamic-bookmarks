@@ -1,9 +1,9 @@
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import {
+  Box,
   IconButton,
   ListItem,
   ListItemButton,
-  ListItemIcon,
   Typography,
 } from "@mui/material";
 import React, { useCallback } from "react";
@@ -71,7 +71,12 @@ export default function FileListItem(props) {
       }
     >
       <ListItemButton
-        sx={{ minHeight: "35px" }}
+        sx={{
+          alignItems: "center",
+          gap: 1.5,
+          minHeight: "35px",
+          paddingRight: 6,
+        }}
         onContextMenu={handleContextMenu}
         onClick={handleClick}
         onDoubleClick={handleDoubleClick}
@@ -79,15 +84,23 @@ export default function FileListItem(props) {
         draggable={draggable}
         selected={selected}
       >
-        <ListItemIcon sx={{ minWidth: iconSize, margin: 0.25 }}>
+        <Box
+          sx={{
+            alignItems: "center",
+            display: "flex",
+            flexShrink: 0,
+            justifyContent: "center",
+            width: iconSize + 4,
+          }}
+        >
           <BookmarkIcon url={node.url} size={iconSize} />
-        </ListItemIcon>
+        </Box>
         <Typography
           variant="body2"
           noWrap
           component="span"
           color={node.regExp ? "primary" : "text.primary"}
-          sx={{ marginInlineStart: iconSize }}
+          sx={{ minWidth: 0 }}
         >
           {node.title}
         </Typography>

@@ -1,10 +1,10 @@
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import {
+  Box,
   Icon,
   IconButton,
   ListItem,
   ListItemButton,
-  ListItemIcon,
   Typography,
 } from "@mui/material";
 import React, { useCallback } from "react";
@@ -89,7 +89,12 @@ export function FolderListItem(props) {
       }
     >
       <ListItemButton
-        sx={{ minHeight: "35px" }}
+        sx={{
+          alignItems: "center",
+          gap: 1.5,
+          minHeight: "35px",
+          paddingRight: 6,
+        }}
         onClick={handleClick}
         onDoubleClick={handleDoubleClick}
         onContextMenu={handleContextMenu}
@@ -99,19 +104,27 @@ export function FolderListItem(props) {
         draggable={draggable}
         selected={selected}
       >
-        <ListItemIcon sx={{ minWidth: iconSize, padding: 0.125 }}>
+        <Box
+          sx={{
+            alignItems: "center",
+            display: "flex",
+            flexShrink: 0,
+            justifyContent: "center",
+            width: iconSize + 4,
+          }}
+        >
           <Icon
             sx={{ fontSize: iconSize + 3 }}
             color={tracked ? "primary" : "inherit"}
           >
             folder
           </Icon>
-        </ListItemIcon>
+        </Box>
         <Typography
           variant="body2"
           noWrap
           component="span"
-          sx={{ marginInlineStart: iconSize }}
+          sx={{ minWidth: 0 }}
         >
           {node.title}
         </Typography>
