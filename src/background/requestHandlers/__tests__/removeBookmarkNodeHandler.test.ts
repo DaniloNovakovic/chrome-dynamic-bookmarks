@@ -1,6 +1,7 @@
-const mockRemoveBookmarkNode = jest.fn();
+import { beforeEach, describe, expect, it, vi } from "vitest";
+const mockRemoveBookmarkNode = vi.fn();
 
-jest.mock("@/shared/lib/browser", () => ({
+vi.mock("@/shared/lib/browser", () => ({
   removeBookmarkNode: (...args: unknown[]) => mockRemoveBookmarkNode(...args),
 }));
 
@@ -16,7 +17,7 @@ describe("removeBookmarkNodesHandler", () => {
   });
 
   it("returns error when data is missing", async () => {
-    const sendResponse = jest.fn();
+    const sendResponse = vi.fn();
     removeBookmarkNodesHandler({ data: undefined }, sendResponse);
     await flushAsync();
     expect(sendResponse).toHaveBeenCalledWith({
@@ -27,7 +28,7 @@ describe("removeBookmarkNodesHandler", () => {
   });
 
   it("returns error when no valid ids after normalization", async () => {
-    const sendResponse = jest.fn();
+    const sendResponse = vi.fn();
     removeBookmarkNodesHandler({ data: { id: "" } }, sendResponse);
     await flushAsync();
     expect(sendResponse).toHaveBeenCalledWith({
@@ -38,7 +39,7 @@ describe("removeBookmarkNodesHandler", () => {
   });
 
   it("removes multiple ids and returns success", async () => {
-    const sendResponse = jest.fn();
+    const sendResponse = vi.fn();
     mockRemoveBookmarkNode.mockImplementation((_id, cb) => cb(null));
 
     removeBookmarkNodesHandler({ data: { id: ["a", "b"] } }, sendResponse);
@@ -52,7 +53,7 @@ describe("removeBookmarkNodesHandler", () => {
   });
 
   it("returns error when remove fails", async () => {
-    const sendResponse = jest.fn();
+    const sendResponse = vi.fn();
     mockRemoveBookmarkNode.mockImplementation((_id, cb) => cb("remove failed"));
 
     removeBookmarkNodesHandler({ data: { id: "x" } }, sendResponse);

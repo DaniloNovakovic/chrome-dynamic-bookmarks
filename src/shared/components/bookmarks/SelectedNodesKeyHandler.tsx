@@ -1,5 +1,4 @@
-import React, { useCallback } from "react";
-import { GlobalHotKeys } from "react-hotkeys";
+import { useCallback, useEffect } from "react";
 import { connect } from "react-redux";
 
 import { isFolder } from "@/shared/lib/bookmarkNodes";
@@ -16,14 +15,18 @@ import {
   setSelected,
 } from "@/shared/store";
 
-const keyMap = {
-  COPY: "ctrl+c",
-  CUT: "ctrl+x",
-  DELETE: "del",
-  PASTE: "ctrl+v",
-  ESCAPE: ["esc", "escape"],
-  SELECT_ALL: "ctrl+a",
-};
+function isEditableTarget(target: EventTarget | null) {
+  if (!(target instanceof HTMLElement)) {
+    return false;
+  }
+
+  return (
+    target.isContentEditable ||
+    target.tagName === "INPUT" ||
+    target.tagName === "TEXTAREA" ||
+    target.tagName === "SELECT"
+  );
+}
 
 function SelectedNodesKeyHandler(props) {
   const {
@@ -31,65 +34,124 @@ function SelectedNodesKeyHandler(props) {
     filteredNodes = [],
     parentId,
     clipboard = {},
+    copyToClipboard,
+    cutToClipboard,
+    removeBookmarkNode,
+    pasteToBookmarkNode,
+    clearSelected,
+    setSelected,
   } = props;
 
-  const firstSelectedNode =
-    findById(filteredNodes, firstOrDefault(selectedNodeIds)) || {};
-
   const copySelected = useCallback(
-    () => props.copyToClipboard({ id: selectedNodeIds }),
-    [selectedNodeIds]
+    () => copyToClipboard({ id: selectedNodeIds }),
+    [copyToClipboard, selectedNodeIds],
   );
 
   const cutSelected = useCallback(
-    () => props.cutToClipboard({ id: selectedNodeIds }),
-    [selectedNodeIds]
+    () => cutToClipboard({ id: selectedNodeIds }),
+    [cutToClipboard, selectedNodeIds],
   );
 
   const removeSelected = useCallback(
-    () => props.removeBookmarkNode(selectedNodeIds),
-    [selectedNodeIds]
+    () => removeBookmarkNode(selectedNodeIds),
+    [removeBookmarkNode, selectedNodeIds],
   );
 
   const pasteClipboard = useCallback(() => {
     let toParentId = parentId;
+    const firstSelectedNode =
+      findById(filteredNodes, firstOrDefault(selectedNodeIds)) || {};
+
     if (selectedNodeIds.length === 1) {
       if (isFolder(firstSelectedNode)) {
         toParentId = firstSelectedNode.id;
       }
     }
     if (toParentId) {
-      props.pasteToBookmarkNode({
+      pasteToBookmarkNode({
         type: clipboard.type,
         from: clipboard.data,
         to: { parentId: toParentId },
       });
     }
-  }, [parentId, selectedNodeIds, firstSelectedNode, clipboard]);
+  }, [
+    parentId,
+    filteredNodes,
+    selectedNodeIds,
+    clipboard,
+    pasteToBookmarkNode,
+  ]);
 
-  const clearSelected = useCallback(() => props.clearSelected(), []);
+  const clearSelectedHandler = useCallback(
+    () => clearSelected(),
+    [clearSelected],
+  );
 
   const selectAll = useCallback(
     (event) => {
       const filteredNodeIds = filteredNodes.map((node) => node.id);
-      props.setSelected(filteredNodeIds);
+      setSelected(filteredNodeIds);
       event.preventDefault();
     },
-    [filteredNodes]
+    [filteredNodes, setSelected],
   );
 
-  const handlers = {
-    COPY: copySelected,
-    CUT: cutSelected,
-    DELETE: removeSelected,
-    PASTE: pasteClipboard,
-    ESCAPE: clearSelected,
-    SELECT_ALL: selectAll,
-  };
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (isEditableTarget(event.target)) {
+        return;
+      }
 
-  return (
-    <GlobalHotKeys keyMap={keyMap} handlers={handlers} allowChanges={true} />
-  );
+      const key = event.key.toLowerCase();
+      const isPrimaryModifier = event.ctrlKey || event.metaKey;
+
+      if (isPrimaryModifier && key === "c") {
+        event.preventDefault();
+        copySelected();
+        return;
+      }
+
+      if (isPrimaryModifier && key === "x") {
+        event.preventDefault();
+        cutSelected();
+        return;
+      }
+
+      if (isPrimaryModifier && key === "v") {
+        event.preventDefault();
+        pasteClipboard();
+        return;
+      }
+
+      if (isPrimaryModifier && key === "a") {
+        selectAll(event);
+        return;
+      }
+
+      if (key === "delete") {
+        event.preventDefault();
+        removeSelected();
+        return;
+      }
+
+      if (key === "escape" || key === "esc") {
+        clearSelectedHandler();
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [
+    clearSelectedHandler,
+    copySelected,
+    cutSelected,
+    pasteClipboard,
+    removeSelected,
+    selectAll,
+  ]);
+
+  return null;
 }
 
 function firstOrDefault(arr = [], defaultVal = "") {

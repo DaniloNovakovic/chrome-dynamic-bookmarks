@@ -1,10 +1,7 @@
-import "core-js/stable";
-import "regenerator-runtime/runtime";
-
-import { ThemeProvider } from "@material-ui/core/styles";
+import { ThemeProvider } from "@mui/material/styles";
 import { SnackbarProvider } from "notistack";
 import React from "react";
-import { render } from "react-dom";
+import { createRoot } from "react-dom/client";
 
 import { SnackbarCloseButton } from "@/shared/components/helpers";
 import theme from "@/shared/theme";
@@ -30,4 +27,6 @@ const App = () => {
 };
 
 const element = document.getElementById("root");
-element && render(<App />, element);
+if (element) {
+  createRoot(element).render(<App />);
+}

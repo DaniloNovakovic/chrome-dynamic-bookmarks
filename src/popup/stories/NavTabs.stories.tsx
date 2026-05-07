@@ -1,21 +1,19 @@
-import { ComponentMeta, ComponentStory } from "@storybook/react";
-import React from "react";
+import type { Meta, StoryObj } from "@storybook/react-vite";
 
 import NavTabs from "../components/NavTabs";
 
-// More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
-export default {
+const meta = {
   title: "popup/components/NavTabs",
   component: NavTabs,
-  argTypes: { onChange: { action: "clicked", control: false } },
-} as ComponentMeta<typeof NavTabs>;
+  argTypes: { onChange: { control: false } },
+} satisfies Meta<typeof NavTabs>;
 
-// More on component templates: https://storybook.js.org/docs/react/writing-stories/introduction#using-args
-const Template: ComponentStory<typeof NavTabs> = (args) => (
-  <NavTabs {...args} />
-);
+export default meta;
 
-export const Example = Template.bind({});
-Example.args = {
-  value: 0,
+type Story = StoryObj<typeof meta>;
+
+export const Example: Story = {
+  args: {
+    value: 0,
+  },
 };

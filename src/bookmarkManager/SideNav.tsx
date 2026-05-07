@@ -1,25 +1,27 @@
-import { Drawer, Hidden } from "@material-ui/core";
+import { Box, Drawer } from "@mui/material";
 import React from "react";
 
 import SideNavContent from "./SideNavContent";
 
 export default function SideNav({
-  className,
-  drawerClassName,
+  sx,
+  drawerPaperSx,
   direction,
   mobileOpen,
   handleDrawerToggle,
 }) {
   return (
-    <nav className={className}>
-      <Hidden smUp implementation="css">
+    <Box component="nav" sx={sx}>
+      <Box sx={{ display: { xs: "block", sm: "none" } }}>
         <Drawer
           variant="temporary"
           anchor={direction === "rtl" ? "right" : "left"}
           open={mobileOpen}
           onClose={handleDrawerToggle}
-          classes={{
-            paper: drawerClassName,
+          slotProps={{
+            paper: {
+              sx: drawerPaperSx,
+            },
           }}
           ModalProps={{
             keepMounted: true, // Better open performance on mobile.
@@ -27,18 +29,20 @@ export default function SideNav({
         >
           <SideNavContent />
         </Drawer>
-      </Hidden>
-      <Hidden xsDown implementation="css">
+      </Box>
+      <Box sx={{ display: { xs: "none", sm: "block" } }}>
         <Drawer
-          classes={{
-            paper: drawerClassName,
+          slotProps={{
+            paper: {
+              sx: drawerPaperSx,
+            },
           }}
           variant="permanent"
           open
         >
           <SideNavContent />
         </Drawer>
-      </Hidden>
-    </nav>
+      </Box>
+    </Box>
   );
 }

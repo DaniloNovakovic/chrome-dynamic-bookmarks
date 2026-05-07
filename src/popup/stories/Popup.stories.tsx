@@ -1,18 +1,14 @@
-import { ComponentMeta, ComponentStory } from "@storybook/react";
-import React from "react";
+import type { Meta, StoryObj } from "@storybook/react-vite";
 
 import Popup from "../components/Popup";
 
-// More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
-export default {
+const meta = {
   title: "popup/components/Popup",
   component: Popup,
-  argTypes: {
-    backgroundColor: { control: "color" },
-  },
-} as ComponentMeta<typeof Popup>;
+} satisfies Meta<typeof Popup>;
 
-// More on component templates: https://storybook.js.org/docs/react/writing-stories/introduction#using-args
-const Template: ComponentStory<typeof Popup> = () => <Popup />;
+export default meta;
 
-export const Example = Template.bind({});
+type Story = StoryObj<typeof meta>;
+
+export const Example: Story = {};

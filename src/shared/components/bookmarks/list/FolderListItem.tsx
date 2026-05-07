@@ -1,12 +1,12 @@
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 import {
+  Box,
   Icon,
   IconButton,
   ListItem,
-  ListItemIcon,
-  ListItemSecondaryAction,
+  ListItemButton,
   Typography,
-} from "@material-ui/core";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
+} from "@mui/material";
 import React, { useCallback } from "react";
 import { connect } from "react-redux";
 
@@ -39,17 +39,17 @@ export function FolderListItem(props) {
   const handleActionMenuClick = useCallback(
     (event) =>
       onActionMenuClick(event, nodeId, actionMenuIds.folderActionMenuId),
-    [onActionMenuClick, nodeId]
+    [onActionMenuClick, nodeId],
   );
 
   const handleContextMenu = useCallback(
     (event) => onRightClick(event, nodeId, actionMenuIds.folderActionMenuId),
-    [onRightClick, nodeId]
+    [onRightClick, nodeId],
   );
 
   const handleDragStart = useCallback(
     (event) => onDragStart(event, nodeId),
-    [onDragStart, nodeId]
+    [onDragStart, nodeId],
   );
 
   const handleDrop = useCallback(
@@ -58,49 +58,23 @@ export function FolderListItem(props) {
       moveBookmarkNode(fromNodeId, { parentId: nodeId });
       event.preventDefault();
     },
-    [moveBookmarkNode, nodeId]
+    [moveBookmarkNode, nodeId],
   );
 
   const handleClick = useCallback(
     (event) => onClick(event, nodeId),
-    [onClick, nodeId]
+    [onClick, nodeId],
   );
 
   const handleDoubleClick = useCallback(
     () => openFolder(nodeId),
-    [openFolder, nodeId]
+    [openFolder, nodeId],
   );
 
   return (
     <ListItem
-      button
-      style={{ minHeight: "35px" }}
-      onClick={handleClick}
-      onDoubleClick={handleDoubleClick}
-      onContextMenu={handleContextMenu}
-      onDragStart={handleDragStart}
-      onDragOver={allowDrop}
-      onDrop={handleDrop}
-      draggable={draggable}
-      selected={selected}
-    >
-      <ListItemIcon style={{ minWidth: iconSize, padding: 1 }}>
-        <Icon
-          style={{ fontSize: iconSize + 3 }}
-          color={tracked ? "primary" : "inherit"}
-        >
-          folder
-        </Icon>
-      </ListItemIcon>
-      <Typography
-        variant="body2"
-        noWrap
-        component="span"
-        style={{ marginInlineStart: iconSize }}
-      >
-        {node.title}
-      </Typography>
-      <ListItemSecondaryAction>
+      disablePadding
+      secondaryAction={
         <IconButton
           edge="end"
           aria-label="more actions"
@@ -112,7 +86,49 @@ export function FolderListItem(props) {
         >
           <MoreVertIcon fontSize="small" />
         </IconButton>
-      </ListItemSecondaryAction>
+      }
+    >
+      <ListItemButton
+        sx={{
+          alignItems: "center",
+          gap: 1.5,
+          minHeight: "35px",
+          paddingRight: 6,
+        }}
+        onClick={handleClick}
+        onDoubleClick={handleDoubleClick}
+        onContextMenu={handleContextMenu}
+        onDragStart={handleDragStart}
+        onDragOver={allowDrop}
+        onDrop={handleDrop}
+        draggable={draggable}
+        selected={selected}
+      >
+        <Box
+          sx={{
+            alignItems: "center",
+            display: "flex",
+            flexShrink: 0,
+            justifyContent: "center",
+            width: iconSize + 4,
+          }}
+        >
+          <Icon
+            sx={{ fontSize: iconSize + 3 }}
+            color={tracked ? "primary" : "inherit"}
+          >
+            folder
+          </Icon>
+        </Box>
+        <Typography
+          variant="body2"
+          noWrap
+          component="span"
+          sx={{ minWidth: 0 }}
+        >
+          {node.title}
+        </Typography>
+      </ListItemButton>
     </ListItem>
   );
 }
@@ -124,5 +140,5 @@ function mapStateToProps(state, { node }) {
 }
 
 export default connect(mapStateToProps, { openFolder, moveBookmarkNode })(
-  FolderListItem
+  FolderListItem,
 );

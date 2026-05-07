@@ -25,13 +25,13 @@ async function createTrackedBookmark(page, { title, url, regExp }) {
               dbm_ids: ids.includes(key) ? ids : [...ids, key],
               [key]: { regExp, history: [] },
             },
-            resolve
+            resolve,
           );
         });
       });
       return bookmark;
     },
-    { title, url, regExp }
+    { title, url, regExp },
   );
 }
 
@@ -39,7 +39,7 @@ async function getBookmarkState(page, title) {
   return page.evaluate(
     async ({ title }) => {
       const nodes = await new Promise((resolve) =>
-        chrome.bookmarks.search({ title }, resolve)
+        chrome.bookmarks.search({ title }, resolve),
       );
       const bookmark = nodes.find((node) => node.title === title && node.url);
       if (!bookmark) {
@@ -47,7 +47,7 @@ async function getBookmarkState(page, title) {
       }
       const key = `dbm_${bookmark.id}`;
       const storage = await new Promise((resolve) =>
-        chrome.storage.local.get(["dbm_ids", key], resolve)
+        chrome.storage.local.get(["dbm_ids", key], resolve),
       );
       return {
         found: true,
@@ -57,7 +57,7 @@ async function getBookmarkState(page, title) {
         dbmItem: storage[key] || null,
       };
     },
-    { title }
+    { title },
   );
 }
 
@@ -65,9 +65,9 @@ async function sendRuntimeMessage(page, type, data) {
   return page.evaluate(
     ({ type, data }) =>
       new Promise((resolve) =>
-        chrome.runtime.sendMessage({ type, data }, resolve)
+        chrome.runtime.sendMessage({ type, data }, resolve),
       ),
-    { type, data }
+    { type, data },
   );
 }
 

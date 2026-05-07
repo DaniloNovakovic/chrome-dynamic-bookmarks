@@ -1,4 +1,4 @@
-import { AppBar, Tabs } from "@material-ui/core";
+import { AppBar, Tabs } from "@mui/material";
 import React from "react";
 
 import { LinkTab } from "@/shared/components/helpers";
@@ -16,12 +16,12 @@ interface Props {
   onChange?: GenericFunction;
 }
 
-const NavTabs = ({ value, onChange }: Props): JSX.Element => {
+const NavTabs = ({ value, onChange }: Props) => {
   return (
     <AppBar position="static">
       <Tabs
         variant="scrollable"
-        scrollButtons="on"
+        scrollButtons
         value={value}
         onChange={onChange}
         aria-label="Navigation Tabs"

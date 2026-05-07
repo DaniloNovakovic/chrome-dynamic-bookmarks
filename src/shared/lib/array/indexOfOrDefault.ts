@@ -6,7 +6,7 @@
 export default function indexOfOrDefault<TValue>(
   array: TValue[] = [],
   item: TValue = null,
-  defaultValue = -1
+  defaultValue = -1,
 ): number {
   let index = array.indexOf(item);
   if (index < 0) {

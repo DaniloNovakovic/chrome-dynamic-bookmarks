@@ -26,7 +26,7 @@ const errorHandler: Handler = (state, action) => {
 };
 
 const registerActionHandlers = (
-  factory: ActionHandlerFactory<BookmarkNodesState, BookmarkNodesAction>
+  factory: ActionHandlerFactory<BookmarkNodesState, BookmarkNodesAction>,
 ) => {
   factory.register(actionTypes.GET_BM_NODES_SUCCESS, successHandler);
   factory.register(actionTypes.GET_BM_NODES_ERROR, errorHandler);

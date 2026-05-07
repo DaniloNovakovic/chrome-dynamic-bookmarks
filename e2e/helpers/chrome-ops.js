@@ -14,13 +14,13 @@ async function sendRuntimeMessage(page, request, timeoutMs = 5000) {
           resolve(response || null);
         });
       }),
-    { request, timeoutMs }
+    { request, timeoutMs },
   );
 }
 
 async function createTrackedBookmark(
   page,
-  { title, url, regExp, history = [] }
+  { title, url, regExp, history = [] },
 ) {
   return page.evaluate(
     async ({ title, url, regExp, history }) => {
@@ -47,14 +47,14 @@ async function createTrackedBookmark(
               dbm_ids: nextIds,
               [key]: { regExp, history },
             },
-            resolve
+            resolve,
           );
         });
       });
 
       return bookmark.id;
     },
-    { title, url, regExp, history }
+    { title, url, regExp, history },
   );
 }
 
@@ -66,7 +66,7 @@ async function getBookmarkById(page, bookmarkId) {
       });
       return node;
     },
-    { bookmarkId }
+    { bookmarkId },
   );
 }
 
@@ -77,7 +77,7 @@ async function getStorageValues(page, keys) {
         chrome.storage.local.get(keys, resolve);
       });
     },
-    { keys }
+    { keys },
   );
 }
 
@@ -88,7 +88,7 @@ async function searchBookmarks(page, query) {
         chrome.bookmarks.search(query, resolve);
       });
     },
-    { query }
+    { query },
   );
 }
 
@@ -115,7 +115,7 @@ async function triggerTabUrlUpdate(page, targetUrl) {
         });
       });
     },
-    { targetUrl }
+    { targetUrl },
   );
 }
 

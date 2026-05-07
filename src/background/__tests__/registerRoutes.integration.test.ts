@@ -1,17 +1,18 @@
-const mockCreateBookmarkNode = jest.fn();
-const mockEditBookmarkNode = jest.fn();
-const mockRemoveBookmarkNode = jest.fn();
-const mockCopyBookmarkNode = jest.fn();
-const mockBmMove = jest.fn();
+import { beforeEach, describe, expect, it, vi } from "vitest";
+const mockCreateBookmarkNode = vi.fn();
+const mockEditBookmarkNode = vi.fn();
+const mockRemoveBookmarkNode = vi.fn();
+const mockCopyBookmarkNode = vi.fn();
+const mockBmMove = vi.fn();
 
-jest.mock("@/shared/lib/browser", () => ({
+vi.mock("@/shared/lib/browser", () => ({
   createBookmarkNode: (...args: unknown[]) => mockCreateBookmarkNode(...args),
   editBookmarkNode: (...args: unknown[]) => mockEditBookmarkNode(...args),
   removeBookmarkNode: (...args: unknown[]) => mockRemoveBookmarkNode(...args),
   copyBookmarkNode: (...args: unknown[]) => mockCopyBookmarkNode(...args),
 }));
 
-jest.mock("@/shared/lib/browser/bookmarks", () => ({
+vi.mock("@/shared/lib/browser/bookmarks", () => ({
   bm: {
     move: (...args: unknown[]) => mockBmMove(...args),
   },
@@ -36,7 +37,7 @@ describe("registerRoutes integration", () => {
   it("handles ADD_BM_NODE requests", () => {
     const router = createRouter();
     registerRoutes(router);
-    const sendResponse = jest.fn();
+    const sendResponse = vi.fn();
 
     mockCreateBookmarkNode.mockImplementation((_data, cb) => {
       cb(null, {
@@ -52,21 +53,21 @@ describe("registerRoutes integration", () => {
         type: "ADD_BM_NODE",
         data: { title: "Created", url: "https://example.com", regExp: "x" },
       },
-      sendResponse
+      sendResponse,
     );
 
     expect(sendResponse).toHaveBeenCalledWith(
       expect.objectContaining({
         type: "success",
         data: expect.objectContaining({ id: "10", title: "Created" }),
-      })
+      }),
     );
   });
 
   it("handles EDIT_BM_NODE requests and supports untracking", () => {
     const router = createRouter();
     registerRoutes(router);
-    const sendResponse = jest.fn();
+    const sendResponse = vi.fn();
 
     mockEditBookmarkNode.mockImplementation((_data, cb) => {
       cb(null, {
@@ -87,21 +88,21 @@ describe("registerRoutes integration", () => {
           regExp: "",
         },
       },
-      sendResponse
+      sendResponse,
     );
 
     expect(sendResponse).toHaveBeenCalledWith(
       expect.objectContaining({
         type: "success",
         data: expect.objectContaining({ id: "20", regExp: "" }),
-      })
+      }),
     );
   });
 
   it("handles REMOVE_BM_NODE requests", async () => {
     const router = createRouter();
     registerRoutes(router);
-    const sendResponse = jest.fn();
+    const sendResponse = vi.fn();
 
     mockRemoveBookmarkNode.mockImplementation((_id, cb) => cb(null));
 
@@ -110,7 +111,7 @@ describe("registerRoutes integration", () => {
         type: "REMOVE_BM_NODE",
         data: { id: "30" },
       },
-      sendResponse
+      sendResponse,
     );
 
     await flushAsync();
@@ -123,10 +124,10 @@ describe("registerRoutes integration", () => {
   it("handles COPY_BM_NODE requests", async () => {
     const router = createRouter();
     registerRoutes(router);
-    const sendResponse = jest.fn();
+    const sendResponse = vi.fn();
 
     mockCopyBookmarkNode.mockImplementation((_id, _destination, done) =>
-      done(null, { ok: true })
+      done(null, { ok: true }),
     );
 
     router.handleRequest(
@@ -137,7 +138,7 @@ describe("registerRoutes integration", () => {
           destination: { parentId: "p", index: 0 },
         },
       },
-      sendResponse
+      sendResponse,
     );
 
     await flushAsync();
@@ -150,10 +151,10 @@ describe("registerRoutes integration", () => {
   it("handles MOVE_BM_NODE requests", async () => {
     const router = createRouter();
     registerRoutes(router);
-    const sendResponse = jest.fn();
+    const sendResponse = vi.fn();
 
     mockBmMove.mockImplementation((_id, _destination, done) =>
-      done(null, { ok: true })
+      done(null, { ok: true }),
     );
 
     router.handleRequest(
@@ -164,7 +165,7 @@ describe("registerRoutes integration", () => {
           destination: { parentId: "p2", index: 0 },
         },
       },
-      sendResponse
+      sendResponse,
     );
 
     await flushAsync();

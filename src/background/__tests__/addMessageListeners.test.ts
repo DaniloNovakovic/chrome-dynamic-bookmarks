@@ -1,62 +1,69 @@
+import { beforeEach, describe, expect, it, vi } from "vitest";
+
+import addMessageListeners from "../addMessageListeners";
 import type { RequestMessage } from "../createRouter";
 
-describe("addMessageListeners", () => {
-  const mockAddListener = jest.fn();
-  const mockHandleRequest = jest.fn();
-  const mockRegisterRoutes = jest.fn();
-  const mockCreateRouter = jest.fn(() => ({
-    handleRequest: mockHandleRequest,
-  }));
+const mocks = vi.hoisted(() => {
+  const mockHandleRequest = vi.fn();
 
-  jest.mock("@/shared/lib/browser", () => ({
-    getCurrentBrowser: () => ({
-      runtime: {
-        onMessage: {
-          addListener: mockAddListener,
-        },
+  return {
+    mockAddListener: vi.fn(),
+    mockHandleRequest,
+    mockRegisterRoutes: vi.fn(),
+    mockCreateRouter: vi.fn(() => ({
+      handleRequest: mockHandleRequest,
+    })),
+  };
+});
+
+vi.mock("@/shared/lib/browser", () => ({
+  getCurrentBrowser: () => ({
+    runtime: {
+      onMessage: {
+        addListener: mocks.mockAddListener,
       },
-    }),
-  }));
+    },
+  }),
+}));
 
-  jest.mock("../createRouter", () => ({
-    __esModule: true,
-    default: () => mockCreateRouter(),
-  }));
+vi.mock("../createRouter", () => ({
+  __esModule: true,
+  default: () => mocks.mockCreateRouter(),
+}));
 
-  jest.mock("../registerRoutes", () => ({
-    __esModule: true,
-    default: (router: unknown) => mockRegisterRoutes(router),
-  }));
+vi.mock("../registerRoutes", () => ({
+  __esModule: true,
+  default: (router: unknown) => mocks.mockRegisterRoutes(router),
+}));
 
+describe("addMessageListeners", () => {
   beforeEach(() => {
-    mockAddListener.mockReset();
-    mockHandleRequest.mockReset();
-    mockRegisterRoutes.mockReset();
-    mockCreateRouter.mockClear();
+    mocks.mockAddListener.mockReset();
+    mocks.mockHandleRequest.mockReset();
+    mocks.mockRegisterRoutes.mockReset();
+    mocks.mockCreateRouter.mockClear();
   });
 
   it("registers routes and forwards runtime messages to router", () => {
-    const addMessageListeners = require("../addMessageListeners")
-      .default as typeof import("../addMessageListeners").default;
     addMessageListeners();
 
-    expect(mockCreateRouter).toHaveBeenCalledTimes(1);
-    expect(mockRegisterRoutes).toHaveBeenCalledWith(
+    expect(mocks.mockCreateRouter).toHaveBeenCalledTimes(1);
+    expect(mocks.mockRegisterRoutes).toHaveBeenCalledWith(
       expect.objectContaining({
         handleRequest: expect.any(Function),
-      })
+      }),
     );
-    expect(mockAddListener).toHaveBeenCalledTimes(1);
+    expect(mocks.mockAddListener).toHaveBeenCalledTimes(1);
 
-    const messageHandler = mockAddListener.mock.calls[0][0];
-    const sendResponse = jest.fn();
+    const messageHandler = mocks.mockAddListener.mock.calls[0][0];
+    const sendResponse = vi.fn();
     const request: RequestMessage<{ id: string }> = {
       type: "ADD_BM_NODE",
       data: { id: "1" },
     };
     const retVal = messageHandler(request, { id: "sender" }, sendResponse);
 
-    expect(mockHandleRequest).toHaveBeenCalledWith(request, sendResponse);
+    expect(mocks.mockHandleRequest).toHaveBeenCalledWith(request, sendResponse);
     expect(retVal).toBe(true);
   });
 });

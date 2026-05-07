@@ -1,35 +1,24 @@
-import { Breadcrumbs, Link, Paper } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
-import clsx from "clsx";
+import { Box, Breadcrumbs, Link, Paper } from "@mui/material";
 import React from "react";
 import { connect } from "react-redux";
 
 import { applyFilter as applyFilterAction } from "@/shared/store/actions";
 import { breadcrumbsSelector } from "@/shared/store/selectors/index";
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    justifyContent: "center",
-    flexWrap: "wrap",
-  },
-  paper: {
-    padding: theme.spacing(1, 2),
-  },
-}));
-
 export function BookmarkBreadcrumbs(props) {
-  const classes = useStyles();
   const { breadcrumbs = [], applyFilter, className, ...other } = props;
 
   const items = breadcrumbs.map((node, index) => {
     return (
       <Link
-        color={index == breadcrumbs.length - 1 ? "textPrimary" : "inherit"}
+        color={index == breadcrumbs.length - 1 ? "text.primary" : "inherit"}
         key={node.id}
         href="#"
         onClick={(event) => {
           event.preventDefault();
-          applyFilter && applyFilter({ parentId: node.id });
+          if (applyFilter) {
+            applyFilter({ parentId: node.id });
+          }
         }}
       >
         {node.title}
@@ -40,8 +29,12 @@ export function BookmarkBreadcrumbs(props) {
   return items.length == 0 ? (
     <div />
   ) : (
-    <div className={clsx(classes.root, className)} {...other}>
-      <Paper elevation={0} className={classes.paper}>
+    <Box
+      className={className}
+      sx={{ justifyContent: "center", flexWrap: "wrap" }}
+      {...other}
+    >
+      <Paper elevation={0} sx={(theme) => ({ padding: theme.spacing(1, 2) })}>
         <Breadcrumbs
           separator="›"
           aria-label="breadcrumb"
@@ -51,7 +44,7 @@ export function BookmarkBreadcrumbs(props) {
           {items}
         </Breadcrumbs>
       </Paper>
-    </div>
+    </Box>
   );
 }
 
@@ -62,5 +55,5 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps, { applyFilter: applyFilterAction })(
-  BookmarkBreadcrumbs
+  BookmarkBreadcrumbs,
 );

@@ -1,5 +1,4 @@
-import { Container, Paper } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import { Box, Container, Paper } from "@mui/material";
 import React from "react";
 
 import {
@@ -10,12 +9,7 @@ import {
 } from "@/shared/components/bookmarks";
 import { actionMenuIds } from "@/shared/constants";
 
-const useStyles = makeStyles((theme) => ({
-  toolbar: theme.mixins.toolbar,
-}));
-
-export default function MainSection({ className }) {
-  const classes = useStyles();
+export default function MainSection({ sx }) {
   const { openActionMenu } = React.useContext(ActionMenuContext);
 
   function handleContextMenu(event) {
@@ -27,8 +21,8 @@ export default function MainSection({ className }) {
   }
 
   return (
-    <Container className={className} onContextMenu={handleContextMenu}>
-      <div className={classes.toolbar} />
+    <Container sx={sx} onContextMenu={handleContextMenu}>
+      <Box sx={(theme) => theme.mixins.toolbar} />
       <Paper>
         <BookmarkBreadcrumbs />
         <BookmarkList />

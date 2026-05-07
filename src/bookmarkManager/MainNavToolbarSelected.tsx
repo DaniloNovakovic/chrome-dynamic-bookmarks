@@ -1,26 +1,6 @@
-import { Button, IconButton, Toolbar, Typography } from "@material-ui/core";
-import { makeStyles, Theme } from "@material-ui/core/styles";
-import { Clear } from "@material-ui/icons";
+import { Clear } from "@mui/icons-material";
+import { Button, IconButton, Toolbar, Typography } from "@mui/material";
 import React from "react";
-
-type StyleProps = {
-  drawerWidth: number;
-};
-
-const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
-  menuButton: {
-    [theme.breakpoints.up("sm")]: {
-      marginLeft: ({ drawerWidth }) => drawerWidth,
-    },
-    marginRight: theme.spacing(2),
-  },
-  actionButton: {
-    marginLeft: theme.spacing(1),
-  },
-  title: {
-    flexGrow: 1,
-  },
-}));
 
 export default function MainNavToolbarSelected({
   numberOfSelected = 0,
@@ -28,8 +8,6 @@ export default function MainNavToolbarSelected({
   onDelete,
   drawerWidth,
 }) {
-  const classes = useStyles({ drawerWidth });
-
   function handleCancel() {
     onCancel();
   }
@@ -43,26 +21,31 @@ export default function MainNavToolbarSelected({
         color="inherit"
         edge="start"
         onClick={handleCancel}
-        className={classes.menuButton}
+        sx={(theme) => ({
+          marginRight: theme.spacing(2),
+          [theme.breakpoints.up("sm")]: {
+            marginLeft: drawerWidth,
+          },
+        })}
       >
         <Clear />
       </IconButton>
-      <Typography className={classes.title} variant="body1" noWrap>
+      <Typography sx={{ flexGrow: 1 }} variant="body1" noWrap>
         {numberOfSelected} Selected
       </Typography>
       <Button
-        className={classes.actionButton}
         variant="outlined"
         color="primary"
         onClick={handleCancel}
+        sx={(theme) => ({ marginLeft: theme.spacing(1) })}
       >
         Cancel
       </Button>
       <Button
-        className={classes.actionButton}
         variant="outlined"
         color="primary"
         onClick={handleDelete}
+        sx={(theme) => ({ marginLeft: theme.spacing(1) })}
       >
         Delete
       </Button>

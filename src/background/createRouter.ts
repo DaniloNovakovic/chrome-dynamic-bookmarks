@@ -9,7 +9,7 @@ export type RequestMessage<TData = unknown> = {
 export type SendResponse = (response: MessageResponse) => void;
 export type RequestHandler = (
   request: RequestMessage,
-  sendResponse: SendResponse
+  sendResponse: SendResponse,
 ) => void;
 
 function log(response: MessageResponse) {
@@ -55,7 +55,7 @@ class Router {
   }
   handleRequest(
     request: RequestMessage = { data: undefined },
-    sendResponse = log
+    sendResponse = log,
   ) {
     const handle = this.getRequestHandler(request.type);
     handle(request, sendResponse);

@@ -10,7 +10,7 @@ module.exports = async () => {
     return;
   }
 
-  execSync("yarn build", {
+  execSync("pnpm build", {
     cwd: repoRoot,
     stdio: "inherit",
   });

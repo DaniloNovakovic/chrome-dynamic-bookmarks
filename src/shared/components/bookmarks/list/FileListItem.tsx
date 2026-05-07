@@ -1,11 +1,11 @@
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 import {
+  Box,
   IconButton,
   ListItem,
-  ListItemIcon,
-  ListItemSecondaryAction,
+  ListItemButton,
   Typography,
-} from "@material-ui/core";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
+} from "@mui/material";
 import React, { useCallback } from "react";
 
 import { actionMenuIds } from "@/shared/constants";
@@ -30,65 +30,33 @@ export default function FileListItem(props) {
 
   const handleActionMenuClick = useCallback(
     (event) => onActionMenuClick(event, nodeId, actionMenuIds.fileActionMenuId),
-    [nodeId, onActionMenuClick]
+    [nodeId, onActionMenuClick],
   );
 
   const handleContextMenu = useCallback(
     (event) => onRightClick(event, nodeId, actionMenuIds.fileActionMenuId),
-    [nodeId, onRightClick]
+    [nodeId, onRightClick],
   );
 
   const handleDoubleClick = useCallback(
     () => openNewTab(node.url),
-    [node.url, openNewTab]
+    [node.url, openNewTab],
   );
 
   const handleDragStart = useCallback(
     (event) => onDragStart(event, nodeId),
-    [onDragStart, nodeId]
+    [onDragStart, nodeId],
   );
 
   const handleClick = useCallback(
     (event) => onClick(event, nodeId),
-    [onClick, nodeId]
+    [onClick, nodeId],
   );
 
   return (
     <ListItem
-      button
-      style={{ minHeight: "35px" }}
-      onContextMenu={handleContextMenu}
-      onClick={handleClick}
-      onDoubleClick={handleDoubleClick}
-      onDragStart={handleDragStart}
-      draggable={draggable}
-      selected={selected}
-    >
-      <ListItemIcon style={{ minWidth: iconSize, margin: 2 }}>
-        <BookmarkIcon url={node.url} size={iconSize} />
-      </ListItemIcon>
-      <Typography
-        variant="body2"
-        noWrap
-        component="span"
-        color={node.regExp ? "primary" : "textPrimary"}
-        style={{ marginInlineStart: iconSize }}
-      >
-        {node.title}
-      </Typography>
-      <Typography
-        variant="body2"
-        noWrap
-        component="span"
-        color={node.regExp ? "secondary" : "textSecondary"}
-        style={{
-          marginInlineStart: "1em",
-          ...(!selected && { display: "none" }),
-        }}
-      >
-        {node.url}
-      </Typography>
-      <ListItemSecondaryAction>
+      disablePadding
+      secondaryAction={
         <IconButton
           edge="end"
           aria-label="more actions"
@@ -100,7 +68,55 @@ export default function FileListItem(props) {
         >
           <MoreVertIcon fontSize="small" />
         </IconButton>
-      </ListItemSecondaryAction>
+      }
+    >
+      <ListItemButton
+        sx={{
+          alignItems: "center",
+          gap: 1.5,
+          minHeight: "35px",
+          paddingRight: 6,
+        }}
+        onContextMenu={handleContextMenu}
+        onClick={handleClick}
+        onDoubleClick={handleDoubleClick}
+        onDragStart={handleDragStart}
+        draggable={draggable}
+        selected={selected}
+      >
+        <Box
+          sx={{
+            alignItems: "center",
+            display: "flex",
+            flexShrink: 0,
+            justifyContent: "center",
+            width: iconSize + 4,
+          }}
+        >
+          <BookmarkIcon url={node.url} size={iconSize} />
+        </Box>
+        <Typography
+          variant="body2"
+          noWrap
+          component="span"
+          color={node.regExp ? "primary" : "text.primary"}
+          sx={{ minWidth: 0 }}
+        >
+          {node.title}
+        </Typography>
+        <Typography
+          variant="body2"
+          noWrap
+          component="span"
+          color={node.regExp ? "secondary" : "text.secondary"}
+          sx={{
+            marginInlineStart: "1em",
+            ...(!selected && { display: "none" }),
+          }}
+        >
+          {node.url}
+        </Typography>
+      </ListItemButton>
     </ListItem>
   );
 }

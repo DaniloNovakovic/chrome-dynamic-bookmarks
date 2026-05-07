@@ -1,5 +1,4 @@
-import { MenuItem, Typography } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import { MenuItem, Typography } from "@mui/material";
 import React, { useCallback } from "react";
 
 import {
@@ -8,17 +7,7 @@ import {
   openNewWindow,
 } from "@/shared/lib/browser";
 
-const useStyles = makeStyles(() => {
-  return {
-    menuItemFlex: {
-      display: "flex",
-      justifyContent: "space-between",
-    },
-  };
-});
-
 export default function OpenLinksActionMenuItems(props) {
-  const classes = useStyles();
   const { links = [], onClose: handleClose } = props;
   const areLinksEmpty = links.length === 0;
 
@@ -42,12 +31,12 @@ export default function OpenLinksActionMenuItems(props) {
       <MenuItem
         dense
         disabled={areLinksEmpty}
-        className={classes.menuItemFlex}
+        sx={{ display: "flex", justifyContent: "space-between" }}
         onClick={handleOpenAll}
       >
         Open all bookmarks
         {!areLinksEmpty && (
-          <Typography color="textSecondary" variant="body2">
+          <Typography color="text.secondary" variant="body2">
             {links.length}
           </Typography>
         )}

@@ -1,4 +1,4 @@
-import { Divider, Menu, MenuItem } from "@material-ui/core";
+import { Divider, Menu, MenuItem } from "@mui/material";
 import React from "react";
 import { connect } from "react-redux";
 

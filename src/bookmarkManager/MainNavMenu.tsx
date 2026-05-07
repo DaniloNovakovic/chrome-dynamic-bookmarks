@@ -1,5 +1,5 @@
-import { IconButton, Menu, MenuItem } from "@material-ui/core";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import { IconButton, Menu, MenuItem } from "@mui/material";
 import React from "react";
 
 import { DialogContext } from "@/shared/components/bookmarks";

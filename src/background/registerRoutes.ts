@@ -10,12 +10,12 @@ import {
 } from "./requestHandlers";
 
 export default function registerRoutes(
-  router: ReturnType<typeof createRouter>
+  router: ReturnType<typeof createRouter>,
 ) {
   router.registerHandler(requestTypes.ADD_BM_NODE, addBookmarkNodeHandler);
   router.registerHandler(
     requestTypes.REMOVE_BM_NODE,
-    removeBookmarkNodeHandler
+    removeBookmarkNodeHandler,
   );
   router.registerHandler(requestTypes.EDIT_BM_NODE, editBookmarkNodeHandler);
   router.registerHandler(requestTypes.COPY_BM_NODE, copyBookmarkNodeHandler);

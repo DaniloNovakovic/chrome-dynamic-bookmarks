@@ -1,3 +1,5 @@
+import { describe, expect, it } from "vitest";
+
 import { onNodeRemoved } from "../onNodeRemoved";
 
 describe("onNodeRemoved", () => {
@@ -16,7 +18,7 @@ describe("onNodeRemoved", () => {
       state as any,
       {
         data: { id: "nodeA" },
-      } as any
+      } as any,
     );
 
     expect(next.data.nodeA).toBeUndefined();

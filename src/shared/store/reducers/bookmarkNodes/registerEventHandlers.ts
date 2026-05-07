@@ -8,7 +8,7 @@ import { onNodeMoved } from "./handlers/onNodeMoved";
 import { onNodeRemoved } from "./handlers/onNodeRemoved";
 
 export default function registerEventHandlers(
-  factory: ActionHandlerFactory<BookmarkNodesState, BookmarkNodesAction>
+  factory: ActionHandlerFactory<BookmarkNodesState, BookmarkNodesAction>,
 ) {
   factory.register(events.BM_NODE_MOVED, onNodeMoved);
   factory.register(events.BM_NODE_REMOVED, onNodeRemoved);

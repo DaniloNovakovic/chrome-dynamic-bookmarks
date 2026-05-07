@@ -1,23 +1,26 @@
+import type { Mock } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
+
 import type connectToBackgroundDefault from "./connectToBackground";
 
 describe("connectToBackground", () => {
-  let mockPostMessage: jest.Mock;
-  let mockAddListener: jest.Mock;
-  let mockConnect: jest.Mock;
+  let mockPostMessage: Mock;
+  let mockAddListener: Mock;
+  let mockConnect: Mock;
   let connectToBackground: typeof connectToBackgroundDefault;
 
-  beforeEach(() => {
-    jest.resetModules();
-    mockPostMessage = jest.fn();
-    mockAddListener = jest.fn();
-    mockConnect = jest.fn(() => ({
+  beforeEach(async () => {
+    vi.resetModules();
+    mockPostMessage = vi.fn();
+    mockAddListener = vi.fn();
+    mockConnect = vi.fn(() => ({
       postMessage: mockPostMessage,
       onMessage: {
         addListener: mockAddListener,
       },
     }));
 
-    jest.doMock("@/shared/lib/browser", () => ({
+    vi.doMock("@/shared/lib/browser", () => ({
       getCurrentBrowser: () => ({
         runtime: {
           connect: mockConnect,
@@ -25,11 +28,11 @@ describe("connectToBackground", () => {
       }),
     }));
 
-    connectToBackground = require("./connectToBackground").default;
+    connectToBackground = (await import("./connectToBackground")).default;
   });
 
   it("connects to runtime and forwards messages via callback", () => {
-    const onMessage = jest.fn();
+    const onMessage = vi.fn();
     connectToBackground(onMessage);
 
     expect(mockConnect).toHaveBeenCalledWith({ name: "bookmarks" });
@@ -40,7 +43,7 @@ describe("connectToBackground", () => {
 
     expect(onMessage).toHaveBeenCalledWith(
       { type: "BM_NODE_CREATED", data: { id: "1" } },
-      expect.any(Function)
+      expect.any(Function),
     );
 
     const sendResponse = onMessage.mock.calls[0][1];

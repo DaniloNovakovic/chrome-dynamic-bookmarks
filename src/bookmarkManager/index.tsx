@@ -1,10 +1,7 @@
-import "core-js/stable";
-import "regenerator-runtime/runtime";
-
-import { ThemeProvider } from "@material-ui/core/styles";
+import { ThemeProvider } from "@mui/material/styles";
 import { SnackbarProvider } from "notistack";
 import React from "react";
-import { render } from "react-dom";
+import { createRoot } from "react-dom/client";
 import { Provider } from "react-redux";
 
 import SnackbarCloseButton from "@/shared/components/helpers/SnackbarCloseButton";
@@ -40,5 +37,5 @@ const App = () => {
 
 const element = document.getElementById("root");
 if (element) {
-  render(<App />, element);
+  createRoot(element).render(<App />);
 }

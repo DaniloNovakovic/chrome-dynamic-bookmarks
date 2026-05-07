@@ -1,20 +1,26 @@
 import { Field, Form, Formik } from "formik";
-import { TextField } from "formik-material-ui";
 import React from "react";
 
-import { SubmitButton } from "@/shared/components/helpers";
+import { FormikTextField, SubmitButton } from "@/shared/components/helpers";
 
 import BookmarkSchema from "./BookmarkSchema";
 
+const defaultInitialValues = {
+  regExp: "",
+  title: "",
+  url: "",
+};
+
 export default function BookmarkForm(props) {
-  const { initialValues, handleSubmit } = props;
+  const { initialValues = defaultInitialValues, handleSubmit } = props;
 
   return (
     <Formik
       initialValues={initialValues}
       validationSchema={BookmarkSchema}
       onSubmit={handleSubmit}
-      render={({ isSubmitting, submitForm }) => (
+    >
+      {({ isSubmitting, submitForm }) => (
         <Form>
           <Field
             type="text"
@@ -22,7 +28,7 @@ export default function BookmarkForm(props) {
             label="Title"
             margin="normal"
             fullWidth
-            component={TextField}
+            component={FormikTextField}
           />
           <Field
             type="url"
@@ -30,7 +36,7 @@ export default function BookmarkForm(props) {
             label="Url"
             margin="normal"
             fullWidth
-            component={TextField}
+            component={FormikTextField}
           />
           <Field
             type="text"
@@ -38,11 +44,11 @@ export default function BookmarkForm(props) {
             label="Regular Expression"
             margin="normal"
             fullWidth
-            component={TextField}
+            component={FormikTextField}
           />
           <SubmitButton disabled={isSubmitting} onClick={submitForm} />
         </Form>
       )}
-    />
+    </Formik>
   );
 }

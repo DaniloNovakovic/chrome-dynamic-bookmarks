@@ -3,7 +3,11 @@ import React, { Component } from "react";
 import ActionMenuContext from "./ActionMenuContext";
 import ActionMenuReducer from "./ActionMenuReducer";
 
-export default class ActionMenuProvider extends Component {
+type ActionMenuProviderProps = {
+  children?: React.ReactNode;
+};
+
+export default class ActionMenuProvider extends Component<ActionMenuProviderProps> {
   state = {
     openedActionMenuId: null,
     openActionMenu: (id, args = {}) => {
