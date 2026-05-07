@@ -8,10 +8,13 @@ const useCallbackRef = <TArgs extends unknown[], TReturn>(
 
   useEffect(() => {
     callbackRef.current = callback;
+  }, [callback]);
+
+  useEffect(() => {
     return (): void => {
       callbackRef.current = undefined;
     };
-  }, [callback]);
+  }, []);
 
   return useCallback(
     ((...args) => {

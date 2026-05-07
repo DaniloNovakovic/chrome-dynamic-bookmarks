@@ -3,18 +3,25 @@ import { IconButton, Toolbar, Typography } from "@mui/material";
 import React, { useCallback } from "react";
 
 import { SearchInput } from "@/shared/components/helpers";
+import type { FilterState } from "@/shared/types";
 
 import MainNavMenu from "./MainNavMenu";
 
-let oldParentId;
+let oldParentId: string | undefined;
+
+type MainNavToolbarProps = {
+  handleDrawerToggle: () => void;
+  filter: FilterState;
+  applyFilter: (filter: Partial<FilterState>) => void;
+};
 
 export default function MainNavToolbar({
   handleDrawerToggle,
   filter,
   applyFilter,
-}) {
+}: MainNavToolbarProps) {
   const handleSearchInputChange = useCallback(
-    (searchText) => {
+    (searchText: string) => {
       if (!searchText) {
         applyFilter({ parentId: oldParentId || filter.parentId });
       } else {

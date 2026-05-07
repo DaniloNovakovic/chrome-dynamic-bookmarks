@@ -2,7 +2,7 @@ const fs = require("fs");
 const os = require("os");
 const path = require("path");
 
-const { chromium } = require("playwright/test");
+const { chromium } = require("@playwright/test");
 
 async function launchExtensionContext() {
   const repoRoot = path.resolve(__dirname, "..", "..");
