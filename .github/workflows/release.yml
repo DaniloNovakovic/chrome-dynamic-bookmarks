@@ -47,16 +47,16 @@ jobs:
             echo "exists=false" >> $GITHUB_OUTPUT
           fi
 
+      - name: Enable pnpm (packageManager in package.json)
+        if: steps.tag_check.outputs.exists == 'false'
+        run: corepack enable
+
       - name: Setup Node.js
         if: steps.tag_check.outputs.exists == 'false'
         uses: actions/setup-node@v4
         with:
           node-version: "24"
           cache: pnpm
-
-      - name: Enable pnpm (packageManager in package.json)
-        if: steps.tag_check.outputs.exists == 'false'
-        run: corepack enable
 
       - name: Install dependencies
         if: steps.tag_check.outputs.exists == 'false'
