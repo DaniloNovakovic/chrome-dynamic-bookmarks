@@ -84,6 +84,67 @@ test.describe("dynamic bookmarks extension", () => {
     await popup.close();
   });
 
+  test("given bookmark manager add dialogs when fields are filled then nodes are created", async () => {
+    const testId = Date.now();
+    const folderTitle = `e2e-manager-folder-${testId}`;
+    const bookmarkTitle = `e2e-manager-bookmark-${testId}`;
+    const bookmarkUrl = `https://example.com/e2e-manager-bookmark-${testId}`;
+    const bookmarkManagerPage = await openExtensionPage(
+      context,
+      extensionId,
+      "bookmarkManager.html",
+    );
+
+    async function openMainMenuItem(label) {
+      await bookmarkManagerPage.getByLabel("show more").click();
+      await bookmarkManagerPage
+        .getByRole("menuitem", { name: label })
+        .last()
+        .click();
+    }
+
+    async function findBookmarksByTitle(title) {
+      return bookmarkManagerPage.evaluate(
+        async ({ title }) =>
+          new Promise((resolve) => chrome.bookmarks.search({ title }, resolve)),
+        { title },
+      );
+    }
+
+    await openMainMenuItem("Add new folder");
+    await bookmarkManagerPage.locator("input[name='title']").fill(folderTitle);
+    await bookmarkManagerPage.getByRole("button", { name: /submit/i }).click();
+
+    await expect(bookmarkManagerPage.getByRole("dialog")).toBeHidden();
+    await expect(bookmarkManagerPage.getByText("Required!")).toHaveCount(0);
+    await expect
+      .poll(async () => {
+        const nodes = await findBookmarksByTitle(folderTitle);
+        return nodes.some((node) => node.title === folderTitle && !node.url);
+      })
+      .toBe(true);
+
+    await openMainMenuItem("Add new bookmark");
+    await bookmarkManagerPage
+      .locator("input[name='title']")
+      .fill(bookmarkTitle);
+    await bookmarkManagerPage.locator("input[name='url']").fill(bookmarkUrl);
+    await bookmarkManagerPage.getByRole("button", { name: /submit/i }).click();
+
+    await expect(bookmarkManagerPage.getByRole("dialog")).toBeHidden();
+    await expect(bookmarkManagerPage.getByText("Required!")).toHaveCount(0);
+    await expect
+      .poll(async () => {
+        const nodes = await findBookmarksByTitle(bookmarkTitle);
+        return nodes.some(
+          (node) => node.title === bookmarkTitle && node.url === bookmarkUrl,
+        );
+      })
+      .toBe(true);
+
+    await bookmarkManagerPage.close();
+  });
+
   test("given tracked bookmark when tab navigates to matching URL then bookmark URL updates", async () => {
     const testId = Date.now();
     const title = `e2e-tab-update-${testId}`;
