@@ -5,8 +5,14 @@ import { FormikTextField, SubmitButton } from "@/shared/components/helpers";
 
 import BookmarkSchema from "./BookmarkSchema";
 
+const defaultInitialValues = {
+  regExp: "",
+  title: "",
+  url: "",
+};
+
 export default function BookmarkForm(props) {
-  const { initialValues, handleSubmit } = props;
+  const { initialValues = defaultInitialValues, handleSubmit } = props;
 
   return (
     <Formik

@@ -11,8 +11,12 @@ const FolderSchema = Yup.object().shape({
     .required("Required!"),
 });
 
+const defaultInitialValues = {
+  title: "",
+};
+
 export default function FolderForm(props) {
-  const { initialValues, handleSubmit } = props;
+  const { initialValues = defaultInitialValues, handleSubmit } = props;
   return (
     <Formik
       initialValues={initialValues}

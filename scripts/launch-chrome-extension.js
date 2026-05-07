@@ -50,8 +50,8 @@ function resolveViaCommand(command) {
 
 function resolvePlaywrightChromium() {
   try {
-    const playwright = require("playwright");
-    const executablePath = playwright.chromium.executablePath();
+    const { chromium } = require("@playwright/test");
+    const executablePath = chromium.executablePath();
     if (isExecutableFile(executablePath)) {
       return executablePath;
     }
@@ -142,6 +142,8 @@ async function main() {
     `--user-data-dir=${profileDir}`,
     `--disable-extensions-except=${buildDir}`,
     `--load-extension=${buildDir}`,
+    "--disable-crash-reporter",
+    "--disable-crashpad",
     "--no-first-run",
     "--no-default-browser-check",
     "chrome://extensions/",

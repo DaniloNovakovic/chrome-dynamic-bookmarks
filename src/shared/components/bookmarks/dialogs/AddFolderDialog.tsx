@@ -14,7 +14,7 @@ function AddFolderDialog(props) {
   }
 
   function handleSubmit(values) {
-    onSubmit({ ...values, parentId });
+    onSubmit(parentId ? { ...values, parentId } : values);
     handleClose();
   }
 
