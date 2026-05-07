@@ -35,7 +35,7 @@ type BookmarkChangesArg = {
  */
 export function create(
   { title, url, parentId = undefined, index = undefined }: BookmarkCreateArg,
-  done: (errMsg: string, newBookmark?: BrowserBookmark) => void
+  done: (errMsg: string, newBookmark?: BrowserBookmark) => void,
 ) {
   bookmarks.create({ title, url, parentId, index }, (newBookmark) => {
     if (!checkAndHandleError(done)) {
@@ -60,7 +60,7 @@ export function createAsync(bookmarkNode: BookmarkCreateArg) {
 
 export function get(
   id: string,
-  done: (errMsg: string, node?: BrowserBookmark) => void
+  done: (errMsg: string, node?: BrowserBookmark) => void,
 ) {
   bookmarks.get(id, (results) => {
     if (!checkAndHandleError(done)) {
@@ -75,7 +75,7 @@ export function get(
  */
 export function getSubTree(
   id: string,
-  done: (err: string, rootNode?: BrowserBookmark) => void
+  done: (err: string, rootNode?: BrowserBookmark) => void,
 ) {
   bookmarks.getSubTree(id, (results) => {
     if (!checkAndHandleError(done)) {
@@ -89,7 +89,7 @@ export function getSubTree(
  * Retrives the root node of the bookmarks
  */
 export function getTreeRoot(
-  done: (err: string, rootNode?: BrowserBookmark) => void
+  done: (err: string, rootNode?: BrowserBookmark) => void,
 ) {
   bookmarks.getTree((results) => {
     if (!checkAndHandleError(done)) {
@@ -104,7 +104,7 @@ export function getTreeRoot(
  */
 export function getChildren(
   id: string,
-  done: (children?: BrowserBookmark[]) => void
+  done: (children?: BrowserBookmark[]) => void,
 ) {
   bookmarks.getChildren(id, (results) => {
     if (checkAndHandleError()) {
@@ -122,7 +122,7 @@ export function getChildren(
  */
 export function search(
   query: string | BookmarkSearchQuery,
-  done: (results?: BrowserBookmark[]) => void
+  done: (results?: BrowserBookmark[]) => void,
 ) {
   bookmarks.search(query || ({} as unknown), (results) => {
     if (checkAndHandleError()) {
@@ -136,7 +136,7 @@ export function search(
 export function move(
   id: string,
   { parentId, index }: BookmarkDestinationArg,
-  done: (errMsg: string, node?: BrowserBookmark) => void
+  done: (errMsg: string, node?: BrowserBookmark) => void,
 ) {
   bookmarks.move(id, { parentId, index }, (result) => {
     if (!checkAndHandleError(done)) {
@@ -148,7 +148,7 @@ export function move(
 export function update(
   id: string,
   changes: BookmarkChangesArg,
-  done: (errMsg: string, node?: BrowserBookmark) => void
+  done: (errMsg: string, node?: BrowserBookmark) => void,
 ) {
   bookmarks.update(id, changes, (updatedNode) => {
     if (!checkAndHandleError(done)) {

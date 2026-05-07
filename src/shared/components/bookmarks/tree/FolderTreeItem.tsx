@@ -1,7 +1,7 @@
-import ChevronRightIcon from "@material-ui/icons/ChevronRight";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import FolderIcon from "@material-ui/icons/Folder";
-import FolderOpenIcon from "@material-ui/icons/FolderOpen";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import FolderIcon from "@mui/icons-material/Folder";
+import FolderOpenIcon from "@mui/icons-material/FolderOpen";
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import { connect } from "react-redux";
 
@@ -56,7 +56,7 @@ export function FolderTreeItem({
       event.preventDefault();
       event.stopPropagation();
     },
-    [openActionMenu, nodeId, readOnly]
+    [openActionMenu, nodeId, readOnly],
   );
 
   const handleDragOver = useCallback((event) => {
@@ -70,7 +70,7 @@ export function FolderTreeItem({
       moveBookmarkNode(fromNodeId, { parentId: nodeId });
       event.preventDefault();
     },
-    [moveBookmarkNode, nodeId]
+    [moveBookmarkNode, nodeId],
   );
 
   return (
@@ -109,5 +109,5 @@ function mapStateToProps(state, { node }) {
 }
 
 export default connect(mapStateToProps, { openFolder, moveBookmarkNode })(
-  FolderTreeItem
+  FolderTreeItem,
 );

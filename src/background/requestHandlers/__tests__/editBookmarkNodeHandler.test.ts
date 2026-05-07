@@ -24,12 +24,12 @@ describe("editBookmarkNodeHandler", () => {
   it("returns success when editBookmarkNode succeeds", () => {
     const sendResponse = jest.fn();
     mockEditBookmarkNode.mockImplementation((_data, cb) =>
-      cb(null, { id: "2", title: "E", url: "https://e.com" })
+      cb(null, { id: "2", title: "E", url: "https://e.com" }),
     );
 
     editBookmarkNodeHandler(
       { data: { id: "2", title: "E", url: "https://e.com" } },
-      sendResponse
+      sendResponse,
     );
 
     expect(sendResponse).toHaveBeenCalledWith({

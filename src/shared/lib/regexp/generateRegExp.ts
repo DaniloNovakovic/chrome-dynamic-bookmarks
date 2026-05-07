@@ -26,7 +26,7 @@ function _extractDefault(url: string) {
   return escapeRegExp(
     url.replace(
       /(^(http[s]?:\/\/)?(www\.)?)|(\/[^/]*?(\?.*)?$)|(\/[^/?]+\/$)/g,
-      ""
-    )
+      "",
+    ),
   );
 }

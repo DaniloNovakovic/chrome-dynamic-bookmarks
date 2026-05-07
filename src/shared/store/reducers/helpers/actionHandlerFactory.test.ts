@@ -15,7 +15,7 @@ describe("ActionHandlerFactory", () => {
 
   it("should return the default handler if no handler is registered for a given key", () => {
     expect(factory.getHandler("UNREGISTERED_ACTION")).toBe(
-      factory.defaultHandler
+      factory.defaultHandler,
     );
   });
 });

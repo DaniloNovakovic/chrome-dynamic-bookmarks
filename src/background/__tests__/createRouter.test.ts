@@ -18,7 +18,7 @@ describe("createRouter", () => {
     const sendResponse = jest.fn<void, Parameters<SendResponse>>();
     const request: RequestMessage<number> = { type: "PING", data: 1 };
     const customHandler = jest.fn((_request, respond: SendResponse) =>
-      respond({ type: "success", message: "ok" })
+      respond({ type: "success", message: "ok" }),
     );
     router.registerHandler("PING", customHandler);
 

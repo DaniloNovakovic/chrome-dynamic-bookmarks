@@ -68,7 +68,7 @@ describe("addBookmarkListeners", () => {
 
     expect(mockFindByIdAndRemove).toHaveBeenCalledWith(
       "3",
-      expect.any(Function)
+      expect.any(Function),
     );
     expect(callback).toHaveBeenCalledWith({
       type: "BM_NODE_REMOVED",
@@ -95,10 +95,10 @@ describe("addBookmarkListeners", () => {
       .default as typeof addBookmarkListenersDefault;
     addBookmarkListeners(callback);
     mockFindById.mockImplementation((_id, done) =>
-      done(null, { regExp: "example", history: ["older"] })
+      done(null, { regExp: "example", history: ["older"] }),
     );
     mockFindByIdAndUpdate.mockImplementation((_id, item, done) =>
-      done(null, item)
+      done(null, item),
     );
 
     mockOnChanged.mock.calls[0][0]("5", {
@@ -109,7 +109,7 @@ describe("addBookmarkListeners", () => {
     expect(mockFindByIdAndUpdate).toHaveBeenCalledWith(
       "5",
       { regExp: "example", history: ["https://example.com/new", "older"] },
-      expect.any(Function)
+      expect.any(Function),
     );
     expect(callback).toHaveBeenCalledWith({
       type: "BM_NODE_CHANGED",

@@ -9,7 +9,7 @@ describe("addTabsListeners integration", () => {
     jest.doMock("@/shared/lib/browser", () => ({
       dbm: {
         findAll: (
-          cb: (err: string | null, items: typeof dynBookmarks) => void
+          cb: (err: string | null, items: typeof dynBookmarks) => void,
         ) => cb(null, dynBookmarks),
       },
       getCurrentBrowser: () => ({
@@ -54,7 +54,7 @@ describe("addTabsListeners integration", () => {
     expect(mockUpdate).toHaveBeenCalledWith(
       "tracked-id",
       { url: "https://example.com/path/123" },
-      expect.any(Function)
+      expect.any(Function),
     );
   });
 
@@ -77,12 +77,12 @@ describe("addTabsListeners integration", () => {
     handler(1, { url: "https://example.com/path/123" });
 
     expect(mockWarn).toHaveBeenCalledWith(
-      "regExp: [ from dynBookmarks.id of broken is invalid..."
+      "regExp: [ from dynBookmarks.id of broken is invalid...",
     );
     expect(mockUpdate).toHaveBeenCalledWith(
       "valid",
       { url: "https://example.com/path/123" },
-      expect.any(Function)
+      expect.any(Function),
     );
   });
 });

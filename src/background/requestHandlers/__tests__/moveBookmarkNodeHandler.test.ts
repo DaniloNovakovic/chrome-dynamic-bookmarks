@@ -22,7 +22,7 @@ describe("moveBookmarkNodeHandler", () => {
 
     moveBookmarkNodeHandler(
       { data: { id: "1", destination: { parentId: "1", index: 0 } } },
-      sendResponse
+      sendResponse,
     );
 
     expect(sendResponse).toHaveBeenCalledWith({
@@ -35,7 +35,7 @@ describe("moveBookmarkNodeHandler", () => {
   it("moves all nodes and returns success for multi-id payload", async () => {
     const sendResponse = jest.fn();
     mockMove.mockImplementation((_id, _destination, done) =>
-      done(null, { ok: true })
+      done(null, { ok: true }),
     );
 
     moveBookmarkNodeHandler(
@@ -45,7 +45,7 @@ describe("moveBookmarkNodeHandler", () => {
           destination: { parentId: "dest", index: 1 },
         },
       },
-      sendResponse
+      sendResponse,
     );
 
     await flushAsync();
@@ -62,7 +62,7 @@ describe("moveBookmarkNodeHandler", () => {
 
     moveBookmarkNodeHandler(
       { data: { id: "1", destination: { parentId: "x", index: 0 } } },
-      sendResponse
+      sendResponse,
     );
 
     await flushAsync();
@@ -98,7 +98,7 @@ describe("moveBookmarkNodeHandler", () => {
     const sendResponse = jest.fn();
     moveBookmarkNodeHandler(
       { data: { id: "1", destination: { index: 0 } } },
-      sendResponse
+      sendResponse,
     );
     await flushAsync();
     expect(sendResponse).toHaveBeenCalledWith({
@@ -117,7 +117,7 @@ describe("moveBookmarkNodeHandler", () => {
           destination: { parentId: "1", index: 0 },
         },
       },
-      sendResponse
+      sendResponse,
     );
     await flushAsync();
     expect(sendResponse).toHaveBeenCalledWith({

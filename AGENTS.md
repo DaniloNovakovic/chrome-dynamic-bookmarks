@@ -15,25 +15,25 @@ Chrome **Manifest V3** extension: when a tab’s URL matches a bookmark’s stor
 
 ## Package manager and CI
 
-Use **Yarn 1.22.22** (`packageManager` in [package.json](package.json)). [`.github/workflows/node.js.yml`](.github/workflows/node.js.yml) runs `yarn install`, `yarn build`, `yarn test`.
+Use **pnpm 10.33.4** (`packageManager` in [package.json](package.json)). [`.github/workflows/node.js.yml`](.github/workflows/node.js.yml) runs `pnpm install`, `pnpm build`, `pnpm test`.
 
 ## Commands
 
 | Task              | Command            |
 | ----------------- | ------------------ |
-| Dev bundle        | `yarn dev`         |
-| Watch dev         | `yarn watch`       |
-| Production bundle | `yarn build`       |
-| Lint              | `yarn lint`        |
-| Typecheck         | `yarn check:types` |
-| Tests             | `yarn test`        |
-| Storybook         | `yarn storybook`   |
+| Dev bundle        | `pnpm dev`         |
+| Watch dev         | `pnpm watch`       |
+| Production bundle | `pnpm build`       |
+| Lint              | `pnpm lint`        |
+| Typecheck         | `pnpm check:types` |
+| Tests             | `pnpm test`        |
+| Storybook         | `pnpm storybook`   |
 
-Run **`yarn lint`**, **`yarn check:types`**, and **`yarn test`** before opening a PR (matches CI).
+Run **`pnpm lint`**, **`pnpm check:types`**, and **`pnpm test`** before opening a PR (matches CI).
 
 ## Load the extension locally
 
-After `yarn build` or `yarn dev`, output is under **`build/`**. In Chrome: `chrome://extensions/` → Developer mode → **Load unpacked** → choose the repo’s **`build`** directory (not the repo root).
+After `pnpm build` or `pnpm dev`, output is under **`build/`**. In Chrome: `chrome://extensions/` → Developer mode → **Load unpacked** → choose the repo’s **`build`** directory (not the repo root).
 
 ## Where to change behavior
 
@@ -55,4 +55,4 @@ Request `type` strings are defined in [src/shared/constants/requestTypes.ts](src
 
 ## Tests
 
-Jest + [jest.setup.js](jest.setup.js) (`jest-chrome`). Most tests live next to pure helpers under `src/shared/lib/**` and some store helpers; background and UI have little automated coverage.
+Jest + [jest.setup.js](jest.setup.js) (local Chrome API mock). Most tests live next to pure helpers under `src/shared/lib/**` and some store helpers; background and UI have little automated coverage.

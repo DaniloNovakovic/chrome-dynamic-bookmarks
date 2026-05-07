@@ -51,7 +51,7 @@ describe("migrateStorageToLocal", () => {
         try {
           expect(err).toBeNull();
           expect(mockLogInfo).toHaveBeenCalledWith(
-            "Data already migrated, skipping migration..."
+            "Data already migrated, skipping migration...",
           );
           expect(mockSyncFindAllImpl).not.toHaveBeenCalled();
           expect(mockLocalOverwriteImpl).not.toHaveBeenCalled();

@@ -44,7 +44,7 @@ describe("addMessageListeners", () => {
     expect(mockRegisterRoutes).toHaveBeenCalledWith(
       expect.objectContaining({
         handleRequest: expect.any(Function),
-      })
+      }),
     );
     expect(mockAddListener).toHaveBeenCalledTimes(1);
 

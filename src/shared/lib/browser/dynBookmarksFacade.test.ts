@@ -66,7 +66,7 @@ describe("dynBookmarksFacade", () => {
 
     createBookmarkNode(
       { title: "No RegExp", url: "https://example.com", regExp: "" },
-      done
+      done,
     );
 
     expect(mockStorageCreate).not.toHaveBeenCalled();
@@ -93,12 +93,12 @@ describe("dynBookmarksFacade", () => {
         url: "https://example.com/new",
         regExp: "",
       },
-      done
+      done,
     );
 
     expect(mockFindByIdAndRemove).toHaveBeenCalledWith(
       "bm1",
-      expect.any(Function)
+      expect.any(Function),
     );
     expect(done).toHaveBeenCalledWith(null, {
       id: "bm1",
@@ -118,7 +118,7 @@ describe("dynBookmarksFacade", () => {
       cb(null, { id: "bm2", title: "T", url: "https://example.com/u" });
     });
     mockFindByIdAndUpdate.mockImplementation((_id, payload, cb) =>
-      cb(null, { regExp: "ex", history: [] })
+      cb(null, { regExp: "ex", history: [] }),
     );
 
     editBookmarkNode(
@@ -129,7 +129,7 @@ describe("dynBookmarksFacade", () => {
         regExp: "ex",
         history: ["old"],
       },
-      done
+      done,
     );
 
     expect(mockUpdate).toHaveBeenCalledWith(
@@ -138,19 +138,19 @@ describe("dynBookmarksFacade", () => {
         title: "T",
         url: "https://example.com/u",
       },
-      expect.any(Function)
+      expect.any(Function),
     );
     expect(mockFindByIdAndUpdate).toHaveBeenCalledWith(
       "bm2",
       { regExp: "ex", history: ["old"] },
-      expect.any(Function)
+      expect.any(Function),
     );
     expect(done).toHaveBeenCalledWith(
       null,
       expect.objectContaining({
         id: "bm2",
         regExp: "ex",
-      })
+      }),
     );
   });
 
@@ -169,7 +169,7 @@ describe("dynBookmarksFacade", () => {
     };
     mockGetTreeRoot.mockImplementation((_cb: any) => _cb(null, treeRoot));
     mockFindAll.mockImplementation((_cb: any) =>
-      _cb(null, { b1: { regExp: "ex", history: [] } })
+      _cb(null, { b1: { regExp: "ex", history: [] } }),
     );
 
     return new Promise<void>((resolve, reject) => {
@@ -231,7 +231,7 @@ describe("dynBookmarksFacade", () => {
         id: "src",
         title: "Src",
         url: "https://example.com/s",
-      })
+      }),
     );
     mockCreateAsync.mockResolvedValue({
       id: "new",
@@ -247,7 +247,7 @@ describe("dynBookmarksFacade", () => {
               id: "src",
               parentId: "p",
               index: 0,
-            })
+            }),
           );
           resolve();
         } catch (e) {
@@ -259,7 +259,7 @@ describe("dynBookmarksFacade", () => {
 
   it("copyBookmarkNode propagates getSubTree errors", () => {
     mockGetSubTree.mockImplementation((_id: any, cb: any) =>
-      cb("no-node", null)
+      cb("no-node", null),
     );
 
     return new Promise<void>((resolve, reject) => {
@@ -276,7 +276,7 @@ describe("dynBookmarksFacade", () => {
 
   it("removeBookmarkNode for folder removes tree then clears tracked metadata for descendant bookmarks", () => {
     mockGet.mockImplementation((_id: any, cb: any) =>
-      cb(null, { id: "folder1", title: "F", children: [] })
+      cb(null, { id: "folder1", title: "F", children: [] }),
     );
     mockGetSubTree.mockImplementation((_id: any, cb: any) =>
       cb(null, {
@@ -289,7 +289,7 @@ describe("dynBookmarksFacade", () => {
             url: "https://example.com/c",
           },
         ],
-      })
+      }),
     );
     mockRemoveTree.mockImplementation((_id: any, cb: any) => cb(null));
     mockFindByIdAndRemove.mockImplementation((_id: any, cb: any) => cb(null));
@@ -300,11 +300,11 @@ describe("dynBookmarksFacade", () => {
           expect(err).toBeNull();
           expect(mockRemoveTree).toHaveBeenCalledWith(
             "folder1",
-            expect.any(Function)
+            expect.any(Function),
           );
           expect(mockFindByIdAndRemove).toHaveBeenCalledWith(
             "child1",
-            expect.any(Function)
+            expect.any(Function),
           );
           resolve();
         } catch (e) {

@@ -32,7 +32,7 @@ describe("bookmarkNodesActions", () => {
   it("dispatches success action for getBookmarkNodes", () => {
     const dispatch = jest.fn();
     mockGetBookmarkNodes.mockImplementation((done: any) =>
-      done(null, { "1": { id: "1" } })
+      done(null, { "1": { id: "1" } }),
     );
 
     getBookmarkNodes()(dispatch);
@@ -50,7 +50,7 @@ describe("bookmarkNodesActions", () => {
         type: responseTypes.SUCCESS,
         message: "created",
         data: { id: "9", parentId: "1", title: "A" },
-      })
+      }),
     );
 
     addBookmarkNode({ id: "9" } as any)(dispatch);
@@ -58,7 +58,7 @@ describe("bookmarkNodesActions", () => {
     expect(mockSendMessage).toHaveBeenCalledWith(
       requestTypes.ADD_BM_NODE,
       expect.any(Object),
-      expect.any(Function)
+      expect.any(Function),
     );
     expect(dispatch).toHaveBeenCalledWith({
       type: eventTypes.BM_NODE_CREATED,
@@ -77,7 +77,7 @@ describe("bookmarkNodesActions", () => {
         type: responseTypes.SUCCESS,
         message: "edited",
         data: { id: "2", title: "Changed" },
-      })
+      }),
     );
 
     editBookmarkNode({ id: "2" } as any)(dispatch);
@@ -94,7 +94,7 @@ describe("bookmarkNodesActions", () => {
       done({
         type: responseTypes.ERROR,
         message: "cannot move",
-      })
+      }),
     );
 
     moveBookmarkNode("2", { parentId: "3", index: 0 })(dispatch);

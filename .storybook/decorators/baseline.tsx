@@ -1,11 +1,17 @@
 import React from "react";
-import { DecoratorFunction } from "@storybook/addons";
-import { CssBaseline } from "@material-ui/core";
+import type { Decorator } from "@storybook/react-vite";
+import { CssBaseline, ThemeProvider } from "@mui/material";
 
-const baseline = (): DecoratorFunction<JSX.Element> => {
-  return (story) => {
-    const storyItem = story();
-    return <CssBaseline>{storyItem}</CssBaseline>;
+import theme from "@/shared/theme";
+
+const baseline = (): Decorator => {
+  return (Story) => {
+    return (
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <Story />
+      </ThemeProvider>
+    );
   };
 };
 

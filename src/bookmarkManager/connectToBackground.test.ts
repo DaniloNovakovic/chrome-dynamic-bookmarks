@@ -40,7 +40,7 @@ describe("connectToBackground", () => {
 
     expect(onMessage).toHaveBeenCalledWith(
       { type: "BM_NODE_CREATED", data: { id: "1" } },
-      expect.any(Function)
+      expect.any(Function),
     );
 
     const sendResponse = onMessage.mock.calls[0][1];

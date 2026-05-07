@@ -1,27 +1,10 @@
-import { IconButton, Toolbar, Typography } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
-import MenuIcon from "@material-ui/icons/Menu";
+import MenuIcon from "@mui/icons-material/Menu";
+import { IconButton, Toolbar, Typography } from "@mui/material";
 import React, { useCallback } from "react";
 
 import { SearchInput } from "@/shared/components/helpers";
 
 import MainNavMenu from "./MainNavMenu";
-
-const useStyles = makeStyles((theme) => ({
-  menuButton: {
-    marginRight: theme.spacing(2),
-    [theme.breakpoints.up("sm")]: {
-      display: "none",
-    },
-  },
-  title: {
-    flexGrow: 1,
-    display: "none",
-    [theme.breakpoints.up("sm")]: {
-      display: "block",
-    },
-  },
-}));
 
 let oldParentId;
 
@@ -30,8 +13,6 @@ export default function MainNavToolbar({
   filter,
   applyFilter,
 }) {
-  const classes = useStyles();
-
   const handleSearchInputChange = useCallback(
     (searchText) => {
       if (!searchText) {
@@ -41,7 +22,7 @@ export default function MainNavToolbar({
         applyFilter({ searchText });
       }
     },
-    [applyFilter, filter.parentId]
+    [applyFilter, filter.parentId],
   );
 
   return (
@@ -51,11 +32,26 @@ export default function MainNavToolbar({
         aria-label="open drawer"
         edge="start"
         onClick={handleDrawerToggle}
-        className={classes.menuButton}
+        sx={(theme) => ({
+          marginRight: theme.spacing(2),
+          [theme.breakpoints.up("sm")]: {
+            display: "none",
+          },
+        })}
       >
         <MenuIcon />
       </IconButton>
-      <Typography className={classes.title} variant="h6" noWrap>
+      <Typography
+        sx={(theme) => ({
+          flexGrow: 1,
+          display: "none",
+          [theme.breakpoints.up("sm")]: {
+            display: "block",
+          },
+        })}
+        variant="h6"
+        noWrap
+      >
         Dynamic Bookmarks
       </Typography>
       <SearchInput onChange={handleSearchInputChange} />

@@ -42,12 +42,12 @@ export default function removeBookmarkNodesHandler({ data }, sendResponse) {
       sendResponse({
         type: responseTypes.SUCCESS,
         message: `${ids.length} item(s) deleted`,
-      })
+      }),
     )
     .catch((errMsg) =>
       sendResponse({
         type: responseTypes.ERROR,
         message: errMsg,
-      })
+      }),
     );
 }

@@ -18,15 +18,15 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: "20"
-          cache: yarn
-      - name: Enable Yarn (packageManager in package.json)
-        run: corepack enable && corepack prepare yarn@1.22.22 --activate
-      - run: yarn install --frozen-lockfile
-      - run: yarn lint
-      - run: yarn check:types
-      - run: yarn build
-      - run: yarn test --coverage --runInBand
+          node-version: "24"
+          cache: pnpm
+      - name: Enable pnpm (packageManager in package.json)
+        run: corepack enable
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm lint
+      - run: pnpm check:types
+      - run: pnpm build
+      - run: pnpm test --coverage --runInBand
 
   e2e:
     name: E2E
@@ -43,7 +43,7 @@ jobs:
               - 'e2e/**'
               - 'playwright.config.js'
               - 'package.json'
-              - 'yarn.lock'
+              - 'pnpm-lock.yaml'
               - 'vite.config.ts'
               - 'manifest.config.ts'
               - 'public/**'
@@ -56,16 +56,16 @@ jobs:
       - uses: actions/setup-node@v4
         if: steps.changes.outputs.e2e == 'true'
         with:
-          node-version: "20"
-          cache: yarn
-      - name: Enable Yarn (packageManager in package.json)
+          node-version: "24"
+          cache: pnpm
+      - name: Enable pnpm (packageManager in package.json)
         if: steps.changes.outputs.e2e == 'true'
-        run: corepack enable && corepack prepare yarn@1.22.22 --activate
-      - run: yarn install --frozen-lockfile
+        run: corepack enable
+      - run: pnpm install --frozen-lockfile
         if: steps.changes.outputs.e2e == 'true'
-      - run: yarn build
+      - run: pnpm build
         if: steps.changes.outputs.e2e == 'true'
-      - run: npx playwright install --with-deps chromium
+      - run: pnpm exec playwright install --with-deps chromium
         if: steps.changes.outputs.e2e == 'true'
-      - run: yarn test:e2e
+      - run: pnpm test:e2e
         if: steps.changes.outputs.e2e == 'true'

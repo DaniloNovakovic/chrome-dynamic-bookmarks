@@ -16,6 +16,6 @@ export function migrateStorage() {
       }
     });
   } catch (e) {
-    logError(e);
+    logError(e instanceof Error ? e.message : String(e));
   }
 }

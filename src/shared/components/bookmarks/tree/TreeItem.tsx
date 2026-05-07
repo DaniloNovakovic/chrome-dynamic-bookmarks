@@ -1,12 +1,26 @@
-import { Box, Collapse, Typography } from "@material-ui/core";
-import type { SvgIconComponent } from "@material-ui/icons";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import clsx from "clsx";
+import type { SvgIconComponent } from "@mui/icons-material";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { Box, Collapse, Typography } from "@mui/material";
+import type { SxProps, Theme } from "@mui/material/styles";
 import React, { useCallback, useEffect, useRef } from "react";
 
-import useStyles from "./TreeItemStyles";
-
 const defaultChildren = [];
+
+const getLabelRootSx =
+  (selected?: boolean): SxProps<Theme> =>
+  (theme) => ({
+    display: "flex",
+    alignItems: "center",
+    padding: theme.spacing(0.5, 0),
+    userSelect: "none",
+    backgroundColor: selected ? theme.palette.action.selected : undefined,
+    "&:hover": {
+      backgroundColor: selected
+        ? theme.palette.action.selected
+        : theme.palette.action.hover,
+      cursor: "pointer",
+    },
+  });
 
 type TreeItemProps = React.HTMLAttributes<HTMLDivElement> & {
   selected?: boolean;
@@ -31,7 +45,6 @@ export default function TreeItem({
   className,
   ...other
 }: TreeItemProps) {
-  const classes = useStyles();
   const labelElement = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -51,16 +64,15 @@ export default function TreeItem({
         event.stopPropagation();
       }
     },
-    [toggleExpanded]
+    [toggleExpanded],
   );
 
   return (
     <Box>
-      <div
+      <Box
         ref={labelElement}
-        className={clsx(classes.labelRoot, className, {
-          [classes.selected]: selected,
-        })}
+        className={className}
+        sx={getLabelRootSx(selected)}
         onDoubleClick={handleToggleExpanded}
         {...other}
       >
@@ -71,15 +83,25 @@ export default function TreeItem({
         )}
         {LabelIcon && (
           <LabelIcon
-            className={classes.labelIcon}
             color={tracked ? "primary" : "inherit"}
+            sx={(theme) => ({
+              marginRight: theme.spacing(1),
+              fill: theme.treeViewIconColor || "currentColor",
+            })}
           />
         )}
-        <Typography variant="body2" className={classes.labelText} noWrap>
+        <Typography
+          variant="body2"
+          sx={{ fontWeight: "inherit", flexGrow: 1 }}
+          noWrap
+        >
           {labelText}
         </Typography>
-      </div>
-      <Collapse className={classes.children} in={expanded}>
+      </Box>
+      <Collapse
+        sx={(theme) => ({ paddingLeft: theme.spacing(1) })}
+        in={expanded}
+      >
         {children}
       </Collapse>
     </Box>

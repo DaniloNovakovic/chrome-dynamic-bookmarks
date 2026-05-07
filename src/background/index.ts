@@ -1,6 +1,3 @@
-import "core-js/stable";
-import "regenerator-runtime/runtime";
-
 import { logInfo } from "@/shared/lib/browser";
 
 import addBookmarkListeners from "./addBookmarkListeners";

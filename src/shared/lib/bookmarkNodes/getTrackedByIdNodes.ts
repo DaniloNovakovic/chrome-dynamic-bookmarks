@@ -4,7 +4,7 @@ import { isFolder, isTracked } from "./comparisons";
 
 export default function getTrackedByIdNodes(
   nodes: Record<string, NormalizedDynamicBookmark> = {},
-  rootId = "0"
+  rootId = "0",
 ) {
   const trackedByNodeId: Record<string, boolean> = {};
   if (!(rootId in nodes)) {

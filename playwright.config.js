@@ -1,4 +1,4 @@
-const { defineConfig } = require("@playwright/test");
+const { defineConfig } = require("playwright/test");
 
 module.exports = defineConfig({
   testDir: "./e2e",

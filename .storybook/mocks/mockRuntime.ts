@@ -1,7 +1,19 @@
-import { JestChrome } from "jest-chrome/types/jest-chrome";
 import { responseTypes } from "../../src/shared/constants";
 
-const mockRuntime = (chrome: JestChrome) => {
+type StorybookChrome = {
+  runtime: {
+    sendMessage: {
+      mockImplementation: (
+        implementation: (
+          _: unknown,
+          callback?: (response: unknown) => void,
+        ) => void,
+      ) => void;
+    };
+  };
+};
+
+const mockRuntime = (chrome: StorybookChrome) => {
   chrome.runtime.sendMessage.mockImplementation((_, callback) => {
     if (typeof callback === "function") {
       callback({

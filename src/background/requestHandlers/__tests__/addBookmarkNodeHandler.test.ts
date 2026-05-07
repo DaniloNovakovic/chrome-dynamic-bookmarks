@@ -24,12 +24,12 @@ describe("addBookmarkNodeHandler", () => {
   it("returns success when createBookmarkNode succeeds", () => {
     const sendResponse = jest.fn();
     mockCreateBookmarkNode.mockImplementation((_data, cb) =>
-      cb(null, { id: "1", title: "T", url: "https://x.com" })
+      cb(null, { id: "1", title: "T", url: "https://x.com" }),
     );
 
     addBookmarkNodeHandler(
       { data: { title: "T", url: "https://x.com" } },
-      sendResponse
+      sendResponse,
     );
 
     expect(sendResponse).toHaveBeenCalledWith({
@@ -42,12 +42,12 @@ describe("addBookmarkNodeHandler", () => {
   it("returns error when createBookmarkNode fails", () => {
     const sendResponse = jest.fn();
     mockCreateBookmarkNode.mockImplementation((_data, cb) =>
-      cb("create failed")
+      cb("create failed"),
     );
 
     addBookmarkNodeHandler(
       { data: { title: "T", url: "https://x.com" } },
-      sendResponse
+      sendResponse,
     );
 
     expect(sendResponse).toHaveBeenCalledWith({

@@ -1,9 +1,0 @@
-node_modules
-node_modules/**
-**/node_modules/**
-build
-build/**
-**/build/**
-build_utils
-build_utils/**
-**/build_utils/**

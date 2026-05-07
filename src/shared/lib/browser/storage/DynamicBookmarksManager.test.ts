@@ -36,8 +36,8 @@ jest.mock("@/shared/lib/browser/log", () => ({
 }));
 
 import {
-  DynamicBookmarksManager,
   dbmIdsPropName,
+  DynamicBookmarksManager,
 } from "./DynamicBookmarksManager";
 
 describe("DynamicBookmarksManager", () => {
@@ -61,7 +61,7 @@ describe("DynamicBookmarksManager", () => {
           } catch (e) {
             reject(e);
           }
-        }
+        },
       );
     });
   });
@@ -86,7 +86,7 @@ describe("DynamicBookmarksManager", () => {
           } catch (e) {
             reject(e);
           }
-        }
+        },
       );
     });
   });

@@ -8,7 +8,7 @@ const browser = getCurrentBrowser();
 
 const migrateStorageToLocal = (done = logError) => {
   const localStorageManager = new DynamicBookmarksManager(
-    browser.storage.local
+    browser.storage.local,
   );
   const syncStorageManager = new DynamicBookmarksManager(browser.storage.sync);
 

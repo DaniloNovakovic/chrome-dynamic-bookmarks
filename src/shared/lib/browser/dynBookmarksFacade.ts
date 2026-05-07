@@ -69,7 +69,7 @@ export function editBookmarkNode(node, done) {
             return done(errMsg);
           }
           done(null, { ...updatedNode, ...updatedDynBookItem });
-        }
+        },
       );
     } else {
       storage.findByIdAndRemove(id, (errMsg) => {
@@ -95,14 +95,14 @@ export function createBookmarkNode(node, done) {
       (errMsg, item) => {
         if (errMsg) return done(errMsg);
         done(null, { ...createdNode, ...item });
-      }
+      },
     );
   });
 }
 
 function collectBookmarkIdsFromSubTree(
   node: chrome.bookmarks.BookmarkTreeNode,
-  out: string[]
+  out: string[],
 ) {
   if (node.url) {
     out.push(node.id);
@@ -116,7 +116,7 @@ function collectBookmarkIdsFromSubTree(
 function removeTrackedMetadataForIds(
   ids: string[],
   index: number,
-  done: (e?: string | null) => void
+  done: (e?: string | null) => void,
 ) {
   if (index >= ids.length) {
     return done(null);

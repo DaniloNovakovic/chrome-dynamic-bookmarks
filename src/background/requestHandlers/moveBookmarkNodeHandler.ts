@@ -74,9 +74,9 @@ export default function moveBookmarkNodeHandler({ data }, sendResponse) {
       sendResponse({
         type: responseTypes.SUCCESS,
         message: `${ids.length} item(s) moved`,
-      })
+      }),
     )
     .catch((errMsg) =>
-      sendResponse({ type: responseTypes.ERROR, message: errMsg })
+      sendResponse({ type: responseTypes.ERROR, message: errMsg }),
     );
 }

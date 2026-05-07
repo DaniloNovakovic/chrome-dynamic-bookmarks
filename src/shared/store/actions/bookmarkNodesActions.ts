@@ -62,7 +62,7 @@ export function removeBookmarkNode(id: string | string[]) {
  */
 export function moveBookmarkNode(
   id: string | string[],
-  destination: { parentId: string; index: number }
+  destination: { parentId: string; index: number },
 ) {
   return createSendMessageDispatch(requestTypes.MOVE_BM_NODE, {
     id,
@@ -75,7 +75,7 @@ export function moveBookmarkNode(
  */
 export function copyBookmarkNode(
   id: string | string[],
-  destination: { parentId: string; index: number }
+  destination: { parentId: string; index: number },
 ) {
   return createSendMessageDispatch(requestTypes.COPY_BM_NODE, {
     id,
@@ -109,7 +109,7 @@ export function pasteToBookmarkNode({
  */
 function createSendMessageDispatch<T = GenericObject>(
   requestType: string,
-  data: T
+  data: T,
 ) {
   return (dispatch: Dispatch) => {
     sendMessage(requestType, data, (response) => {

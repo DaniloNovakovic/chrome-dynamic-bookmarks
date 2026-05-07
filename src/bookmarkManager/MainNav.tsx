@@ -1,6 +1,5 @@
-import { AppBar, Box } from "@material-ui/core";
+import { AppBar, Box } from "@mui/material";
 import React from "react";
-import { IgnoreKeys } from "react-hotkeys";
 import { connect } from "react-redux";
 
 import { filterSelector, selectedNodeIdsSelector } from "@/shared/store";
@@ -14,7 +13,7 @@ import MainNavToolbar from "./MainNavToolbar";
 import MainNavToolbarSelected from "./MainNavToolbarSelected";
 
 export function MainNav({
-  className,
+  sx,
   handleDrawerToggle,
   filter,
   applyFilter,
@@ -32,25 +31,23 @@ export function MainNav({
   const multipleSelected = numberOfSelected > 1;
 
   return (
-    <IgnoreKeys>
-      <AppBar position="fixed" className={className}>
-        <Box hidden={!multipleSelected}>
-          <MainNavToolbarSelected
-            numberOfSelected={numberOfSelected}
-            onCancel={clearSelected}
-            onDelete={handleDelete}
-            drawerWidth={drawerWidth}
-          />
-        </Box>
-        <Box hidden={multipleSelected}>
-          <MainNavToolbar
-            handleDrawerToggle={handleDrawerToggle}
-            filter={filter}
-            applyFilter={applyFilter}
-          />
-        </Box>
-      </AppBar>
-    </IgnoreKeys>
+    <AppBar position="fixed" sx={sx}>
+      <Box hidden={!multipleSelected}>
+        <MainNavToolbarSelected
+          numberOfSelected={numberOfSelected}
+          onCancel={clearSelected}
+          onDelete={handleDelete}
+          drawerWidth={drawerWidth}
+        />
+      </Box>
+      <Box hidden={multipleSelected}>
+        <MainNavToolbar
+          handleDrawerToggle={handleDrawerToggle}
+          filter={filter}
+          applyFilter={applyFilter}
+        />
+      </Box>
+    </AppBar>
   );
 }
 

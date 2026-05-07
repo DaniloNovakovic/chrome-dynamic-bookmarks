@@ -18,7 +18,7 @@ describe("copyBookmarkNodeHandler", () => {
   it("copies nodes and returns success response", async () => {
     const sendResponse = jest.fn();
     mockCopyBookmarkNode.mockImplementation((_id, _destination, done) =>
-      done(null, { ok: true })
+      done(null, { ok: true }),
     );
 
     copyBookmarkNodeHandler(
@@ -28,7 +28,7 @@ describe("copyBookmarkNodeHandler", () => {
           destination: { parentId: "dest", index: 3 },
         },
       },
-      sendResponse
+      sendResponse,
     );
 
     await flushAsync();
@@ -59,7 +59,7 @@ describe("copyBookmarkNodeHandler", () => {
           destination: { parentId: "1", index: 0 },
         },
       },
-      sendResponse
+      sendResponse,
     );
     await flushAsync();
     expect(sendResponse).toHaveBeenCalledWith({
@@ -78,7 +78,7 @@ describe("copyBookmarkNodeHandler", () => {
           destination: { index: 0 },
         },
       },
-      sendResponse
+      sendResponse,
     );
     await flushAsync();
     expect(sendResponse).toHaveBeenCalledWith({
@@ -91,7 +91,7 @@ describe("copyBookmarkNodeHandler", () => {
   it("returns error when copyBookmarkNode fails", async () => {
     const sendResponse = jest.fn();
     mockCopyBookmarkNode.mockImplementation((_id, _destination, done) =>
-      done("bad input")
+      done("bad input"),
     );
 
     copyBookmarkNodeHandler(
@@ -101,7 +101,7 @@ describe("copyBookmarkNodeHandler", () => {
           destination: { parentId: "p", index: 0 },
         },
       },
-      sendResponse
+      sendResponse,
     );
 
     await flushAsync();

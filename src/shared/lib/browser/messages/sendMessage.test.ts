@@ -25,14 +25,14 @@ describe("sendMessage", () => {
   it("sends request and passes successful response through", () => {
     const onResponse = jest.fn();
     mockSendMessage.mockImplementation((_req, done) =>
-      done({ type: "success", message: "done" })
+      done({ type: "success", message: "done" }),
     );
 
     sendMessage("TYPE_A", { a: 1 }, onResponse);
 
     expect(mockSendMessage).toHaveBeenCalledWith(
       { type: "TYPE_A", data: { a: 1 } },
-      expect.any(Function)
+      expect.any(Function),
     );
     expect(onResponse).toHaveBeenCalledWith({
       type: "success",
@@ -49,7 +49,7 @@ describe("sendMessage", () => {
     expect(onResponse).toHaveBeenCalledWith(
       expect.objectContaining({
         type: "error",
-      })
+      }),
     );
   });
 });

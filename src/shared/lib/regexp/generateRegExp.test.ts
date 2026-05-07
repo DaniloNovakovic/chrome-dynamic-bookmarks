@@ -44,7 +44,7 @@ describe("generateRegExp", () => {
       expect("https://invalid.com").not.toMatch(expression);
       expect("invalid.com").not.toMatch(expression);
       expect(".com").not.toMatch(expression);
-    }
+    },
   );
 
   it("should correct regural expression for YouTube playlist URL", () => {
@@ -55,13 +55,13 @@ describe("generateRegExp", () => {
 
     expect(url).toMatch(expression);
     expect("https://www.youtube.com/watch?v=abcd&list=PLAYLIST_ID").toMatch(
-      expression
+      expression,
     );
     expect("https://www.youtube.com/watch?v=abcdefg&list=PLAYLIST_ID").toMatch(
-      expression
+      expression,
     );
     expect("https://www.youtube.com/watch?v=abcdefg&list=abcdeffg").not.toMatch(
-      expression
+      expression,
     );
     expect("list=PLAYLIST_ID").not.toMatch(expression);
     expect(".com/list=PLAYLIST_ID").not.toMatch(expression);

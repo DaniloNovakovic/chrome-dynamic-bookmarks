@@ -1,9 +1,8 @@
 import { Field, Form, Formik } from "formik";
-import { TextField } from "formik-material-ui";
 import React from "react";
 import * as Yup from "yup";
 
-import { SubmitButton } from "@/shared/components/helpers";
+import { FormikTextField, SubmitButton } from "@/shared/components/helpers";
 
 const FolderSchema = Yup.object().shape({
   title: Yup.string()
@@ -19,7 +18,8 @@ export default function FolderForm(props) {
       initialValues={initialValues}
       validationSchema={FolderSchema}
       onSubmit={handleSubmit}
-      render={({ isSubmitting, submitForm }) => (
+    >
+      {({ isSubmitting, submitForm }) => (
         <Form>
           <Field
             type="text"
@@ -27,11 +27,11 @@ export default function FolderForm(props) {
             label="Title"
             margin="normal"
             fullWidth
-            component={TextField}
+            component={FormikTextField}
           />
           <SubmitButton disabled={isSubmitting} onClick={submitForm} />
         </Form>
       )}
-    />
+    </Formik>
   );
 }

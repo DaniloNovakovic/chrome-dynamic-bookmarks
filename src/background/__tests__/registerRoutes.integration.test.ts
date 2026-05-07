@@ -52,14 +52,14 @@ describe("registerRoutes integration", () => {
         type: "ADD_BM_NODE",
         data: { title: "Created", url: "https://example.com", regExp: "x" },
       },
-      sendResponse
+      sendResponse,
     );
 
     expect(sendResponse).toHaveBeenCalledWith(
       expect.objectContaining({
         type: "success",
         data: expect.objectContaining({ id: "10", title: "Created" }),
-      })
+      }),
     );
   });
 
@@ -87,14 +87,14 @@ describe("registerRoutes integration", () => {
           regExp: "",
         },
       },
-      sendResponse
+      sendResponse,
     );
 
     expect(sendResponse).toHaveBeenCalledWith(
       expect.objectContaining({
         type: "success",
         data: expect.objectContaining({ id: "20", regExp: "" }),
-      })
+      }),
     );
   });
 
@@ -110,7 +110,7 @@ describe("registerRoutes integration", () => {
         type: "REMOVE_BM_NODE",
         data: { id: "30" },
       },
-      sendResponse
+      sendResponse,
     );
 
     await flushAsync();
@@ -126,7 +126,7 @@ describe("registerRoutes integration", () => {
     const sendResponse = jest.fn();
 
     mockCopyBookmarkNode.mockImplementation((_id, _destination, done) =>
-      done(null, { ok: true })
+      done(null, { ok: true }),
     );
 
     router.handleRequest(
@@ -137,7 +137,7 @@ describe("registerRoutes integration", () => {
           destination: { parentId: "p", index: 0 },
         },
       },
-      sendResponse
+      sendResponse,
     );
 
     await flushAsync();
@@ -153,7 +153,7 @@ describe("registerRoutes integration", () => {
     const sendResponse = jest.fn();
 
     mockBmMove.mockImplementation((_id, _destination, done) =>
-      done(null, { ok: true })
+      done(null, { ok: true }),
     );
 
     router.handleRequest(
@@ -164,7 +164,7 @@ describe("registerRoutes integration", () => {
           destination: { parentId: "p2", index: 0 },
         },
       },
-      sendResponse
+      sendResponse,
     );
 
     await flushAsync();

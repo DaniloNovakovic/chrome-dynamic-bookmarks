@@ -23,7 +23,7 @@ const defaultOptions: TreeOptions = {
 export default function createTree(
   nodes: Record<string, NormalizedDynamicBookmark> = {},
   rootId = "0",
-  options: TreeOptions = defaultOptions
+  options: TreeOptions = defaultOptions,
 ) {
   const {
     fileTreeItemProps = {},
@@ -64,7 +64,7 @@ export default function createTree(
 function _getChildren(
   nodes: Record<string, NormalizedDynamicBookmark>,
   rootId: string,
-  options: TreeOptions = {}
+  options: TreeOptions = {},
 ) {
   const children = nodes[rootId].children.map((childId) => nodes[childId]);
   const sorted = getSortedNodes(children);

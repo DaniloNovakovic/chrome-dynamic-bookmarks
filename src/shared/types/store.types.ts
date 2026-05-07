@@ -6,7 +6,7 @@ import { MessageResponseType } from "./message.types";
 
 export type ActionHandler<TState, TAction extends Action> = (
   state: TState,
-  action: MakeOptional<TAction, "type">
+  action: MakeOptional<TAction, "type">,
 ) => TState;
 
 export type AlertState = {

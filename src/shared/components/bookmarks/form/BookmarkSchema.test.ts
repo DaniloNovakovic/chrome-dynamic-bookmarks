@@ -7,7 +7,7 @@ describe("BookmarkSchema", () => {
         title: "Example",
         url: "https://example.com",
         regExp: "example\\.com",
-      })
+      }),
     ).resolves.toBeTruthy();
   });
 
@@ -17,7 +17,7 @@ describe("BookmarkSchema", () => {
         title: "Example",
         url: "https://example.com",
         regExp: "[",
-      })
+      }),
     ).rejects.toBeTruthy();
   });
 
@@ -27,7 +27,7 @@ describe("BookmarkSchema", () => {
         title: "Example",
         url: "example.com",
         regExp: "example",
-      })
+      }),
     ).rejects.toBeTruthy();
   });
 });
