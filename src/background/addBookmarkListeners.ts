@@ -10,7 +10,7 @@ type BookmarkEvent = {
 };
 
 export default function addBookmarkListeners(
-  callback: (event: BookmarkEvent) => void = (_event: BookmarkEvent) => {}
+  callback: (event: BookmarkEvent) => void = (_event: BookmarkEvent) => {},
 ) {
   browser.bookmarks.onCreated.addListener((id, node) => {
     callback({ type: events.BM_NODE_CREATED, data: { ...node, id } });
@@ -64,7 +64,7 @@ export default function addBookmarkListeners(
   function handleUrlChange(
     item: DynamicBookmarkStorageItem,
     newUrl: string,
-    maxHistorySize = 10
+    maxHistorySize = 10,
   ) {
     if (!item.history) {
       item.history = [];

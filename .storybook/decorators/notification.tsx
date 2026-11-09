@@ -1,12 +1,11 @@
 import React from "react";
-import { DecoratorFunction } from "@storybook/addons";
+import type { Decorator } from "@storybook/react-vite";
 import { SnackbarProvider, SnackbarProviderProps } from "notistack";
 
 type Props = SnackbarProviderProps;
 
-const notification = (options?: Props): DecoratorFunction<JSX.Element> => {
-  return (story) => {
-    const storyItem = story();
+const notification = (options?: Props): Decorator => {
+  return (Story) => {
     return (
       <SnackbarProvider
         maxSnack={1}
@@ -17,7 +16,7 @@ const notification = (options?: Props): DecoratorFunction<JSX.Element> => {
         }}
         {...(options || {})}
       >
-        {storyItem}
+        <Story />
       </SnackbarProvider>
     );
   };

@@ -1,3 +1,5 @@
+import { describe, expect, it } from "vitest";
+
 import { BookmarkSchema } from "./BookmarkSchema";
 
 describe("BookmarkSchema", () => {
@@ -7,7 +9,7 @@ describe("BookmarkSchema", () => {
         title: "Example",
         url: "https://example.com",
         regExp: "example\\.com",
-      })
+      }),
     ).resolves.toBeTruthy();
   });
 
@@ -17,7 +19,7 @@ describe("BookmarkSchema", () => {
         title: "Example",
         url: "https://example.com",
         regExp: "[",
-      })
+      }),
     ).rejects.toBeTruthy();
   });
 
@@ -27,7 +29,7 @@ describe("BookmarkSchema", () => {
         title: "Example",
         url: "example.com",
         regExp: "example",
-      })
+      }),
     ).rejects.toBeTruthy();
   });
 });

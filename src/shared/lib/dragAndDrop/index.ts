@@ -4,7 +4,7 @@ import { DragEvent } from "react";
  */
 export function setDragTextData<T = Element>(
   event: DragEvent<T>,
-  data: string
+  data: string,
 ) {
   const dragImg = new Image(0, 0);
   dragImg.src =
@@ -20,7 +20,7 @@ export function setDragTextData<T = Element>(
  */
 export function allowDrop<T = Element>(
   event: DragEvent<T>,
-  dropEffect: DataTransfer["dropEffect"] = "move"
+  dropEffect: DataTransfer["dropEffect"] = "move",
 ) {
   event.preventDefault();
   event.dataTransfer.dropEffect = dropEffect;

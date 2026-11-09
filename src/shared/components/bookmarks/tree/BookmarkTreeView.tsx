@@ -1,3 +1,5 @@
+import { Box } from "@mui/material";
+import type { SxProps, Theme } from "@mui/material/styles";
 import React from "react";
 import { connect } from "react-redux";
 
@@ -7,12 +9,26 @@ import createTree from "./createTree";
 
 const readonlyIds = ["0", "1", "2"];
 
-export function BookmarkTreeView({ className, nodes = {} }) {
+type BookmarkTreeViewProps = {
+  className?: string;
+  sx?: SxProps<Theme>;
+  nodes?: Record<string, any>;
+};
+
+export function BookmarkTreeView({
+  className,
+  nodes = {},
+  sx,
+}: BookmarkTreeViewProps) {
   const rootNode = nodes["0"] || { children: [] };
   const treeItems = rootNode.children.map((childId) =>
-    createTree(nodes, childId, { readonlyIds })
+    createTree(nodes, childId, { readonlyIds }),
   );
-  return <div className={className}>{treeItems}</div>;
+  return (
+    <Box className={className} sx={sx}>
+      {treeItems}
+    </Box>
+  );
 }
 
 function mapStateToProps(state) {

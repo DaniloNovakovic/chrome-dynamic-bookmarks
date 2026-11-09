@@ -7,7 +7,7 @@ import Queue from "@/shared/lib/Queue";
  */
 export default function createDebouncedHandler(
   eventQueueHandler,
-  delayInMilliseconds = 100
+  delayInMilliseconds = 100,
 ) {
   const queue = new Queue();
   let timeout;

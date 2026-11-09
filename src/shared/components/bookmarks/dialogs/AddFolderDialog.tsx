@@ -1,4 +1,4 @@
-import { Dialog, DialogContent, DialogTitle } from "@material-ui/core";
+import { Dialog, DialogContent, DialogTitle } from "@mui/material";
 import React from "react";
 import { connect } from "react-redux";
 
@@ -14,7 +14,7 @@ function AddFolderDialog(props) {
   }
 
   function handleSubmit(values) {
-    onSubmit({ ...values, parentId });
+    onSubmit(parentId ? { ...values, parentId } : values);
     handleClose();
   }
 
@@ -41,5 +41,5 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps, { onSubmit: addBookmarkNode })(
-  AddFolderDialog
+  AddFolderDialog,
 );

@@ -18,7 +18,7 @@ export const BookmarkSchema = Yup.object().shape({
       } catch {
         return false;
       }
-    }
+    },
   ),
 });
 

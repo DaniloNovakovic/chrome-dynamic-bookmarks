@@ -2,7 +2,7 @@ import { actionTypes } from "@/shared/constants";
 import { SelectedNodeIdsAction } from "@/shared/types";
 
 export function setSelected(
-  data: string | string[] = []
+  data: string | string[] = [],
 ): SelectedNodeIdsAction {
   return {
     type: actionTypes.SET_SELECTED,
@@ -19,7 +19,7 @@ export function setSelectedPivot(pivot: string): SelectedNodeIdsAction {
 
 export function selectRangeByPivot(
   from: string,
-  data: string[] = []
+  data: string[] = [],
 ): SelectedNodeIdsAction {
   return {
     type: actionTypes.SELECT_RANGE_BY_PIVOT,

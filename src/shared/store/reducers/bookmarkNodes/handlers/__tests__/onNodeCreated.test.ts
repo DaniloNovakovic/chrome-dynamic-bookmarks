@@ -1,3 +1,5 @@
+import { describe, expect, it } from "vitest";
+
 import { onNodeCreated } from "../onNodeCreated";
 
 describe("onNodeCreated", () => {
@@ -14,7 +16,7 @@ describe("onNodeCreated", () => {
       baseState as any,
       {
         data: { id: "2", parentId: "1", title: "Child", url: "https://x.dev" },
-      } as any
+      } as any,
     );
 
     expect(next.data["1"].children).toEqual(["2"]);
@@ -26,7 +28,7 @@ describe("onNodeCreated", () => {
       baseState as any,
       {
         data: { id: "3", parentId: "1", title: "Folder" },
-      } as any
+      } as any,
     );
 
     expect(next.data["3"]).toMatchObject({ id: "3", children: [] });

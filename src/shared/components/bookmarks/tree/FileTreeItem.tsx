@@ -1,4 +1,4 @@
-import InsertDriveFileIcon from "@material-ui/icons/InsertDriveFile";
+import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
 import React from "react";
 
 import TreeItem from "./TreeItem";

@@ -1,3 +1,5 @@
+import { describe, expect, it } from "vitest";
+
 import indexOfOrDefault from "./indexOfOrDefault";
 
 describe("indexOfOrDefault", () => {

@@ -11,7 +11,7 @@ const windows = browser.windows;
  * @param {function} done - callback function called with `done(errMsg:string, currentTab:Tab)`
  */
 export function getCurrentTab(
-  done: (errMsg: string, currentTab?: chrome.tabs.Tab) => void
+  done: (errMsg: string, currentTab?: chrome.tabs.Tab) => void,
 ) {
   tabs.query({ active: true, currentWindow: true }, (tabs) => {
     if (!checkAndHandleError(done)) {
@@ -37,7 +37,7 @@ export function openNewWindow(url: string, done: OpenWindowCallback = null) {
 
 export function openNewIncognitoWindow(
   url: string,
-  done: OpenWindowCallback = null
+  done: OpenWindowCallback = null,
 ) {
   windows.create({ url, incognito: true }, done);
 }

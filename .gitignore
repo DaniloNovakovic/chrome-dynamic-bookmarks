@@ -2,6 +2,7 @@
 .env
 node_modules
 build
+storybook-static
 secrets.*.js
 *.log
 *.pem

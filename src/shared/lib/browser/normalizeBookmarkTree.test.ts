@@ -1,3 +1,5 @@
+import { describe, expect, it } from "vitest";
+
 import { BrowserBookmark, NormalizedBrowserBookmark } from "@/shared/types";
 
 import normalizeBookmarkTree from "./normalizeBookmarkTree";

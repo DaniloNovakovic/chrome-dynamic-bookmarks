@@ -1,6 +1,7 @@
-const mockCopyBookmarkNode = jest.fn();
+import { beforeEach, describe, expect, it, vi } from "vitest";
+const mockCopyBookmarkNode = vi.fn();
 
-jest.mock("@/shared/lib/browser", () => ({
+vi.mock("@/shared/lib/browser", () => ({
   copyBookmarkNode: (...args: unknown[]) => mockCopyBookmarkNode(...args),
 }));
 
@@ -16,9 +17,9 @@ describe("copyBookmarkNodeHandler", () => {
   });
 
   it("copies nodes and returns success response", async () => {
-    const sendResponse = jest.fn();
+    const sendResponse = vi.fn();
     mockCopyBookmarkNode.mockImplementation((_id, _destination, done) =>
-      done(null, { ok: true })
+      done(null, { ok: true }),
     );
 
     copyBookmarkNodeHandler(
@@ -28,7 +29,7 @@ describe("copyBookmarkNodeHandler", () => {
           destination: { parentId: "dest", index: 3 },
         },
       },
-      sendResponse
+      sendResponse,
     );
 
     await flushAsync();
@@ -40,7 +41,7 @@ describe("copyBookmarkNodeHandler", () => {
   });
 
   it("returns error when data is missing without calling copyBookmarkNode", async () => {
-    const sendResponse = jest.fn();
+    const sendResponse = vi.fn();
     copyBookmarkNodeHandler({ data: undefined }, sendResponse);
     await flushAsync();
     expect(sendResponse).toHaveBeenCalledWith({
@@ -51,7 +52,7 @@ describe("copyBookmarkNodeHandler", () => {
   });
 
   it("returns error when no valid bookmark ids", async () => {
-    const sendResponse = jest.fn();
+    const sendResponse = vi.fn();
     copyBookmarkNodeHandler(
       {
         data: {
@@ -59,7 +60,7 @@ describe("copyBookmarkNodeHandler", () => {
           destination: { parentId: "1", index: 0 },
         },
       },
-      sendResponse
+      sendResponse,
     );
     await flushAsync();
     expect(sendResponse).toHaveBeenCalledWith({
@@ -70,7 +71,7 @@ describe("copyBookmarkNodeHandler", () => {
   });
 
   it("returns error when destination.parentId is missing", async () => {
-    const sendResponse = jest.fn();
+    const sendResponse = vi.fn();
     copyBookmarkNodeHandler(
       {
         data: {
@@ -78,7 +79,7 @@ describe("copyBookmarkNodeHandler", () => {
           destination: { index: 0 },
         },
       },
-      sendResponse
+      sendResponse,
     );
     await flushAsync();
     expect(sendResponse).toHaveBeenCalledWith({
@@ -89,9 +90,9 @@ describe("copyBookmarkNodeHandler", () => {
   });
 
   it("returns error when copyBookmarkNode fails", async () => {
-    const sendResponse = jest.fn();
+    const sendResponse = vi.fn();
     mockCopyBookmarkNode.mockImplementation((_id, _destination, done) =>
-      done("bad input")
+      done("bad input"),
     );
 
     copyBookmarkNodeHandler(
@@ -101,7 +102,7 @@ describe("copyBookmarkNodeHandler", () => {
           destination: { parentId: "p", index: 0 },
         },
       },
-      sendResponse
+      sendResponse,
     );
 
     await flushAsync();

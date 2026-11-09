@@ -1,7 +1,6 @@
-import { combineReducers } from "redux";
+import { AnyAction, combineReducers } from "redux";
 
 import actionTypes from "@/shared/constants/actionTypes";
-import { StoreState } from "@/shared/types/store.types";
 
 import alert from "./alert";
 import bookmarkNodes from "./bookmarkNodes";
@@ -9,7 +8,7 @@ import clipboard from "./clipboard";
 import filter from "./filter";
 import selectedNodeIds from "./selectedNodeIds";
 
-const appReducer = combineReducers<StoreState>({
+const appReducer = combineReducers({
   alert,
   bookmarkNodes,
   clipboard,
@@ -17,7 +16,10 @@ const appReducer = combineReducers<StoreState>({
   selectedNodeIds,
 });
 
-const rootReducer: typeof appReducer = (state, action) => {
+const rootReducer = (
+  state: Parameters<typeof appReducer>[0],
+  action: AnyAction,
+) => {
   if (action.type === actionTypes.SET_STATE && action.state) {
     state = { ...state, ...action.state };
   }

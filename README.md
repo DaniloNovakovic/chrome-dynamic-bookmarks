@@ -40,10 +40,10 @@ Google Chrome extension which dynamically updates bookmarks based on the specifi
 ### To install locally (for developers)
 
 1. [Download](https://github.com/DaniloNovakovic/chrome-dynamic-bookmarks/archive/master.zip) or clone current repository
-1. Navigate to the downloaded folder and run `yarn install` in the console (ex. cmd/terminal/PowerShell). This repo expects **Yarn 1.22.22** (see `packageManager` in [`package.json`](package.json); [Corepack](https://nodejs.org/api/corepack.html) can enforce it).
+1. Navigate to the downloaded folder and run `pnpm install` in the console (ex. cmd/terminal/PowerShell). This repo expects **pnpm 10.33.4** (see `packageManager` in [`package.json`](package.json); [Corepack](https://nodejs.org/api/corepack.html) can enforce it).
    (Note: you will need to have [node.js](https://nodejs.org/en/) installed on your computer)
-1. Once dependencies are installed, run `yarn build` to create a production build
-1. For development, run `yarn dev` to keep rebuilding the unpacked extension into `build/` as source files change
+1. Once dependencies are installed, run `pnpm build` to create a production build
+1. For development, run `pnpm dev` to keep rebuilding the unpacked extension into `build/` as source files change
 1. On your browser search page type in (navigate to) `chrome://extensions/`
 1. In the now opened `chrome://extensions/` page turn on the developer mode
 1. Expand the Developer dropdown menu (if needed) and press `Load unpacked` button
@@ -60,25 +60,25 @@ Google Chrome extension which dynamically updates bookmarks based on the specifi
 
 For smoke testing changes in a clean Chromium profile, use:
 
-- `yarn test:manual` - launches Chromium with only this unpacked extension loaded from `build/` (run `yarn build` first).
-- `yarn test:manual:watch` - runs `yarn dev` and waits for `build/manifest.json`, then opens isolated Chromium for click-through testing.
+- `pnpm test:manual` - launches Chromium with only this unpacked extension loaded from `build/` (run `pnpm build` first).
+- `pnpm test:manual:watch` - runs `pnpm dev` and waits for `build/manifest.json`, then opens isolated Chromium for click-through testing.
 
 Notes:
 
 - The launcher uses a temporary profile under `.tmp/` so your regular browser profile stays untouched.
 - Chromium resolution order is:
   - `CHROMIUM_PATH` (explicit override)
-  - Playwright-managed Chromium (install once with `yarn test:e2e:install`)
+  - Playwright-managed Chromium (install once with `pnpm test:e2e:install`)
   - `chromium` or `chromium-browser` from your `PATH`
-- If no Chromium executable is found, run `yarn test:e2e:install` once and retry.
+- If no Chromium executable is found, run `pnpm test:e2e:install` once and retry.
 
 ### Automated E2E tests (Playwright)
 
 The E2E suite validates core extension behavior with Chromium + unpacked extension loading.
 
-- Install browser once: `yarn test:e2e:install`
-- Run tests headless: `yarn test:e2e`
-- Run tests headed: `yarn test:e2e:headed`
+- Install browser once: `pnpm test:e2e:install`
+- Run tests headless: `pnpm test:e2e`
+- Run tests headed: `pnpm test:e2e:headed`
 
 Implementation details:
 

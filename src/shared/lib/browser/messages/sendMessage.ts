@@ -17,7 +17,7 @@ type OnMessageResponseFn = (res: MessageResponse) => void;
 export default function sendMessage<T = GenericObject>(
   type: string,
   data: T,
-  onResponse: OnMessageResponseFn
+  onResponse: OnMessageResponseFn,
 ): void {
   const req = {
     type,

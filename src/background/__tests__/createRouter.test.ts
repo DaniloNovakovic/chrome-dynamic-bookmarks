@@ -1,9 +1,14 @@
-import createRouter, { RequestMessage, SendResponse } from "../createRouter";
+import { describe, expect, it, vi } from "vitest";
+
+import createRouter, {
+  RequestMessage,
+  type SendResponse,
+} from "../createRouter";
 
 describe("createRouter", () => {
   it("uses default error handler for unknown request types", () => {
     const router = createRouter();
-    const sendResponse = jest.fn<void, Parameters<SendResponse>>();
+    const sendResponse = vi.fn<SendResponse>();
 
     router.handleRequest({ type: "UNKNOWN", data: undefined }, sendResponse);
 
@@ -15,10 +20,10 @@ describe("createRouter", () => {
 
   it("invokes registered handler for known request type", () => {
     const router = createRouter();
-    const sendResponse = jest.fn<void, Parameters<SendResponse>>();
+    const sendResponse = vi.fn<SendResponse>();
     const request: RequestMessage<number> = { type: "PING", data: 1 };
-    const customHandler = jest.fn((_request, respond: SendResponse) =>
-      respond({ type: "success", message: "ok" })
+    const customHandler = vi.fn((_request, respond: SendResponse) =>
+      respond({ type: "success", message: "ok" }),
     );
     router.registerHandler("PING", customHandler);
 

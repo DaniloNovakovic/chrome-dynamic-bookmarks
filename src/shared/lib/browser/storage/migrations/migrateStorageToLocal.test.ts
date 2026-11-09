@@ -1,4 +1,5 @@
-const mockLogInfo = jest.fn();
+import { beforeEach, describe, expect, it, vi } from "vitest";
+const mockLogInfo = vi.fn();
 
 let mockLocalFindAllImpl: any;
 let mockSyncFindAllImpl: any;
@@ -8,13 +9,13 @@ const mockChrome = (globalThis as any).chrome || {
   storage: { local: {}, sync: {} },
 };
 
-jest.mock("../../log", () => ({
-  logError: jest.fn(),
+vi.mock("../../log", () => ({
+  logError: vi.fn(),
   logInfo: (...args: any[]) => mockLogInfo(...args),
 }));
 
-jest.mock("../DynamicBookmarksManager", () => ({
-  DynamicBookmarksManager: jest.fn().mockImplementation((storage: any) => {
+vi.mock("../DynamicBookmarksManager", () => ({
+  DynamicBookmarksManager: vi.fn().mockImplementation(function (storage: any) {
     if (storage === mockChrome.storage.local) {
       return {
         findAll: (...args: any[]) => mockLocalFindAllImpl(...args),
@@ -42,16 +43,16 @@ describe("migrateStorageToLocal", () => {
   it("short-circuits when local storage already has bookmarks", () => {
     mockLocalFindAllImpl = (cb: any) =>
       cb(null, { "1": { regExp: "x", history: [] } });
-    mockSyncFindAllImpl = jest.fn();
-    mockLocalOverwriteImpl = jest.fn();
-    mockSyncOverwriteImpl = jest.fn();
+    mockSyncFindAllImpl = vi.fn();
+    mockLocalOverwriteImpl = vi.fn();
+    mockSyncOverwriteImpl = vi.fn();
 
     return new Promise<void>((resolve, reject) => {
       migrateStorageToLocal((err: any) => {
         try {
           expect(err).toBeNull();
           expect(mockLogInfo).toHaveBeenCalledWith(
-            "Data already migrated, skipping migration..."
+            "Data already migrated, skipping migration...",
           );
           expect(mockSyncFindAllImpl).not.toHaveBeenCalled();
           expect(mockLocalOverwriteImpl).not.toHaveBeenCalled();
@@ -93,7 +94,7 @@ describe("migrateStorageToLocal", () => {
     mockSyncFindAllImpl = (cb: any) =>
       cb(null, { "3": { regExp: "x", history: [] } });
     mockLocalOverwriteImpl = (_items: any, cb: any) => cb("cannot-write-local");
-    mockSyncOverwriteImpl = jest.fn();
+    mockSyncOverwriteImpl = vi.fn();
 
     return new Promise<void>((resolve, reject) => {
       migrateStorageToLocal((err: any) => {
@@ -110,7 +111,7 @@ describe("migrateStorageToLocal", () => {
 
   it("propagates errors from initial local findAll", () => {
     mockLocalFindAllImpl = (cb: any) => cb("local-read-failed", null);
-    mockSyncFindAllImpl = jest.fn();
+    mockSyncFindAllImpl = vi.fn();
 
     return new Promise<void>((resolve, reject) => {
       migrateStorageToLocal((err: any) => {
@@ -128,7 +129,7 @@ describe("migrateStorageToLocal", () => {
   it("propagates errors from sync findAll", () => {
     mockLocalFindAllImpl = (cb: any) => cb(null, {});
     mockSyncFindAllImpl = (cb: any) => cb("sync-read-failed", null);
-    mockLocalOverwriteImpl = jest.fn();
+    mockLocalOverwriteImpl = vi.fn();
 
     return new Promise<void>((resolve, reject) => {
       migrateStorageToLocal((err: any) => {

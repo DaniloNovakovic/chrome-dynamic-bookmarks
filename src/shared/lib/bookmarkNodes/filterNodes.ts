@@ -9,7 +9,7 @@ const defaultFilter: FilterState = {
 
 export default function filterNodes(
   bookmarkNodes: Record<string, NormalizedDynamicBookmark> = {},
-  filter = defaultFilter
+  filter = defaultFilter,
 ) {
   const nodes = _filterByParentId(bookmarkNodes, filter.parentId);
   return _filterBySearchText(nodes, filter.searchText);
@@ -17,7 +17,7 @@ export default function filterNodes(
 
 function _filterByParentId(
   bookmarkNodes: Record<string, NormalizedDynamicBookmark> = {},
-  parentId = null
+  parentId = null,
 ) {
   if (!parentId) {
     return Object.keys(bookmarkNodes)
@@ -30,7 +30,7 @@ function _filterByParentId(
 
 function _filterBySearchText(
   nodes: NormalizedDynamicBookmark[] = [],
-  searchText = ""
+  searchText = "",
 ) {
   if (!searchText) {
     return nodes;

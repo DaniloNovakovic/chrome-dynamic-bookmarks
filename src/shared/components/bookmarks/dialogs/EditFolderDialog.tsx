@@ -1,4 +1,4 @@
-import { Dialog, DialogContent, DialogTitle } from "@material-ui/core";
+import { Dialog, DialogContent, DialogTitle } from "@mui/material";
 import React from "react";
 import { connect } from "react-redux";
 
@@ -42,5 +42,5 @@ function makeMapState() {
 }
 
 export default connect(makeMapState, { onSubmit: editBookmarkNode })(
-  EditFolderDialog
+  EditFolderDialog,
 );

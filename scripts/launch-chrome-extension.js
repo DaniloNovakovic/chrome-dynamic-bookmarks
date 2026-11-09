@@ -13,7 +13,7 @@ const manifestPath = path.resolve(buildDir, "manifest.json");
 const profileRoot = path.resolve(repoRoot, ".tmp");
 const profileDir = path.resolve(
   profileRoot,
-  `chromium-extension-manual-${Date.now()}`
+  `chromium-extension-manual-${Date.now()}`,
 );
 
 function isExecutableFile(filePath) {
@@ -50,8 +50,8 @@ function resolveViaCommand(command) {
 
 function resolvePlaywrightChromium() {
   try {
-    const playwright = require("playwright");
-    const executablePath = playwright.chromium.executablePath();
+    const { chromium } = require("@playwright/test");
+    const executablePath = chromium.executablePath();
     if (isExecutableFile(executablePath)) {
       return executablePath;
     }
@@ -66,7 +66,7 @@ function resolveChromiumBinary() {
   if (process.env.CHROMIUM_PATH) {
     if (!isExecutableFile(process.env.CHROMIUM_PATH)) {
       throw new Error(
-        "CHROMIUM_PATH is set but does not point to an executable file."
+        "CHROMIUM_PATH is set but does not point to an executable file.",
       );
     }
 
@@ -109,7 +109,7 @@ async function waitForBuildOutput(timeoutMs = 60000) {
 
   throw new Error(
     `Timed out waiting for ${path.relative(repoRoot, manifestPath)}.\n` +
-      "Run `yarn build` once, or use `yarn test:manual:watch`."
+      "Run `pnpm build` once, or use `pnpm test:manual:watch`.",
   );
 }
 
@@ -119,7 +119,7 @@ async function main() {
   } else if (!fs.existsSync(manifestPath)) {
     throw new Error(
       `Missing ${path.relative(repoRoot, manifestPath)}.\n` +
-        "Run `yarn build` first, or use `yarn test:manual:watch`."
+        "Run `pnpm build` first, or use `pnpm test:manual:watch`.",
     );
   }
 
@@ -128,9 +128,9 @@ async function main() {
     throw new Error(
       [
         "Unable to locate a Chromium executable.",
-        "Install Playwright Chromium via `yarn test:e2e:install`,",
+        "Install Playwright Chromium via `pnpm test:e2e:install`,",
         "set CHROMIUM_PATH, or make `chromium` available in PATH.",
-      ].join(" ")
+      ].join(" "),
     );
   }
 
@@ -142,6 +142,8 @@ async function main() {
     `--user-data-dir=${profileDir}`,
     `--disable-extensions-except=${buildDir}`,
     `--load-extension=${buildDir}`,
+    "--disable-crash-reporter",
+    "--disable-crashpad",
     "--no-first-run",
     "--no-default-browser-check",
     "chrome://extensions/",

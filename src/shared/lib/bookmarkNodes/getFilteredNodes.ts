@@ -2,7 +2,7 @@ import { FilterState, NormalizedDynamicBookmark } from "@/shared/types";
 
 export default function getFilteredNodes(
   nodes: NormalizedDynamicBookmark[] = [],
-  { parentId, searchText }: FilterState
+  { parentId, searchText }: FilterState,
 ) {
   return nodes.filter((node) => {
     if (parentId && node.parentId !== parentId) {
@@ -17,7 +17,7 @@ export default function getFilteredNodes(
 
 function _isIncludedInTitleOrUrl(
   node: NormalizedDynamicBookmark,
-  searchText = ""
+  searchText = "",
 ) {
   const searchTextLower = searchText.toLowerCase();
   if (node.title && node.title.toLowerCase().includes(searchTextLower)) {

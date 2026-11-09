@@ -12,9 +12,9 @@ const {
   openExtensionPage,
 } = require("./helpers/extension");
 
-test.describe.configure({ mode: "serial" });
-
 test.describe("dynamic bookmarks extension", () => {
+  test.describe.configure({ mode: "serial" });
+
   let context;
   let extensionId;
   let userDataDir;
@@ -27,8 +27,10 @@ test.describe("dynamic bookmarks extension", () => {
   });
 
   test.afterAll(async () => {
-    await context.close();
-    fs.rmSync(userDataDir, { recursive: true, force: true });
+    await context?.close();
+    if (userDataDir) {
+      fs.rmSync(userDataDir, { recursive: true, force: true });
+    }
   });
 
   test("given popup when opened then form fields are prefilled", async () => {
@@ -54,7 +56,7 @@ test.describe("dynamic bookmarks extension", () => {
     const extensionPage = await openExtensionPage(
       context,
       extensionId,
-      "options.html"
+      "options.html",
     );
 
     await createTrackedBookmark(extensionPage, { title, url, regExp });
@@ -82,6 +84,67 @@ test.describe("dynamic bookmarks extension", () => {
     await popup.close();
   });
 
+  test("given bookmark manager add dialogs when fields are filled then nodes are created", async () => {
+    const testId = Date.now();
+    const folderTitle = `e2e-manager-folder-${testId}`;
+    const bookmarkTitle = `e2e-manager-bookmark-${testId}`;
+    const bookmarkUrl = `https://example.com/e2e-manager-bookmark-${testId}`;
+    const bookmarkManagerPage = await openExtensionPage(
+      context,
+      extensionId,
+      "bookmarkManager.html",
+    );
+
+    async function openMainMenuItem(label) {
+      await bookmarkManagerPage.getByLabel("show more").click();
+      await bookmarkManagerPage
+        .getByRole("menuitem", { name: label })
+        .last()
+        .click();
+    }
+
+    async function findBookmarksByTitle(title) {
+      return bookmarkManagerPage.evaluate(
+        async ({ title }) =>
+          new Promise((resolve) => chrome.bookmarks.search({ title }, resolve)),
+        { title },
+      );
+    }
+
+    await openMainMenuItem("Add new folder");
+    await bookmarkManagerPage.locator("input[name='title']").fill(folderTitle);
+    await bookmarkManagerPage.getByRole("button", { name: /submit/i }).click();
+
+    await expect(bookmarkManagerPage.getByRole("dialog")).toBeHidden();
+    await expect(bookmarkManagerPage.getByText("Required!")).toHaveCount(0);
+    await expect
+      .poll(async () => {
+        const nodes = await findBookmarksByTitle(folderTitle);
+        return nodes.some((node) => node.title === folderTitle && !node.url);
+      })
+      .toBe(true);
+
+    await openMainMenuItem("Add new bookmark");
+    await bookmarkManagerPage
+      .locator("input[name='title']")
+      .fill(bookmarkTitle);
+    await bookmarkManagerPage.locator("input[name='url']").fill(bookmarkUrl);
+    await bookmarkManagerPage.getByRole("button", { name: /submit/i }).click();
+
+    await expect(bookmarkManagerPage.getByRole("dialog")).toBeHidden();
+    await expect(bookmarkManagerPage.getByText("Required!")).toHaveCount(0);
+    await expect
+      .poll(async () => {
+        const nodes = await findBookmarksByTitle(bookmarkTitle);
+        return nodes.some(
+          (node) => node.title === bookmarkTitle && node.url === bookmarkUrl,
+        );
+      })
+      .toBe(true);
+
+    await bookmarkManagerPage.close();
+  });
+
   test("given tracked bookmark when tab navigates to matching URL then bookmark URL updates", async () => {
     const testId = Date.now();
     const title = `e2e-tab-update-${testId}`;
@@ -91,7 +154,7 @@ test.describe("dynamic bookmarks extension", () => {
     const extensionPage = await openExtensionPage(
       context,
       extensionId,
-      "options.html"
+      "options.html",
     );
     await createTrackedBookmark(extensionPage, {
       title,
@@ -105,7 +168,8 @@ test.describe("dynamic bookmarks extension", () => {
 
     await expect
       .poll(
-        async () => (await getBookmarkState(extensionPage, title)).bookmark?.url
+        async () =>
+          (await getBookmarkState(extensionPage, title)).bookmark?.url,
       )
       .toBe(targetUrl);
     await extensionPage.close();
@@ -117,7 +181,7 @@ test.describe("dynamic bookmarks extension", () => {
     const extensionPage = await openExtensionPage(
       context,
       extensionId,
-      "options.html"
+      "options.html",
     );
     const created = await createTrackedBookmark(extensionPage, {
       title,
@@ -144,7 +208,7 @@ test.describe("dynamic bookmarks extension", () => {
     const extensionPage = await openExtensionPage(
       context,
       extensionId,
-      "options.html"
+      "options.html",
     );
     const created = await createTrackedBookmark(extensionPage, {
       title,
@@ -163,10 +227,10 @@ test.describe("dynamic bookmarks extension", () => {
     const storage = await extensionPage.evaluate(
       async ({ key }) => {
         return new Promise((resolve) =>
-          chrome.storage.local.get(["dbm_ids", key], resolve)
+          chrome.storage.local.get(["dbm_ids", key], resolve),
         );
       },
-      { key }
+      { key },
     );
     expect(storage.dbm_ids || []).not.toContain(key);
     expect(storage[key]).toBeUndefined();
@@ -178,15 +242,15 @@ test.describe("dynamic bookmarks extension", () => {
     const extensionPage = await openExtensionPage(
       context,
       extensionId,
-      "options.html"
+      "options.html",
     );
     const setup = await extensionPage.evaluate(
       async ({ testId }) => {
         const sourceFolder = await new Promise((resolve) =>
-          chrome.bookmarks.create({ title: `source-${testId}` }, resolve)
+          chrome.bookmarks.create({ title: `source-${testId}` }, resolve),
         );
         const destinationFolder = await new Promise((resolve) =>
-          chrome.bookmarks.create({ title: `destination-${testId}` }, resolve)
+          chrome.bookmarks.create({ title: `destination-${testId}` }, resolve),
         );
         const bookmark = await new Promise((resolve) =>
           chrome.bookmarks.create(
@@ -195,12 +259,12 @@ test.describe("dynamic bookmarks extension", () => {
               url: `https://example.com/movable-${testId}`,
               parentId: sourceFolder.id,
             },
-            resolve
-          )
+            resolve,
+          ),
         );
         return { sourceFolder, destinationFolder, bookmark };
       },
-      { testId }
+      { testId },
     );
 
     await sendRuntimeMessage(extensionPage, "MOVE_BM_NODE", {
@@ -211,10 +275,10 @@ test.describe("dynamic bookmarks extension", () => {
     const moved = await extensionPage.evaluate(
       async ({ id }) => {
         return new Promise((resolve) =>
-          chrome.bookmarks.get(id, (nodes) => resolve(nodes[0]))
+          chrome.bookmarks.get(id, (nodes) => resolve(nodes[0])),
         );
       },
-      { id: setup.bookmark.id }
+      { id: setup.bookmark.id },
     );
     expect(moved.parentId).toBe(setup.destinationFolder.id);
 
@@ -226,11 +290,11 @@ test.describe("dynamic bookmarks extension", () => {
     const copiedCount = await extensionPage.evaluate(
       async ({ title }) => {
         const nodes = await new Promise((resolve) =>
-          chrome.bookmarks.search({ title }, resolve)
+          chrome.bookmarks.search({ title }, resolve),
         );
         return nodes.filter((node) => !!node.url).length;
       },
-      { title: setup.bookmark.title }
+      { title: setup.bookmark.title },
     );
     expect(copiedCount).toBeGreaterThan(1);
     await extensionPage.close();
@@ -241,12 +305,12 @@ test.describe("dynamic bookmarks extension", () => {
     const extensionPage = await openExtensionPage(
       context,
       extensionId,
-      "options.html"
+      "options.html",
     );
     const { folderId, childId, dbmKey } = await extensionPage.evaluate(
       async ({ testId }) => {
         const folder = await new Promise((resolve) =>
-          chrome.bookmarks.create({ title: `folder-del-${testId}` }, resolve)
+          chrome.bookmarks.create({ title: `folder-del-${testId}` }, resolve),
         );
         const child = await new Promise((resolve) =>
           chrome.bookmarks.create(
@@ -255,8 +319,8 @@ test.describe("dynamic bookmarks extension", () => {
               title: `tracked-child-${testId}`,
               url: `https://example.com/folder-child-${testId}`,
             },
-            resolve
-          )
+            resolve,
+          ),
         );
         const key = `dbm_${child.id}`;
         await new Promise((resolve) => {
@@ -267,13 +331,13 @@ test.describe("dynamic bookmarks extension", () => {
                 dbm_ids: ids.includes(key) ? ids : [...ids, key],
                 [key]: { regExp: "example\\.com", history: [] },
               },
-              resolve
+              resolve,
             );
           });
         });
         return { folderId: folder.id, childId: child.id, dbmKey: key };
       },
-      { testId }
+      { testId },
     );
 
     await sendRuntimeMessage(extensionPage, "REMOVE_BM_NODE", {
@@ -285,10 +349,10 @@ test.describe("dynamic bookmarks extension", () => {
         const storage = await extensionPage.evaluate(
           async ({ key }) => {
             return new Promise((resolve) =>
-              chrome.storage.local.get(["dbm_ids", key], resolve)
+              chrome.storage.local.get(["dbm_ids", key], resolve),
             );
           },
-          { key: dbmKey }
+          { key: dbmKey },
         );
         const hasKey = Object.prototype.hasOwnProperty.call(storage, dbmKey);
         const idsContain = (storage.dbm_ids || []).includes(dbmKey);
@@ -302,7 +366,7 @@ test.describe("dynamic bookmarks extension", () => {
           chrome.bookmarks.get(id, (results) => resolve(results));
         });
       },
-      { id: childId }
+      { id: childId },
     );
     expect(childStillThere == null || childStillThere.length === 0).toBe(true);
 
@@ -315,7 +379,7 @@ test.describe("dynamic bookmarks extension", () => {
     const extensionPage = await openExtensionPage(
       context,
       extensionId,
-      "options.html"
+      "options.html",
     );
     const created = await createTrackedBookmark(extensionPage, {
       title,
@@ -337,15 +401,14 @@ test.describe("dynamic bookmarks extension", () => {
             });
           });
         },
-        { id: created.id, testId, index: i }
+        { id: created.id, testId, index: i },
       );
       await expect
         .poll(
           async () =>
-            (
-              await getBookmarkState(extensionPage, title)
-            ).dbmItem?.history?.length ?? 0,
-          { timeout: 5000 }
+            (await getBookmarkState(extensionPage, title)).dbmItem?.history
+              ?.length ?? 0,
+          { timeout: 5000 },
         )
         .toBe(Math.min(i + 1, 10));
     }

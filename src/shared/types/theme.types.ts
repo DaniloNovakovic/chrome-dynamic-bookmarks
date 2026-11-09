@@ -1,11 +1,11 @@
-import type { ThemeOptions } from "@material-ui/core";
+import type { ThemeOptions } from "@mui/material/styles";
 
 export type CustomThemeOptions = ThemeOptions & {
   treeViewIconColor?: string;
   iconSize?: number;
 };
 
-declare module "@material-ui/core/styles/createTheme" {
+declare module "@mui/material/styles" {
   interface Theme {
     treeViewIconColor?: string;
     iconSize?: number;

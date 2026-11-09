@@ -1,17 +1,18 @@
-const mockCreate = jest.fn();
-const mockUpdate = jest.fn();
-const mockRemove = jest.fn();
-const mockGetSubTree = jest.fn();
-const mockGetTreeRoot = jest.fn();
-const mockGet = jest.fn();
-const mockCreateAsync = jest.fn();
-const mockRemoveTree = jest.fn();
-const mockFindByIdAndRemove = jest.fn();
-const mockFindByIdAndUpdate = jest.fn();
-const mockStorageCreate = jest.fn();
-const mockFindAll = jest.fn();
+import { beforeEach, describe, expect, it, vi } from "vitest";
+const mockCreate = vi.fn();
+const mockUpdate = vi.fn();
+const mockRemove = vi.fn();
+const mockGetSubTree = vi.fn();
+const mockGetTreeRoot = vi.fn();
+const mockGet = vi.fn();
+const mockCreateAsync = vi.fn();
+const mockRemoveTree = vi.fn();
+const mockFindByIdAndRemove = vi.fn();
+const mockFindByIdAndUpdate = vi.fn();
+const mockStorageCreate = vi.fn();
+const mockFindAll = vi.fn();
 
-jest.mock("./bookmarks", () => ({
+vi.mock("./bookmarks", () => ({
   bm: {
     create: (...args: any[]) => mockCreate(...args),
     update: (...args: any[]) => mockUpdate(...args),
@@ -24,7 +25,7 @@ jest.mock("./bookmarks", () => ({
   },
 }));
 
-jest.mock("./storage", () => ({
+vi.mock("./storage", () => ({
   dbm: {
     create: (...args: any[]) => mockStorageCreate(...args),
     findByIdAndRemove: (...args: any[]) => mockFindByIdAndRemove(...args),
@@ -58,7 +59,7 @@ describe("dynBookmarksFacade", () => {
   });
 
   it("createBookmarkNode does not create tracked storage when regExp is empty", () => {
-    const done = jest.fn();
+    const done = vi.fn();
 
     mockCreate.mockImplementation((_node, cb) => {
       cb(null, { id: "123", title: "No RegExp", url: "https://example.com" });
@@ -66,7 +67,7 @@ describe("dynBookmarksFacade", () => {
 
     createBookmarkNode(
       { title: "No RegExp", url: "https://example.com", regExp: "" },
-      done
+      done,
     );
 
     expect(mockStorageCreate).not.toHaveBeenCalled();
@@ -79,7 +80,7 @@ describe("dynBookmarksFacade", () => {
   });
 
   it("editBookmarkNode untracks bookmark when regExp becomes empty", () => {
-    const done = jest.fn();
+    const done = vi.fn();
 
     mockUpdate.mockImplementation((_id, _node, cb) => {
       cb(null, { id: "bm1", title: "Tracked", url: "https://example.com/new" });
@@ -93,12 +94,12 @@ describe("dynBookmarksFacade", () => {
         url: "https://example.com/new",
         regExp: "",
       },
-      done
+      done,
     );
 
     expect(mockFindByIdAndRemove).toHaveBeenCalledWith(
       "bm1",
-      expect.any(Function)
+      expect.any(Function),
     );
     expect(done).toHaveBeenCalledWith(null, {
       id: "bm1",
@@ -109,7 +110,7 @@ describe("dynBookmarksFacade", () => {
   });
 
   it("editBookmarkNode passes only bookmark fields to bookmarks.update", () => {
-    const done = jest.fn();
+    const done = vi.fn();
     mockUpdate.mockImplementation((_id, changes, cb) => {
       expect(changes).toEqual({
         title: "T",
@@ -118,7 +119,7 @@ describe("dynBookmarksFacade", () => {
       cb(null, { id: "bm2", title: "T", url: "https://example.com/u" });
     });
     mockFindByIdAndUpdate.mockImplementation((_id, payload, cb) =>
-      cb(null, { regExp: "ex", history: [] })
+      cb(null, { regExp: "ex", history: [] }),
     );
 
     editBookmarkNode(
@@ -129,7 +130,7 @@ describe("dynBookmarksFacade", () => {
         regExp: "ex",
         history: ["old"],
       },
-      done
+      done,
     );
 
     expect(mockUpdate).toHaveBeenCalledWith(
@@ -138,19 +139,19 @@ describe("dynBookmarksFacade", () => {
         title: "T",
         url: "https://example.com/u",
       },
-      expect.any(Function)
+      expect.any(Function),
     );
     expect(mockFindByIdAndUpdate).toHaveBeenCalledWith(
       "bm2",
       { regExp: "ex", history: ["old"] },
-      expect.any(Function)
+      expect.any(Function),
     );
     expect(done).toHaveBeenCalledWith(
       null,
       expect.objectContaining({
         id: "bm2",
         regExp: "ex",
-      })
+      }),
     );
   });
 
@@ -169,7 +170,7 @@ describe("dynBookmarksFacade", () => {
     };
     mockGetTreeRoot.mockImplementation((_cb: any) => _cb(null, treeRoot));
     mockFindAll.mockImplementation((_cb: any) =>
-      _cb(null, { b1: { regExp: "ex", history: [] } })
+      _cb(null, { b1: { regExp: "ex", history: [] } }),
     );
 
     return new Promise<void>((resolve, reject) => {
@@ -231,7 +232,7 @@ describe("dynBookmarksFacade", () => {
         id: "src",
         title: "Src",
         url: "https://example.com/s",
-      })
+      }),
     );
     mockCreateAsync.mockResolvedValue({
       id: "new",
@@ -247,7 +248,7 @@ describe("dynBookmarksFacade", () => {
               id: "src",
               parentId: "p",
               index: 0,
-            })
+            }),
           );
           resolve();
         } catch (e) {
@@ -259,7 +260,7 @@ describe("dynBookmarksFacade", () => {
 
   it("copyBookmarkNode propagates getSubTree errors", () => {
     mockGetSubTree.mockImplementation((_id: any, cb: any) =>
-      cb("no-node", null)
+      cb("no-node", null),
     );
 
     return new Promise<void>((resolve, reject) => {
@@ -276,7 +277,7 @@ describe("dynBookmarksFacade", () => {
 
   it("removeBookmarkNode for folder removes tree then clears tracked metadata for descendant bookmarks", () => {
     mockGet.mockImplementation((_id: any, cb: any) =>
-      cb(null, { id: "folder1", title: "F", children: [] })
+      cb(null, { id: "folder1", title: "F", children: [] }),
     );
     mockGetSubTree.mockImplementation((_id: any, cb: any) =>
       cb(null, {
@@ -289,7 +290,7 @@ describe("dynBookmarksFacade", () => {
             url: "https://example.com/c",
           },
         ],
-      })
+      }),
     );
     mockRemoveTree.mockImplementation((_id: any, cb: any) => cb(null));
     mockFindByIdAndRemove.mockImplementation((_id: any, cb: any) => cb(null));
@@ -300,11 +301,11 @@ describe("dynBookmarksFacade", () => {
           expect(err).toBeNull();
           expect(mockRemoveTree).toHaveBeenCalledWith(
             "folder1",
-            expect.any(Function)
+            expect.any(Function),
           );
           expect(mockFindByIdAndRemove).toHaveBeenCalledWith(
             "child1",
-            expect.any(Function)
+            expect.any(Function),
           );
           resolve();
         } catch (e) {

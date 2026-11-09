@@ -3,7 +3,11 @@ import React, { Component } from "react";
 import DialogContext from "./DialogContext";
 import DialogReducer from "./DialogReducer";
 
-export default class DialogProvider extends Component {
+type DialogProviderProps = {
+  children?: React.ReactNode;
+};
+
+export default class DialogProvider extends Component<DialogProviderProps> {
   state = {
     openedDialogId: null,
     openDialog: (id, args = {}) => {

@@ -15,7 +15,7 @@ import { StoreState } from "@/shared/types/store.types";
 export const clipboardSelector = (state: StoreState) => state.clipboard;
 
 export const nodesSelector = (
-  state: StoreState
+  state: StoreState,
 ): Record<string, NormalizedDynamicBookmark> => state.bookmarkNodes.data || {};
 
 const selectNodeId = (_, id: string) => id;
@@ -24,12 +24,12 @@ export const makeUniqueNodeByIdSelector = () =>
   createSelector(
     [nodesSelector, selectNodeId],
     (nodes, nodeId: string): NormalizedDynamicBookmark =>
-      (nodeId in nodes && nodes[nodeId]) || ({} as NormalizedDynamicBookmark)
+      (nodeId in nodes && nodes[nodeId]) || ({} as NormalizedDynamicBookmark),
   );
 
 export const trackedByIdSelector = createSelector(
   nodesSelector,
-  (nodes): Record<string, boolean> => getTrackedByIdNodes(nodes)
+  (nodes): Record<string, boolean> => getTrackedByIdNodes(nodes),
 );
 
 export const bookmarksByParentIdSelector = createSelector(
@@ -45,7 +45,7 @@ export const bookmarksByParentIdSelector = createSelector(
     return parent.children
       .map((childId) => nodes[childId])
       .filter((child) => !!child.url);
-  }
+  },
 );
 
 export const nodesArraySelector = createSelector(
@@ -53,12 +53,12 @@ export const nodesArraySelector = createSelector(
   (nodes): NormalizedDynamicBookmark[] =>
     Object.keys(nodes)
       .map((id) => nodes[id])
-      .filter((node) => !isRoot(node))
+      .filter((node) => !isRoot(node)),
 );
 
 export const sortedNodesSelector = createSelector(
   nodesArraySelector,
-  (nodes): NormalizedDynamicBookmark[] => getSortedNodes(nodes)
+  (nodes): NormalizedDynamicBookmark[] => getSortedNodes(nodes),
 );
 
 export const filterSelector = (state: StoreState) => state.filter;
@@ -67,25 +67,25 @@ export const filteredNodesSelector = createSelector(
   sortedNodesSelector,
   filterSelector,
   (nodes, filter): NormalizedDynamicBookmark[] =>
-    getFilteredNodes(nodes, filter)
+    getFilteredNodes(nodes, filter),
 );
 
 export const filteredNodeIdsSelector = createSelector(
   filteredNodesSelector,
-  (filteredNodes = []): string[] => filteredNodes.map((node) => node.id)
+  (filteredNodes = []): string[] => filteredNodes.map((node) => node.id),
 );
 
 export const breadcrumbIdsSelector = createSelector(
   nodesSelector,
   (state): string => state.filter.parentId,
-  (nodes, parentId): string[] => getBreadcrumbIds(nodes, parentId)
+  (nodes, parentId): string[] => getBreadcrumbIds(nodes, parentId),
 );
 
 export const breadcrumbsSelector = createSelector(
   nodesSelector,
   breadcrumbIdsSelector,
   (nodes, breadcrumbIds): NormalizedDynamicBookmark[] =>
-    breadcrumbIds.map((id) => nodes[id]).filter((node) => node && !!node.title)
+    breadcrumbIds.map((id) => nodes[id]).filter((node) => node && !!node.title),
 );
 
 export const selectedNodeIdsSelector = (state: StoreState) =>
@@ -97,18 +97,18 @@ export const selectedPivotSelector = (state: StoreState) =>
 export const selectedByNodeIdSelector = createSelector(
   selectedNodeIdsSelector,
   (selectedNodeIds = []): Record<string, boolean> =>
-    mapArrayToObject(selectedNodeIds, (_id) => true)
+    mapArrayToObject(selectedNodeIds, (_id) => true),
 );
 
 export const selectedNodesSelector = createSelector(
   nodesSelector,
   selectedNodeIdsSelector,
   (nodes = {}, selectedNodeIds = []): NormalizedDynamicBookmark[] =>
-    selectedNodeIds.map((id) => nodes[id])
+    selectedNodeIds.map((id) => nodes[id]),
 );
 
 export const selectedBookmarksUrlSelector = createSelector(
   selectedNodesSelector,
   (selectedNodes = []): string[] =>
-    selectedNodes.filter((node) => isFile(node)).map((node) => node.url)
+    selectedNodes.filter((node) => isFile(node)).map((node) => node.url),
 );

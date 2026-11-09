@@ -1,9 +1,11 @@
+import { beforeEach, describe, expect, it, vi } from "vitest";
+
 import createObservable from "../createObservable";
 
 describe("observable", () => {
   describe("notify", () => {
     const observable = createObservable();
-    const observerMock = jest.fn();
+    const observerMock = vi.fn();
 
     beforeEach(() => {
       observerMock.mockReset();
@@ -26,7 +28,7 @@ describe("observable", () => {
 
   describe("unsubscribe", () => {
     const observable = createObservable();
-    const observerMock = jest.fn();
+    const observerMock = vi.fn();
 
     it("unsubscribes the observer", () => {
       const key = "myKey";

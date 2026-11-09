@@ -6,7 +6,7 @@
 export default function sliceRange<TValue>(
   array: TValue[] = [],
   fromIndex = 0,
-  toIndex = 0
+  toIndex = 0,
 ) {
   return fromIndex < toIndex
     ? array.slice(fromIndex, toIndex + 1)

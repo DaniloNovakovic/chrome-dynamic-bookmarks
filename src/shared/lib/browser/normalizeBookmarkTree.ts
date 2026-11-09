@@ -9,7 +9,7 @@ function isFile(node: chrome.bookmarks.BookmarkTreeNode) {
  * @param {node} treeRoot - root of the bookmark tree to normalize
  */
 export default function normalizeBookmarkTree(
-  treeRoot: BrowserBookmark
+  treeRoot: BrowserBookmark,
 ): Record<string, NormalizedBrowserBookmark> {
   const normalized = {};
 

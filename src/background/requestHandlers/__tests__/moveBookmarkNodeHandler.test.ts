@@ -1,6 +1,7 @@
-const mockMove = jest.fn();
+import { beforeEach, describe, expect, it, vi } from "vitest";
+const mockMove = vi.fn();
 
-jest.mock("@/shared/lib/browser/bookmarks", () => ({
+vi.mock("@/shared/lib/browser/bookmarks", () => ({
   bm: {
     move: (...args: unknown[]) => mockMove(...args),
   },
@@ -18,11 +19,11 @@ describe("moveBookmarkNodeHandler", () => {
   });
 
   it("returns error when attempting to move into itself", () => {
-    const sendResponse = jest.fn();
+    const sendResponse = vi.fn();
 
     moveBookmarkNodeHandler(
       { data: { id: "1", destination: { parentId: "1", index: 0 } } },
-      sendResponse
+      sendResponse,
     );
 
     expect(sendResponse).toHaveBeenCalledWith({
@@ -33,9 +34,9 @@ describe("moveBookmarkNodeHandler", () => {
   });
 
   it("moves all nodes and returns success for multi-id payload", async () => {
-    const sendResponse = jest.fn();
+    const sendResponse = vi.fn();
     mockMove.mockImplementation((_id, _destination, done) =>
-      done(null, { ok: true })
+      done(null, { ok: true }),
     );
 
     moveBookmarkNodeHandler(
@@ -45,7 +46,7 @@ describe("moveBookmarkNodeHandler", () => {
           destination: { parentId: "dest", index: 1 },
         },
       },
-      sendResponse
+      sendResponse,
     );
 
     await flushAsync();
@@ -57,12 +58,12 @@ describe("moveBookmarkNodeHandler", () => {
   });
 
   it("returns error when move fails", async () => {
-    const sendResponse = jest.fn();
+    const sendResponse = vi.fn();
     mockMove.mockImplementation((_id, _destination, done) => done("failed"));
 
     moveBookmarkNodeHandler(
       { data: { id: "1", destination: { parentId: "x", index: 0 } } },
-      sendResponse
+      sendResponse,
     );
 
     await flushAsync();
@@ -73,7 +74,7 @@ describe("moveBookmarkNodeHandler", () => {
   });
 
   it("returns error when data is missing", async () => {
-    const sendResponse = jest.fn();
+    const sendResponse = vi.fn();
     moveBookmarkNodeHandler({ data: undefined }, sendResponse);
     await flushAsync();
     expect(sendResponse).toHaveBeenCalledWith({
@@ -84,7 +85,7 @@ describe("moveBookmarkNodeHandler", () => {
   });
 
   it("returns error when destination is missing", async () => {
-    const sendResponse = jest.fn();
+    const sendResponse = vi.fn();
     moveBookmarkNodeHandler({ data: { id: "1" } }, sendResponse);
     await flushAsync();
     expect(sendResponse).toHaveBeenCalledWith({
@@ -95,10 +96,10 @@ describe("moveBookmarkNodeHandler", () => {
   });
 
   it("returns error when destination.parentId is missing", async () => {
-    const sendResponse = jest.fn();
+    const sendResponse = vi.fn();
     moveBookmarkNodeHandler(
       { data: { id: "1", destination: { index: 0 } } },
-      sendResponse
+      sendResponse,
     );
     await flushAsync();
     expect(sendResponse).toHaveBeenCalledWith({
@@ -109,7 +110,7 @@ describe("moveBookmarkNodeHandler", () => {
   });
 
   it("returns error when no valid bookmark ids", async () => {
-    const sendResponse = jest.fn();
+    const sendResponse = vi.fn();
     moveBookmarkNodeHandler(
       {
         data: {
@@ -117,7 +118,7 @@ describe("moveBookmarkNodeHandler", () => {
           destination: { parentId: "1", index: 0 },
         },
       },
-      sendResponse
+      sendResponse,
     );
     await flushAsync();
     expect(sendResponse).toHaveBeenCalledWith({

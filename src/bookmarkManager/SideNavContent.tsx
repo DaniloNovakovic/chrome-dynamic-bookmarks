@@ -1,25 +1,20 @@
-import { makeStyles } from "@material-ui/core/styles";
+import { Box } from "@mui/material";
 import React from "react";
 
 import { BookmarkTreeView } from "@/shared/components/bookmarks";
 
-const useStyles = makeStyles((theme) => ({
-  toolbar: theme.mixins.toolbar,
-  treeView: {
-    marginTop: theme.spacing(1),
-    height: 216,
-    flexGrow: 1,
-    maxWidth: 400,
-  },
-}));
-
 export default function SideNavContent() {
-  const classes = useStyles();
-
   return (
     <div>
-      <div className={classes.toolbar} />
-      <BookmarkTreeView className={classes.treeView} />
+      <Box sx={(theme) => theme.mixins.toolbar} />
+      <BookmarkTreeView
+        sx={(theme) => ({
+          marginTop: theme.spacing(1),
+          height: 216,
+          flexGrow: 1,
+          maxWidth: 400,
+        })}
+      />
     </div>
   );
 }

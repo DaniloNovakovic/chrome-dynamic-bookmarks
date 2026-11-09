@@ -8,9 +8,9 @@ export type DebouncedCallback<TArgs extends unknown[]> = (
 
 const useDebouncedCallback = <TArgs extends unknown[]>(
   callback?: (...args: TArgs) => unknown,
-  delayMs = 500
+  delayMs = 500,
 ): DebouncedCallback<TArgs> => {
-  const timeoutRef = useRef<number>();
+  const timeoutRef = useRef<number | undefined>(undefined);
 
   useEffect(() => {
     // Clear timeout on unmount

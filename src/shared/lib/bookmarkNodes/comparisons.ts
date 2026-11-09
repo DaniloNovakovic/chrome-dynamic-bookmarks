@@ -18,7 +18,7 @@ export function isTracked(node: Pick<NormalizedDynamicBookmark, "regExp">) {
 
 export function isOnlyOneFile(
   lhs: Pick<NormalizedDynamicBookmark, "url">,
-  rhs: Pick<NormalizedDynamicBookmark, "url">
+  rhs: Pick<NormalizedDynamicBookmark, "url">,
 ) {
   return isFile(lhs) !== isFile(rhs);
 }

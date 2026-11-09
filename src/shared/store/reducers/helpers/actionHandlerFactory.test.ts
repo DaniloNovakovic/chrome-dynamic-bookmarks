@@ -1,8 +1,10 @@
+import { beforeEach, describe, expect, it, vi } from "vitest";
+
 import { ActionHandlerFactory } from "./actionHandlerFactory";
 
 describe("ActionHandlerFactory", () => {
   let factory: ActionHandlerFactory;
-  const mockReducer = jest.fn();
+  const mockReducer = vi.fn();
 
   beforeEach(() => {
     factory = new ActionHandlerFactory();
@@ -15,7 +17,7 @@ describe("ActionHandlerFactory", () => {
 
   it("should return the default handler if no handler is registered for a given key", () => {
     expect(factory.getHandler("UNREGISTERED_ACTION")).toBe(
-      factory.defaultHandler
+      factory.defaultHandler,
     );
   });
 });

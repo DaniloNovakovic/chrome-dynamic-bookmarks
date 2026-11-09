@@ -16,7 +16,7 @@ export default function addTabsListeners() {
           matcher = new RegExp(regExp);
         } catch {
           logWarn(
-            `regExp: ${regExp} from dynBookmarks.id of ${id} is invalid...`
+            `regExp: ${regExp} from dynBookmarks.id of ${id} is invalid...`,
           );
           continue;
         }

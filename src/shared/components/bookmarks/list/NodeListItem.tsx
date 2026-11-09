@@ -44,7 +44,7 @@ function NodeListItem(props) {
       }
       event.preventDefault();
     },
-    [filteredNodeIds, toggleSelected, setSelectedPivot, selectRangeByPivot]
+    [filteredNodeIds, toggleSelected, setSelectedPivot, selectRangeByPivot],
   );
 
   const handleActionMenuClick = useCallback(
@@ -57,7 +57,7 @@ function NodeListItem(props) {
       event.preventDefault();
       event.stopPropagation();
     },
-    [openActionMenu, setSelectedPivot]
+    [openActionMenu, setSelectedPivot],
   );
 
   const handleRightClick = useCallback(
@@ -72,7 +72,7 @@ function NodeListItem(props) {
       event.preventDefault();
       event.stopPropagation();
     },
-    [selected, multipleSelected, openActionMenu, setSelectedPivot]
+    [selected, multipleSelected, openActionMenu, setSelectedPivot],
   );
 
   const ListItem = isFolder(node) ? FolderListItem : FileListItem;

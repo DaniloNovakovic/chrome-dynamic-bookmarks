@@ -11,7 +11,7 @@ function _safeToLowerCase(value = "", defaultValue = "") {
 }
 
 export default function getSortedNodes(
-  nodes: NormalizedDynamicBookmark[] = []
+  nodes: NormalizedDynamicBookmark[] = [],
 ): NormalizedDynamicBookmark[] {
   const sorted = [...nodes];
   sorted.sort((lhs, rhs) => {

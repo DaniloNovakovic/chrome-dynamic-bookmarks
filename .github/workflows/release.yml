@@ -47,28 +47,28 @@ jobs:
             echo "exists=false" >> $GITHUB_OUTPUT
           fi
 
+      - name: Enable pnpm (packageManager in package.json)
+        if: steps.tag_check.outputs.exists == 'false'
+        run: corepack enable
+
       - name: Setup Node.js
         if: steps.tag_check.outputs.exists == 'false'
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
-          cache: yarn
-
-      - name: Enable Yarn (packageManager in package.json)
-        if: steps.tag_check.outputs.exists == 'false'
-        run: corepack enable && corepack prepare yarn@1.22.22 --activate
+          node-version: "24"
+          cache: pnpm
 
       - name: Install dependencies
         if: steps.tag_check.outputs.exists == 'false'
-        run: yarn install --frozen-lockfile
+        run: pnpm install --frozen-lockfile
 
       - name: Test
         if: steps.tag_check.outputs.exists == 'false'
-        run: yarn test
+        run: pnpm test
 
       - name: Build
         if: steps.tag_check.outputs.exists == 'false'
-        run: yarn build
+        run: pnpm build
 
       - name: Zip extension
         if: steps.tag_check.outputs.exists == 'false'

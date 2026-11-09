@@ -24,8 +24,8 @@ export class DynamicBookmarksManager {
   findAll = (
     done: (
       error: string | null,
-      item?: Record<string, DynamicBookmarkStorageItem>
-    ) => void
+      item?: Record<string, DynamicBookmarkStorageItem>,
+    ) => void,
   ) => {
     this._getAllIds((errMsg, ids = []) => {
       if (errMsg) return done(errMsg);
@@ -44,7 +44,7 @@ export class DynamicBookmarksManager {
    */
   findById = (
     id: string,
-    done: (error: string | null, item?: DynamicBookmarkStorageItem) => void
+    done: (error: string | null, item?: DynamicBookmarkStorageItem) => void,
   ) => {
     const key = _convertToDbmId(id);
     this.storage.get([key], (result) => {
@@ -75,8 +75,8 @@ export class DynamicBookmarksManager {
     { regExp, history }: DynamicBookmarkStorageItem,
     done: (
       error: string | null,
-      updatedItem?: DynamicBookmarkStorageItem
-    ) => void
+      updatedItem?: DynamicBookmarkStorageItem,
+    ) => void,
   ) => {
     const key = _convertToDbmId(id);
     this.findById(key, (errMsg, item) => {
@@ -99,8 +99,8 @@ export class DynamicBookmarksManager {
     { id = "", regExp = "", history = [] },
     done: (
       error: string | null,
-      createdItem?: DynamicBookmarkStorageItem
-    ) => void
+      createdItem?: DynamicBookmarkStorageItem,
+    ) => void,
   ) {
     const key = _convertToDbmId(id);
     this._setItem(key, { regExp, history }, (errMsg, createdItem) => {
@@ -116,7 +116,7 @@ export class DynamicBookmarksManager {
    */
   overwrite(
     newDynBookmarks: Record<string, DynamicBookmarkStorageItem> = {},
-    done: typeof logError
+    done: typeof logError,
   ) {
     const newDynBookMapped = _cloneWithMappedKeys(newDynBookmarks);
     logInfo("dynBookMapped", newDynBookMapped);
@@ -141,7 +141,7 @@ export class DynamicBookmarksManager {
   }
   private _getIdsToRemove(
     dbmIds: string[] = [],
-    newDynBookMapped: Record<string, DynamicBookmarkStorageItem> = {}
+    newDynBookMapped: Record<string, DynamicBookmarkStorageItem> = {},
   ) {
     const idsToRemove = dbmIds.filter((key) => !(key in newDynBookMapped));
     return idsToRemove;
@@ -155,7 +155,7 @@ export class DynamicBookmarksManager {
   }
   private _updateStorageItems(
     newDynBookMapped: Record<string, DynamicBookmarkStorageItem>,
-    done: typeof logError
+    done: typeof logError,
   ) {
     logInfo("Updating storage items to ", newDynBookMapped);
     const newKeys = Object.keys(newDynBookMapped);
@@ -192,7 +192,7 @@ export class DynamicBookmarksManager {
   private _setItem<T>(
     key: string,
     item: T,
-    done: (error: string | null, item?: T) => void
+    done: (error: string | null, item?: T) => void,
   ) {
     this.storage.set({ [key]: item }, () => {
       if (!checkAndHandleError(done)) {

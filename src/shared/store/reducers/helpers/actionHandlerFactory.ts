@@ -1,7 +1,5 @@
 import { Action, AnyAction, Reducer } from "redux";
 
-import { RecordKey } from "@/shared/types";
-
 const defaultHandler = <TState>(state: TState | undefined): TState => {
   return state;
 };
@@ -10,13 +8,13 @@ const defaultConfig = {
   defaultHandler,
 } as const;
 
-const formatKey = <TKey extends RecordKey>(key: TKey): string => {
+const formatKey = (key: string): string => {
   return key.toString().toUpperCase();
 };
 
 export class ActionHandlerFactory<
   TState = unknown,
-  TAction extends Action<RecordKey> = AnyAction
+  _TAction extends Action<string> = AnyAction,
 > {
   defaultHandler: Reducer<TState>;
   handlers: Map<string, Reducer<TState>>;
@@ -26,11 +24,11 @@ export class ActionHandlerFactory<
     this.handlers = new Map<string, Reducer<TState>>();
   }
 
-  register(key: TAction["type"], handler: Reducer<TState>) {
+  register(key: string, handler: Reducer<TState>) {
     this.handlers.set(formatKey(key), handler);
   }
 
-  getHandler(key: TAction["type"]) {
+  getHandler(key: string) {
     const handler = this.handlers.get(formatKey(key));
     return handler || this.defaultHandler;
   }

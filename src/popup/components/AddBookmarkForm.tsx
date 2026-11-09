@@ -1,20 +1,13 @@
-import { CircularProgress, Container } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import { CircularProgress, Container } from "@mui/material";
 import { useSnackbar } from "notistack";
-import React, { useEffect,useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { BookmarkForm } from "@/shared/components/bookmarks";
 import { ADD_BM_NODE } from "@/shared/constants/requestTypes";
-import { getCurrentTab,sendMessage } from "@/shared/lib/browser";
+import { getCurrentTab, sendMessage } from "@/shared/lib/browser";
 import { generateRegExp } from "@/shared/lib/regexp";
 
-const useStyles = makeStyles((theme) => ({
-  progress: {
-    margin: theme.spacing(2),
-  },
-}));
-
-const AddBookmarkForm = (): JSX.Element => {
+const AddBookmarkForm = () => {
   const { enqueueSnackbar } = useSnackbar();
   const [initialValues, setInitialValues] = useState(null);
 
@@ -26,11 +19,9 @@ const AddBookmarkForm = (): JSX.Element => {
         }
         const regExp = generateRegExp(url);
         setInitialValues({ title, url, regExp });
-      }
+      },
     );
   }, []);
-
-  const classes = useStyles();
 
   function handleSubmit(values, actions) {
     sendMessage(ADD_BM_NODE, values, (status) => {
@@ -47,7 +38,7 @@ const AddBookmarkForm = (): JSX.Element => {
       <BookmarkForm initialValues={initialValues} handleSubmit={handleSubmit} />
     </Container>
   ) : (
-    <CircularProgress className={classes.progress} />
+    <CircularProgress sx={(theme) => ({ margin: theme.spacing(2) })} />
   );
 };
 

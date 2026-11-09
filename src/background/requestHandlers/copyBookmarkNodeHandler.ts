@@ -55,9 +55,9 @@ export default function copyBookmarkNodeHandler({ data }, sendResponse) {
       sendResponse({
         type: responseTypes.SUCCESS,
         message: `${ids.length} item(s) copied`,
-      })
+      }),
     )
     .catch((errMsg) =>
-      sendResponse({ type: responseTypes.ERROR, message: errMsg })
+      sendResponse({ type: responseTypes.ERROR, message: errMsg }),
     );
 }

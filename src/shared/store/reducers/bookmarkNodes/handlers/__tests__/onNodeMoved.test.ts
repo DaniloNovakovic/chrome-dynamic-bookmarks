@@ -1,3 +1,5 @@
+import { describe, expect, it } from "vitest";
+
 import { onNodeMoved } from "../onNodeMoved";
 
 describe("onNodeMoved", () => {
@@ -16,7 +18,7 @@ describe("onNodeMoved", () => {
       state as any,
       {
         data: { id: "nodeA", parentId: "newParent" },
-      } as any
+      } as any,
     );
 
     expect(next.data.oldParent.children).toEqual([]);

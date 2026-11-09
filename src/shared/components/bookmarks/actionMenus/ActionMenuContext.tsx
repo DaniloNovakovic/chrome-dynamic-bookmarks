@@ -4,7 +4,7 @@ export type ActionMenuContextValue = {
   openedActionMenuId: string | null;
   openActionMenu: (
     actionMenuId: string | null,
-    args?: Record<string, unknown>
+    args?: Record<string, unknown>,
   ) => void;
   args?: Record<string, unknown>;
 };

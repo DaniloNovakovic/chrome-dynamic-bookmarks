@@ -1,4 +1,4 @@
-import { createTheme } from "@material-ui/core/styles";
+import { createTheme } from "@mui/material/styles";
 import merge from "lodash/merge";
 
 import type { CustomThemeOptions } from "./types/theme.types";
@@ -9,7 +9,7 @@ const commonTheme: CustomThemeOptions = {
 
 const lightTheme: CustomThemeOptions = {
   palette: {
-    type: "light",
+    mode: "light",
     primary: { main: "#3f51b5" },
     secondary: { main: "#f50057" },
     error: { main: "#f44336" },
@@ -19,14 +19,16 @@ const lightTheme: CustomThemeOptions = {
 
 const darkTheme: CustomThemeOptions = {
   palette: {
-    type: "dark",
+    mode: "dark",
     primary: { main: "#90CAF9" },
     secondary: { main: "#F48FB1" },
     error: { main: "#F44336" },
   },
-  props: {
+  components: {
     MuiAppBar: {
-      color: "inherit",
+      defaultProps: {
+        color: "inherit",
+      },
     },
   },
 };

@@ -2,7 +2,7 @@ import { NormalizedDynamicBookmark } from "@/shared/types";
 
 export default function getBreadcrumbIds(
   nodes: Record<string, NormalizedDynamicBookmark> = {},
-  id = "0"
+  id = "0",
 ): string[] {
   const breadcrumbs: string[] = [];
   let currId = id;
